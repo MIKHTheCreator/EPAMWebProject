@@ -1,4 +1,8 @@
-package com.epam.jwd.dao.api;
+package com.epam.jwd.dao.impl;
+
+import com.epam.jwd.dao.api.ConnectionPool;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.Map;
@@ -9,6 +13,9 @@ public class ProxyConnection implements Connection {
 
     private final Connection connection;
     private final ConnectionPool connectionPool;
+    private static final String INTERRUPTED_LOG_MESSAGE = "Thread has been interrupted";
+
+    private static final Logger log = LogManager.getLogger(ProxyConnection.class);
 
     public ProxyConnection(Connection connection, ConnectionPool connectionPool) {
         this.connection = connection;
@@ -57,7 +64,12 @@ public class ProxyConnection implements Connection {
 
     @Override
     public void close() throws SQLException {
-        connectionPool.returnConnection();
+        try {
+            connectionPool.returnConnection(connection);
+        } catch (InterruptedException e) {
+            log.error(INTERRUPTED_LOG_MESSAGE);
+            Thread.currentThread().interrupt();
+        }
     }
 
     @Override
