@@ -1,12 +1,15 @@
 package com.epam.jwd.dao.entity;
 
-import java.util.Objects;
 
 public class AbstractEntity<T> {
 
     private T id;
 
     public AbstractEntity() {
+    }
+
+    public AbstractEntity(T id) {
+        this.id = id;
     }
 
     public T getId() {
