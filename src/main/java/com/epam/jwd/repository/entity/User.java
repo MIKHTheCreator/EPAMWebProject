@@ -131,6 +131,7 @@ public class User extends AbstractEntity<Integer>{
 
     public static class Builder {
 
+        private Integer id;
         private String firstName;
         private String secondName;
         private String phoneNumber;
@@ -189,8 +190,13 @@ public class User extends AbstractEntity<Integer>{
             return this;
         }
 
+        public Builder withId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
         public User build() {
-            User user = new User();
+            User user = new User(this.id);
             user.setAge(this.age);
             user.setClient(this.client);
             user.setCreditCard(this.creditCard);
