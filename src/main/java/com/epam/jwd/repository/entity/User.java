@@ -1,4 +1,4 @@
-package com.epam.jwd.dao.entity;
+package com.epam.jwd.repository.entity;
 
 import java.util.Objects;
 

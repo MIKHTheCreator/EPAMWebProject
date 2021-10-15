@@ -1,7 +1,7 @@
-package com.epam.jwd.dao.impl;
+package com.epam.jwd.repository.impl;
 
-import com.epam.jwd.dao.api.ConnectionPool;
-import com.epam.jwd.dao.exception.ConnectionFailedException;
+import com.epam.jwd.repository.api.ConnectionPool;
+import com.epam.jwd.repository.exception.ConnectionFailedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

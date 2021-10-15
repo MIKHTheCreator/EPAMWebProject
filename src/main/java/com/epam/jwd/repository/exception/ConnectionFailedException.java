@@ -1,4 +1,4 @@
-package com.epam.jwd.dao.exception;
+package com.epam.jwd.repository.exception;
 
 public class ConnectionFailedException extends RuntimeException {
 

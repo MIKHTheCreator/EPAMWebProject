@@ -1,4 +1,4 @@
-package com.epam.jwd.dao.entity;
+package com.epam.jwd.repository.entity;
 
 public enum UserRole {
     USER(0), ADMIN(1);
