@@ -1,12 +1,14 @@
 package com.epam.jwd.repository.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 public class BankAccount extends AbstractEntity<Integer> {
 
     private BigDecimal accountBalance;
     private String accountCurrency;
+    private List<Payment> payments;
     private boolean isBlocked;
 
     public BankAccount() {
@@ -14,13 +16,6 @@ public class BankAccount extends AbstractEntity<Integer> {
 
     public BankAccount(Integer id) {
         super(id);
-    }
-
-    public BankAccount(Integer id, BigDecimal accountBalance, String accountCurrency, boolean isBlocked) {
-        super(id);
-        this.accountBalance = accountBalance;
-        this.accountCurrency = accountCurrency;
-        this.isBlocked = isBlocked;
     }
 
     public BigDecimal getAccountBalance() {
@@ -39,6 +34,14 @@ public class BankAccount extends AbstractEntity<Integer> {
         this.accountCurrency = accountCurrency;
     }
 
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
+
     public boolean isBlocked() {
         return isBlocked;
     }
@@ -54,12 +57,13 @@ public class BankAccount extends AbstractEntity<Integer> {
         BankAccount that = (BankAccount) o;
         return isBlocked == that.isBlocked
                 && accountBalance.equals(that.accountBalance)
-                && accountCurrency.equals(that.accountCurrency);
+                && accountCurrency.equals(that.accountCurrency)
+                && Objects.equals(payments, that.payments);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accountBalance, accountCurrency, isBlocked);
+        return Objects.hash(accountBalance, accountCurrency, payments, isBlocked);
     }
 
     @Override
@@ -67,6 +71,7 @@ public class BankAccount extends AbstractEntity<Integer> {
         return "BankAccount{" +
                 "accountBalance=" + accountBalance +
                 ", accountCurrency='" + accountCurrency + '\'' +
+                ", payments=" + payments +
                 ", isBlocked=" + isBlocked +
                 '}';
     }
