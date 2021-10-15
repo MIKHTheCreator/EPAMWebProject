@@ -1,5 +1,6 @@
 package com.epam.jwd.repository.entity;
 
+import java.util.List;
 import java.util.Objects;
 
 public class User extends AbstractEntity<Integer>{
@@ -12,7 +13,7 @@ public class User extends AbstractEntity<Integer>{
     private Client client;
     private UserRole role;
     private PassportData passport;
-    private CreditCard creditCard;
+    private List<CreditCard> creditCards;
 
     public User(Integer id) {
         super(id);
@@ -85,12 +86,12 @@ public class User extends AbstractEntity<Integer>{
         this.passport = passport;
     }
 
-    public CreditCard getCreditCard() {
-        return creditCard;
+    public List<CreditCard> getCreditCards() {
+        return creditCards;
     }
 
-    public void setCreditCard(CreditCard creditCard) {
-        this.creditCard = creditCard;
+    public void setCreditCards(List<CreditCard> creditCards) {
+        this.creditCards = creditCards;
     }
 
     @Override
@@ -98,20 +99,20 @@ public class User extends AbstractEntity<Integer>{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return firstName.equals(user.firstName)
-                && secondName.equals(user.secondName)
+        return Objects.equals(firstName, user.firstName)
+                && Objects.equals(secondName, user.secondName)
                 && Objects.equals(phoneNumber, user.phoneNumber)
                 && Objects.equals(age, user.age)
                 && gender == user.gender
                 && Objects.equals(client, user.client)
                 && role == user.role
                 && Objects.equals(passport, user.passport)
-                && Objects.equals(creditCard, user.creditCard);
+                && Objects.equals(creditCards, user.creditCards);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, secondName, phoneNumber, age, gender, client, role, passport, creditCard);
+        return Objects.hash(firstName, secondName, phoneNumber, age, gender, client, role, passport, creditCards);
     }
 
     @Override
@@ -125,7 +126,7 @@ public class User extends AbstractEntity<Integer>{
                 ", client=" + client +
                 ", role=" + role +
                 ", passport=" + passport +
-                ", creditCard=" + creditCard +
+                ", creditCards=" + creditCards +
                 '}';
     }
 
@@ -140,7 +141,7 @@ public class User extends AbstractEntity<Integer>{
         private Client client;
         private UserRole role;
         private PassportData passport;
-        private CreditCard creditCard;
+        private List<CreditCard> creditCards;
 
         public Builder() {
         }
@@ -185,8 +186,8 @@ public class User extends AbstractEntity<Integer>{
             return this;
         }
 
-        public Builder withCreditCard(CreditCard creditCard) {
-            this.creditCard = creditCard;
+        public Builder withCreditCard(List<CreditCard> creditCard) {
+            this.creditCards = creditCard;
             return this;
         }
 
@@ -199,7 +200,7 @@ public class User extends AbstractEntity<Integer>{
             User user = new User(this.id);
             user.setAge(this.age);
             user.setClient(this.client);
-            user.setCreditCard(this.creditCard);
+            user.setCreditCards(this.creditCards);
             user.setGender(this.gender);
             user.setFirstName(this.firstName);
             user.setPassport(this.passport);
