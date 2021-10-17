@@ -5,6 +5,7 @@ import com.epam.jwd.repository.api.ConnectionPool;
 import com.epam.jwd.repository.entity.Client;
 import com.epam.jwd.repository.entity.Gender;
 import com.epam.jwd.repository.entity.User;
+import com.epam.jwd.repository.exception.DeleteFromDataBaseException;
 import com.epam.jwd.repository.exception.FindDataBaseException;
 import com.epam.jwd.repository.exception.SaveOperationException;
 import com.epam.jwd.repository.exception.UpdateDataBaseException;
@@ -27,7 +28,8 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
     private static final String SQL_SAVE_USER_QUERY = "INSERT INTO user (user_id, first_name, second_name, phone_number" +
             "age, gender, client_id, role_id, passport_data_passport_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_FIND_ALL_QUERY = "SELECT * FROM User";
-    private static final String SQL_FIND_USER_BY_ID_QUERY = "SELECT * FROM User WHERE id=?";
+    private static final String SQL_FIND_USER_BY_ID_QUERY = "SELECT * FROM User WHERE user_id=?";
+    private static final String SQL_DELETE_USER_QUERY = "DELETE User FROM User WHERE user_id=?";
     private static final String SQL_USER_UPDATE_QUERY = "UPDATE User SET first_name=? second_name=? phone_number=? age =?" +
             " WHERE user_id = ?";
     private static final String INTERRUPTED_EXCEPTION_LOG_MESSAGE = "Thread was interrupted";
@@ -35,6 +37,7 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
     private static final String FIND_OPERATION_EXCEPTION_MESSAGE = "Can't find users in database";
     private static final String UPDATE_DATABASE_EXCEPTION = "Can't update user";
     private static final String FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE = "Can't find user with such id in database";
+    private static final String DELETE_USER_EXCEPTION_MESSAGE = "Can't delete user from database";
 
     private static final Logger log = LogManager.getLogger(UserRepositoryImpl.class);
 
@@ -207,6 +210,20 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
 
     @Override
     public void delete(User user) {
+        Connection connection = null;
+        PreparedStatement  statement;
 
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(SQL_DELETE_USER_QUERY);
+            statement.setInt(1, user.getId());
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            log.error(DELETE_USER_EXCEPTION_MESSAGE);
+            throw new DeleteFromDataBaseException(DELETE_USER_EXCEPTION_MESSAGE);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.error(INTERRUPTED_EXCEPTION_LOG_MESSAGE, e);
+        }
     }
 }
