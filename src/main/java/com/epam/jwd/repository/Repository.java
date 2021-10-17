@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface Repository<T extends AbstractEntity<K>, K> {
 
-    T save(T entity);
+    T save(T entity) throws InterruptedException;
     List<T> findAll();
     T findById(K id);
     T update(T entity);
