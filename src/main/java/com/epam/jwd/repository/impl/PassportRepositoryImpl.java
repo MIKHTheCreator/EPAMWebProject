@@ -25,8 +25,10 @@ public class PassportRepositoryImpl implements Repository<PassportData, Integer>
     private static final String SQL_INSERT_QUERY = "INSERT (seria_and_number, personal_number, expiration_date) INTO passport_data" +
             "VALUES (?, ?, ?)";
     private static final String SQL_FIND_ALL_QUERY = "SELECT * FROM passport_data";
+    private static final String SQL_FIND_BY_ID_QUERY = "SELECT * FROM passport_data WHERE passport_id=?";
     private static final String SQL_INSERT_EXCEPTION_MESSAGE = "Insert passport data to database was failed";
     private static final String SQL_FIND_ALL_EXCEPTION_MESSAGE = "Selecting passport data info from database was failed";
+    private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no Passport with such id in database";
 
     private static final Logger log = LogManager.getLogger(PassportRepositoryImpl.class);
 
@@ -105,6 +107,30 @@ public class PassportRepositoryImpl implements Repository<PassportData, Integer>
 
     @Override
     public PassportData findById(Integer id) throws InterruptedException {
+        Connection connection;
+        PreparedStatement statement;
+        ResultSet resultSet;
+
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(SQL_FIND_BY_ID_QUERY);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+
+            if(resultSet.next()) {
+                PassportData passport = new PassportData();
+                passport.setId(id);
+                passport.setSeriesAndNumber(resultSet.getString(2));
+                passport.setPersonalNumber(resultSet.getString(3));
+                passport.setExpirationTime(resultSet.getDate(4).toLocalDate());
+
+                return passport;
+            }
+        } catch (SQLException exception) {
+            log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
+            throw new FindDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
+        }
+
         return null;
     }
 
