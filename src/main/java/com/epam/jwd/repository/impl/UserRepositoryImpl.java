@@ -3,6 +3,7 @@ package com.epam.jwd.repository.impl;
 import com.epam.jwd.repository.Repository;
 import com.epam.jwd.repository.api.ConnectionPool;
 import com.epam.jwd.repository.entity.Client;
+import com.epam.jwd.repository.entity.Gender;
 import com.epam.jwd.repository.entity.User;
 import com.epam.jwd.repository.exception.FindDataBaseException;
 import com.epam.jwd.repository.exception.SaveOperationException;
@@ -86,7 +87,7 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
                         .withSecondName(resultSet.getString(3))
                         .withPhoneNumber(resultSet.getString(4))
                         .withAge(resultSet.getInt(5))
-                        .withGender(resultSet.getString(6))
+                        .withGender(Gender.valueOf(resultSet.getString(6).toUpperCase()))
                         .withClient(new Client())
                         .withRole()
                         .withPassport()
