@@ -166,7 +166,7 @@ public class User extends AbstractEntity<Integer>{
             return this;
         }
 
-        public Builder withGender(Gender gender) {
+        public Builder withGender(String gender) {
             this.gender = gender;
             return this;
         }
