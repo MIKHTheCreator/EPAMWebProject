@@ -20,6 +20,8 @@ import java.util.List;
 
 public class UserRepositoryImpl implements Repository<User, Integer> {
 
+    private static Repository<User, Integer> instance = new UserRepositoryImpl();
+
     private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
 
     private static final String SQL_SAVE_USER_QUERY = "INSERT INTO user (user_id, first_name, second_name, phone_number" +
@@ -30,6 +32,20 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
     private static final String FIND_OPERATION_EXCEPTION_MESSAGE = "Can't find users in database";
 
     private static final Logger log = LogManager.getLogger(UserRepositoryImpl.class);
+
+    private UserRepositoryImpl() {
+    }
+
+    public static Repository<User, Integer> getInstance() {
+        synchronized (UserRepositoryImpl.class) {
+            if(instance == null) {
+                instance = new UserRepositoryImpl();
+                return instance;
+            }
+        }
+
+        return instance;
+    }
 
     @Override
     public User save(User user) throws InterruptedException {
