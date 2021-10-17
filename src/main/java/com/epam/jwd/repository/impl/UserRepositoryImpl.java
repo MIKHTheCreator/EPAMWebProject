@@ -209,7 +209,7 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
     }
 
     @Override
-    public void delete(User user) {
+    public void delete(User user) throws InterruptedException {
         Connection connection = null;
         PreparedStatement  statement;
 
@@ -224,6 +224,8 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             log.error(INTERRUPTED_EXCEPTION_LOG_MESSAGE, e);
+        } finally {
+            connectionPool.returnConnection(connection);
         }
     }
 }

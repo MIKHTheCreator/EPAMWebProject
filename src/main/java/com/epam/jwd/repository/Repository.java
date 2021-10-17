@@ -10,6 +10,6 @@ public interface Repository<T extends AbstractEntity<K>, K> {
     List<T> findAll() throws InterruptedException;
     T findById(K id) throws InterruptedException;
     T update(T entity) throws InterruptedException;
-    void delete(T entity);
+    void delete(T entity) throws InterruptedException;
 
 }
