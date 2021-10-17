@@ -25,8 +25,8 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
 
     private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
 
-    private static final String SQL_SAVE_USER_QUERY = "INSERT INTO user (user_id, first_name, second_name, phone_number" +
-            "age, gender, client_id, role_id, passport_data_passport_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_SAVE_USER_QUERY = "INSERT INTO user ( first_name, second_name, phone_number" +
+            "age, gender, client_id, role_id, passport_data_passport_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_FIND_ALL_QUERY = "SELECT * FROM User";
     private static final String SQL_FIND_USER_BY_ID_QUERY = "SELECT * FROM User WHERE user_id=?";
     private static final String SQL_DELETE_USER_QUERY = "DELETE User FROM User WHERE user_id=?";
@@ -64,15 +64,14 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
         try {
             connection = connectionPool.takeConnection();
             preparedStatement = connection.prepareStatement(SQL_SAVE_USER_QUERY);
-            preparedStatement.setInt(1, user.getId());
-            preparedStatement.setString(2, user.getFirstName());
-            preparedStatement.setString(3, user.getSecondName());
-            preparedStatement.setString(4, user.getPhoneNumber());
-            preparedStatement.setInt(5, user.getAge());
-            preparedStatement.setString(6, user.getGender().toString());
-            preparedStatement.setInt(7, user.getClient().getId());
-            preparedStatement.setInt(8, user.getRole().getRoleId());
-            preparedStatement.setInt(9, user.getPassport().getId());
+            preparedStatement.setString(1, user.getFirstName());
+            preparedStatement.setString(2, user.getSecondName());
+            preparedStatement.setString(3, user.getPhoneNumber());
+            preparedStatement.setInt(4, user.getAge());
+            preparedStatement.setString(5, user.getGender().toString());
+            preparedStatement.setInt(6, user.getClient().getId());
+            preparedStatement.setInt(7, user.getRole().getRoleId());
+            preparedStatement.setInt(8, user.getPassport().getId());
             preparedStatement.executeUpdate();
 
             resultSet = preparedStatement.getGeneratedKeys();
@@ -83,9 +82,6 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
         } catch (SQLException exception) {
             log.error(SAVE_OPERATION_EXCEPTION_MESSAGE);
             throw new SaveOperationException(SAVE_OPERATION_EXCEPTION_MESSAGE);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            log.error(INTERRUPTED_EXCEPTION_LOG_MESSAGE, e);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -124,9 +120,6 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
         } catch (SQLException exception) {
             log.error(FIND_OPERATION_EXCEPTION_MESSAGE);
             throw new FindDataBaseException(FIND_OPERATION_EXCEPTION_MESSAGE);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            log.error(INTERRUPTED_EXCEPTION_LOG_MESSAGE, e);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -165,9 +158,6 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
         } catch (SQLException exception) {
             log.error(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
             throw new FindDataBaseException(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            log.error(INTERRUPTED_EXCEPTION_LOG_MESSAGE, e);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -221,9 +211,6 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
         } catch (SQLException exception) {
             log.error(DELETE_USER_EXCEPTION_MESSAGE);
             throw new DeleteFromDataBaseException(DELETE_USER_EXCEPTION_MESSAGE);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            log.error(INTERRUPTED_EXCEPTION_LOG_MESSAGE, e);
         } finally {
             connectionPool.returnConnection(connection);
         }
