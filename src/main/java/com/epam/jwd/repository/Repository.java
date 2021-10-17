@@ -8,8 +8,8 @@ public interface Repository<T extends AbstractEntity<K>, K> {
 
     T save(T entity) throws InterruptedException;
     List<T> findAll() throws InterruptedException;
-    T findById(K id);
-    T update(T entity);
+    T findById(K id) throws InterruptedException;
+    T update(T entity) throws InterruptedException;
     void delete(T entity);
 
 }
