@@ -31,7 +31,7 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
             "age, gender, client_id, role_id, passport_data_passport_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_FIND_ALL_QUERY = "SELECT * FROM user";
     private static final String SQL_FIND_USER_BY_ID_QUERY = "SELECT * FROM user WHERE user_id=?";
-    private static final String SQL_DELETE_USER_QUERY = "DELETE user FROM user WHERE user_id=?";
+    private static final String SQL_DELETE_USER_QUERY = "DELETE FROM user WHERE user_id=?";
     private static final String SQL_USER_UPDATE_QUERY = "UPDATE user SET first_name=? second_name=? phone_number=? age =?" +
             " WHERE user_id = ?";
     private static final String INTERRUPTED_EXCEPTION_LOG_MESSAGE = "Thread was interrupted";

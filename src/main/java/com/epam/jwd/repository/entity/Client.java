@@ -5,6 +5,7 @@ import java.util.Objects;
 public class Client extends AbstractEntity<Integer> {
 
     private String username;
+    private String email;
     private String password;
 
     public Client() {
@@ -14,9 +15,10 @@ public class Client extends AbstractEntity<Integer> {
         super(id);
     }
 
-    public Client(Integer id, String username, String password) {
+    public Client(Integer id, String username, String email, String password) {
         super(id);
         this.username = username;
+        this.email = email;
         this.password = password;
     }
 
@@ -36,24 +38,34 @@ public class Client extends AbstractEntity<Integer> {
         this.password = password;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Client client = (Client) o;
-        return username.equals(client.username)
-                && password.equals(client.password);
+        return Objects.equals(username, client.username)
+                && Objects.equals(email, client.email)
+                && Objects.equals(password, client.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, password);
+        return Objects.hash(username, email, password);
     }
 
     @Override
     public String toString() {
         return "Client{" +
                 "username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
     }

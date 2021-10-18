@@ -24,12 +24,12 @@ public class PassportRepositoryImpl implements Repository<PassportData, Integer>
 
     private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
 
-    private static final String SQL_INSERT_QUERY = "INSERT (seria_and_number, personal_number, expiration_date) INTO passport_data" +
+    private static final String SQL_INSERT_QUERY = "INSERT INTO passport_data (seria_and_number, personal_number, expiration_date)" +
             "VALUES (?, ?, ?)";
     private static final String SQL_FIND_ALL_QUERY = "SELECT * FROM passport_data";
     private static final String SQL_FIND_BY_ID_QUERY = "SELECT * FROM passport_data WHERE passport_id=?";
     private static final String SQL_UPDATE_QUERY = "UPDATE passport_data SET seria_and_number=? personal_number=? expiration_date=? WHERE passport_id=?";
-    private static final String SQL_DELETE_QUERY = "DELETE passport from passport_data WHERE passport_id=?";
+    private static final String SQL_DELETE_QUERY = "DELETE FROM passport_data WHERE passport_id=?";
     private static final String SQL_INSERT_EXCEPTION_MESSAGE = "Insert passport data to database was failed";
     private static final String SQL_FIND_ALL_EXCEPTION_MESSAGE = "Selecting passport data info from database was failed";
     private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no Passport with such id in database";
