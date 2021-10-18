@@ -6,7 +6,7 @@ import com.epam.jwd.repository.entity.Client;
 import com.epam.jwd.repository.entity.Gender;
 import com.epam.jwd.repository.entity.User;
 import com.epam.jwd.repository.exception.DeleteFromDataBaseException;
-import com.epam.jwd.repository.exception.FindDataBaseException;
+import com.epam.jwd.repository.exception.FindInDataBaseException;
 import com.epam.jwd.repository.exception.SaveOperationException;
 import com.epam.jwd.repository.exception.UpdateDataBaseException;
 import org.apache.logging.log4j.LogManager;
@@ -119,7 +119,7 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
             }
         } catch (SQLException exception) {
             log.error(FIND_OPERATION_EXCEPTION_MESSAGE);
-            throw new FindDataBaseException(FIND_OPERATION_EXCEPTION_MESSAGE);
+            throw new FindInDataBaseException(FIND_OPERATION_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -157,7 +157,7 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
 
         } catch (SQLException exception) {
             log.error(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
-            throw new FindDataBaseException(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
+            throw new FindInDataBaseException(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }
