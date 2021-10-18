@@ -4,6 +4,7 @@ import com.epam.jwd.repository.Repository;
 import com.epam.jwd.repository.api.ConnectionPool;
 import com.epam.jwd.repository.entity.Client;
 import com.epam.jwd.repository.entity.Gender;
+import com.epam.jwd.repository.entity.PassportData;
 import com.epam.jwd.repository.entity.User;
 import com.epam.jwd.repository.exception.DeleteFromDataBaseException;
 import com.epam.jwd.repository.exception.FindInDataBaseException;
@@ -24,6 +25,7 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
     private static Repository<User, Integer> instance = new UserRepositoryImpl();
 
     private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
+    private final Repository<PassportData, Integer> passportRepository = PassportRepositoryImpl.getInstance();
 
     private static final String SQL_SAVE_USER_QUERY = "INSERT INTO user ( first_name, second_name, phone_number" +
             "age, gender, client_id, role_id, passport_data_passport_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -38,7 +40,6 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
     private static final String UPDATE_DATABASE_EXCEPTION = "Can't update user";
     private static final String FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE = "Can't find user with such id in database";
     private static final String DELETE_USER_EXCEPTION_MESSAGE = "Can't delete user from database";
-
     private static final Logger log = LogManager.getLogger(UserRepositoryImpl.class);
 
     private UserRepositoryImpl() {

@@ -27,7 +27,6 @@ public final class ConnectionPoolImpl implements ConnectionPool {
     private static final String CONNECTION_FAIL_EXCEPTION_MESSAGE = "Connection to the DataBase has been failed";
     private static final String CONNECTION_CREATION_LOG_MESSAGE = "Creation has been failed";
     private static final String CONNECTION_CLOSE_LOG_MESSAGE = "Closing connection has been failed";
-
     private static final Logger log = LogManager.getLogger(ConnectionPoolImpl.class);
 
     private ConnectionPoolImpl() {

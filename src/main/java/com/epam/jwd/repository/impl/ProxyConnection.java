@@ -13,8 +13,8 @@ public class ProxyConnection implements Connection {
 
     private final Connection connection;
     private final ConnectionPool connectionPool;
-    private static final String INTERRUPTED_LOG_MESSAGE = "Thread has been interrupted";
 
+    private static final String INTERRUPTED_LOG_MESSAGE = "Thread has been interrupted";
     private static final Logger log = LogManager.getLogger(ProxyConnection.class);
 
     public ProxyConnection(Connection connection, ConnectionPool connectionPool) {
