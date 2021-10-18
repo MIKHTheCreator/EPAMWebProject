@@ -11,11 +11,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class PassportRepositoryImpl implements Repository<PassportData, Integer> {
@@ -35,13 +35,12 @@ public class PassportRepositoryImpl implements Repository<PassportData, Integer>
     private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no Passport with such id in database";
     private static final String SQL_UPDATE_EXCEPTION_MESSAGE = "Updating passport information was failed";
     private static final String SQL_DELETE_EXCEPTION_MESSAGE = "Deleting passport with such id was failed";
-
     private static final Logger log = LogManager.getLogger(PassportRepositoryImpl.class);
 
     private PassportRepositoryImpl() {
     }
 
-    public Repository<PassportData, Integer> getInstance() {
+    public static Repository<PassportData, Integer> getInstance() {
         synchronized (PassportRepositoryImpl.class) {
             if(instance == null) {
                 instance = new PassportRepositoryImpl();
@@ -63,8 +62,7 @@ public class PassportRepositoryImpl implements Repository<PassportData, Integer>
             statement = connection.prepareStatement(SQL_INSERT_QUERY);
             statement.setString(1, passport.getSeriesAndNumber());
             statement.setString(2, passport.getPersonalNumber());
-            //todo rebuild without using Date
-            statement.setDate(3, (java.sql.Date) new Date(String.valueOf(passport.getExpirationTime())));
+            statement.setDate(3, Date.valueOf(passport.getExpirationTime()));
             statement.executeUpdate();
 
             resultSet = statement.getGeneratedKeys();
