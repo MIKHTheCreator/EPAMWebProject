@@ -1,6 +1,6 @@
 package com.epam.jwd.service.api;
 
-public interface Encoder {
+public interface PasswordManager {
 
     String encode(String password);
     String decode(String password);
