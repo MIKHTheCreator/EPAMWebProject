@@ -3,6 +3,7 @@ package com.epam.jwd.repository.impl;
 import com.epam.jwd.repository.Repository;
 import com.epam.jwd.repository.api.ConnectionPool;
 import com.epam.jwd.repository.entity.PassportData;
+import com.epam.jwd.repository.exception.DeleteFromDataBaseException;
 import com.epam.jwd.repository.exception.FindInDataBaseException;
 import com.epam.jwd.repository.exception.SaveOperationException;
 import com.epam.jwd.repository.exception.UpdateDataBaseException;
@@ -28,10 +29,12 @@ public class PassportRepositoryImpl implements Repository<PassportData, Integer>
     private static final String SQL_FIND_ALL_QUERY = "SELECT * FROM passport_data";
     private static final String SQL_FIND_BY_ID_QUERY = "SELECT * FROM passport_data WHERE passport_id=?";
     private static final String SQL_UPDATE_QUERY = "UPDATE passport_data SET seria_and_number=? personal_number=? expiration_date=? WHERE passport_id=?";
+    private static final String SQL_DELETE_QUERY = "DELETE passport from passport_data WHERE passport_id=?";
     private static final String SQL_INSERT_EXCEPTION_MESSAGE = "Insert passport data to database was failed";
     private static final String SQL_FIND_ALL_EXCEPTION_MESSAGE = "Selecting passport data info from database was failed";
     private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no Passport with such id in database";
     private static final String SQL_UPDATE_EXCEPTION_MESSAGE = "Updating passport information was failed";
+    private static final String SQL_DELETE_EXCEPTION_MESSAGE = "Deleting passport with such id was failed";
 
     private static final Logger log = LogManager.getLogger(PassportRepositoryImpl.class);
 
@@ -139,7 +142,7 @@ public class PassportRepositoryImpl implements Repository<PassportData, Integer>
 
     @Override
     public PassportData update(PassportData passport) throws InterruptedException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement;
 
         try {
@@ -149,9 +152,12 @@ public class PassportRepositoryImpl implements Repository<PassportData, Integer>
             statement.setString(2, passport.getPersonalNumber());
             statement.setDate(3, java.sql.Date.valueOf(passport.getExpirationTime()));
             statement.setInt(4, passport.getId());
+            statement.executeUpdate();
         } catch (SQLException exception) {
             log.error(SQL_UPDATE_EXCEPTION_MESSAGE);
             throw new UpdateDataBaseException(SQL_UPDATE_EXCEPTION_MESSAGE);
+        } finally {
+            connectionPool.returnConnection(connection);
         }
 
         return passport;
@@ -159,6 +165,19 @@ public class PassportRepositoryImpl implements Repository<PassportData, Integer>
 
     @Override
     public void delete(PassportData passport) throws InterruptedException {
+        Connection connection = null;
+        PreparedStatement statement;
 
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(SQL_DELETE_QUERY);
+            statement.setInt(1, passport.getId());
+            statement.executeUpdate();
+        } catch (SQLException exception) {
+            log.error(SQL_DELETE_EXCEPTION_MESSAGE);
+            throw new DeleteFromDataBaseException(SQL_DELETE_EXCEPTION_MESSAGE);
+        } finally {
+            connectionPool.returnConnection(connection);
+        }
     }
 }
