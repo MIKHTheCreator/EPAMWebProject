@@ -7,6 +7,7 @@ public class CreditCard extends AbstractEntity<Integer> {
 
     private Integer creditCardNumber;
     private LocalDate creditCardExpiration;
+    private String nameAndSurname;
     private Integer CVV;
     private Integer password;
     private BankAccount bankAccount;
@@ -69,6 +70,14 @@ public class CreditCard extends AbstractEntity<Integer> {
         this.bankAccount = bankAccount;
     }
 
+    public String getNameAndSurname() {
+        return nameAndSurname;
+    }
+
+    public void setNameAndSurname(String nameAndSurname) {
+        this.nameAndSurname = nameAndSurname;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,6 +85,7 @@ public class CreditCard extends AbstractEntity<Integer> {
         CreditCard that = (CreditCard) o;
         return creditCardNumber.equals(that.creditCardNumber)
                 && creditCardExpiration.equals(that.creditCardExpiration)
+                && nameAndSurname.equals(that.nameAndSurname)
                 && CVV.equals(that.CVV)
                 && password.equals(that.password)
                 && bankAccount.equals(that.bankAccount);
@@ -83,7 +93,7 @@ public class CreditCard extends AbstractEntity<Integer> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(creditCardNumber, creditCardExpiration, CVV, password, bankAccount);
+        return Objects.hash(creditCardNumber, creditCardExpiration, nameAndSurname, CVV, password, bankAccount);
     }
 
     @Override
@@ -91,9 +101,68 @@ public class CreditCard extends AbstractEntity<Integer> {
         return "CreditCard{" +
                 "creditCardNumber=" + creditCardNumber +
                 ", creditCardExpiration=" + creditCardExpiration +
+                ", nameAndSurname='" + nameAndSurname + '\'' +
                 ", CVV=" + CVV +
                 ", password=" + password +
                 ", bankAccount=" + bankAccount +
                 '}';
+    }
+
+    public static class Builder {
+
+        private Integer id;
+        private Integer creditCardNumber;
+        private LocalDate creditCardExpiration;
+        private String nameAndSurname;
+        private Integer CVV;
+        private Integer password;
+        private BankAccount bankAccount;
+
+        public Builder withId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder withCreditCardNumber(Integer creditCardNumber) {
+            this.creditCardNumber = creditCardNumber;
+            return this;
+        }
+
+        public Builder withCreditCardExpiration(LocalDate creditCardExpiration) {
+            this.creditCardExpiration = creditCardExpiration;
+            return this;
+        }
+
+        public Builder withNameAndSurname(String nameAndSurname) {
+            this.nameAndSurname = nameAndSurname;
+            return this;
+        }
+
+        public Builder withCVV(Integer CVV) {
+            this.CVV = CVV;
+            return this;
+        }
+
+        public Builder withPassword(Integer password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder withBankAccount(BankAccount bankAccount) {
+            this.bankAccount = bankAccount;
+            return this;
+        }
+
+        public CreditCard build() {
+            CreditCard creditCard = new CreditCard();
+            creditCard.setId(this.id);
+            creditCard.setCreditCardNumber(this.creditCardNumber);
+            creditCard.setCreditCardExpiration(this.creditCardExpiration);
+            creditCard.setNameAndSurname(this.nameAndSurname);
+            creditCard.setCVV(this.CVV);
+            creditCard.setPassword(this.password);
+
+            return creditCard;
+        }
     }
 }
