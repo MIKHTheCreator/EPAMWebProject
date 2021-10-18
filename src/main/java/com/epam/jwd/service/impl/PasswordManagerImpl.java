@@ -15,7 +15,7 @@ public class PasswordManagerImpl implements PasswordManager {
 
     @Override
     public String decode(String password) {
-        return Arrays.toString(Base64.getDecoder().decode(password));
+        return Arrays.toString(Base64.getDecoder().decode(password.getBytes(StandardCharsets.UTF_8)));
     }
 
     @Override
