@@ -1,21 +1,25 @@
 package com.epam.jwd.service.impl;
 
 import com.epam.jwd.service.api.PasswordManager;
+import org.apache.xerces.impl.dv.util.Base64;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Base64;
+
 
 public class PasswordManagerImpl implements PasswordManager {
 
     @Override
     public String encode(String password) {
-        return Arrays.toString(Base64.getEncoder().encode(password.getBytes(StandardCharsets.UTF_8)));
+        return Base64.encode(password.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
     public String decode(String password) {
-        return Arrays.toString(Base64.getDecoder().decode(password.getBytes(StandardCharsets.UTF_8)));
+        StringBuilder result = new StringBuilder();
+        for(int i : Base64.decode(password)) {
+            result.append(Character.toString(i));
+        }
+        return result.toString();
     }
 
     @Override
