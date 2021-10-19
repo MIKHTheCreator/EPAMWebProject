@@ -33,6 +33,6 @@ class PasswordManagerImplTest {
     @Test
     void decodedAndEncodedPasswordsShouldBeTheSame() {
         String encodedPassword = passwordManager.encode(password);
-        assertEquals(passwordManager.decode(encodedPassword), password);
+        assertEquals(password, passwordManager.decode(encodedPassword));
     }
 }
