@@ -10,6 +10,7 @@ public class Payment extends AbstractEntity<Integer> {
     private LocalDate dateOfPayment;
     private String paymentOrganization;
     private String paymentGoal;
+    private Integer bankAccountId;
 
     public Payment() {
     }
@@ -19,12 +20,13 @@ public class Payment extends AbstractEntity<Integer> {
     }
 
     public Payment(Integer id, BigDecimal sumOfPayment, LocalDate dateOfPayment,
-                   String paymentOrganization, String paymentGoal) {
+                   String paymentOrganization, String paymentGoal, Integer bankAccountId) {
         super(id);
         this.sumOfPayment = sumOfPayment;
         this.dateOfPayment = dateOfPayment;
         this.paymentOrganization = paymentOrganization;
         this.paymentGoal = paymentGoal;
+        this.bankAccountId = bankAccountId;
     }
 
     public BigDecimal getSumOfPayment() {
@@ -59,6 +61,14 @@ public class Payment extends AbstractEntity<Integer> {
         this.paymentGoal = paymentGoal;
     }
 
+    public Integer getBankAccountId() {
+        return bankAccountId;
+    }
+
+    public void setBankAccountId(Integer bankAccountId) {
+        this.bankAccountId = bankAccountId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,12 +77,13 @@ public class Payment extends AbstractEntity<Integer> {
         return sumOfPayment.equals(payment.sumOfPayment)
                 && dateOfPayment.equals(payment.dateOfPayment)
                 && paymentOrganization.equals(payment.paymentOrganization)
-                && paymentGoal.equals(payment.paymentGoal);
+                && paymentGoal.equals(payment.paymentGoal)
+                && bankAccountId.equals(payment.bankAccountId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sumOfPayment, dateOfPayment, paymentOrganization, paymentGoal);
+        return Objects.hash(sumOfPayment, dateOfPayment, paymentOrganization, paymentGoal, bankAccountId);
     }
 
     @Override
@@ -82,6 +93,7 @@ public class Payment extends AbstractEntity<Integer> {
                 ", dateOfPayment=" + dateOfPayment +
                 ", paymentOrganization='" + paymentOrganization + '\'' +
                 ", paymentGoal='" + paymentGoal + '\'' +
+                ", bankAccountId=" + bankAccountId +
                 '}';
     }
 }
