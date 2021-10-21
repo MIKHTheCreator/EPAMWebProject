@@ -1,4 +1,4 @@
-package com.epam.jwd.repository.exception;
+package com.epam.jwd.dao.exception;
 
 public class FindInDataBaseException extends RuntimeException {
 

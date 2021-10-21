@@ -1,4 +1,4 @@
-package com.epam.jwd.repository.entity;
+package com.epam.jwd.dao.entity;
 
 import java.time.LocalDate;
 import java.util.Objects;

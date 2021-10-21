@@ -1,12 +1,12 @@
-package com.epam.jwd.repository.impl;
+package com.epam.jwd.dao.impl;
 
-import com.epam.jwd.repository.Repository;
-import com.epam.jwd.repository.api.ConnectionPool;
-import com.epam.jwd.repository.entity.PassportData;
-import com.epam.jwd.repository.exception.DeleteFromDataBaseException;
-import com.epam.jwd.repository.exception.FindInDataBaseException;
-import com.epam.jwd.repository.exception.SaveOperationException;
-import com.epam.jwd.repository.exception.UpdateDataBaseException;
+import com.epam.jwd.dao.DAO;
+import com.epam.jwd.dao.api.ConnectionPool;
+import com.epam.jwd.dao.entity.PassportData;
+import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
+import com.epam.jwd.dao.exception.FindInDataBaseException;
+import com.epam.jwd.dao.exception.SaveOperationException;
+import com.epam.jwd.dao.exception.UpdateDataBaseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,9 +18,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PassportRepositoryImpl implements Repository<PassportData, Integer> {
+public class PassportDAOImpl implements DAO<PassportData, Integer> {
 
-    private static Repository<PassportData, Integer> instance = new PassportRepositoryImpl();
+    private static DAO<PassportData, Integer> instance = new PassportDAOImpl();
 
     private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
 
@@ -35,15 +35,15 @@ public class PassportRepositoryImpl implements Repository<PassportData, Integer>
     private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no Passport with such id in database";
     private static final String SQL_UPDATE_EXCEPTION_MESSAGE = "Updating passport information was failed";
     private static final String SQL_DELETE_EXCEPTION_MESSAGE = "Deleting passport with such id was failed";
-    private static final Logger log = LogManager.getLogger(PassportRepositoryImpl.class);
+    private static final Logger log = LogManager.getLogger(PassportDAOImpl.class);
 
-    private PassportRepositoryImpl() {
+    private PassportDAOImpl() {
     }
 
-    public static Repository<PassportData, Integer> getInstance() {
-        synchronized (PassportRepositoryImpl.class) {
+    public static DAO<PassportData, Integer> getInstance() {
+        synchronized (PassportDAOImpl.class) {
             if(instance == null) {
-                instance = new PassportRepositoryImpl();
+                instance = new PassportDAOImpl();
                 return instance;
             }
         }

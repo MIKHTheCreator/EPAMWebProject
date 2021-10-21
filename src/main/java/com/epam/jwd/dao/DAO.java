@@ -1,10 +1,10 @@
-package com.epam.jwd.repository;
+package com.epam.jwd.dao;
 
-import com.epam.jwd.repository.entity.AbstractEntity;
+import com.epam.jwd.dao.entity.AbstractEntity;
 
 import java.util.List;
 
-public interface Repository<T extends AbstractEntity<K>, K> {
+public interface DAO<T extends AbstractEntity<K>, K> {
 
     T save(T entity) throws InterruptedException;
     List<T> findAll() throws InterruptedException;

@@ -1,4 +1,4 @@
-package com.epam.jwd.repository.exception;
+package com.epam.jwd.dao.exception;
 
 public class UpdateDataBaseException extends RuntimeException {
 

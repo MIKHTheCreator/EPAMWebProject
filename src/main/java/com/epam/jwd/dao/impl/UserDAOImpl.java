@@ -1,15 +1,15 @@
-package com.epam.jwd.repository.impl;
+package com.epam.jwd.dao.impl;
 
-import com.epam.jwd.repository.Repository;
-import com.epam.jwd.repository.api.ConnectionPool;
-import com.epam.jwd.repository.entity.Client;
-import com.epam.jwd.repository.entity.Gender;
-import com.epam.jwd.repository.entity.PassportData;
-import com.epam.jwd.repository.entity.User;
-import com.epam.jwd.repository.exception.DeleteFromDataBaseException;
-import com.epam.jwd.repository.exception.FindInDataBaseException;
-import com.epam.jwd.repository.exception.SaveOperationException;
-import com.epam.jwd.repository.exception.UpdateDataBaseException;
+import com.epam.jwd.dao.DAO;
+import com.epam.jwd.dao.api.ConnectionPool;
+import com.epam.jwd.dao.entity.Client;
+import com.epam.jwd.dao.entity.Gender;
+import com.epam.jwd.dao.entity.PassportData;
+import com.epam.jwd.dao.entity.User;
+import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
+import com.epam.jwd.dao.exception.FindInDataBaseException;
+import com.epam.jwd.dao.exception.SaveOperationException;
+import com.epam.jwd.dao.exception.UpdateDataBaseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,12 +20,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepositoryImpl implements Repository<User, Integer> {
+public class UserDAOImpl implements DAO<User, Integer> {
 
-    private static Repository<User, Integer> instance = new UserRepositoryImpl();
+    private static DAO<User, Integer> instance = new UserDAOImpl();
 
     private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
-    private final Repository<PassportData, Integer> passportRepository = PassportRepositoryImpl.getInstance();
+    private final DAO<PassportData, Integer> passportRepository = PassportDAOImpl.getInstance();
 
     private static final String SQL_SAVE_USER_QUERY = "INSERT INTO user ( first_name, second_name, phone_number" +
             "age, gender, client_id, role_id, passport_data_passport_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -40,15 +40,15 @@ public class UserRepositoryImpl implements Repository<User, Integer> {
     private static final String UPDATE_DATABASE_EXCEPTION = "Can't update user";
     private static final String FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE = "Can't find user with such id in database";
     private static final String DELETE_USER_EXCEPTION_MESSAGE = "Can't delete user from database";
-    private static final Logger log = LogManager.getLogger(UserRepositoryImpl.class);
+    private static final Logger log = LogManager.getLogger(UserDAOImpl.class);
 
-    private UserRepositoryImpl() {
+    private UserDAOImpl() {
     }
 
-    public static Repository<User, Integer> getInstance() {
-        synchronized (UserRepositoryImpl.class) {
+    public static DAO<User, Integer> getInstance() {
+        synchronized (UserDAOImpl.class) {
             if(instance == null) {
-                instance = new UserRepositoryImpl();
+                instance = new UserDAOImpl();
                 return instance;
             }
         }

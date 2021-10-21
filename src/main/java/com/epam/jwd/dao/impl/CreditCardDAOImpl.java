@@ -1,33 +1,32 @@
-package com.epam.jwd.repository.impl;
+package com.epam.jwd.dao.impl;
 
-import com.epam.jwd.repository.Repository;
-import com.epam.jwd.repository.api.ConnectionPool;
-import com.epam.jwd.repository.entity.Client;
-import com.epam.jwd.repository.exception.DeleteFromDataBaseException;
-import com.epam.jwd.repository.exception.FindInDataBaseException;
-import com.epam.jwd.repository.exception.SaveOperationException;
-import com.epam.jwd.repository.exception.UpdateDataBaseException;
-import com.epam.jwd.service.api.PasswordManager;
-import com.epam.jwd.service.impl.PasswordManagerImpl;
+import com.epam.jwd.dao.DAO;
+import com.epam.jwd.dao.api.ConnectionPool;
+import com.epam.jwd.dao.entity.Client;
+import com.epam.jwd.dao.entity.CreditCard;
+import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
+import com.epam.jwd.dao.exception.FindInDataBaseException;
+import com.epam.jwd.dao.exception.SaveOperationException;
+import com.epam.jwd.dao.exception.UpdateDataBaseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientRepositoryImpl implements Repository<Client, Integer> {
+public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
 
-    private static Repository<Client, Integer> instance = new ClientRepositoryImpl();
+    private static DAO<CreditCard, Integer> instance = new CreditCardDAOImpl();
 
     private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
-    private final PasswordManager passwordManager = new PasswordManagerImpl();
 
-    private static final String SQL_INSERT_QUERY = "INSERT INTO client (username, email, password)" +
-            "VALUES (?, ?, ?)";
+    private static final String SQL_INSERT_QUERY = "INSERT INTO credit_card (credit_card_number, credit_card_expiration_date," +
+            " name_and_surname, cvv, password, user_id, bank_account_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
     private static final String SQL_FIND_ALL_QUERY = "SELECT * FROM client";
     private static final String SQL_FIND_BY_ID_QUERY = "SELECT * FROM client WHERE client_id=?";
     private static final String SQL_UPDATE_QUERY = "UPDATE client SET username=? email=? passport=? WHERE client_id=?";
@@ -37,15 +36,15 @@ public class ClientRepositoryImpl implements Repository<Client, Integer> {
     private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no client with such id in database";
     private static final String SQL_UPDATE_EXCEPTION_MESSAGE = "Updating client information was failed";
     private static final String SQL_DELETE_EXCEPTION_MESSAGE = "Deleting client with such id was failed";
-    private static final Logger log = LogManager.getLogger(ClientRepositoryImpl.class);
+    private static final Logger log = LogManager.getLogger(CreditCardDAOImpl.class);
 
-    private ClientRepositoryImpl() {
+    private CreditCardDAOImpl() {
     }
 
-    public static Repository<Client, Integer> getInstance() {
-        synchronized (ClientRepositoryImpl.class) {
+    public static DAO<CreditCard, Integer> getInstance() {
+        synchronized (ClientDAOImpl.class) {
             if(instance == null) {
-                instance = new ClientRepositoryImpl();
+                instance = new CreditCardDAOImpl();
                 return instance;
             }
         }
@@ -54,7 +53,7 @@ public class ClientRepositoryImpl implements Repository<Client, Integer> {
     }
 
     @Override
-    public Client save(Client client) throws InterruptedException {
+    public CreditCard save(CreditCard creditCard) throws InterruptedException {
         Connection connection = null;
         PreparedStatement statement;
         ResultSet resultSet;
@@ -62,9 +61,12 @@ public class ClientRepositoryImpl implements Repository<Client, Integer> {
         try {
             connection = connectionPool.takeConnection();
             statement = connection.prepareStatement(SQL_INSERT_QUERY);
-            statement.setString(1, client.getUsername());
-            statement.setString(2, client.getEmail());
-            statement.setString(3, passwordManager.encode(client.getPassword()));
+            statement.setInt(1, creditCard.getCreditCardNumber());
+            statement.setDate(2, Date.valueOf(creditCard.getCreditCardExpiration()));
+            statement.setString(3, creditCard.getNameAndSurname());
+            statement.setInt(4, creditCard.getCVV());
+            statement.setInt(5, creditCard.getPassword());
+            statement.setInt(6, creditCard.get);
             statement.executeUpdate();
 
             resultSet = statement.getGeneratedKeys();
