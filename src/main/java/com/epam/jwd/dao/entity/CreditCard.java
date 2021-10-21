@@ -11,6 +11,7 @@ public class CreditCard extends AbstractEntity<Integer> {
     private Integer CVV;
     private Integer password;
     private BankAccount bankAccount;
+    private Integer userId;
 
     public CreditCard() {
     }
@@ -21,13 +22,14 @@ public class CreditCard extends AbstractEntity<Integer> {
     }
 
     public CreditCard(Integer id, Integer creditCardNumber, LocalDate creditCardExpiration,
-                      Integer CVV, Integer password, BankAccount bankAccount) {
+                      Integer CVV, Integer password, BankAccount bankAccount, Integer userId) {
         super(id);
         this.creditCardNumber = creditCardNumber;
         this.creditCardExpiration = creditCardExpiration;
         this.CVV = CVV;
         this.password = password;
         this.bankAccount = bankAccount;
+        this.userId = userId;
     }
 
     public Integer getCreditCardNumber() {
@@ -78,6 +80,14 @@ public class CreditCard extends AbstractEntity<Integer> {
         this.nameAndSurname = nameAndSurname;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -88,12 +98,13 @@ public class CreditCard extends AbstractEntity<Integer> {
                 && nameAndSurname.equals(that.nameAndSurname)
                 && CVV.equals(that.CVV)
                 && password.equals(that.password)
-                && bankAccount.equals(that.bankAccount);
+                && bankAccount.equals(that.bankAccount)
+                && userId.equals(that.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(creditCardNumber, creditCardExpiration, nameAndSurname, CVV, password, bankAccount);
+        return Objects.hash(creditCardNumber, creditCardExpiration, nameAndSurname, CVV, password, bankAccount, userId);
     }
 
     @Override
@@ -105,6 +116,7 @@ public class CreditCard extends AbstractEntity<Integer> {
                 ", CVV=" + CVV +
                 ", password=" + password +
                 ", bankAccount=" + bankAccount +
+                ", userId=" + userId +
                 '}';
     }
 
@@ -117,6 +129,7 @@ public class CreditCard extends AbstractEntity<Integer> {
         private Integer CVV;
         private Integer password;
         private BankAccount bankAccount;
+        private Integer userId;
 
         public Builder withId(Integer id) {
             this.id = id;
@@ -153,6 +166,11 @@ public class CreditCard extends AbstractEntity<Integer> {
             return this;
         }
 
+        public Builder withUserId(Integer userId) {
+            this.userId = userId;
+            return this;
+        }
+
         public CreditCard build() {
             CreditCard creditCard = new CreditCard();
             creditCard.setId(this.id);
@@ -161,6 +179,7 @@ public class CreditCard extends AbstractEntity<Integer> {
             creditCard.setNameAndSurname(this.nameAndSurname);
             creditCard.setCVV(this.CVV);
             creditCard.setPassword(this.password);
+            creditCard.setUserId(this.userId);
 
             return creditCard;
         }
