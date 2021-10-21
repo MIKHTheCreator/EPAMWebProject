@@ -70,7 +70,7 @@ public class PassportDAOImpl implements DAO<PassportData, Integer> {
                 passport.setId(resultSet.getInt(1));
             }
         } catch (SQLException exception) {
-            log.error(SQL_INSERT_EXCEPTION_MESSAGE);
+            log.error(SQL_INSERT_EXCEPTION_MESSAGE, exception);
             throw new SaveOperationException(SQL_INSERT_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
@@ -100,7 +100,7 @@ public class PassportDAOImpl implements DAO<PassportData, Integer> {
                 passportData.add(passport);
             }
         } catch (SQLException exception) {
-            log.error(SQL_FIND_ALL_EXCEPTION_MESSAGE);
+            log.error(SQL_FIND_ALL_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(SQL_FIND_ALL_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
@@ -131,7 +131,7 @@ public class PassportDAOImpl implements DAO<PassportData, Integer> {
                 return passport;
             }
         } catch (SQLException exception) {
-            log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
+            log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
         }
 
@@ -152,7 +152,7 @@ public class PassportDAOImpl implements DAO<PassportData, Integer> {
             statement.setInt(4, passport.getId());
             statement.executeUpdate();
         } catch (SQLException exception) {
-            log.error(SQL_UPDATE_EXCEPTION_MESSAGE);
+            log.error(SQL_UPDATE_EXCEPTION_MESSAGE, exception);
             throw new UpdateDataBaseException(SQL_UPDATE_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
@@ -172,7 +172,7 @@ public class PassportDAOImpl implements DAO<PassportData, Integer> {
             statement.setInt(1, passport.getId());
             statement.executeUpdate();
         } catch (SQLException exception) {
-            log.error(SQL_DELETE_EXCEPTION_MESSAGE);
+            log.error(SQL_DELETE_EXCEPTION_MESSAGE, exception);
             throw new DeleteFromDataBaseException(SQL_DELETE_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);

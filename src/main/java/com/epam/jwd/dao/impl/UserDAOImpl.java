@@ -81,7 +81,7 @@ public class UserDAOImpl implements DAO<User, Integer> {
                 user.setId(resultSet.getInt(1));
             }
         } catch (SQLException exception) {
-            log.error(SAVE_OPERATION_EXCEPTION_MESSAGE);
+            log.error(SAVE_OPERATION_EXCEPTION_MESSAGE, exception);
             throw new SaveOperationException(SAVE_OPERATION_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
@@ -119,7 +119,7 @@ public class UserDAOImpl implements DAO<User, Integer> {
                 users.add(user);
             }
         } catch (SQLException exception) {
-            log.error(FIND_OPERATION_EXCEPTION_MESSAGE);
+            log.error(FIND_OPERATION_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(FIND_OPERATION_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
@@ -157,7 +157,7 @@ public class UserDAOImpl implements DAO<User, Integer> {
             }
 
         } catch (SQLException exception) {
-            log.error(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
+            log.error(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
@@ -187,7 +187,7 @@ public class UserDAOImpl implements DAO<User, Integer> {
                 user.setId(resultSet.getInt(1));
             }
         } catch (SQLException exception) {
-            log.error(UPDATE_DATABASE_EXCEPTION);
+            log.error(UPDATE_DATABASE_EXCEPTION, exception);
             throw new UpdateDataBaseException(UPDATE_DATABASE_EXCEPTION);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -210,7 +210,7 @@ public class UserDAOImpl implements DAO<User, Integer> {
             statement.setInt(1, user.getId());
             statement.executeUpdate();
         } catch (SQLException exception) {
-            log.error(DELETE_USER_EXCEPTION_MESSAGE);
+            log.error(DELETE_USER_EXCEPTION_MESSAGE, exception);
             throw new DeleteFromDataBaseException(DELETE_USER_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);

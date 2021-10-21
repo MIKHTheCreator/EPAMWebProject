@@ -72,7 +72,7 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
                 client.setId(resultSet.getInt(1));
             }
         } catch (SQLException exception) {
-            log.error(SQL_INSERT_EXCEPTION_MESSAGE);
+            log.error(SQL_INSERT_EXCEPTION_MESSAGE, exception);
             throw new SaveOperationException(SQL_INSERT_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
@@ -102,7 +102,7 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
                 clients.add(client);
             }
         } catch (SQLException exception) {
-            log.error(SQL_FIND_ALL_EXCEPTION_MESSAGE);
+            log.error(SQL_FIND_ALL_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(SQL_FIND_ALL_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
@@ -133,7 +133,7 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
                 return client;
             }
         } catch (SQLException exception) {
-            log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
+            log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
         }
 
@@ -154,7 +154,7 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
             statement.setInt(4, client.getId());
             statement.executeUpdate();
         } catch (SQLException exception) {
-            log.error(SQL_UPDATE_EXCEPTION_MESSAGE);
+            log.error(SQL_UPDATE_EXCEPTION_MESSAGE, exception);
             throw new UpdateDataBaseException(SQL_UPDATE_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
@@ -174,7 +174,7 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
             statement.setInt(1, client.getId());
             statement.executeUpdate();
         } catch (SQLException exception) {
-            log.error(SQL_DELETE_EXCEPTION_MESSAGE);
+            log.error(SQL_DELETE_EXCEPTION_MESSAGE, exception);
             throw new DeleteFromDataBaseException(SQL_DELETE_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
