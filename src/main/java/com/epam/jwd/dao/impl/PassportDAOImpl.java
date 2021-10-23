@@ -2,6 +2,7 @@ package com.epam.jwd.dao.impl;
 
 import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.api.ConnectionPool;
+import com.epam.jwd.dao.api.PassportDAO;
 import com.epam.jwd.dao.entity.PassportData;
 import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
 import com.epam.jwd.dao.exception.FindInDataBaseException;
@@ -18,11 +19,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PassportDAOImpl implements DAO<PassportData, Integer> {
+public class PassportDAOImpl implements PassportDAO {
 
-    private static DAO<PassportData, Integer> instance = new PassportDAOImpl();
+    private static PassportDAO instance;
 
-    private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
+    private final ConnectionPool connectionPool;
 
     private static final String SQL_INSERT_QUERY = "INSERT INTO passport_data (seria_and_number, personal_number, expiration_date)" +
             "VALUES (?, ?, ?)";
@@ -30,6 +31,7 @@ public class PassportDAOImpl implements DAO<PassportData, Integer> {
     private static final String SQL_FIND_BY_ID_QUERY = "SELECT * FROM passport_data WHERE passport_id=?";
     private static final String SQL_UPDATE_QUERY = "UPDATE passport_data SET seria_and_number=? personal_number=? expiration_date=? WHERE passport_id=?";
     private static final String SQL_DELETE_QUERY = "DELETE FROM passport_data WHERE passport_id=?";
+    private static final String SQL_FIND_PASSPORT_BY_USER_ID_QUERY = "SELECT * FROM passport_data WHERE passport_id=?";
     private static final String SQL_INSERT_EXCEPTION_MESSAGE = "Insert passport data to database was failed";
     private static final String SQL_FIND_ALL_EXCEPTION_MESSAGE = "Selecting passport data info from database was failed";
     private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no Passport with such id in database";
@@ -37,10 +39,15 @@ public class PassportDAOImpl implements DAO<PassportData, Integer> {
     private static final String SQL_DELETE_EXCEPTION_MESSAGE = "Deleting passport with such id was failed";
     private static final Logger log = LogManager.getLogger(PassportDAOImpl.class);
 
-    private PassportDAOImpl() {
+    static {
+        instance = new PassportDAOImpl();
     }
 
-    public static DAO<PassportData, Integer> getInstance() {
+    private PassportDAOImpl() {
+        this.connectionPool = ConnectionPoolImpl.getInstance();
+    }
+
+    public static PassportDAO getInstance() {
         synchronized (PassportDAOImpl.class) {
             if(instance == null) {
                 instance = new PassportDAOImpl();
@@ -177,5 +184,37 @@ public class PassportDAOImpl implements DAO<PassportData, Integer> {
         } finally {
             connectionPool.returnConnection(connection);
         }
+    }
+
+    @Override
+    public PassportData findPassportByUserId(Integer id) throws InterruptedException {
+        Connection connection = null;
+        PreparedStatement statement;
+        ResultSet resultSet;
+
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(SQL_FIND_PASSPORT_BY_USER_ID_QUERY);
+            statement.setInt(1, id);
+
+            resultSet = statement.executeQuery();
+
+            if(resultSet.next()) {
+                PassportData passportData = new PassportData();
+                passportData.setId(resultSet.getInt(1));
+                passportData.setSeriesAndNumber(resultSet.getString(2));
+                passportData.setPersonalNumber(resultSet.getString(3));
+                passportData.setExpirationTime(resultSet.getDate(4).toLocalDate());
+
+                return passportData;
+            }
+        } catch (SQLException exception) {
+            log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
+            throw new FindInDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
+        } finally {
+            connectionPool.returnConnection(connection);
+        }
+
+        return null;
     }
 }

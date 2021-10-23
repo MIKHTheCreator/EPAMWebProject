@@ -1,9 +1,9 @@
 package com.epam.jwd.dao.impl;
 
 import com.epam.jwd.dao.api.BankAccountDAO;
+import com.epam.jwd.dao.api.CreditCardDAO;
 import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.api.ConnectionPool;
-import com.epam.jwd.dao.entity.BankAccount;
 import com.epam.jwd.dao.entity.CreditCard;
 import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
 import com.epam.jwd.dao.exception.FindInDataBaseException;
@@ -20,9 +20,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
+public class CreditCardDAOImpl implements CreditCardDAO {
 
-    private static DAO<CreditCard, Integer> instance;
+    private static CreditCardDAO instance;
 
     private final ConnectionPool connectionPool;
     private final BankAccountDAO bankAccountDAO;
@@ -34,6 +34,7 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
     private static final String SQL_UPDATE_QUERY = "UPDATE credit_card SET credit_card_number=? credit_card_expiration=?" +
             " name_and_surname=? cvv=? password=? user_id=? WHERE credit_card_id=?";
     private static final String SQL_DELETE_QUERY = "DELETE FROM credit_card WHERE credit_card_id=?";
+    private static final String SQL_FIND_ALL_CREDIT_CARDS_BY_USER_ID = "SELECT * FROM credit_card WHERE user_id=?";
     private static final String SQL_INSERT_EXCEPTION_MESSAGE = "Insert credit card data to database was failed";
     private static final String SQL_FIND_ALL_EXCEPTION_MESSAGE = "Selecting credit card data info from database was failed";
     private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no credit card with such id in database";
@@ -50,7 +51,7 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
         this.connectionPool = ConnectionPoolImpl.getInstance();
     }
 
-    public static DAO<CreditCard, Integer> getInstance() {
+    public static CreditCardDAO getInstance() {
         synchronized (CreditCardDAOImpl.class) {
             if(instance == null) {
                 instance = new CreditCardDAOImpl();
@@ -202,5 +203,42 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
         } finally {
             connectionPool.returnConnection(connection);
         }
+    }
+
+    @Override
+    public List<CreditCard> findAllCreditCardsByUserId(Integer id) throws InterruptedException {
+        List<CreditCard> creditCards = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement;
+        ResultSet resultSet;
+
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(SQL_FIND_ALL_CREDIT_CARDS_BY_USER_ID);
+            statement.setInt(1, id);
+
+            resultSet = statement.executeQuery();
+
+            while(resultSet.next()) {
+                CreditCard creditCard = new CreditCard.Builder()
+                        .withId(resultSet.getInt(1))
+                        .withCreditCardNumber(resultSet.getInt(2))
+                        .withCreditCardExpiration(resultSet.getDate(3).toLocalDate())
+                        .withNameAndSurname(resultSet.getString(4))
+                        .withCVV(resultSet.getInt(5))
+                        .withPassword(resultSet.getInt(6))
+                        .withUserId(id)
+                        .build();
+
+                creditCards.add(creditCard);
+            }
+        } catch (SQLException exception) {
+            log.error(SQL_FIND_ALL_EXCEPTION_MESSAGE, exception);
+            throw new FindInDataBaseException(SQL_FIND_ALL_EXCEPTION_MESSAGE);
+        } finally {
+            connectionPool.returnConnection(connection);
+        }
+
+        return null;
     }
 }

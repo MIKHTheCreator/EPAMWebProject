@@ -1,12 +1,11 @@
 package com.epam.jwd.dao.impl;
 
 import com.epam.jwd.dao.api.ClientDAO;
-import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.api.ConnectionPool;
+import com.epam.jwd.dao.api.CreditCardDAO;
+import com.epam.jwd.dao.api.PassportDAO;
 import com.epam.jwd.dao.api.UserDAO;
-import com.epam.jwd.dao.entity.Client;
 import com.epam.jwd.dao.entity.Gender;
-import com.epam.jwd.dao.entity.PassportData;
 import com.epam.jwd.dao.entity.User;
 import com.epam.jwd.dao.entity.UserRole;
 import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
@@ -29,6 +28,8 @@ public class UserDAOImpl implements UserDAO {
 
     private final ConnectionPool connectionPool;
     private final ClientDAO clientDAO;
+    private final PassportDAO passportDAO;
+    private final CreditCardDAO creditCardDAO;
 
     private static final String SQL_SAVE_USER_QUERY = "INSERT INTO user ( first_name, second_name, phone_number" +
             "age, gender, client_id, role_id, passport_data_passport_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -54,6 +55,8 @@ public class UserDAOImpl implements UserDAO {
     private UserDAOImpl() {
         this.clientDAO = ClientDAOImpl.getInstance();
         this.connectionPool = ConnectionPoolImpl.getInstance();
+        this.passportDAO = PassportDAOImpl.getInstance();
+        this.creditCardDAO = CreditCardDAOImpl.getInstance();
     }
 
     public static UserDAO getInstance() {
@@ -121,10 +124,10 @@ public class UserDAOImpl implements UserDAO {
                         .withPhoneNumber(resultSet.getString(4))
                         .withAge(resultSet.getInt(5))
                         .withGender(Gender.valueOf(resultSet.getString(6).toUpperCase()))
-                        .withClient(clientDAO.findClientByUserId(resultSet.getInt(1)))
-                        .withRole(findRoleById())
-                        .withPassport()
-                        .withCreditCard()
+                        .withClient(clientDAO.findClientByUserId(resultSet.getInt(7)))
+                        .withRole(findRoleById(resultSet.getInt(8)))
+                        .withPassport(passportDAO.findPassportByUserId(resultSet.getInt(9)))
+                        .withCreditCard(creditCardDAO.findAllCreditCardsByUserId(resultSet.getInt(1)))
                         .build();
                 users.add(user);
             }
@@ -158,11 +161,10 @@ public class UserDAOImpl implements UserDAO {
                         .withPhoneNumber(resultSet.getString(4))
                         .withAge(resultSet.getInt(5))
                         .withGender(Gender.valueOf(resultSet.getString(6).toUpperCase()))
-                        .withClient()
-                        .withRole()
-                        .withPassport()
-                        .withClient()
-                        .withCreditCard()
+                        .withClient(clientDAO.findClientByUserId(resultSet.getInt(7)))
+                        .withRole(findRoleById(resultSet.getInt(8)))
+                        .withPassport(passportDAO.findPassportByUserId(resultSet.getInt(9)))
+                        .withCreditCard(creditCardDAO.findAllCreditCardsByUserId(resultSet.getInt(1)))
                         .build();
             }
 
