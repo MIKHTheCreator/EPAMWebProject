@@ -3,6 +3,7 @@ package com.epam.jwd.dao.impl;
 import com.epam.jwd.dao.api.ClientDAO;
 import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.api.ConnectionPool;
+import com.epam.jwd.dao.api.UserDAO;
 import com.epam.jwd.dao.entity.Client;
 import com.epam.jwd.dao.entity.Gender;
 import com.epam.jwd.dao.entity.PassportData;
@@ -22,9 +23,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAOImpl implements DAO<User, Integer> {
+public class UserDAOImpl implements UserDAO {
 
-    private static DAO<User, Integer> instance;
+    private static UserDAO instance;
 
     private final ConnectionPool connectionPool;
     private final ClientDAO clientDAO;
@@ -36,11 +37,13 @@ public class UserDAOImpl implements DAO<User, Integer> {
     private static final String SQL_DELETE_USER_QUERY = "DELETE FROM user WHERE user_id=?";
     private static final String SQL_USER_UPDATE_QUERY = "UPDATE user SET first_name=? second_name=? phone_number=? age =?" +
             " WHERE user_id = ?";
+    private static final String SQL_FIND_ROLE_BY_ID = "SELECT role_name FROM role WHERE role_id=?";
     private static final String INTERRUPTED_EXCEPTION_LOG_MESSAGE = "Thread was interrupted";
     private static final String SAVE_OPERATION_EXCEPTION_MESSAGE = "User wasn't save correctly";
     private static final String FIND_OPERATION_EXCEPTION_MESSAGE = "Can't find users in database";
     private static final String UPDATE_DATABASE_EXCEPTION = "Can't update user";
     private static final String FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE = "Can't find user with such id in database";
+    private static final String SQL_FIND_ROLE_BY_ID_EXCEPTION_MESSAGE = "Can't find role with such an id";
     private static final String DELETE_USER_EXCEPTION_MESSAGE = "Can't delete user from database";
     private static final Logger log = LogManager.getLogger(UserDAOImpl.class);
 
@@ -53,7 +56,7 @@ public class UserDAOImpl implements DAO<User, Integer> {
         this.connectionPool = ConnectionPoolImpl.getInstance();
     }
 
-    public static DAO<User, Integer> getInstance() {
+    public static UserDAO getInstance() {
         synchronized (UserDAOImpl.class) {
             if(instance == null) {
                 instance = new UserDAOImpl();
@@ -119,7 +122,7 @@ public class UserDAOImpl implements DAO<User, Integer> {
                         .withAge(resultSet.getInt(5))
                         .withGender(Gender.valueOf(resultSet.getString(6).toUpperCase()))
                         .withClient(clientDAO.findClientByUserId(resultSet.getInt(1)))
-                        .withRole()
+                        .withRole(findRoleById())
                         .withPassport()
                         .withCreditCard()
                         .build();
@@ -222,5 +225,29 @@ public class UserDAOImpl implements DAO<User, Integer> {
         } finally {
             connectionPool.returnConnection(connection);
         }
+    }
+
+    @Override
+    public UserRole findRoleById(Integer id) throws InterruptedException {
+        Connection connection = null;
+        PreparedStatement statement;
+        ResultSet resultSet;
+
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(SQL_FIND_ROLE_BY_ID);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+
+            if(resultSet.next()) {
+                return UserRole.valueOf(resultSet.getString(1).toUpperCase());
+            }
+        } catch (SQLException exception) {
+            log.error(SQL_FIND_ROLE_BY_ID_EXCEPTION_MESSAGE);
+            throw new FindInDataBaseException(SQL_FIND_ROLE_BY_ID_EXCEPTION_MESSAGE);
+        }finally {
+            connectionPool.returnConnection(connection);
+        }
+        return null;
     }
 }
