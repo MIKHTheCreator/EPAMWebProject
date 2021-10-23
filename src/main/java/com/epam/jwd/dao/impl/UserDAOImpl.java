@@ -1,11 +1,13 @@
 package com.epam.jwd.dao.impl;
 
+import com.epam.jwd.dao.api.ClientDAO;
 import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.api.ConnectionPool;
 import com.epam.jwd.dao.entity.Client;
 import com.epam.jwd.dao.entity.Gender;
 import com.epam.jwd.dao.entity.PassportData;
 import com.epam.jwd.dao.entity.User;
+import com.epam.jwd.dao.entity.UserRole;
 import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
 import com.epam.jwd.dao.exception.FindInDataBaseException;
 import com.epam.jwd.dao.exception.SaveOperationException;
@@ -22,10 +24,10 @@ import java.util.List;
 
 public class UserDAOImpl implements DAO<User, Integer> {
 
-    private static DAO<User, Integer> instance = new UserDAOImpl();
+    private static DAO<User, Integer> instance;
 
-    private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
-    private final DAO<PassportData, Integer> passportRepository = PassportDAOImpl.getInstance();
+    private final ConnectionPool connectionPool;
+    private final ClientDAO clientDAO;
 
     private static final String SQL_SAVE_USER_QUERY = "INSERT INTO user ( first_name, second_name, phone_number" +
             "age, gender, client_id, role_id, passport_data_passport_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -42,7 +44,13 @@ public class UserDAOImpl implements DAO<User, Integer> {
     private static final String DELETE_USER_EXCEPTION_MESSAGE = "Can't delete user from database";
     private static final Logger log = LogManager.getLogger(UserDAOImpl.class);
 
+    static {
+        instance = new UserDAOImpl();
+    }
+
     private UserDAOImpl() {
+        this.clientDAO = ClientDAOImpl.getInstance();
+        this.connectionPool = ConnectionPoolImpl.getInstance();
     }
 
     public static DAO<User, Integer> getInstance() {
@@ -110,10 +118,9 @@ public class UserDAOImpl implements DAO<User, Integer> {
                         .withPhoneNumber(resultSet.getString(4))
                         .withAge(resultSet.getInt(5))
                         .withGender(Gender.valueOf(resultSet.getString(6).toUpperCase()))
-                        .withClient(new Client())
+                        .withClient(clientDAO.findClientByUserId(resultSet.getInt(1)))
                         .withRole()
                         .withPassport()
-                        .withClient()
                         .withCreditCard()
                         .build();
                 users.add(user);
@@ -148,7 +155,7 @@ public class UserDAOImpl implements DAO<User, Integer> {
                         .withPhoneNumber(resultSet.getString(4))
                         .withAge(resultSet.getInt(5))
                         .withGender(Gender.valueOf(resultSet.getString(6).toUpperCase()))
-                        .withClient(new Client())
+                        .withClient()
                         .withRole()
                         .withPassport()
                         .withClient()

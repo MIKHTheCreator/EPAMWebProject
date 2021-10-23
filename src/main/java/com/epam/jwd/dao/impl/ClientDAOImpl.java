@@ -1,5 +1,6 @@
 package com.epam.jwd.dao.impl;
 
+import com.epam.jwd.dao.api.ClientDAO;
 import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.api.ConnectionPool;
 import com.epam.jwd.dao.entity.Client;
@@ -19,12 +20,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientDAOImpl implements DAO<Client, Integer> {
+public class ClientDAOImpl implements ClientDAO {
 
-    private static DAO<Client, Integer> instance = new ClientDAOImpl();
+    private static ClientDAO instance;
 
-    private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
-    private final PasswordManager passwordManager = new PasswordManagerImpl();
+    private final ConnectionPool connectionPool;
+    private final PasswordManager passwordManager;
 
     private static final String SQL_INSERT_QUERY = "INSERT INTO client (username, email, password)" +
             "VALUES (?, ?, ?)";
@@ -32,6 +33,7 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
     private static final String SQL_FIND_BY_ID_QUERY = "SELECT * FROM client WHERE client_id=?";
     private static final String SQL_UPDATE_QUERY = "UPDATE client SET username=? email=? passport=? WHERE client_id=?";
     private static final String SQL_DELETE_QUERY = "DELETE FROM client WHERE client_id=?";
+    private static final String SQL_FIND_CLIENT_BY_USER_ID_QUERY = "SELECT * FROM client WHERE client_id = id";
     private static final String SQL_INSERT_EXCEPTION_MESSAGE = "Insert client data to database was failed";
     private static final String SQL_FIND_ALL_EXCEPTION_MESSAGE = "Selecting client data info from database was failed";
     private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no client with such id in database";
@@ -39,10 +41,16 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
     private static final String SQL_DELETE_EXCEPTION_MESSAGE = "Deleting client with such id was failed";
     private static final Logger log = LogManager.getLogger(ClientDAOImpl.class);
 
-    private ClientDAOImpl() {
+    static {
+        instance = new ClientDAOImpl();
     }
 
-    public static DAO<Client, Integer> getInstance() {
+    private ClientDAOImpl() {
+        this.connectionPool = ConnectionPoolImpl.getInstance();
+        this.passwordManager = new PasswordManagerImpl();
+    }
+
+    public static ClientDAO getInstance() {
         synchronized (ClientDAOImpl.class) {
             if(instance == null) {
                 instance = new ClientDAOImpl();
@@ -179,5 +187,37 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
         } finally {
             connectionPool.returnConnection(connection);
         }
+    }
+
+    @Override
+    public Client findClientByUserId(Integer id) throws InterruptedException {
+        Connection connection = null;
+        PreparedStatement statement;
+        ResultSet resultSet;
+
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(SQL_FIND_CLIENT_BY_USER_ID_QUERY);
+            statement.setInt(1, id);
+
+            resultSet = statement.executeQuery();
+
+            if(resultSet.next()) {
+                Client client = new Client();
+                client.setId(resultSet.getInt(1));
+                client.setUsername(resultSet.getString(2));
+                client.setEmail(resultSet.getString(3));
+                client.setPassword(passwordManager.decode(resultSet.getString(4)));
+
+                return client;
+            }
+        } catch (SQLException exception) {
+            log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
+            throw new FindInDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
+        } finally {
+            connectionPool.returnConnection(connection);
+        }
+
+        return null;
     }
 }
