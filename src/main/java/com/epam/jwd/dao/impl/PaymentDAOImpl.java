@@ -1,9 +1,7 @@
 package com.epam.jwd.dao.impl;
 
-import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.api.ConnectionPool;
 import com.epam.jwd.dao.api.PaymentDAO;
-import com.epam.jwd.dao.entity.BankAccount;
 import com.epam.jwd.dao.entity.Payment;
 import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
 import com.epam.jwd.dao.exception.FindInDataBaseException;
@@ -22,7 +20,7 @@ import java.util.List;
 
 public class PaymentDAOImpl implements PaymentDAO {
 
-    private static DAO<Payment, Integer> instance;
+    private static PaymentDAO instance;
 
     private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
 
@@ -48,7 +46,7 @@ public class PaymentDAOImpl implements PaymentDAO {
     private PaymentDAOImpl() {
     }
 
-    public static DAO<Payment, Integer> getInstance() {
+    public static PaymentDAO getInstance() {
         synchronized (PaymentDAOImpl.class) {
             if(instance == null) {
                 instance = new PaymentDAOImpl();

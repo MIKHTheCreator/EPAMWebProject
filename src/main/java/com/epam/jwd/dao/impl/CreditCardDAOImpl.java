@@ -1,8 +1,7 @@
 package com.epam.jwd.dao.impl;
 
-import com.epam.jwd.dao.DAO;
+import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.api.ConnectionPool;
-import com.epam.jwd.dao.entity.Client;
 import com.epam.jwd.dao.entity.CreditCard;
 import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
 import com.epam.jwd.dao.exception.FindInDataBaseException;
@@ -43,7 +42,7 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
     }
 
     public static DAO<CreditCard, Integer> getInstance() {
-        synchronized (ClientDAOImpl.class) {
+        synchronized (CreditCardDAOImpl.class) {
             if(instance == null) {
                 instance = new CreditCardDAOImpl();
                 return instance;

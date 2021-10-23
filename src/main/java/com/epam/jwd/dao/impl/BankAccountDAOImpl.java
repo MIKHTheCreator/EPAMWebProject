@@ -1,9 +1,9 @@
 package com.epam.jwd.dao.impl;
 
-import com.epam.jwd.dao.DAO;
+import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.api.ConnectionPool;
+import com.epam.jwd.dao.api.PaymentDAO;
 import com.epam.jwd.dao.entity.BankAccount;
-import com.epam.jwd.dao.entity.CreditCard;
 import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
 import com.epam.jwd.dao.exception.FindInDataBaseException;
 import com.epam.jwd.dao.exception.SaveOperationException;
@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +23,8 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
 
     private static DAO<BankAccount, Integer> instance;
 
-    private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
+    private final ConnectionPool connectionPool;
+    private final PaymentDAO paymentDAO;
 
     private static final String SQL_INSERT_QUERY = "INSERT INTO bank_account (account_balance, account_currency," +
             " is_blocked) VALUES (?, ?, ?)";
@@ -45,6 +45,8 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
     }
 
     private BankAccountDAOImpl() {
+        this.paymentDAO = PaymentDAOImpl.getInstance();
+        this.connectionPool = ConnectionPoolImpl.getInstance();
     }
 
     public static DAO<BankAccount, Integer> getInstance() {
@@ -104,7 +106,7 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
                 bankAccount.setAccountBalance(resultSet.getBigDecimal(2));
                 bankAccount.setAccountCurrency(resultSet.getString(3));
                 bankAccount.setBlocked(resultSet.getBoolean(4));
-                bankAccount.setPayments();
+                bankAccount.setPayments(paymentDAO.findAllByBankAccountId(bankAccount.getId()));
 
                 bankAccounts.add(bankAccount);
             }
@@ -136,7 +138,7 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
                 bankAccount.setAccountBalance(resultSet.getBigDecimal(2));
                 bankAccount.setAccountCurrency(resultSet.getString(3));
                 bankAccount.setBlocked(resultSet.getBoolean(4));
-                bankAccount.setPayments();
+                bankAccount.setPayments(paymentDAO.findAllByBankAccountId(bankAccount.getId()));
 
                 return bankAccount;
             }
