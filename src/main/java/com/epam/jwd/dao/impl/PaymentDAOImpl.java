@@ -2,6 +2,7 @@ package com.epam.jwd.dao.impl;
 
 import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.api.ConnectionPool;
+import com.epam.jwd.dao.api.PaymentDAO;
 import com.epam.jwd.dao.entity.BankAccount;
 import com.epam.jwd.dao.entity.Payment;
 import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
@@ -19,7 +20,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaymentDAOImpl implements DAO<Payment, Integer> {
+public class PaymentDAOImpl implements PaymentDAO {
 
     private static DAO<Payment, Integer> instance;
 
@@ -32,6 +33,7 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
     private static final String SQL_UPDATE_QUERY = "UPDATE payment SET sum_of_payment=? date_of_payment=?" +
             "payment_organization=? payment_goal=? bank_account_id=? WHERE payment_id=?";
     private static final String SQL_DELETE_QUERY = "DELETE FROM payment WHERE payment_id=?";
+    private static final String SQL_FIND_ALL_PAYMENTS_BY_USER_ID = "SELECT * FROM payment WHERE bank_account_id=?";
     private static final String SQL_INSERT_EXCEPTION_MESSAGE = "Insert payment data to database was failed";
     private static final String SQL_FIND_ALL_EXCEPTION_MESSAGE = "Selecting payments data info from database was failed";
     private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no payment with such id in database";
@@ -194,4 +196,39 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
         }
     }
 
+    @Override
+    public List<Payment> findAllByBankAccountId(Integer id) throws InterruptedException {
+        List<Payment> payments = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement;
+        ResultSet resultSet;
+
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(SQL_FIND_ALL_PAYMENTS_BY_USER_ID);
+            statement.setInt(1, id);
+
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Payment payment = new Payment();
+                payment.setId(resultSet.getInt(1));
+                payment.setSumOfPayment(resultSet.getBigDecimal(2));
+                payment.setDateOfPayment(resultSet.getDate(3).toLocalDate());
+                payment.setPaymentOrganization(resultSet.getString(4));
+                payment.setPaymentGoal(resultSet.getString(5));
+                payment.setBankAccountId(resultSet.getInt(6));
+
+                payments.add(payment);
+            }
+
+        } catch (SQLException exception) {
+            log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
+            throw new FindInDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
+        } finally {
+            connectionPool.returnConnection(connection);
+        }
+
+        return payments;
+    }
 }
