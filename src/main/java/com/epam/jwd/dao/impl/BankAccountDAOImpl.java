@@ -1,5 +1,6 @@
 package com.epam.jwd.dao.impl;
 
+import com.epam.jwd.dao.api.BankAccountDAO;
 import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.api.ConnectionPool;
 import com.epam.jwd.dao.api.PaymentDAO;
@@ -19,9 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
+public class BankAccountDAOImpl implements BankAccountDAO {
 
-    private static DAO<BankAccount, Integer> instance;
+    private static BankAccountDAO instance;
 
     private final ConnectionPool connectionPool;
     private final PaymentDAO paymentDAO;
@@ -33,6 +34,7 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
     private static final String SQL_UPDATE_QUERY = "UPDATE bank_account SET account_balance=? account_currency=?" +
             " is_blocked=? WHERE bank_account_id=?";
     private static final String SQL_DELETE_QUERY = "DELETE FROM bank_account WHERE bank_account_id=?";
+    private static final String SQL_FIND_BANK_ACCOUNT_BY_CREDIT_CARD_ID = "SELECT * FROM bank_account WHERE bank_account_id=?";
     private static final String SQL_INSERT_EXCEPTION_MESSAGE = "Insert bank account data to database was failed";
     private static final String SQL_FIND_ALL_EXCEPTION_MESSAGE = "Selecting bank account data info from database was failed";
     private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no bank account with such id in database";
@@ -49,7 +51,7 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         this.connectionPool = ConnectionPoolImpl.getInstance();
     }
 
-    public static DAO<BankAccount, Integer> getInstance() {
+    public static BankAccountDAO getInstance() {
         synchronized (BankAccountDAOImpl.class) {
             if(instance == null) {
                 instance = new BankAccountDAOImpl();
@@ -189,5 +191,37 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         } finally {
             connectionPool.returnConnection(connection);
         }
+    }
+
+    @Override
+    public BankAccount findBankAccountByCreditCardId(Integer id) throws InterruptedException {
+        Connection connection = null;
+        PreparedStatement statement;
+        ResultSet resultSet;
+
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(SQL_FIND_BANK_ACCOUNT_BY_CREDIT_CARD_ID);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+
+            if(resultSet.next()) {
+                BankAccount bankAccount = new BankAccount();
+                bankAccount.setId(resultSet.getInt(1));
+                bankAccount.setAccountBalance(resultSet.getBigDecimal(2));
+                bankAccount.setAccountCurrency(resultSet.getString(3));
+                bankAccount.setBlocked(resultSet.getBoolean(4));
+                bankAccount.setPayments(paymentDAO.findAllByBankAccountId(bankAccount.getId()));
+
+                return bankAccount;
+            }
+        } catch (SQLException exception) {
+            log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
+            throw new FindInDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
+        } finally {
+            connectionPool.returnConnection(connection);
+        }
+
+        return null;
     }
 }

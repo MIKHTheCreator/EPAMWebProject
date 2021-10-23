@@ -1,7 +1,9 @@
 package com.epam.jwd.dao.impl;
 
+import com.epam.jwd.dao.api.BankAccountDAO;
 import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.api.ConnectionPool;
+import com.epam.jwd.dao.entity.BankAccount;
 import com.epam.jwd.dao.entity.CreditCard;
 import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
 import com.epam.jwd.dao.exception.FindInDataBaseException;
@@ -20,9 +22,10 @@ import java.util.List;
 
 public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
 
-    private static DAO<CreditCard, Integer> instance = new CreditCardDAOImpl();
+    private static DAO<CreditCard, Integer> instance;
 
-    private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
+    private final ConnectionPool connectionPool;
+    private final BankAccountDAO bankAccountDAO;
 
     private static final String SQL_INSERT_QUERY = "INSERT INTO credit_card (credit_card_number, credit_card_expiration_date," +
             " name_and_surname, cvv, password, user_id, bank_account_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -38,7 +41,13 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
     private static final String SQL_DELETE_EXCEPTION_MESSAGE = "Deleting credit card with such id was failed";
     private static final Logger log = LogManager.getLogger(CreditCardDAOImpl.class);
 
+    static {
+        instance = new CreditCardDAOImpl();
+    }
+
     private CreditCardDAOImpl() {
+        this.bankAccountDAO = BankAccountDAOImpl.getInstance();
+        this.connectionPool = ConnectionPoolImpl.getInstance();
     }
 
     public static DAO<CreditCard, Integer> getInstance() {
@@ -104,7 +113,7 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
                         .withNameAndSurname(resultSet.getString(4))
                         .withCVV(resultSet.getInt(5))
                         .withPassword(resultSet.getInt(6))
-                        .withBankAccount()
+                        .withBankAccount(bankAccountDAO.findBankAccountByCreditCardId(resultSet.getInt(1)))
                         .withUserId(resultSet.getInt(7))
                         .build();
 
@@ -139,7 +148,7 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
                        .withNameAndSurname(resultSet.getString(4))
                        .withCVV(resultSet.getInt(5))
                        .withPassword(resultSet.getInt(6))
-                       .withBankAccount()
+                       .withBankAccount(bankAccountDAO.findBankAccountByCreditCardId(resultSet.getInt(1)))
                        .withUserId(resultSet.getInt(7))
                        .build();
             }
