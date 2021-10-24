@@ -53,7 +53,7 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 
     public static BankAccountDAO getInstance() {
         synchronized (BankAccountDAOImpl.class) {
-            if(instance == null) {
+            if (instance == null) {
                 instance = new BankAccountDAOImpl();
                 return instance;
             }
@@ -77,7 +77,7 @@ public class BankAccountDAOImpl implements BankAccountDAO {
             statement.executeUpdate();
 
             resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 bankAccount.setId(resultSet.getInt(1));
             }
         } catch (SQLException exception) {
@@ -103,12 +103,7 @@ public class BankAccountDAOImpl implements BankAccountDAO {
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                BankAccount bankAccount = new BankAccount();
-                bankAccount.setId(resultSet.getInt(1));
-                bankAccount.setAccountBalance(resultSet.getBigDecimal(2));
-                bankAccount.setAccountCurrency(resultSet.getString(3));
-                bankAccount.setBlocked(resultSet.getBoolean(4));
-                bankAccount.setPayments(paymentDAO.findAllByBankAccountId(bankAccount.getId()));
+                BankAccount bankAccount = createBankAccount(resultSet);
 
                 bankAccounts.add(bankAccount);
             }
@@ -134,15 +129,9 @@ public class BankAccountDAOImpl implements BankAccountDAO {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
 
-            if(resultSet.next()) {
-                BankAccount bankAccount = new BankAccount();
-                bankAccount.setId(resultSet.getInt(1));
-                bankAccount.setAccountBalance(resultSet.getBigDecimal(2));
-                bankAccount.setAccountCurrency(resultSet.getString(3));
-                bankAccount.setBlocked(resultSet.getBoolean(4));
-                bankAccount.setPayments(paymentDAO.findAllByBankAccountId(bankAccount.getId()));
+            if (resultSet.next()) {
 
-                return bankAccount;
+                return createBankAccount(resultSet);
             }
         } catch (SQLException exception) {
             log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
@@ -205,15 +194,9 @@ public class BankAccountDAOImpl implements BankAccountDAO {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
 
-            if(resultSet.next()) {
-                BankAccount bankAccount = new BankAccount();
-                bankAccount.setId(resultSet.getInt(1));
-                bankAccount.setAccountBalance(resultSet.getBigDecimal(2));
-                bankAccount.setAccountCurrency(resultSet.getString(3));
-                bankAccount.setBlocked(resultSet.getBoolean(4));
-                bankAccount.setPayments(paymentDAO.findAllByBankAccountId(bankAccount.getId()));
+            if (resultSet.next()) {
 
-                return bankAccount;
+                return createBankAccount(resultSet);
             }
         } catch (SQLException exception) {
             log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
@@ -223,5 +206,18 @@ public class BankAccountDAOImpl implements BankAccountDAO {
         }
 
         return null;
+    }
+
+    private BankAccount createBankAccount(ResultSet resultSet)
+            throws SQLException, InterruptedException {
+
+        BankAccount bankAccount = new BankAccount();
+        bankAccount.setId(resultSet.getInt(1));
+        bankAccount.setAccountBalance(resultSet.getBigDecimal(2));
+        bankAccount.setAccountCurrency(resultSet.getString(3));
+        bankAccount.setBlocked(resultSet.getBoolean(4));
+        bankAccount.setPayments(paymentDAO.findAllByBankAccountId(bankAccount.getId()));
+
+        return bankAccount;
     }
 }
