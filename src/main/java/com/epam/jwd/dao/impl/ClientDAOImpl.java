@@ -51,7 +51,7 @@ public class ClientDAOImpl implements ClientDAO {
 
     public static ClientDAO getInstance() {
         synchronized (ClientDAOImpl.class) {
-            if(instance == null) {
+            if (instance == null) {
                 instance = new ClientDAOImpl();
                 return instance;
             }
@@ -75,7 +75,7 @@ public class ClientDAOImpl implements ClientDAO {
             statement.executeUpdate();
 
             resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 client.setId(resultSet.getInt(1));
             }
         } catch (SQLException exception) {
@@ -101,11 +101,7 @@ public class ClientDAOImpl implements ClientDAO {
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Client client = new Client();
-                client.setId(resultSet.getInt(1));
-                client.setUsername(resultSet.getString(2));
-                client.setEmail(resultSet.getString(3));
-                client.setPassword(passwordManager.decode(resultSet.getString(4)));
+                Client client = createClient(resultSet);
                 clients.add(client);
             }
         } catch (SQLException exception) {
@@ -130,14 +126,9 @@ public class ClientDAOImpl implements ClientDAO {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
 
-            if(resultSet.next()) {
-                Client client = new Client();
-                client.setId(id);
-                client.setUsername(resultSet.getString(2));
-                client.setEmail(resultSet.getString(3));
-                client.setPassword(passwordManager.decode(resultSet.getString(4)));
+            if (resultSet.next()) {
 
-                return client;
+                return createClient(resultSet);
             }
         } catch (SQLException exception) {
             log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
@@ -201,14 +192,9 @@ public class ClientDAOImpl implements ClientDAO {
 
             resultSet = statement.executeQuery();
 
-            if(resultSet.next()) {
-                Client client = new Client();
-                client.setId(resultSet.getInt(1));
-                client.setUsername(resultSet.getString(2));
-                client.setEmail(resultSet.getString(3));
-                client.setPassword(passwordManager.decode(resultSet.getString(4)));
+            if (resultSet.next()) {
 
-                return client;
+                return createClient(resultSet);
             }
         } catch (SQLException exception) {
             log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
@@ -218,5 +204,17 @@ public class ClientDAOImpl implements ClientDAO {
         }
 
         return null;
+    }
+
+    private Client createClient(ResultSet resultSet)
+            throws SQLException {
+
+        Client client = new Client();
+        client.setId(resultSet.getInt(1));
+        client.setUsername(resultSet.getString(2));
+        client.setEmail(resultSet.getString(3));
+        client.setPassword(passwordManager.decode(resultSet.getString(4)));
+
+        return client;
     }
 }
