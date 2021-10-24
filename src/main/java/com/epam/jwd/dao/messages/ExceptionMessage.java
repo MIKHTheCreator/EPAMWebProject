@@ -9,4 +9,5 @@ public interface ExceptionMessage {
     String FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE = "Can't find entity with such an id in database";
     String DELETE_ENTITY_EXCEPTION_MESSAGE = "Can't delete entity from database";
     String SQL_ROLLBACK_EXCEPTION_MESSAGE = "Can't rollback to the beginning state";
+    boolean DISABLE_AUTOCOMMIT_FLAG = false;
 }

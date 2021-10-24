@@ -24,12 +24,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_ENTITY_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.DISABLE_AUTOCOMMIT_FLAG;
 import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_OPERATION_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.INTERRUPTED_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_OPERATION_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.SQL_ROLLBACK_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_DATABASE_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_DELETE_USER_QUERY;
+import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_FIND_ALL_QUERY;
+import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_FIND_ROLE_BY_ID;
+import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_FIND_USER_BY_ID_QUERY;
+import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_SAVE_USER_QUERY;
+import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_USER_UPDATE_QUERY;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -40,15 +47,6 @@ public class UserDAOImpl implements UserDAO {
     private final PassportDAO passportDAO;
     private final CreditCardDAO creditCardDAO;
 
-    private static final String SQL_SAVE_USER_QUERY = "INSERT INTO user ( first_name, second_name, phone_number" +
-            "age, gender, client_id, role_id, passport_data_passport_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    private static final String SQL_FIND_ALL_QUERY = "SELECT * FROM user";
-    private static final String SQL_FIND_USER_BY_ID_QUERY = "SELECT * FROM user WHERE user_id=?";
-    private static final String SQL_DELETE_USER_QUERY = "DELETE FROM user WHERE user_id=?";
-    private static final String SQL_USER_UPDATE_QUERY = "UPDATE user SET first_name=? second_name=? phone_number=? age =?" +
-            " WHERE user_id = ?";
-    private static final String SQL_FIND_ROLE_BY_ID = "SELECT role_name FROM role WHERE role_id=?";
-    private static final boolean DISABLE_AUTOCOMMIT_FLAG = false;
     private static final Logger log = LogManager.getLogger(UserDAOImpl.class);
 
     static {
