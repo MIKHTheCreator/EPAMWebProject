@@ -53,7 +53,7 @@ public class CreditCardDAOImpl implements CreditCardDAO {
 
     public static CreditCardDAO getInstance() {
         synchronized (CreditCardDAOImpl.class) {
-            if(instance == null) {
+            if (instance == null) {
                 instance = new CreditCardDAOImpl();
                 return instance;
             }
@@ -81,7 +81,7 @@ public class CreditCardDAOImpl implements CreditCardDAO {
             statement.executeUpdate();
 
             resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 creditCard.setId(resultSet.getInt(1));
             }
         } catch (SQLException exception) {
@@ -107,16 +107,7 @@ public class CreditCardDAOImpl implements CreditCardDAO {
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                CreditCard creditCard = new CreditCard.Builder()
-                        .withId(resultSet.getInt(1))
-                        .withCreditCardNumber(resultSet.getInt(2))
-                        .withCreditCardExpiration(resultSet.getDate(3).toLocalDate())
-                        .withNameAndSurname(resultSet.getString(4))
-                        .withCVV(resultSet.getInt(5))
-                        .withPassword(resultSet.getInt(6))
-                        .withBankAccount(bankAccountDAO.findBankAccountByCreditCardId(resultSet.getInt(1)))
-                        .withUserId(resultSet.getInt(7))
-                        .build();
+                CreditCard creditCard = createCreditCard(resultSet);
 
                 creditCards.add(creditCard);
             }
@@ -142,16 +133,8 @@ public class CreditCardDAOImpl implements CreditCardDAO {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
 
-            if(resultSet.next()) {
-               return new CreditCard.Builder().withId(id)
-                       .withCreditCardNumber(resultSet.getInt(2))
-                       .withCreditCardExpiration(resultSet.getDate(3).toLocalDate())
-                       .withNameAndSurname(resultSet.getString(4))
-                       .withCVV(resultSet.getInt(5))
-                       .withPassword(resultSet.getInt(6))
-                       .withBankAccount(bankAccountDAO.findBankAccountByCreditCardId(resultSet.getInt(1)))
-                       .withUserId(resultSet.getInt(7))
-                       .build();
+            if (resultSet.next()) {
+                return createCreditCard(resultSet);
             }
         } catch (SQLException exception) {
             log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
@@ -219,7 +202,7 @@ public class CreditCardDAOImpl implements CreditCardDAO {
 
             resultSet = statement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 CreditCard creditCard = new CreditCard.Builder()
                         .withId(resultSet.getInt(1))
                         .withCreditCardNumber(resultSet.getInt(2))
@@ -240,5 +223,19 @@ public class CreditCardDAOImpl implements CreditCardDAO {
         }
 
         return null;
+    }
+
+    private CreditCard createCreditCard(ResultSet resultSet)
+            throws SQLException, InterruptedException {
+
+        return new CreditCard.Builder().withId(resultSet.getInt(1))
+                .withCreditCardNumber(resultSet.getInt(2))
+                .withCreditCardExpiration(resultSet.getDate(3).toLocalDate())
+                .withNameAndSurname(resultSet.getString(4))
+                .withCVV(resultSet.getInt(5))
+                .withPassword(resultSet.getInt(6))
+                .withBankAccount(bankAccountDAO.findBankAccountByCreditCardId(resultSet.getInt(1)))
+                .withUserId(resultSet.getInt(7))
+                .build();
     }
 }
