@@ -10,6 +10,7 @@ import com.epam.jwd.dao.entity.User;
 import com.epam.jwd.dao.entity.UserRole;
 import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
 import com.epam.jwd.dao.exception.FindInDataBaseException;
+import com.epam.jwd.dao.exception.RollBackOperationException;
 import com.epam.jwd.dao.exception.SaveOperationException;
 import com.epam.jwd.dao.exception.UpdateDataBaseException;
 import org.apache.logging.log4j.LogManager;
@@ -46,6 +47,8 @@ public class UserDAOImpl implements UserDAO {
     private static final String FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE = "Can't find user with such id in database";
     private static final String SQL_FIND_ROLE_BY_ID_EXCEPTION_MESSAGE = "Can't find role with such an id";
     private static final String DELETE_USER_EXCEPTION_MESSAGE = "Can't delete user from database";
+    private static final String SQL_ROLLBACK_EXCEPTION_MESSAGE = "Can't rollback to the beginning state";
+    private static final boolean DISABLE_AUTOCOMMIT_FLAG = false;
     private static final Logger log = LogManager.getLogger(UserDAOImpl.class);
 
     static {
@@ -78,6 +81,7 @@ public class UserDAOImpl implements UserDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             preparedStatement = connection.prepareStatement(SQL_SAVE_USER_QUERY);
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getSecondName());
@@ -94,7 +98,16 @@ public class UserDAOImpl implements UserDAO {
             if (resultSet.next()) {
                 user.setId(resultSet.getInt(1));
             }
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SAVE_OPERATION_EXCEPTION_MESSAGE, exception);
             throw new SaveOperationException(SAVE_OPERATION_EXCEPTION_MESSAGE);
         } finally {
@@ -113,6 +126,7 @@ public class UserDAOImpl implements UserDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_FIND_ALL_QUERY);
             resultSet = statement.executeQuery();
 
@@ -120,7 +134,16 @@ public class UserDAOImpl implements UserDAO {
                 User user = createUser(resultSet);
                 users.add(user);
             }
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(FIND_OPERATION_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(FIND_OPERATION_EXCEPTION_MESSAGE);
         } finally {
@@ -138,6 +161,7 @@ public class UserDAOImpl implements UserDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_FIND_USER_BY_ID_QUERY);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
@@ -146,7 +170,15 @@ public class UserDAOImpl implements UserDAO {
                 return createUser(resultSet);
             }
 
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
         } finally {
@@ -164,6 +196,7 @@ public class UserDAOImpl implements UserDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_USER_UPDATE_QUERY);
             statement.setString(1, user.getFirstName());
             statement.setString(2, user.getSecondName());
@@ -176,7 +209,16 @@ public class UserDAOImpl implements UserDAO {
             if (resultSet.next()) {
                 user.setId(resultSet.getInt(1));
             }
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(UPDATE_DATABASE_EXCEPTION, exception);
             throw new UpdateDataBaseException(UPDATE_DATABASE_EXCEPTION);
         } catch (InterruptedException e) {
@@ -196,10 +238,20 @@ public class UserDAOImpl implements UserDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_DELETE_USER_QUERY);
             statement.setInt(1, user.getId());
             statement.executeUpdate();
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(DELETE_USER_EXCEPTION_MESSAGE, exception);
             throw new DeleteFromDataBaseException(DELETE_USER_EXCEPTION_MESSAGE);
         } finally {
@@ -215,6 +267,7 @@ public class UserDAOImpl implements UserDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_FIND_ROLE_BY_ID);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
@@ -222,7 +275,16 @@ public class UserDAOImpl implements UserDAO {
             if (resultSet.next()) {
                 return UserRole.valueOf(resultSet.getString(1).toUpperCase());
             }
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_FIND_ROLE_BY_ID_EXCEPTION_MESSAGE);
             throw new FindInDataBaseException(SQL_FIND_ROLE_BY_ID_EXCEPTION_MESSAGE);
         } finally {
