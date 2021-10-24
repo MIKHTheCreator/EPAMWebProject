@@ -5,6 +5,7 @@ import com.epam.jwd.dao.api.PassportDAO;
 import com.epam.jwd.dao.entity.PassportData;
 import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
 import com.epam.jwd.dao.exception.FindInDataBaseException;
+import com.epam.jwd.dao.exception.RollBackOperationException;
 import com.epam.jwd.dao.exception.SaveOperationException;
 import com.epam.jwd.dao.exception.UpdateDataBaseException;
 import org.apache.logging.log4j.LogManager;
@@ -36,6 +37,8 @@ public class PassportDAOImpl implements PassportDAO {
     private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no Passport with such id in database";
     private static final String SQL_UPDATE_EXCEPTION_MESSAGE = "Updating passport information was failed";
     private static final String SQL_DELETE_EXCEPTION_MESSAGE = "Deleting passport with such id was failed";
+    private static final String SQL_ROLLBACK_EXCEPTION_MESSAGE = "Can't rollback to the beginning state";
+    private static final boolean DISABLE_AUTOCOMMIT_FLAG = false;
     private static final Logger log = LogManager.getLogger(PassportDAOImpl.class);
 
     static {
@@ -65,6 +68,7 @@ public class PassportDAOImpl implements PassportDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_INSERT_QUERY);
             statement.setString(1, passport.getSeriesAndNumber());
             statement.setString(2, passport.getPersonalNumber());
@@ -75,7 +79,16 @@ public class PassportDAOImpl implements PassportDAO {
             if (resultSet.next()) {
                 passport.setId(resultSet.getInt(1));
             }
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_INSERT_EXCEPTION_MESSAGE, exception);
             throw new SaveOperationException(SQL_INSERT_EXCEPTION_MESSAGE);
         } finally {
@@ -94,6 +107,7 @@ public class PassportDAOImpl implements PassportDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_FIND_ALL_QUERY);
             resultSet = statement.executeQuery();
 
@@ -101,7 +115,15 @@ public class PassportDAOImpl implements PassportDAO {
                 PassportData passport = createPassport(resultSet);
                 passportData.add(passport);
             }
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
             log.error(SQL_FIND_ALL_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(SQL_FIND_ALL_EXCEPTION_MESSAGE);
         } finally {
@@ -113,12 +135,13 @@ public class PassportDAOImpl implements PassportDAO {
 
     @Override
     public PassportData findById(Integer id) throws InterruptedException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement;
         ResultSet resultSet;
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_FIND_BY_ID_QUERY);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
@@ -127,9 +150,20 @@ public class PassportDAOImpl implements PassportDAO {
 
                 return createPassport(resultSet);
             }
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
+        } finally {
+            connectionPool.returnConnection(connection);
         }
 
         return null;
@@ -142,13 +176,23 @@ public class PassportDAOImpl implements PassportDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_UPDATE_QUERY);
             statement.setString(1, passport.getSeriesAndNumber());
             statement.setString(2, passport.getPersonalNumber());
             statement.setDate(3, java.sql.Date.valueOf(passport.getExpirationTime()));
             statement.setInt(4, passport.getId());
             statement.executeUpdate();
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_UPDATE_EXCEPTION_MESSAGE, exception);
             throw new UpdateDataBaseException(SQL_UPDATE_EXCEPTION_MESSAGE);
         } finally {
@@ -165,10 +209,20 @@ public class PassportDAOImpl implements PassportDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_DELETE_QUERY);
             statement.setInt(1, passport.getId());
             statement.executeUpdate();
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_DELETE_EXCEPTION_MESSAGE, exception);
             throw new DeleteFromDataBaseException(SQL_DELETE_EXCEPTION_MESSAGE);
         } finally {
@@ -184,6 +238,7 @@ public class PassportDAOImpl implements PassportDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_FIND_PASSPORT_BY_USER_ID_QUERY);
             statement.setInt(1, id);
 
@@ -193,7 +248,16 @@ public class PassportDAOImpl implements PassportDAO {
 
                 return createPassport(resultSet);
             }
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
         } finally {
