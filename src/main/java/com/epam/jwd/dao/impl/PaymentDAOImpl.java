@@ -20,11 +20,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_ENTITY_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.DISABLE_AUTOCOMMIT_FLAG;
 import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_OPERATION_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_OPERATION_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.SQL_ROLLBACK_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_DATABASE_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.PaymentDAOMessage.SQL_DELETE_QUERY;
+import static com.epam.jwd.dao.messages.PaymentDAOMessage.SQL_FIND_ALL_PAYMENTS_BY_USER_ID;
+import static com.epam.jwd.dao.messages.PaymentDAOMessage.SQL_FIND_ALL_QUERY;
+import static com.epam.jwd.dao.messages.PaymentDAOMessage.SQL_FIND_BY_ID_QUERY;
+import static com.epam.jwd.dao.messages.PaymentDAOMessage.SQL_INSERT_QUERY;
+import static com.epam.jwd.dao.messages.PaymentDAOMessage.SQL_UPDATE_QUERY;
 
 public class PaymentDAOImpl implements PaymentDAO {
 
@@ -32,15 +39,6 @@ public class PaymentDAOImpl implements PaymentDAO {
 
     private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
 
-    private static final String SQL_INSERT_QUERY = "INSERT INTO payment (sum_of_payment, date_of_payment," +
-            " payment_organization, payment_goal, bank_account_id) VALUES (?, ?, ?, ?, ?)";
-    private static final String SQL_FIND_ALL_QUERY = "SELECT * FROM payment";
-    private static final String SQL_FIND_BY_ID_QUERY = "SELECT * FROM payment WHERE payment_id=?";
-    private static final String SQL_UPDATE_QUERY = "UPDATE payment SET sum_of_payment=? date_of_payment=?" +
-            "payment_organization=? payment_goal=? bank_account_id=? WHERE payment_id=?";
-    private static final String SQL_DELETE_QUERY = "DELETE FROM payment WHERE payment_id=?";
-    private static final String SQL_FIND_ALL_PAYMENTS_BY_USER_ID = "SELECT * FROM payment WHERE bank_account_id=?";
-    private static final boolean DISABLE_AUTOCOMMIT_FLAG = false;
     private static final Logger log = LogManager.getLogger(PaymentDAOImpl.class);
 
     static {
