@@ -20,7 +20,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_DELETE_QUERY;
+import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_FIND_ALL_QUERY;
+import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_FIND_BY_ID_QUERY;
+import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_FIND_CLIENT_BY_USER_ID_QUERY;
+import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_INSERT_QUERY;
+import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_UPDATE_QUERY;
 import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_ENTITY_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.DISABLE_AUTOCOMMIT_FLAG;
 import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_OPERATION_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_OPERATION_EXCEPTION_MESSAGE;
@@ -34,14 +41,6 @@ public class ClientDAOImpl implements ClientDAO {
     private final ConnectionPool connectionPool;
     private final PasswordManager passwordManager;
 
-    private static final String SQL_INSERT_QUERY = "INSERT INTO client (username, email, password)" +
-            "VALUES (?, ?, ?)";
-    private static final String SQL_FIND_ALL_QUERY = "SELECT * FROM client";
-    private static final String SQL_FIND_BY_ID_QUERY = "SELECT * FROM client WHERE client_id=?";
-    private static final String SQL_UPDATE_QUERY = "UPDATE client SET username=? email=? passport=? WHERE client_id=?";
-    private static final String SQL_DELETE_QUERY = "DELETE FROM client WHERE client_id=?";
-    private static final String SQL_FIND_CLIENT_BY_USER_ID_QUERY = "SELECT * FROM client WHERE client_id = id";
-    private static final boolean DISABLE_AUTOCOMMIT_FLAG = false;
     private static final Logger log = LogManager.getLogger(ClientDAOImpl.class);
 
     static {
