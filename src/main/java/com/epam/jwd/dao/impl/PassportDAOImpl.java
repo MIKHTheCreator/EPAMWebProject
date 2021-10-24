@@ -20,11 +20,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_ENTITY_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.DISABLE_AUTOCOMMIT_FLAG;
 import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_OPERATION_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_OPERATION_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.SQL_ROLLBACK_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_DATABASE_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.PassportDAOMessage.SQL_DELETE_QUERY;
+import static com.epam.jwd.dao.messages.PassportDAOMessage.SQL_FIND_ALL_QUERY;
+import static com.epam.jwd.dao.messages.PassportDAOMessage.SQL_FIND_BY_ID_QUERY;
+import static com.epam.jwd.dao.messages.PassportDAOMessage.SQL_FIND_PASSPORT_BY_USER_ID_QUERY;
+import static com.epam.jwd.dao.messages.PassportDAOMessage.SQL_INSERT_QUERY;
+import static com.epam.jwd.dao.messages.PassportDAOMessage.SQL_UPDATE_QUERY;
 
 public class PassportDAOImpl implements PassportDAO {
 
@@ -32,14 +39,6 @@ public class PassportDAOImpl implements PassportDAO {
 
     private final ConnectionPool connectionPool;
 
-    private static final String SQL_INSERT_QUERY = "INSERT INTO passport_data (seria_and_number, personal_number, expiration_date)" +
-            "VALUES (?, ?, ?)";
-    private static final String SQL_FIND_ALL_QUERY = "SELECT * FROM passport_data";
-    private static final String SQL_FIND_BY_ID_QUERY = "SELECT * FROM passport_data WHERE passport_id=?";
-    private static final String SQL_UPDATE_QUERY = "UPDATE passport_data SET seria_and_number=? personal_number=? expiration_date=? WHERE passport_id=?";
-    private static final String SQL_DELETE_QUERY = "DELETE FROM passport_data WHERE passport_id=?";
-    private static final String SQL_FIND_PASSPORT_BY_USER_ID_QUERY = "SELECT * FROM passport_data WHERE passport_id=?";
-    private static final boolean DISABLE_AUTOCOMMIT_FLAG = false;
     private static final Logger log = LogManager.getLogger(PassportDAOImpl.class);
 
     static {
