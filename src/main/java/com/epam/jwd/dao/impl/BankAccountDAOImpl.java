@@ -19,7 +19,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.jwd.dao.messages.BankAccountDAOMessage.SQL_DELETE_QUERY;
+import static com.epam.jwd.dao.messages.BankAccountDAOMessage.SQL_FIND_ALL_QUERY;
+import static com.epam.jwd.dao.messages.BankAccountDAOMessage.SQL_FIND_BANK_ACCOUNT_BY_CREDIT_CARD_ID;
+import static com.epam.jwd.dao.messages.BankAccountDAOMessage.SQL_FIND_BY_ID_QUERY;
+import static com.epam.jwd.dao.messages.BankAccountDAOMessage.SQL_INSERT_QUERY;
+import static com.epam.jwd.dao.messages.BankAccountDAOMessage.SQL_UPDATE_QUERY;
 import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_ENTITY_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.DISABLE_AUTOCOMMIT_FLAG;
 import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_OPERATION_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_OPERATION_EXCEPTION_MESSAGE;
@@ -34,15 +41,6 @@ public class BankAccountDAOImpl implements BankAccountDAO {
     private final ConnectionPool connectionPool;
     private final PaymentDAO paymentDAO;
 
-    private static final String SQL_INSERT_QUERY = "INSERT INTO bank_account (account_balance, account_currency," +
-            " is_blocked) VALUES (?, ?, ?)";
-    private static final String SQL_FIND_ALL_QUERY = "SELECT * FROM bank_account";
-    private static final String SQL_FIND_BY_ID_QUERY = "SELECT * FROM bank_account WHERE bank_account_id=?";
-    private static final String SQL_UPDATE_QUERY = "UPDATE bank_account SET account_balance=? account_currency=?" +
-            " is_blocked=? WHERE bank_account_id=?";
-    private static final String SQL_DELETE_QUERY = "DELETE FROM bank_account WHERE bank_account_id=?";
-    private static final String SQL_FIND_BANK_ACCOUNT_BY_CREDIT_CARD_ID = "SELECT * FROM bank_account WHERE bank_account_id=?";
-    private static final boolean DISABLE_AUTOCOMMIT_FLAG = false;
     private static final Logger log = LogManager.getLogger(BankAccountDAOImpl.class);
 
     static {
