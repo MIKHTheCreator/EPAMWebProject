@@ -49,7 +49,7 @@ public class PassportDAOImpl implements PassportDAO {
 
     public static PassportDAO getInstance() {
         synchronized (PassportDAOImpl.class) {
-            if(instance == null) {
+            if (instance == null) {
                 instance = new PassportDAOImpl();
                 return instance;
             }
@@ -73,7 +73,7 @@ public class PassportDAOImpl implements PassportDAO {
             statement.executeUpdate();
 
             resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 passport.setId(resultSet.getInt(1));
             }
         } catch (SQLException exception) {
@@ -99,11 +99,7 @@ public class PassportDAOImpl implements PassportDAO {
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                PassportData passport = new PassportData();
-                passport.setId(resultSet.getInt(1));
-                passport.setSeriesAndNumber(resultSet.getString(2));
-                passport.setPersonalNumber(resultSet.getString(3));
-                passport.setExpirationTime(resultSet.getDate(4).toLocalDate());
+                PassportData passport = createPassport(resultSet);
                 passportData.add(passport);
             }
         } catch (SQLException exception) {
@@ -128,14 +124,9 @@ public class PassportDAOImpl implements PassportDAO {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
 
-            if(resultSet.next()) {
-                PassportData passport = new PassportData();
-                passport.setId(id);
-                passport.setSeriesAndNumber(resultSet.getString(2));
-                passport.setPersonalNumber(resultSet.getString(3));
-                passport.setExpirationTime(resultSet.getDate(4).toLocalDate());
+            if (resultSet.next()) {
 
-                return passport;
+                return createPassport(resultSet);
             }
         } catch (SQLException exception) {
             log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
@@ -199,14 +190,9 @@ public class PassportDAOImpl implements PassportDAO {
 
             resultSet = statement.executeQuery();
 
-            if(resultSet.next()) {
-                PassportData passportData = new PassportData();
-                passportData.setId(resultSet.getInt(1));
-                passportData.setSeriesAndNumber(resultSet.getString(2));
-                passportData.setPersonalNumber(resultSet.getString(3));
-                passportData.setExpirationTime(resultSet.getDate(4).toLocalDate());
+            if (resultSet.next()) {
 
-                return passportData;
+                return createPassport(resultSet);
             }
         } catch (SQLException exception) {
             log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
@@ -216,5 +202,17 @@ public class PassportDAOImpl implements PassportDAO {
         }
 
         return null;
+    }
+
+    private PassportData createPassport(ResultSet resultSet)
+            throws SQLException {
+
+        PassportData passport = new PassportData();
+        passport.setId(resultSet.getInt(1));
+        passport.setSeriesAndNumber(resultSet.getString(2));
+        passport.setPersonalNumber(resultSet.getString(3));
+        passport.setExpirationTime(resultSet.getDate(4).toLocalDate());
+
+        return passport;
     }
 }
