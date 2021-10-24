@@ -1,6 +1,5 @@
 package com.epam.jwd.dao.impl;
 
-import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.api.ConnectionPool;
 import com.epam.jwd.dao.api.PassportDAO;
 import com.epam.jwd.dao.entity.PassportData;
