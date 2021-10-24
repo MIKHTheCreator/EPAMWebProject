@@ -20,7 +20,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_DELETE_QUERY;
+import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_FIND_ALL_CREDIT_CARDS_BY_USER_ID;
+import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_FIND_ALL_QUERY;
+import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_FIND_BY_ID_QUERY;
+import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_INSERT_QUERY;
+import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_UPDATE_QUERY;
 import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_ENTITY_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.DISABLE_AUTOCOMMIT_FLAG;
 import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_OPERATION_EXCEPTION_MESSAGE;
 import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_OPERATION_EXCEPTION_MESSAGE;
@@ -34,15 +41,6 @@ public class CreditCardDAOImpl implements CreditCardDAO {
     private final ConnectionPool connectionPool;
     private final BankAccountDAO bankAccountDAO;
 
-    private static final String SQL_INSERT_QUERY = "INSERT INTO credit_card (credit_card_number, credit_card_expiration_date," +
-            " name_and_surname, cvv, password, user_id, bank_account_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    private static final String SQL_FIND_ALL_QUERY = "SELECT * FROM credit_card";
-    private static final String SQL_FIND_BY_ID_QUERY = "SELECT * FROM credit_card WHERE credit_card_id=?";
-    private static final String SQL_UPDATE_QUERY = "UPDATE credit_card SET credit_card_number=? credit_card_expiration=?" +
-            " name_and_surname=? cvv=? password=? user_id=? WHERE credit_card_id=?";
-    private static final String SQL_DELETE_QUERY = "DELETE FROM credit_card WHERE credit_card_id=?";
-    private static final String SQL_FIND_ALL_CREDIT_CARDS_BY_USER_ID = "SELECT * FROM credit_card WHERE user_id=?";
-    private static final boolean DISABLE_AUTOCOMMIT_FLAG = false;
     private static final Logger log = LogManager.getLogger(CreditCardDAOImpl.class);
 
     static {
