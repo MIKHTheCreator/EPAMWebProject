@@ -6,6 +6,7 @@ import com.epam.jwd.dao.api.PaymentDAO;
 import com.epam.jwd.dao.entity.BankAccount;
 import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
 import com.epam.jwd.dao.exception.FindInDataBaseException;
+import com.epam.jwd.dao.exception.RollBackOperationException;
 import com.epam.jwd.dao.exception.SaveOperationException;
 import com.epam.jwd.dao.exception.UpdateDataBaseException;
 import org.apache.logging.log4j.LogManager;
@@ -39,6 +40,8 @@ public class BankAccountDAOImpl implements BankAccountDAO {
     private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no bank account with such id in database";
     private static final String SQL_UPDATE_EXCEPTION_MESSAGE = "Updating bank account information was failed";
     private static final String SQL_DELETE_EXCEPTION_MESSAGE = "Deleting bank account with such id was failed";
+    private static final String SQL_ROLLBACK_EXCEPTION_MESSAGE = "Can't rollback to the beginning state";
+    private static final boolean DISABLE_AUTOCOMMIT_FLAG = false;
     private static final Logger log = LogManager.getLogger(BankAccountDAOImpl.class);
 
     static {
@@ -69,6 +72,7 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_INSERT_QUERY);
             statement.setBigDecimal(1, bankAccount.getAccountBalance());
             statement.setString(2, bankAccount.getAccountCurrency());
@@ -79,7 +83,16 @@ public class BankAccountDAOImpl implements BankAccountDAO {
             if (resultSet.next()) {
                 bankAccount.setId(resultSet.getInt(1));
             }
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_INSERT_EXCEPTION_MESSAGE, exception);
             throw new SaveOperationException(SQL_INSERT_EXCEPTION_MESSAGE);
         } finally {
@@ -98,6 +111,7 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_FIND_ALL_QUERY);
             resultSet = statement.executeQuery();
 
@@ -106,7 +120,16 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 
                 bankAccounts.add(bankAccount);
             }
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_FIND_ALL_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(SQL_FIND_ALL_EXCEPTION_MESSAGE);
         } finally {
@@ -118,12 +141,13 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 
     @Override
     public BankAccount findById(Integer id) throws InterruptedException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement;
         ResultSet resultSet;
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_FIND_BY_ID_QUERY);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
@@ -132,9 +156,20 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 
                 return createBankAccount(resultSet);
             }
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
+        } finally {
+            connectionPool.returnConnection(connection);
         }
 
         return null;
@@ -147,13 +182,23 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_UPDATE_QUERY);
             statement.setBigDecimal(1, bankAccount.getAccountBalance());
             statement.setString(2, bankAccount.getAccountCurrency());
             statement.setBoolean(3, bankAccount.isBlocked());
             statement.setInt(4, bankAccount.getId());
             statement.executeUpdate();
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_UPDATE_EXCEPTION_MESSAGE, exception);
             throw new UpdateDataBaseException(SQL_UPDATE_EXCEPTION_MESSAGE);
         } finally {
@@ -170,10 +215,20 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_DELETE_QUERY);
             statement.setInt(1, bankAccount.getId());
             statement.executeUpdate();
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_DELETE_EXCEPTION_MESSAGE, exception);
             throw new DeleteFromDataBaseException(SQL_DELETE_EXCEPTION_MESSAGE);
         } finally {
@@ -189,6 +244,7 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_FIND_BANK_ACCOUNT_BY_CREDIT_CARD_ID);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
@@ -197,7 +253,16 @@ public class BankAccountDAOImpl implements BankAccountDAO {
 
                 return createBankAccount(resultSet);
             }
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
         } finally {
