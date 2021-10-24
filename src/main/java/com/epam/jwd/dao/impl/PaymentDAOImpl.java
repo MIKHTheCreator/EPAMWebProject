@@ -5,6 +5,7 @@ import com.epam.jwd.dao.api.PaymentDAO;
 import com.epam.jwd.dao.entity.Payment;
 import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
 import com.epam.jwd.dao.exception.FindInDataBaseException;
+import com.epam.jwd.dao.exception.RollBackOperationException;
 import com.epam.jwd.dao.exception.SaveOperationException;
 import com.epam.jwd.dao.exception.UpdateDataBaseException;
 import org.apache.logging.log4j.LogManager;
@@ -37,6 +38,8 @@ public class PaymentDAOImpl implements PaymentDAO {
     private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no payment with such id in database";
     private static final String SQL_UPDATE_EXCEPTION_MESSAGE = "Updating payment information was failed";
     private static final String SQL_DELETE_EXCEPTION_MESSAGE = "Deleting payment with such id was failed";
+    private static final String SQL_ROLLBACK_EXCEPTION_MESSAGE = "Can't rollback to the beginning state";
+    private static final boolean DISABLE_AUTOCOMMIT_FLAG = false;
     private static final Logger log = LogManager.getLogger(PaymentDAOImpl.class);
 
     static {
@@ -65,6 +68,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_INSERT_QUERY);
             statement.setBigDecimal(1, payment.getSumOfPayment());
             statement.setDate(2, Date.valueOf(payment.getDateOfPayment()));
@@ -77,7 +81,16 @@ public class PaymentDAOImpl implements PaymentDAO {
             if (resultSet.next()) {
                 payment.setId(resultSet.getInt(1));
             }
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_INSERT_EXCEPTION_MESSAGE, exception);
             throw new SaveOperationException(SQL_INSERT_EXCEPTION_MESSAGE);
         } finally {
@@ -96,6 +109,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_FIND_ALL_QUERY);
             resultSet = statement.executeQuery();
 
@@ -104,7 +118,16 @@ public class PaymentDAOImpl implements PaymentDAO {
 
                 payments.add(payment);
             }
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_FIND_ALL_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(SQL_FIND_ALL_EXCEPTION_MESSAGE);
         } finally {
@@ -116,12 +139,13 @@ public class PaymentDAOImpl implements PaymentDAO {
 
     @Override
     public Payment findById(Integer id) throws InterruptedException {
-        Connection connection;
+        Connection connection = null;
         PreparedStatement statement;
         ResultSet resultSet;
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_FIND_BY_ID_QUERY);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
@@ -130,9 +154,20 @@ public class PaymentDAOImpl implements PaymentDAO {
 
                 return createPayment(resultSet);
             }
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
+        } finally {
+            connectionPool.returnConnection(connection);
         }
 
         return null;
@@ -145,6 +180,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_UPDATE_QUERY);
             statement.setBigDecimal(1, payment.getSumOfPayment());
             statement.setDate(2, Date.valueOf(payment.getDateOfPayment()));
@@ -153,7 +189,15 @@ public class PaymentDAOImpl implements PaymentDAO {
             statement.setInt(5, payment.getBankAccountId());
             statement.setInt(6, payment.getId());
             statement.executeUpdate();
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
             log.error(SQL_UPDATE_EXCEPTION_MESSAGE, exception);
             throw new UpdateDataBaseException(SQL_UPDATE_EXCEPTION_MESSAGE);
         } finally {
@@ -170,10 +214,20 @@ public class PaymentDAOImpl implements PaymentDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_DELETE_QUERY);
             statement.setInt(1, payment.getId());
             statement.executeUpdate();
+
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_DELETE_EXCEPTION_MESSAGE, exception);
             throw new DeleteFromDataBaseException(SQL_DELETE_EXCEPTION_MESSAGE);
         } finally {
@@ -190,6 +244,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 
         try {
             connection = connectionPool.takeConnection();
+            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
             statement = connection.prepareStatement(SQL_FIND_ALL_PAYMENTS_BY_USER_ID);
             statement.setInt(1, id);
 
@@ -201,7 +256,15 @@ public class PaymentDAOImpl implements PaymentDAO {
                 payments.add(payment);
             }
 
+            connection.commit();
         } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
+                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+            }
+
             log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
             throw new FindInDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
         } finally {
