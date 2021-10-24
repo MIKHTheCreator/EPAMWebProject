@@ -61,7 +61,7 @@ public class UserDAOImpl implements UserDAO {
 
     public static UserDAO getInstance() {
         synchronized (UserDAOImpl.class) {
-            if(instance == null) {
+            if (instance == null) {
                 instance = new UserDAOImpl();
                 return instance;
             }
@@ -91,7 +91,7 @@ public class UserDAOImpl implements UserDAO {
 
             resultSet = preparedStatement.getGeneratedKeys();
 
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 user.setId(resultSet.getInt(1));
             }
         } catch (SQLException exception) {
@@ -116,7 +116,7 @@ public class UserDAOImpl implements UserDAO {
             statement = connection.prepareStatement(SQL_FIND_ALL_QUERY);
             resultSet = statement.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 User user = createUser(resultSet);
                 users.add(user);
             }
@@ -142,7 +142,7 @@ public class UserDAOImpl implements UserDAO {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
 
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 return createUser(resultSet);
             }
 
@@ -173,7 +173,7 @@ public class UserDAOImpl implements UserDAO {
             statement.executeUpdate();
 
             resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 user.setId(resultSet.getInt(1));
             }
         } catch (SQLException exception) {
@@ -192,7 +192,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void delete(User user) throws InterruptedException {
         Connection connection = null;
-        PreparedStatement  statement;
+        PreparedStatement statement;
 
         try {
             connection = connectionPool.takeConnection();
@@ -219,13 +219,13 @@ public class UserDAOImpl implements UserDAO {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
 
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 return UserRole.valueOf(resultSet.getString(1).toUpperCase());
             }
         } catch (SQLException exception) {
             log.error(SQL_FIND_ROLE_BY_ID_EXCEPTION_MESSAGE);
             throw new FindInDataBaseException(SQL_FIND_ROLE_BY_ID_EXCEPTION_MESSAGE);
-        }finally {
+        } finally {
             connectionPool.returnConnection(connection);
         }
         return null;
