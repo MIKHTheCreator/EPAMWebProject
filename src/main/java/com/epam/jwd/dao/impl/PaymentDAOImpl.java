@@ -100,13 +100,7 @@ public class PaymentDAOImpl implements PaymentDAO {
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Payment payment = new Payment();
-                payment.setId(resultSet.getInt(1));
-                payment.setSumOfPayment(resultSet.getBigDecimal(2));
-                payment.setDateOfPayment(resultSet.getDate(3).toLocalDate());
-                payment.setPaymentOrganization(resultSet.getString(4));
-                payment.setPaymentGoal(resultSet.getString(5));
-                payment.setBankAccountId(resultSet.getInt(6));
+                Payment payment = createPayment(resultSet);
 
                 payments.add(payment);
             }
@@ -133,15 +127,8 @@ public class PaymentDAOImpl implements PaymentDAO {
             resultSet = statement.executeQuery();
 
             if(resultSet.next()) {
-                Payment payment = new Payment();
-                payment.setId(resultSet.getInt(1));
-                payment.setSumOfPayment(resultSet.getBigDecimal(2));
-                payment.setDateOfPayment(resultSet.getDate(3).toLocalDate());
-                payment.setPaymentOrganization(resultSet.getString(4));
-                payment.setPaymentGoal(resultSet.getString(5));
-                payment.setBankAccountId(resultSet.getInt(6));
 
-                return payment;
+                return createPayment(resultSet);
             }
         } catch (SQLException exception) {
             log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
@@ -228,5 +215,18 @@ public class PaymentDAOImpl implements PaymentDAO {
         }
 
         return payments;
+    }
+
+    private Payment createPayment(ResultSet resultSet) throws SQLException {
+
+        Payment payment = new Payment();
+        payment.setId(resultSet.getInt(1));
+        payment.setSumOfPayment(resultSet.getBigDecimal(2));
+        payment.setDateOfPayment(resultSet.getDate(3).toLocalDate());
+        payment.setPaymentOrganization(resultSet.getString(4));
+        payment.setPaymentGoal(resultSet.getString(5));
+        payment.setBankAccountId(resultSet.getInt(6));
+
+        return payment;
     }
 }
