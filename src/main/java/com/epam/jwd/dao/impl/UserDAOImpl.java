@@ -117,18 +117,7 @@ public class UserDAOImpl implements UserDAO {
             resultSet = statement.executeQuery();
 
             while(resultSet.next()) {
-                User user = new User.Builder()
-                        .withId(resultSet.getInt(1))
-                        .withFirstName(resultSet.getString(2))
-                        .withSecondName(resultSet.getString(3))
-                        .withPhoneNumber(resultSet.getString(4))
-                        .withAge(resultSet.getInt(5))
-                        .withGender(Gender.valueOf(resultSet.getString(6).toUpperCase()))
-                        .withClient(clientDAO.findClientByUserId(resultSet.getInt(7)))
-                        .withRole(findRoleById(resultSet.getInt(8)))
-                        .withPassport(passportDAO.findPassportByUserId(resultSet.getInt(9)))
-                        .withCreditCard(creditCardDAO.findAllCreditCardsByUserId(resultSet.getInt(1)))
-                        .build();
+                User user = createUser(resultSet);
                 users.add(user);
             }
         } catch (SQLException exception) {
@@ -154,18 +143,7 @@ public class UserDAOImpl implements UserDAO {
             resultSet = statement.executeQuery();
 
             if(resultSet.next()) {
-                return new User.Builder()
-                        .withId(resultSet.getInt(1))
-                        .withFirstName(resultSet.getString(2))
-                        .withSecondName(resultSet.getString(3))
-                        .withPhoneNumber(resultSet.getString(4))
-                        .withAge(resultSet.getInt(5))
-                        .withGender(Gender.valueOf(resultSet.getString(6).toUpperCase()))
-                        .withClient(clientDAO.findClientByUserId(resultSet.getInt(7)))
-                        .withRole(findRoleById(resultSet.getInt(8)))
-                        .withPassport(passportDAO.findPassportByUserId(resultSet.getInt(9)))
-                        .withCreditCard(creditCardDAO.findAllCreditCardsByUserId(resultSet.getInt(1)))
-                        .build();
+                return createUser(resultSet);
             }
 
         } catch (SQLException exception) {
@@ -251,5 +229,21 @@ public class UserDAOImpl implements UserDAO {
             connectionPool.returnConnection(connection);
         }
         return null;
+    }
+
+    private User createUser(ResultSet resultSet)
+            throws SQLException, InterruptedException {
+        return new User.Builder()
+                .withId(resultSet.getInt(1))
+                .withFirstName(resultSet.getString(2))
+                .withSecondName(resultSet.getString(3))
+                .withPhoneNumber(resultSet.getString(4))
+                .withAge(resultSet.getInt(5))
+                .withGender(Gender.valueOf(resultSet.getString(6).toUpperCase()))
+                .withClient(clientDAO.findClientByUserId(resultSet.getInt(7)))
+                .withRole(findRoleById(resultSet.getInt(8)))
+                .withPassport(passportDAO.findPassportByUserId(resultSet.getInt(9)))
+                .withCreditCard(creditCardDAO.findAllCreditCardsByUserId(resultSet.getInt(1)))
+                .build();
     }
 }
