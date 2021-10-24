@@ -20,6 +20,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_ENTITY_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_OPERATION_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_OPERATION_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.SQL_ROLLBACK_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_DATABASE_EXCEPTION_MESSAGE;
+
 public class CreditCardDAOImpl implements CreditCardDAO {
 
     private static CreditCardDAO instance;
@@ -35,12 +42,6 @@ public class CreditCardDAOImpl implements CreditCardDAO {
             " name_and_surname=? cvv=? password=? user_id=? WHERE credit_card_id=?";
     private static final String SQL_DELETE_QUERY = "DELETE FROM credit_card WHERE credit_card_id=?";
     private static final String SQL_FIND_ALL_CREDIT_CARDS_BY_USER_ID = "SELECT * FROM credit_card WHERE user_id=?";
-    private static final String SQL_INSERT_EXCEPTION_MESSAGE = "Insert credit card data to database was failed";
-    private static final String SQL_FIND_ALL_EXCEPTION_MESSAGE = "Selecting credit card data info from database was failed";
-    private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no credit card with such id in database";
-    private static final String SQL_UPDATE_EXCEPTION_MESSAGE = "Updating credit_card information was failed";
-    private static final String SQL_DELETE_EXCEPTION_MESSAGE = "Deleting credit card with such id was failed";
-    private static final String SQL_ROLLBACK_EXCEPTION_MESSAGE = "Can't rollback to the beginning state";
     private static final boolean DISABLE_AUTOCOMMIT_FLAG = false;
     private static final Logger log = LogManager.getLogger(CreditCardDAOImpl.class);
 
@@ -97,8 +98,8 @@ public class CreditCardDAOImpl implements CreditCardDAO {
                 throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
             }
 
-            log.error(SQL_INSERT_EXCEPTION_MESSAGE, exception);
-            throw new SaveOperationException(SQL_INSERT_EXCEPTION_MESSAGE);
+            log.error(SAVE_OPERATION_EXCEPTION_MESSAGE, exception);
+            throw new SaveOperationException(SAVE_OPERATION_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -134,8 +135,8 @@ public class CreditCardDAOImpl implements CreditCardDAO {
                 throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
             }
 
-            log.error(SQL_FIND_ALL_EXCEPTION_MESSAGE, exception);
-            throw new FindInDataBaseException(SQL_FIND_ALL_EXCEPTION_MESSAGE);
+            log.error(FIND_OPERATION_EXCEPTION_MESSAGE, exception);
+            throw new FindInDataBaseException(FIND_OPERATION_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -169,8 +170,8 @@ public class CreditCardDAOImpl implements CreditCardDAO {
                 throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
             }
 
-            log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
-            throw new FindInDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
+            log.error(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE, exception);
+            throw new FindInDataBaseException(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -205,8 +206,8 @@ public class CreditCardDAOImpl implements CreditCardDAO {
                 throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
             }
 
-            log.error(SQL_UPDATE_EXCEPTION_MESSAGE, exception);
-            throw new UpdateDataBaseException(SQL_UPDATE_EXCEPTION_MESSAGE);
+            log.error(UPDATE_DATABASE_EXCEPTION_MESSAGE, exception);
+            throw new UpdateDataBaseException(UPDATE_DATABASE_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -235,8 +236,8 @@ public class CreditCardDAOImpl implements CreditCardDAO {
                 throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
             }
 
-            log.error(SQL_DELETE_EXCEPTION_MESSAGE, exception);
-            throw new DeleteFromDataBaseException(SQL_DELETE_EXCEPTION_MESSAGE);
+            log.error(DELETE_ENTITY_EXCEPTION_MESSAGE, exception);
+            throw new DeleteFromDataBaseException(DELETE_ENTITY_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -280,8 +281,8 @@ public class CreditCardDAOImpl implements CreditCardDAO {
                 throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
             }
 
-            log.error(SQL_FIND_ALL_EXCEPTION_MESSAGE, exception);
-            throw new FindInDataBaseException(SQL_FIND_ALL_EXCEPTION_MESSAGE);
+            log.error(FIND_OPERATION_EXCEPTION_MESSAGE, exception);
+            throw new FindInDataBaseException(FIND_OPERATION_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }

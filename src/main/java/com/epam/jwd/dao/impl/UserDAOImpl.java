@@ -23,6 +23,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_ENTITY_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_OPERATION_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.INTERRUPTED_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_OPERATION_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.SQL_ROLLBACK_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_DATABASE_EXCEPTION_MESSAGE;
+
 public class UserDAOImpl implements UserDAO {
 
     private static UserDAO instance;
@@ -40,14 +48,6 @@ public class UserDAOImpl implements UserDAO {
     private static final String SQL_USER_UPDATE_QUERY = "UPDATE user SET first_name=? second_name=? phone_number=? age =?" +
             " WHERE user_id = ?";
     private static final String SQL_FIND_ROLE_BY_ID = "SELECT role_name FROM role WHERE role_id=?";
-    private static final String INTERRUPTED_EXCEPTION_LOG_MESSAGE = "Thread was interrupted";
-    private static final String SAVE_OPERATION_EXCEPTION_MESSAGE = "User wasn't save correctly";
-    private static final String FIND_OPERATION_EXCEPTION_MESSAGE = "Can't find users in database";
-    private static final String UPDATE_DATABASE_EXCEPTION = "Can't update user";
-    private static final String FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE = "Can't find user with such id in database";
-    private static final String SQL_FIND_ROLE_BY_ID_EXCEPTION_MESSAGE = "Can't find role with such an id";
-    private static final String DELETE_USER_EXCEPTION_MESSAGE = "Can't delete user from database";
-    private static final String SQL_ROLLBACK_EXCEPTION_MESSAGE = "Can't rollback to the beginning state";
     private static final boolean DISABLE_AUTOCOMMIT_FLAG = false;
     private static final Logger log = LogManager.getLogger(UserDAOImpl.class);
 
@@ -219,11 +219,11 @@ public class UserDAOImpl implements UserDAO {
                 throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
             }
 
-            log.error(UPDATE_DATABASE_EXCEPTION, exception);
-            throw new UpdateDataBaseException(UPDATE_DATABASE_EXCEPTION);
+            log.error(UPDATE_DATABASE_EXCEPTION_MESSAGE, exception);
+            throw new UpdateDataBaseException(UPDATE_DATABASE_EXCEPTION_MESSAGE);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            log.error(INTERRUPTED_EXCEPTION_LOG_MESSAGE, e);
+            log.error(INTERRUPTED_EXCEPTION_MESSAGE, e);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -252,8 +252,8 @@ public class UserDAOImpl implements UserDAO {
                 throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
             }
 
-            log.error(DELETE_USER_EXCEPTION_MESSAGE, exception);
-            throw new DeleteFromDataBaseException(DELETE_USER_EXCEPTION_MESSAGE);
+            log.error(DELETE_ENTITY_EXCEPTION_MESSAGE, exception);
+            throw new DeleteFromDataBaseException(DELETE_ENTITY_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -285,8 +285,8 @@ public class UserDAOImpl implements UserDAO {
                 throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
             }
 
-            log.error(SQL_FIND_ROLE_BY_ID_EXCEPTION_MESSAGE);
-            throw new FindInDataBaseException(SQL_FIND_ROLE_BY_ID_EXCEPTION_MESSAGE);
+            log.error(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
+            throw new FindInDataBaseException(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }

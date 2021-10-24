@@ -19,6 +19,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_ENTITY_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_OPERATION_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_OPERATION_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.SQL_ROLLBACK_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_DATABASE_EXCEPTION_MESSAGE;
+
 
 public class BankAccountDAOImpl implements BankAccountDAO {
 
@@ -35,12 +42,6 @@ public class BankAccountDAOImpl implements BankAccountDAO {
             " is_blocked=? WHERE bank_account_id=?";
     private static final String SQL_DELETE_QUERY = "DELETE FROM bank_account WHERE bank_account_id=?";
     private static final String SQL_FIND_BANK_ACCOUNT_BY_CREDIT_CARD_ID = "SELECT * FROM bank_account WHERE bank_account_id=?";
-    private static final String SQL_INSERT_EXCEPTION_MESSAGE = "Insert bank account data to database was failed";
-    private static final String SQL_FIND_ALL_EXCEPTION_MESSAGE = "Selecting bank account data info from database was failed";
-    private static final String SQL_FIND_BY_ID_EXCEPTION_MESSAGE = "There is no bank account with such id in database";
-    private static final String SQL_UPDATE_EXCEPTION_MESSAGE = "Updating bank account information was failed";
-    private static final String SQL_DELETE_EXCEPTION_MESSAGE = "Deleting bank account with such id was failed";
-    private static final String SQL_ROLLBACK_EXCEPTION_MESSAGE = "Can't rollback to the beginning state";
     private static final boolean DISABLE_AUTOCOMMIT_FLAG = false;
     private static final Logger log = LogManager.getLogger(BankAccountDAOImpl.class);
 
@@ -93,8 +94,8 @@ public class BankAccountDAOImpl implements BankAccountDAO {
                 throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
             }
 
-            log.error(SQL_INSERT_EXCEPTION_MESSAGE, exception);
-            throw new SaveOperationException(SQL_INSERT_EXCEPTION_MESSAGE);
+            log.error(SAVE_OPERATION_EXCEPTION_MESSAGE, exception);
+            throw new SaveOperationException(SAVE_OPERATION_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -130,8 +131,8 @@ public class BankAccountDAOImpl implements BankAccountDAO {
                 throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
             }
 
-            log.error(SQL_FIND_ALL_EXCEPTION_MESSAGE, exception);
-            throw new FindInDataBaseException(SQL_FIND_ALL_EXCEPTION_MESSAGE);
+            log.error(FIND_OPERATION_EXCEPTION_MESSAGE, exception);
+            throw new FindInDataBaseException(FIND_OPERATION_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -166,8 +167,8 @@ public class BankAccountDAOImpl implements BankAccountDAO {
                 throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
             }
 
-            log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
-            throw new FindInDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
+            log.error(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE, exception);
+            throw new FindInDataBaseException(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -199,8 +200,8 @@ public class BankAccountDAOImpl implements BankAccountDAO {
                 throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
             }
 
-            log.error(SQL_UPDATE_EXCEPTION_MESSAGE, exception);
-            throw new UpdateDataBaseException(SQL_UPDATE_EXCEPTION_MESSAGE);
+            log.error(UPDATE_DATABASE_EXCEPTION_MESSAGE, exception);
+            throw new UpdateDataBaseException(UPDATE_DATABASE_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -229,8 +230,8 @@ public class BankAccountDAOImpl implements BankAccountDAO {
                 throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
             }
 
-            log.error(SQL_DELETE_EXCEPTION_MESSAGE, exception);
-            throw new DeleteFromDataBaseException(SQL_DELETE_EXCEPTION_MESSAGE);
+            log.error(DELETE_ENTITY_EXCEPTION_MESSAGE, exception);
+            throw new DeleteFromDataBaseException(DELETE_ENTITY_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -263,8 +264,8 @@ public class BankAccountDAOImpl implements BankAccountDAO {
                 throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
             }
 
-            log.error(SQL_FIND_BY_ID_EXCEPTION_MESSAGE, exception);
-            throw new FindInDataBaseException(SQL_FIND_BY_ID_EXCEPTION_MESSAGE);
+            log.error(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE, exception);
+            throw new FindInDataBaseException(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
         } finally {
             connectionPool.returnConnection(connection);
         }
