@@ -15,8 +15,8 @@ import java.util.concurrent.BlockingQueue;
 public final class ConnectionPoolImpl implements ConnectionPool {
 
     private static ConnectionPool instance = new ConnectionPoolImpl();
-    private final BlockingQueue<ProxyConnection> availableConnections = new ArrayBlockingQueue<>(INITIAL_SIZE);
-    private final BlockingQueue<ProxyConnection> givenAwayConnections = new ArrayBlockingQueue<>(INITIAL_SIZE);
+    private final BlockingQueue<ProxyConnection> availableConnections;
+    private final BlockingQueue<ProxyConnection> givenAwayConnections;
     private boolean initialized = false;
 
     private static final Integer INITIAL_SIZE = 4;
@@ -30,6 +30,8 @@ public final class ConnectionPoolImpl implements ConnectionPool {
     private static final Logger log = LogManager.getLogger(ConnectionPoolImpl.class);
 
     private ConnectionPoolImpl() {
+        this.availableConnections = new ArrayBlockingQueue<>(INITIAL_SIZE);
+        this.givenAwayConnections = new ArrayBlockingQueue<>(INITIAL_SIZE);
     }
 
     public static ConnectionPool getInstance() {
@@ -83,12 +85,14 @@ public final class ConnectionPoolImpl implements ConnectionPool {
             throws InterruptedException, ConnectionFailedException {
 
         try {
+            Class.forName(SQL_DB_DRIVER);
+
             for (int i = 0; i < connectionPoolSize; i++) {
                 final Connection connection = DriverManager.getConnection(SQL_DB_URL, SQL_DB_USERNAME, SQL_DB_PASSWORD);
                 final ProxyConnection proxyConnection = new ProxyConnection(connection, this);
                 availableConnections.put(proxyConnection);
             }
-        } catch (SQLException exception) {
+        } catch (SQLException | ClassNotFoundException exception) {
             log.error(CONNECTION_CREATION_LOG_MESSAGE);
             throw new ConnectionFailedException(CONNECTION_FAIL_EXCEPTION_MESSAGE);
         }
