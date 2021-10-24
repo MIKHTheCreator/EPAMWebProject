@@ -286,7 +286,7 @@ public class CreditCardDAOImpl implements CreditCardDAO {
             connectionPool.returnConnection(connection);
         }
 
-        return null;
+        return creditCards;
     }
 
     private CreditCard createCreditCard(ResultSet resultSet)
