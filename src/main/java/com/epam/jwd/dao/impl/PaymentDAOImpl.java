@@ -48,7 +48,7 @@ public class PaymentDAOImpl implements PaymentDAO {
 
     public static PaymentDAO getInstance() {
         synchronized (PaymentDAOImpl.class) {
-            if(instance == null) {
+            if (instance == null) {
                 instance = new PaymentDAOImpl();
                 return instance;
             }
@@ -74,7 +74,7 @@ public class PaymentDAOImpl implements PaymentDAO {
             statement.executeUpdate();
 
             resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 payment.setId(resultSet.getInt(1));
             }
         } catch (SQLException exception) {
@@ -126,7 +126,7 @@ public class PaymentDAOImpl implements PaymentDAO {
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
 
-            if(resultSet.next()) {
+            if (resultSet.next()) {
 
                 return createPayment(resultSet);
             }
