@@ -1,6 +1,6 @@
-package com.epam.jwd.dao.impl;
+package com.epam.jwd.dao.connection_pool.impl;
 
-import com.epam.jwd.dao.api.ConnectionPool;
+import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

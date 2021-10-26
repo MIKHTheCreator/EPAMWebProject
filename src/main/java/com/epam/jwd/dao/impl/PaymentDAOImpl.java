@@ -1,7 +1,8 @@
 package com.epam.jwd.dao.impl;
 
-import com.epam.jwd.dao.api.ConnectionPool;
+import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.api.PaymentDAO;
+import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
 import com.epam.jwd.dao.entity.Payment;
 import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
 import com.epam.jwd.dao.exception.FindInDataBaseException;

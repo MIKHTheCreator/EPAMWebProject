@@ -1,8 +1,8 @@
 package com.epam.jwd.dao.impl;
 
 import com.epam.jwd.dao.api.ClientDAO;
-import com.epam.jwd.dao.api.ConnectionPool;
-import com.epam.jwd.dao.entity.Client;
+import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
+import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
 import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
 import com.epam.jwd.dao.exception.FindInDataBaseException;
 import com.epam.jwd.dao.exception.RollBackOperationException;

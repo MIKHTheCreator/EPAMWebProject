@@ -1,6 +1,8 @@
 package com.epam.jwd.dao.entity;
 
 
+import java.util.Objects;
+
 public class User extends AbstractEntity<Integer>{
 
     private String firstName;
@@ -8,9 +10,9 @@ public class User extends AbstractEntity<Integer>{
     private String phoneNumber;
     private Integer age;
     private Gender gender;
-    private Integer clientId;
+    private Client client;
     private UserRole role;
-    private Integer passportId;
+    private Passport passport;
 
     public User() {
     }
@@ -19,17 +21,17 @@ public class User extends AbstractEntity<Integer>{
         super(id);
     }
 
-    public User(Integer id, String firstName, String secondName, String phoneNumber, Integer age,
-                Gender gender, Integer clientId, UserRole role, Integer passportId) {
+    public User(Integer id, String firstName, String secondName, String phoneNumber,
+                Integer age, Gender gender, Client client, UserRole role, Passport passport) {
         super(id);
         this.firstName = firstName;
         this.secondName = secondName;
         this.phoneNumber = phoneNumber;
         this.age = age;
         this.gender = gender;
-        this.clientId = clientId;
+        this.client = client;
         this.role = role;
-        this.passportId = passportId;
+        this.passport = passport;
     }
 
     public String getFirstName() {
@@ -72,12 +74,12 @@ public class User extends AbstractEntity<Integer>{
         this.gender = gender;
     }
 
-    public Integer getClientId() {
-        return clientId;
+    public Client getClient() {
+        return client;
     }
 
-    public void setClientId(Integer clientId) {
-        this.clientId = clientId;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public UserRole getRole() {
@@ -88,12 +90,46 @@ public class User extends AbstractEntity<Integer>{
         this.role = role;
     }
 
-    public Integer getPassportId() {
-        return passportId;
+    public Passport getPassport() {
+        return passport;
     }
 
-    public void setPassportId(Integer passportId) {
-        this.passportId = passportId;
+    public void setPassport(Passport passport) {
+        this.passport = passport;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return firstName.equals(user.firstName)
+                && secondName.equals(user.secondName)
+                && phoneNumber.equals(user.phoneNumber)
+                && age.equals(user.age)
+                && gender == user.gender
+                && client.equals(user.client)
+                && role == user.role
+                && passport.equals(user.passport);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, secondName, phoneNumber, age, gender, client, role, passport);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", age=" + age +
+                ", gender=" + gender +
+                ", client=" + client +
+                ", role=" + role +
+                ", passport=" + passport +
+                '}';
     }
 
     public static class Builder {
@@ -104,9 +140,9 @@ public class User extends AbstractEntity<Integer>{
         private String phoneNumber;
         private Integer age;
         private Gender gender;
-        private Integer clientId;
+        private Client client;
         private UserRole role;
-        private Integer passportId;
+        private Passport passport;
 
         public Builder() {
         }
@@ -136,8 +172,8 @@ public class User extends AbstractEntity<Integer>{
             return this;
         }
 
-        public Builder withClientId(Integer clientId) {
-            this.clientId = clientId;
+        public Builder withClient(Client client) {
+            this.client = client;
             return this;
         }
 
@@ -146,8 +182,8 @@ public class User extends AbstractEntity<Integer>{
             return this;
         }
 
-        public Builder withPassportId(Integer passportId) {
-            this.passportId = passportId;
+        public Builder withPassport(Passport passport) {
+            this.passport = passport;
             return this;
         }
 
@@ -159,10 +195,10 @@ public class User extends AbstractEntity<Integer>{
         public User build() {
             User user = new User(this.id);
             user.setAge(this.age);
-            user.setClientId(this.clientId);
+            user.setClient(this.client);
             user.setGender(this.gender);
             user.setFirstName(this.firstName);
-            user.setPassportId(this.passportId);
+            user.setPassport(this.passport);
             user.setPhoneNumber(this.phoneNumber);
             user.setSecondName(this.secondName);
             user.setRole(this.role);

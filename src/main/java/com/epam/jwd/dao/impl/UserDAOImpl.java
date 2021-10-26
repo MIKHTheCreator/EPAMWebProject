@@ -1,10 +1,11 @@
 package com.epam.jwd.dao.impl;
 
 import com.epam.jwd.dao.api.ClientDAO;
-import com.epam.jwd.dao.api.ConnectionPool;
+import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.api.CreditCardDAO;
 import com.epam.jwd.dao.api.PassportDAO;
 import com.epam.jwd.dao.api.UserDAO;
+import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
 import com.epam.jwd.dao.entity.Gender;
 import com.epam.jwd.dao.entity.User;
 import com.epam.jwd.dao.entity.UserRole;
