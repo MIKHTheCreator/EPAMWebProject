@@ -72,14 +72,6 @@ public class User extends AbstractEntity<Integer>{
         this.gender = gender;
     }
 
-    public Client getClient() {
-        return client;
-    }
-
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
     public UserRole getRole() {
         return role;
     }
