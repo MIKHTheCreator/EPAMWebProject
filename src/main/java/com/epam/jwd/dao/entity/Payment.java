@@ -11,6 +11,7 @@ public class Payment extends AbstractEntity<Integer> {
     private String paymentOrganization;
     private String paymentGoal;
     private Integer bankAccountId;
+    private Integer userid;
 
     public Payment() {
     }
@@ -20,13 +21,14 @@ public class Payment extends AbstractEntity<Integer> {
     }
 
     public Payment(Integer id, BigDecimal sumOfPayment, LocalDate dateOfPayment,
-                   String paymentOrganization, String paymentGoal, Integer bankAccountId) {
+                   String paymentOrganization, String paymentGoal, Integer bankAccountId, Integer userid) {
         super(id);
         this.sumOfPayment = sumOfPayment;
         this.dateOfPayment = dateOfPayment;
         this.paymentOrganization = paymentOrganization;
         this.paymentGoal = paymentGoal;
         this.bankAccountId = bankAccountId;
+        this.userid = userid;
     }
 
     public BigDecimal getSumOfPayment() {
@@ -69,6 +71,14 @@ public class Payment extends AbstractEntity<Integer> {
         this.bankAccountId = bankAccountId;
     }
 
+    public Integer getUserid() {
+        return userid;
+    }
+
+    public void setUserid(Integer userid) {
+        this.userid = userid;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -78,12 +88,13 @@ public class Payment extends AbstractEntity<Integer> {
                 && dateOfPayment.equals(payment.dateOfPayment)
                 && paymentOrganization.equals(payment.paymentOrganization)
                 && paymentGoal.equals(payment.paymentGoal)
-                && bankAccountId.equals(payment.bankAccountId);
+                && bankAccountId.equals(payment.bankAccountId)
+                && userid.equals(payment.userid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sumOfPayment, dateOfPayment, paymentOrganization, paymentGoal, bankAccountId);
+        return Objects.hash(sumOfPayment, dateOfPayment, paymentOrganization, paymentGoal, bankAccountId, userid);
     }
 
     @Override
@@ -94,6 +105,69 @@ public class Payment extends AbstractEntity<Integer> {
                 ", paymentOrganization='" + paymentOrganization + '\'' +
                 ", paymentGoal='" + paymentGoal + '\'' +
                 ", bankAccountId=" + bankAccountId +
+                ", userid=" + userid +
                 '}';
+    }
+
+    public static class Builder {
+
+        private Integer id;
+        private BigDecimal sumOfPayment;
+        private LocalDate dateOfPayment;
+        private String paymentOrganization;
+        private String paymentGoal;
+        private Integer bankAccountId;
+        private Integer userid;
+
+        public Builder() {
+        }
+
+        public Builder withId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder withSumOfPayment(BigDecimal sumOfPayment) {
+            this.sumOfPayment = sumOfPayment;
+            return this;
+        }
+
+        public Builder withDateOfPayment(LocalDate dateOfPayment) {
+            this.dateOfPayment = dateOfPayment;
+            return this;
+        }
+
+        public Builder withPaymentOrganization(String paymentOrganization) {
+            this.paymentOrganization = paymentOrganization;
+            return this;
+        }
+
+        public Builder withPaymentGoal(String paymentGoal) {
+            this.paymentGoal = paymentGoal;
+            return this;
+        }
+
+        public Builder withBankAccountId(Integer bankAccountId) {
+            this.bankAccountId = bankAccountId;
+            return this;
+        }
+
+        public Builder withUserId(Integer userId) {
+            this.userid = userId;
+            return this;
+        }
+
+        public Payment build() {
+            Payment payment = new Payment();
+            payment.setId(this.id);
+            payment.setSumOfPayment(this.sumOfPayment);
+            payment.setDateOfPayment(this.dateOfPayment);
+            payment.setPaymentOrganization(this.paymentOrganization);
+            payment.setPaymentGoal(this.paymentGoal);
+            payment.setBankAccountId(this.bankAccountId);
+            payment.setUserid(this.userid);
+
+            return payment;
+        }
     }
 }
