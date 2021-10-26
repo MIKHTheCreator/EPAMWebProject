@@ -5,11 +5,11 @@ import java.util.Objects;
 
 public class CreditCard extends AbstractEntity<Integer> {
 
-    private Integer creditCardNumber;
-    private LocalDate creditCardExpiration;
-    private String nameAndSurname;
+    private Integer number;
+    private LocalDate expirationDate;
+    private String fullName;
     private Integer CVV;
-    private Integer password;
+    private Integer pin;
     private BankAccount bankAccount;
     private Integer userId;
 
@@ -21,31 +21,40 @@ public class CreditCard extends AbstractEntity<Integer> {
         super(id);
     }
 
-    public CreditCard(Integer id, Integer creditCardNumber, LocalDate creditCardExpiration,
-                      Integer CVV, Integer password, BankAccount bankAccount, Integer userId) {
+    public CreditCard(Integer id, Integer number, LocalDate expirationDate, String fullName,
+                      Integer CVV, Integer pin, BankAccount bankAccount, Integer userId) {
         super(id);
-        this.creditCardNumber = creditCardNumber;
-        this.creditCardExpiration = creditCardExpiration;
+        this.number = number;
+        this.expirationDate = expirationDate;
+        this.fullName = fullName;
         this.CVV = CVV;
-        this.password = password;
+        this.pin = pin;
         this.bankAccount = bankAccount;
         this.userId = userId;
     }
 
-    public Integer getCreditCardNumber() {
-        return creditCardNumber;
+    public Integer getNumber() {
+        return number;
     }
 
-    public void setCreditCardNumber(Integer creditCardNumber) {
-        this.creditCardNumber = creditCardNumber;
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 
-    public LocalDate getCreditCardExpiration() {
-        return creditCardExpiration;
+    public LocalDate getExpirationDate() {
+        return expirationDate;
     }
 
-    public void setCreditCardExpiration(LocalDate creditCardExpiration) {
-        this.creditCardExpiration = creditCardExpiration;
+    public void setExpirationDate(LocalDate expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public Integer getCVV() {
@@ -56,12 +65,12 @@ public class CreditCard extends AbstractEntity<Integer> {
         this.CVV = CVV;
     }
 
-    public Integer getPassword() {
-        return password;
+    public Integer getPin() {
+        return pin;
     }
 
-    public void setPassword(Integer password) {
-        this.password = password;
+    public void setPin(Integer pin) {
+        this.pin = pin;
     }
 
     public BankAccount getBankAccount() {
@@ -70,14 +79,6 @@ public class CreditCard extends AbstractEntity<Integer> {
 
     public void setBankAccount(BankAccount bankAccount) {
         this.bankAccount = bankAccount;
-    }
-
-    public String getNameAndSurname() {
-        return nameAndSurname;
-    }
-
-    public void setNameAndSurname(String nameAndSurname) {
-        this.nameAndSurname = nameAndSurname;
     }
 
     public Integer getUserId() {
@@ -93,41 +94,41 @@ public class CreditCard extends AbstractEntity<Integer> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CreditCard that = (CreditCard) o;
-        return creditCardNumber.equals(that.creditCardNumber)
-                && creditCardExpiration.equals(that.creditCardExpiration)
-                && nameAndSurname.equals(that.nameAndSurname)
+        return number.equals(that.number)
+                && expirationDate.equals(that.expirationDate)
+                && fullName.equals(that.fullName)
                 && CVV.equals(that.CVV)
-                && password.equals(that.password)
+                && pin.equals(that.pin)
                 && bankAccount.equals(that.bankAccount)
                 && userId.equals(that.userId);
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(creditCardNumber, creditCardExpiration, nameAndSurname, CVV, password, bankAccount, userId);
-    }
-
-    @Override
     public String toString() {
         return "CreditCard{" +
-                "creditCardNumber=" + creditCardNumber +
-                ", creditCardExpiration=" + creditCardExpiration +
-                ", nameAndSurname='" + nameAndSurname + '\'' +
+                "number=" + number +
+                ", expirationDate=" + expirationDate +
+                ", fullName='" + fullName + '\'' +
                 ", CVV=" + CVV +
-                ", password=" + password +
+                ", pin=" + pin +
                 ", bankAccount=" + bankAccount +
                 ", userId=" + userId +
                 '}';
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(number, expirationDate, fullName, CVV, pin, bankAccount, userId);
+    }
+
     public static class Builder {
 
         private Integer id;
-        private Integer creditCardNumber;
-        private LocalDate creditCardExpiration;
-        private String nameAndSurname;
+        private Integer number;
+        private LocalDate expirationDate;
+        private String fullName;
         private Integer CVV;
-        private Integer password;
+        private Integer pin;
         private BankAccount bankAccount;
         private Integer userId;
 
@@ -136,18 +137,18 @@ public class CreditCard extends AbstractEntity<Integer> {
             return this;
         }
 
-        public Builder withCreditCardNumber(Integer creditCardNumber) {
-            this.creditCardNumber = creditCardNumber;
+        public Builder withNumber(Integer number) {
+            this.number = number;
             return this;
         }
 
-        public Builder withCreditCardExpiration(LocalDate creditCardExpiration) {
-            this.creditCardExpiration = creditCardExpiration;
+        public Builder withExpirationDate(LocalDate expirationDate) {
+            this.expirationDate = expirationDate;
             return this;
         }
 
-        public Builder withNameAndSurname(String nameAndSurname) {
-            this.nameAndSurname = nameAndSurname;
+        public Builder withFullName(String fullName) {
+            this.fullName = fullName;
             return this;
         }
 
@@ -156,8 +157,8 @@ public class CreditCard extends AbstractEntity<Integer> {
             return this;
         }
 
-        public Builder withPassword(Integer password) {
-            this.password = password;
+        public Builder withPin(Integer pin) {
+            this.pin = pin;
             return this;
         }
 
@@ -174,11 +175,11 @@ public class CreditCard extends AbstractEntity<Integer> {
         public CreditCard build() {
             CreditCard creditCard = new CreditCard();
             creditCard.setId(this.id);
-            creditCard.setCreditCardNumber(this.creditCardNumber);
-            creditCard.setCreditCardExpiration(this.creditCardExpiration);
-            creditCard.setNameAndSurname(this.nameAndSurname);
+            creditCard.setNumber(this.number);
+            creditCard.setExpirationDate(this.expirationDate);
+            creditCard.setFullName(this.fullName);
             creditCard.setCVV(this.CVV);
-            creditCard.setPassword(this.password);
+            creditCard.setPin(this.pin);
             creditCard.setUserId(this.userId);
 
             return creditCard;
