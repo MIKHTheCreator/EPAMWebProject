@@ -7,6 +7,7 @@ public class Client extends AbstractEntity<Integer> {
     private String username;
     private String email;
     private String password;
+    private User user;
 
     public Client() {
     }
@@ -15,11 +16,12 @@ public class Client extends AbstractEntity<Integer> {
         super(id);
     }
 
-    public Client(Integer id, String username, String email, String password) {
+    public Client(Integer id, String username, String email, String password, User user) {
         super(id);
         this.username = username;
         this.email = email;
         this.password = password;
+        this.user = user;
     }
 
     public String getUsername() {
@@ -46,6 +48,14 @@ public class Client extends AbstractEntity<Integer> {
         this.password = password;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -53,12 +63,13 @@ public class Client extends AbstractEntity<Integer> {
         Client client = (Client) o;
         return username.equals(client.username)
                 && email.equals(client.email)
-                && password.equals(client.password);
+                && password.equals(client.password)
+                && user.equals(client.user);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(username, email, password);
+        return Objects.hash(username, email, password, user);
     }
 
     @Override
@@ -67,6 +78,7 @@ public class Client extends AbstractEntity<Integer> {
                 "username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", user=" + user +
                 '}';
     }
 }
