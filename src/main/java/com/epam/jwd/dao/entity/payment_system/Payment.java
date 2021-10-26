@@ -1,4 +1,6 @@
-package com.epam.jwd.dao.entity;
+package com.epam.jwd.dao.entity.payment_system;
+
+import com.epam.jwd.dao.entity.AbstractEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

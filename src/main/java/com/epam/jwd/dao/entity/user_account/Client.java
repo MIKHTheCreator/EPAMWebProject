@@ -1,4 +1,6 @@
-package com.epam.jwd.dao.entity;
+package com.epam.jwd.dao.entity.user_account;
+
+import com.epam.jwd.dao.entity.AbstractEntity;
 
 import java.util.Objects;
 

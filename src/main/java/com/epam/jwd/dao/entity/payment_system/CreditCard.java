@@ -1,4 +1,6 @@
-package com.epam.jwd.dao.entity;
+package com.epam.jwd.dao.entity.payment_system;
+
+import com.epam.jwd.dao.entity.AbstractEntity;
 
 import java.time.LocalDate;
 import java.util.Objects;
