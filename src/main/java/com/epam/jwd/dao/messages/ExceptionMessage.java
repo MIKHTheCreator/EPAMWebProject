@@ -21,4 +21,8 @@ public interface ExceptionMessage {
 
     String DELETE_EXCEPTION = "Entity deleting was failed";
     Integer DELETE_EXCEPTION_CODE = 6;
+
+    String CONNECTION_EXCEPTION = "Connection failed";
+    Integer CONNECTION_EXCEPTION_CODE = 666;
+
 }
