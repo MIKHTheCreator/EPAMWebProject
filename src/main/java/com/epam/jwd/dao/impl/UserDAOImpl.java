@@ -1,11 +1,13 @@
 package com.epam.jwd.dao.impl;
 
 import com.epam.jwd.dao.api.DAO;
+import com.epam.jwd.dao.api.UserDAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
 import com.epam.jwd.dao.entity.user_account.Gender;
 import com.epam.jwd.dao.entity.user_account.User;
 import com.epam.jwd.dao.entity.user_account.Role;
+import com.epam.jwd.dao.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,14 +18,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_ENTITY_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DISABLE_AUTOCOMMIT_FLAG;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_OPERATION_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.INTERRUPTED_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_OPERATION_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.SQL_ROLLBACK_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_DATABASE_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.DELIMITER;
+import static com.epam.jwd.dao.messages.ExceptionMessage.ROLLBACK_EXCEPTION;
+import static com.epam.jwd.dao.messages.ExceptionMessage.ROLLBACK_EXCEPTION_CODE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_EXCEPTION;
+import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_EXCEPTION_CODE;
 import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_DELETE_USER_QUERY;
 import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_FIND_ALL_QUERY;
 import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_FIND_ROLE_BY_ID;
@@ -31,10 +30,9 @@ import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_FIND_USER_BY_ID_QUERY
 import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_SAVE_USER_QUERY;
 import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_USER_UPDATE_QUERY;
 
-public class UserDAOImpl implements DAO<User, Integer> {
+public class UserDAOImpl implements UserDAO {
 
-    private static DAO<User, Integer> instance;
-
+    private static UserDAO instance;
     private final ConnectionPool connectionPool;
 
     private static final Logger log = LogManager.getLogger(UserDAOImpl.class);
@@ -47,7 +45,7 @@ public class UserDAOImpl implements DAO<User, Integer> {
         this.connectionPool = ConnectionPoolImpl.getInstance();
     }
 
-    public static DAO<User, Integer> getInstance() {
+    public static UserDAO getInstance() {
         synchronized (UserDAOImpl.class) {
             if (instance == null) {
                 instance = new UserDAOImpl();
@@ -59,26 +57,26 @@ public class UserDAOImpl implements DAO<User, Integer> {
     }
 
     @Override
-    public User save(User user) throws InterruptedException {
+    public User save(User user) throws InterruptedException, DAOException {
         Connection connection = null;
-        PreparedStatement preparedStatement;
+        PreparedStatement statement;
         ResultSet resultSet;
 
         try {
             connection = connectionPool.takeConnection();
             connection.setAutoCommit(false);
-            preparedStatement = connection.prepareStatement(SQL_SAVE_USER_QUERY);
-            preparedStatement.setString(1, user.getFirstName());
-            preparedStatement.setString(2, user.getSecondName());
-            preparedStatement.setString(3, user.getPhoneNumber());
-            preparedStatement.setInt(4, user.getAge());
-            preparedStatement.setString(5, user.getGender().toString());
-            preparedStatement.setInt();
-            preparedStatement.setInt(7, user.getRole().getRoleId());
-            preparedStatement.setInt(8, user.getPassport().getId());
-            preparedStatement.executeUpdate();
+            statement = connection.prepareStatement(SQL_SAVE_USER_QUERY);
+            statement.setString(1, user.getFirstName());
+            statement.setString(2, user.getSecondName());
+            statement.setString(3, user.getPhoneNumber());
+            statement.setInt(4, user.getAge());
+            statement.setString(5, user.getGender().toString());
+            statement.setInt(6, user.getClient().getId());
+            statement.setInt(7, user.getPassport().getId());
+            statement.setInt(8, user.getRole().getRoleId());
+            statement.executeQuery();
 
-            resultSet = preparedStatement.getGeneratedKeys();
+            resultSet = statement.getGeneratedKeys();
 
             if (resultSet.next()) {
                 user.setId(resultSet.getInt(1));
@@ -90,12 +88,12 @@ public class UserDAOImpl implements DAO<User, Integer> {
             try {
                 connection.rollback();
             } catch (SQLException e) {
-                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
-                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+                log.error(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
+                throw new DAOException(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
             }
 
-            log.error(SAVE_OPERATION_EXCEPTION_MESSAGE, exception);
-            throw new SaveOperationException(SAVE_OPERATION_EXCEPTION_MESSAGE);
+            log.error(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
+            throw new DAOException(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -294,5 +292,10 @@ public class UserDAOImpl implements DAO<User, Integer> {
                 .withPassport(passportDAO.findPassportByUserId(resultSet.getInt(9)))
                 .withCreditCard(creditCardDAO.findAllCreditCardsByUserId(resultSet.getInt(1)))
                 .build();
+    }
+
+    @Override
+    public User findUserByClientId(Integer clientId) {
+        return null;
     }
 }

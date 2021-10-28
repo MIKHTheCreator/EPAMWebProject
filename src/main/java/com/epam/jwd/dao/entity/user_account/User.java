@@ -13,6 +13,7 @@ public class User extends AbstractEntity<Integer> {
     private Integer age;
     private Gender gender;
     private Role role;
+    private Client client;
     private Passport passport;
 
     public User() {
@@ -23,7 +24,7 @@ public class User extends AbstractEntity<Integer> {
     }
 
     public User(Integer id, String firstName, String secondName, String phoneNumber,
-                Integer age, Gender gender, Role role, Passport passport) {
+                Integer age, Gender gender, Role role,, Client client,  Passport passport) {
         super(id);
         this.firstName = firstName;
         this.secondName = secondName;
@@ -31,6 +32,7 @@ public class User extends AbstractEntity<Integer> {
         this.age = age;
         this.gender = gender;
         this.role = role;
+        this.client = client;
         this.passport = passport;
     }
 
@@ -90,6 +92,14 @@ public class User extends AbstractEntity<Integer> {
         this.passport = passport;
     }
 
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -101,12 +111,13 @@ public class User extends AbstractEntity<Integer> {
                 && age.equals(user.age)
                 && gender == user.gender
                 && role == user.role
+                && client.equals(user.client)
                 && passport.equals(user.passport);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, secondName, phoneNumber, age, gender, role, passport);
+        return Objects.hash(firstName, secondName, phoneNumber, age, gender, role, client, passport);
     }
 
     @Override
@@ -118,6 +129,7 @@ public class User extends AbstractEntity<Integer> {
                 ", age=" + age +
                 ", gender=" + gender +
                 ", role=" + role +
+                ", client=" + client +
                 ", passport=" + passport +
                 '}';
     }
@@ -131,6 +143,7 @@ public class User extends AbstractEntity<Integer> {
         private Integer age;
         private Gender gender;
         private Role role;
+        private Client client;
         private Passport passport;
 
         public Builder() {
@@ -170,6 +183,10 @@ public class User extends AbstractEntity<Integer> {
             this.passport = passport;
             return this;
         }
+        public Builder withClient(Client client) {
+            this.client = client;
+            return this;
+        }
 
         public Builder withId(Integer id) {
             this.id = id;
@@ -184,6 +201,7 @@ public class User extends AbstractEntity<Integer> {
             user.setPassport(this.passport);
             user.setPhoneNumber(this.phoneNumber);
             user.setSecondName(this.secondName);
+            user.setClient(this.client);
             user.setRole(this.role);
 
             return user;

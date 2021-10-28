@@ -3,7 +3,7 @@ package com.epam.jwd.dao.messages;
 public interface UserDAOMessage {
 
     String SQL_SAVE_USER_QUERY = "INSERT INTO user (first_name, second_name, phone_number" +
-            "age, gender, passport_data_passport_id) VALUES (?, ?, ?, ?, ?, ?,)";
+            "age, gender, client_id, passport_data_passport_id, role_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     String SQL_FIND_ALL_QUERY = "SELECT (first_name, second_name, phone_number, age, gender) FROM user";
     String SQL_FIND_USER_BY_ID_QUERY = "SELECT * FROM user WHERE user_id=?";
     String SQL_DELETE_USER_QUERY = "DELETE FROM user WHERE user_id=?";
