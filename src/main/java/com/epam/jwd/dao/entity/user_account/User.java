@@ -12,7 +12,7 @@ public class User extends AbstractEntity<Integer> {
     private String phoneNumber;
     private Integer age;
     private Gender gender;
-    private UserRole role;
+    private Role role;
     private Passport passport;
 
     public User() {
@@ -23,7 +23,7 @@ public class User extends AbstractEntity<Integer> {
     }
 
     public User(Integer id, String firstName, String secondName, String phoneNumber,
-                Integer age, Gender gender, UserRole role, Passport passport) {
+                Integer age, Gender gender, Role role, Passport passport) {
         super(id);
         this.firstName = firstName;
         this.secondName = secondName;
@@ -74,11 +74,11 @@ public class User extends AbstractEntity<Integer> {
         this.gender = gender;
     }
 
-    public UserRole getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(UserRole role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -130,7 +130,7 @@ public class User extends AbstractEntity<Integer> {
         private String phoneNumber;
         private Integer age;
         private Gender gender;
-        private UserRole role;
+        private Role role;
         private Passport passport;
 
         public Builder() {
@@ -161,7 +161,7 @@ public class User extends AbstractEntity<Integer> {
             return this;
         }
 
-        public Builder withRole(UserRole role) {
+        public Builder withRole(Role role) {
             this.role = role;
             return this;
         }

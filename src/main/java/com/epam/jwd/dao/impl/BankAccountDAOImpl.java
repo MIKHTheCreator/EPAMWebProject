@@ -1,14 +1,7 @@
 package com.epam.jwd.dao.impl;
 
-import com.epam.jwd.dao.api.BankAccountDAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
-import com.epam.jwd.dao.api.PaymentDAO;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
-import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
-import com.epam.jwd.dao.exception.FindInDataBaseException;
-import com.epam.jwd.dao.exception.RollBackOperationException;
-import com.epam.jwd.dao.exception.SaveOperationException;
-import com.epam.jwd.dao.exception.UpdateDataBaseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

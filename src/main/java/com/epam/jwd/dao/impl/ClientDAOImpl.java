@@ -1,13 +1,11 @@
 package com.epam.jwd.dao.impl;
 
-import com.epam.jwd.dao.api.ClientDAO;
+import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
-import com.epam.jwd.dao.exception.DeleteFromDataBaseException;
-import com.epam.jwd.dao.exception.FindInDataBaseException;
-import com.epam.jwd.dao.exception.RollBackOperationException;
-import com.epam.jwd.dao.exception.SaveOperationException;
-import com.epam.jwd.dao.exception.UpdateDataBaseException;
+import com.epam.jwd.dao.entity.user_account.Client;
+import com.epam.jwd.dao.entity.user_account.User;
+import com.epam.jwd.dao.exception.DAOException;
 import com.epam.jwd.service.api.PasswordManager;
 import com.epam.jwd.service.impl.PasswordManagerImpl;
 import org.apache.logging.log4j.LogManager;
@@ -20,26 +18,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_DELETE_QUERY;
-import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_FIND_ALL_QUERY;
-import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_FIND_BY_ID_QUERY;
-import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_FIND_CLIENT_BY_USER_ID_QUERY;
-import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_INSERT_QUERY;
-import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_UPDATE_QUERY;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_ENTITY_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DISABLE_AUTOCOMMIT_FLAG;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_OPERATION_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_OPERATION_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.SQL_ROLLBACK_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_DATABASE_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_FIND_ALL_CLIENTS_QUERY;
+import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_SAVE_CLIENT_QUERY;
+import static com.epam.jwd.dao.messages.ExceptionMessage.DELIMITER;
+import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_ALL_EXCEPTION;
+import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_ALL_EXCEPTION_CODE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.ROLLBACK_EXCEPTION;
+import static com.epam.jwd.dao.messages.ExceptionMessage.ROLLBACK_EXCEPTION_CODE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_EXCEPTION;
+import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_EXCEPTION_CODE;
 
-public class ClientDAOImpl implements ClientDAO {
+public class ClientDAOImpl implements DAO<Client, Integer> {
 
-    private static ClientDAO instance;
+    private static DAO<Client, Integer> instance;
 
     private final ConnectionPool connectionPool;
     private final PasswordManager passwordManager;
+    private final DAO<User, Integer> userDAO;
 
     private static final Logger log = LogManager.getLogger(ClientDAOImpl.class);
 
@@ -50,9 +45,10 @@ public class ClientDAOImpl implements ClientDAO {
     private ClientDAOImpl() {
         this.connectionPool = ConnectionPoolImpl.getInstance();
         this.passwordManager = new PasswordManagerImpl();
+        this.userDAO = UserDAOImpl.getInstance();
     }
 
-    public static ClientDAO getInstance() {
+    public static DAO<Client, Integer> getInstance() {
         synchronized (ClientDAOImpl.class) {
             if (instance == null) {
                 instance = new ClientDAOImpl();
@@ -64,221 +60,106 @@ public class ClientDAOImpl implements ClientDAO {
     }
 
     @Override
-    public Client save(Client client) throws InterruptedException {
+    public Client save(Client client) throws InterruptedException, DAOException {
         Connection connection = null;
         PreparedStatement statement;
         ResultSet resultSet;
 
         try {
             connection = connectionPool.takeConnection();
-            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
-            statement = connection.prepareStatement(SQL_INSERT_QUERY);
+            connection.setAutoCommit(false);
+            statement = connection.prepareStatement(SQL_SAVE_CLIENT_QUERY);
             statement.setString(1, client.getUsername());
             statement.setString(2, client.getEmail());
             statement.setString(3, passwordManager.encode(client.getPassword()));
-            statement.executeUpdate();
+            statement.executeQuery();
+
+            userDAO.save(client.getUser());
 
             resultSet = statement.getGeneratedKeys();
-            if (resultSet.next()) {
+            if(resultSet.next()) {
                 client.setId(resultSet.getInt(1));
             }
 
             connection.commit();
+            connection.setAutoCommit(true);
+
         } catch (SQLException exception) {
             try {
                 connection.rollback();
             } catch (SQLException e) {
-                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
-                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+                log.error(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
+                throw new DAOException(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
             }
 
-            log.error(SAVE_OPERATION_EXCEPTION_MESSAGE, exception);
-            throw new SaveOperationException(SAVE_OPERATION_EXCEPTION_MESSAGE);
+            log.error(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
+            throw new DAOException(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
         } finally {
             connectionPool.returnConnection(connection);
         }
 
-        return client;
+        return null;
     }
 
     @Override
-    public List<Client> findAll() throws InterruptedException {
-        List<Client> clients = new ArrayList<>();
+    public List<Client> findAll() throws InterruptedException, DAOException {
         Connection connection = null;
         PreparedStatement statement;
         ResultSet resultSet;
+        List<Client> clients = new ArrayList<>();
 
         try {
             connection = connectionPool.takeConnection();
-            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
-            statement = connection.prepareStatement(SQL_FIND_ALL_QUERY);
+            connection.setAutoCommit(false);
+            statement = connection.prepareStatement(SQL_FIND_ALL_CLIENTS_QUERY);
             resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                Client client = createClient(resultSet);
-                clients.add(client);
+                clients.add(createClient(resultSet));
             }
 
             connection.commit();
+            connection.setAutoCommit(true);
         } catch (SQLException exception) {
             try {
                 connection.rollback();
             } catch (SQLException e) {
-                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
-                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
+                log.error(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
+                throw new DAOException(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
             }
 
-            log.error(FIND_OPERATION_EXCEPTION_MESSAGE, exception);
-            throw new FindInDataBaseException(FIND_OPERATION_EXCEPTION_MESSAGE);
+            log.error(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
+            throw new DAOException(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
         } finally {
             connectionPool.returnConnection(connection);
         }
 
-        return clients;
+        return null;
     }
 
     @Override
     public Client findById(Integer id) throws InterruptedException {
-        Connection connection = null;
-        PreparedStatement statement;
-        ResultSet resultSet;
-
-        try {
-            connection = connectionPool.takeConnection();
-            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
-            statement = connection.prepareStatement(SQL_FIND_BY_ID_QUERY);
-            statement.setInt(1, id);
-            resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-
-                return createClient(resultSet);
-            }
-
-            connection.commit();
-        } catch (SQLException exception) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
-                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
-            }
-
-            log.error(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE, exception);
-            throw new FindInDataBaseException(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
-        } finally {
-            connectionPool.returnConnection(connection);
-        }
-
         return null;
     }
 
     @Override
-    public Client update(Client client) throws InterruptedException {
-        Connection connection = null;
-        PreparedStatement statement;
-
-        try {
-            connection = connectionPool.takeConnection();
-            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
-            statement = connection.prepareStatement(SQL_UPDATE_QUERY);
-            statement.setString(1, client.getUsername());
-            statement.setString(2, client.getEmail());
-            statement.setString(3, passwordManager.encode(client.getPassword()));
-            statement.setInt(4, client.getId());
-            statement.executeUpdate();
-
-            connection.commit();
-        } catch (SQLException exception) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
-                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
-            }
-
-            log.error(UPDATE_DATABASE_EXCEPTION_MESSAGE, exception);
-            throw new UpdateDataBaseException(UPDATE_DATABASE_EXCEPTION_MESSAGE);
-        } finally {
-            connectionPool.returnConnection(connection);
-        }
-
-        return client;
-    }
-
-    @Override
-    public void delete(Client client) throws InterruptedException {
-        Connection connection = null;
-        PreparedStatement statement;
-
-        try {
-            connection = connectionPool.takeConnection();
-            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
-            statement = connection.prepareStatement(SQL_DELETE_QUERY);
-            statement.setInt(1, client.getId());
-            statement.executeUpdate();
-
-            connection.commit();
-        } catch (SQLException exception) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
-                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
-            }
-
-            log.error(DELETE_ENTITY_EXCEPTION_MESSAGE, exception);
-            throw new DeleteFromDataBaseException(DELETE_ENTITY_EXCEPTION_MESSAGE);
-        } finally {
-            connectionPool.returnConnection(connection);
-        }
-    }
-
-    @Override
-    public Client findClientByUserId(Integer id) throws InterruptedException {
-        Connection connection = null;
-        PreparedStatement statement;
-        ResultSet resultSet;
-
-        try {
-            connection = connectionPool.takeConnection();
-            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
-            statement = connection.prepareStatement(SQL_FIND_CLIENT_BY_USER_ID_QUERY);
-            statement.setInt(1, id);
-
-            resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-
-                return createClient(resultSet);
-            }
-
-            connection.commit();
-        } catch (SQLException exception) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
-                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
-            }
-
-            log.error(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE, exception);
-            throw new FindInDataBaseException(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
-        } finally {
-            connectionPool.returnConnection(connection);
-        }
-
+    public Client update(Client entity) throws InterruptedException {
         return null;
+    }
+
+    @Override
+    public void delete(Client entity) throws InterruptedException {
+
     }
 
     private Client createClient(ResultSet resultSet)
             throws SQLException {
-
         Client client = new Client();
         client.setId(resultSet.getInt(1));
         client.setUsername(resultSet.getString(2));
         client.setEmail(resultSet.getString(3));
         client.setPassword(passwordManager.decode(resultSet.getString(4)));
+        client.setUser(userDAO.findUserByClientId(resultSet.getInt(1)));
 
         return client;
     }

@@ -2,12 +2,11 @@ package com.epam.jwd.dao.messages;
 
 public interface ExceptionMessage {
 
-    String INTERRUPTED_EXCEPTION_MESSAGE = "Thread was interrupted";
-    String SAVE_OPERATION_EXCEPTION_MESSAGE = "Entity wasn't save correctly";
-    String FIND_OPERATION_EXCEPTION_MESSAGE = "Can't find entity in database";
-    String UPDATE_DATABASE_EXCEPTION_MESSAGE = "Can't update entity";
-    String FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE = "Can't find entity with such an id in database";
-    String DELETE_ENTITY_EXCEPTION_MESSAGE = "Can't delete entity from database";
-    String SQL_ROLLBACK_EXCEPTION_MESSAGE = "Can't rollback to the beginning state";
-    boolean DISABLE_AUTOCOMMIT_FLAG = false;
+    String DELIMITER = ":";
+    String SAVE_EXCEPTION = "Saving data in data base was failed";
+    Integer SAVE_EXCEPTION_CODE = 1;
+    String ROLLBACK_EXCEPTION = "Rollback was failed";
+    Integer ROLLBACK_EXCEPTION_CODE = 2;
+    String FIND_ALL_EXCEPTION = "Find all method was failed";
+    Integer FIND_ALL_EXCEPTION_CODE = 3;
 }
