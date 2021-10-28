@@ -9,8 +9,8 @@ public interface DAO<T extends AbstractEntity<K>, K> {
 
     T save(T entity) throws InterruptedException, DAOException;
     List<T> findAll() throws InterruptedException, DAOException;
-    T findById(K id) throws InterruptedException;
-    T update(T entity) throws InterruptedException;
-    void delete(T entity) throws InterruptedException;
+    T findById(K id) throws InterruptedException, DAOException;
+    T update(T entity) throws InterruptedException, DAOException;
+    void delete(T entity) throws InterruptedException, DAOException;
 
 }
