@@ -2,16 +2,6 @@ package com.epam.jwd.dao.exception;
 
 public class DAOException extends Exception {
 
-    private String exceptionMessage;
-    private Integer exceptionCode;
-    
-    public DAOException() {
-    }
-    
-    public DAOException(String exceptionMessage, Integer exceptionCode) {
-        this.exceptionMessage = exceptionMessage;
-        this.exceptionCode = exceptionCode;
-    }
 
     public DAOException(String message) {
         super(message);
