@@ -122,7 +122,7 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
             connectionPool.returnConnection(connection);
         }
 
-        return null;
+        return bankAccount;
     }
 
     @Override
