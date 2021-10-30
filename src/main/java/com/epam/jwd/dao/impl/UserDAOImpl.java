@@ -64,7 +64,8 @@ public class UserDAOImpl implements DAO<User, Integer> {
     }
 
     @Override
-    public User save(User user) throws InterruptedException, DAOException {
+    public User save(User user)
+            throws InterruptedException, DAOException {
         Connection connection = null;
         PreparedStatement statement;
 
@@ -129,7 +130,6 @@ public class UserDAOImpl implements DAO<User, Integer> {
 
             user = findUser(statement, connection);
 
-
             connection.commit();
             connection.setAutoCommit(true);
         } catch (SQLException exception) {
@@ -172,14 +172,15 @@ public class UserDAOImpl implements DAO<User, Integer> {
     @Override
     public void delete(User user) throws InterruptedException, DAOException {
         Connection connection = null;
-        PreparedStatement statement;
 
         try {
             connection = connectionPool.takeConnection();
-            statement = connection.prepareStatement(SQL_DELETE_USER_QUERY);
-            statement.setInt(1, user.getId());
 
-            statement.executeUpdate();
+            try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_USER_QUERY)) {
+                statement.setInt(1, user.getId());
+
+                statement.executeUpdate();
+            }
         } catch (SQLException exception) {
             log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
             throw new DAOException(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
@@ -188,24 +189,33 @@ public class UserDAOImpl implements DAO<User, Integer> {
         }
     }
 
-    private User saveUser(PreparedStatement statement, User user) throws SQLException {
-        statement.setString(1, user.getFirstName());
-        statement.setString(2, user.getSecondName());
-        statement.setString(3, user.getPhoneNumber());
-        statement.setInt(4, user.getAge());
-        statement.setString(5, user.getGender().toString());
-        statement.setInt(6, user.getClientId());
-        statement.setInt(7, user.getPassportId());
-        statement.setInt(8, user.getRole().getRoleId());
-        statement.executeUpdate();
+    private void saveUser(PreparedStatement statement, User user)
+            throws SQLException {
 
-        ResultSet resultSet = statement.getGeneratedKeys();
+        ResultSet resultSet = null;
 
-        if (resultSet.next()) {
-            user.setId(resultSet.getInt(1));
+        try {
+            statement.setString(1, user.getFirstName());
+            statement.setString(2, user.getSecondName());
+            statement.setString(3, user.getPhoneNumber());
+            statement.setInt(4, user.getAge());
+            statement.setString(5, user.getGender().toString());
+            statement.setInt(6, user.getClientId());
+            statement.setInt(7, user.getPassportId());
+            statement.setInt(8, user.getRole().getRoleId());
+            statement.executeUpdate();
+
+            resultSet = statement.getGeneratedKeys();
+
+            if (resultSet.next()) {
+                user.setId(resultSet.getInt(1));
+            }
+        } finally {
+            statement.close();
+            if (resultSet != null) {
+                resultSet.close();
+            }
         }
-
-        return user;
     }
 
     private Role findRoleById(Connection connection, Integer id)
@@ -241,36 +251,41 @@ public class UserDAOImpl implements DAO<User, Integer> {
     }
 
     private List<User> findUsers(PreparedStatement statement, Connection connection) throws SQLException {
-        ResultSet resultSet = statement.executeQuery();
-        List<User> users = new ArrayList<>();
+        try (statement; ResultSet resultSet = statement.executeQuery()) {
 
-        while (resultSet.next()) {
-            User user = createUser(resultSet, connection);
-            users.add(user);
+            List<User> users = new ArrayList<>();
+
+            while (resultSet.next()) {
+                User user = createUser(resultSet, connection);
+                users.add(user);
+            }
+
+            return users;
         }
-
-        return users;
     }
 
     private User findUser(PreparedStatement statement, Connection connection) throws SQLException {
-        ResultSet resultSet = statement.executeQuery();
+        try (statement; ResultSet resultSet = statement.executeQuery()) {
 
-        if(resultSet.next()) {
-            return createUser(resultSet, connection);
+            if (resultSet.next()) {
+                return createUser(resultSet, connection);
+            }
         }
 
         return null;
     }
 
     private void updateUser(PreparedStatement statement, User user) throws SQLException {
-        statement.setString(1, user.getFirstName());
-        statement.setString(2, user.getSecondName());
-        statement.setString(3, user.getPhoneNumber());
-        statement.setInt(4, user.getAge());
-        statement.setString(5, user.getGender().toString());
-        statement.setInt(6, user.getClientId());
-        statement.setInt(7, user.getPassportId());
-        statement.setInt(8, user.getRole().getRoleId());
-        statement.setInt(9 , user.getId());
+        try (statement) {
+            statement.setString(1, user.getFirstName());
+            statement.setString(2, user.getSecondName());
+            statement.setString(3, user.getPhoneNumber());
+            statement.setInt(4, user.getAge());
+            statement.setString(5, user.getGender().toString());
+            statement.setInt(6, user.getClientId());
+            statement.setInt(7, user.getPassportId());
+            statement.setInt(8, user.getRole().getRoleId());
+            statement.setInt(9, user.getId());
+        }
     }
 }
