@@ -43,7 +43,6 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
 
     private final ConnectionPool connectionPool;
     private final PasswordManager passwordManager;
-    private final DAO<User, Integer> userDAO;
 
     private static final Logger log = LogManager.getLogger(ClientDAOImpl.class);
 
@@ -54,7 +53,6 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
     private ClientDAOImpl() {
         this.connectionPool = ConnectionPoolImpl.getInstance();
         this.passwordManager = new PasswordManagerImpl();
-        this.userDAO = UserDAOImpl.getInstance();
     }
 
     public static DAO<Client, Integer> getInstance() {
@@ -72,71 +70,50 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
     public Client save(Client client) throws InterruptedException, DAOException {
         Connection connection = null;
         PreparedStatement statement;
-        ResultSet resultSet;
 
         try {
             connection = connectionPool.takeConnection();
             connection.setAutoCommit(false);
             statement = connection.prepareStatement(SQL_SAVE_CLIENT_QUERY);
-            statement.setString(1, client.getUsername());
-            statement.setString(2, client.getEmail());
-            statement.setString(3, passwordManager.encode(client.getPassword()));
-            statement.executeQuery();
 
-            userDAO.save(client.getUser());
-
-            resultSet = statement.getGeneratedKeys();
-            if(resultSet.next()) {
-                client.setId(resultSet.getInt(1));
-            }
-
-            connection.commit();
-            connection.setAutoCommit(true);
-
+            saveClient(statement, client);
         } catch (SQLException exception) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                log.error(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
-                throw new DAOException(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
-            }
-
             log.error(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
             throw new DAOException(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
         } finally {
             connectionPool.returnConnection(connection);
         }
 
-        return null;
+        return client;
+    }
+
+    private Client saveClient(PreparedStatement statement, Client client) throws SQLException {
+        statement.setString(1, client.getUsername());
+        statement.setString(2, client.getEmail());
+        statement.setString(3, passwordManager.encode(client.getPassword()));
+        statement.executeQuery();
+
+        ResultSet resultSet = statement.getGeneratedKeys();
+        if(resultSet.next()) {
+            client.setId(resultSet.getInt(1));
+        }
+
+        return client;
     }
 
     @Override
     public List<Client> findAll() throws InterruptedException, DAOException {
         Connection connection = null;
         PreparedStatement statement;
-        ResultSet resultSet;
-        List<Client> clients = new ArrayList<>();
+        List<Client> clients;
 
         try {
             connection = connectionPool.takeConnection();
-            connection.setAutoCommit(false);
             statement = connection.prepareStatement(SQL_FIND_ALL_CLIENTS_QUERY);
-            resultSet = statement.executeQuery();
 
-            while (resultSet.next()) {
-                clients.add(createClient(resultSet));
-            }
+            clients = findClients(statement);
 
-            connection.commit();
-            connection.setAutoCommit(true);
         } catch (SQLException exception) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                log.error(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
-                throw new DAOException(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
-            }
-
             log.error(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
             throw new DAOException(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
         } finally {
@@ -151,36 +128,22 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
             throws InterruptedException, DAOException {
         Connection connection = null;
         PreparedStatement statement;
-        ResultSet resultSet;
+        Client client;
 
         try {
             connection = connectionPool.takeConnection();
-            connection.setAutoCommit(false);
             statement = connection.prepareStatement(SQL_FIND_BY_ID_CLIENT_QUERY);
             statement.setInt(1, id);
-            resultSet = statement.executeQuery();
 
-            if(resultSet.next()) {
-                return createClient(resultSet);
-            }
-
-            connection.commit();
-            connection.setAutoCommit(true);
+            client = findClient(statement);
         } catch (SQLException exception) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                log.error(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
-                throw new DAOException(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
-            }
-
             log.error(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
             throw new DAOException(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
         } finally {
             connectionPool.returnConnection(connection);
         }
 
-        return null;
+        return client;
     }
 
     @Override
@@ -192,19 +155,16 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
         try {
             connection = connectionPool.takeConnection();
             statement = connection.prepareStatement(SQL_UPDATE_CLIENT_QUERY);
-            statement.setString(1, client.getUsername());
-            statement.setString(2, client.getEmail());
-            statement.setString(3, passwordManager.encode(client.getPassword()));
-            statement.setInt(4, client.getId());
-            statement.executeUpdate();
 
-            return client;
+            updateClient(statement, client);
         } catch (SQLException exception) {
             log.error(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
             throw new DAOException(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
         } finally {
             connectionPool.returnConnection(connection);
         }
+
+        return client;
     }
 
     @Override
@@ -224,7 +184,6 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
         } finally {
             connectionPool.returnConnection(connection);
         }
-
     }
 
     private Client createClient(ResultSet resultSet)
@@ -234,8 +193,38 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
         client.setUsername(resultSet.getString(2));
         client.setEmail(resultSet.getString(3));
         client.setPassword(passwordManager.decode(resultSet.getString(4)));
-        client.setUser(userDAO.findUserByClientId(resultSet.getInt(1)));
 
         return client;
+    }
+
+    private List<Client> findClients(PreparedStatement statement) throws SQLException {
+
+        ResultSet resultSet = statement.executeQuery();
+        List<Client> clients = new ArrayList<>();
+
+        while (resultSet.next()) {
+            clients.add(createClient(resultSet));
+        }
+
+        return clients;
+    }
+
+    private Client findClient(PreparedStatement statement) throws SQLException {
+
+        ResultSet resultSet = statement.executeQuery();
+
+        if(resultSet.next()) {
+            return createClient(resultSet);
+        }
+
+        return null;
+    }
+
+    private void updateClient(PreparedStatement statement, Client client) throws SQLException {
+        statement.setString(1, client.getUsername());
+        statement.setString(2, client.getEmail());
+        statement.setString(3, passwordManager.encode(client.getPassword()));
+        statement.setInt(4, client.getId());
+        statement.executeUpdate();
     }
 }
