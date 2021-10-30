@@ -69,7 +69,7 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
         try {
             connection = connectionPool.takeConnection();
             statement = connection.prepareStatement(SQL_SAVE_PASSPORT_DATA_QUERY);
-            passport = savePassport(statement, passport);
+            savePassport(statement, passport);
 
         } catch (SQLException exception) {
             log.error(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
