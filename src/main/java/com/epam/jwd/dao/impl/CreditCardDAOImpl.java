@@ -1,8 +1,10 @@
 package com.epam.jwd.dao.impl;
 
+import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
 import com.epam.jwd.dao.entity.payment_system.CreditCard;
+import com.epam.jwd.dao.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,26 +16,29 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_DELETE_QUERY;
-import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_FIND_ALL_CREDIT_CARDS_BY_USER_ID;
-import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_FIND_ALL_QUERY;
-import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_FIND_BY_ID_QUERY;
-import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_INSERT_QUERY;
-import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_UPDATE_QUERY;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_ENTITY_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DISABLE_AUTOCOMMIT_FLAG;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_OPERATION_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_OPERATION_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.SQL_ROLLBACK_EXCEPTION_MESSAGE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_DATABASE_EXCEPTION_MESSAGE;
+import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_DELETE_CREDIT_CARD_QUERY;
+import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_FIND_ALL_CREDIT_CARDS_QUERY;
+import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_FIND_CREDIT_CARD_BY_ID_QUERY;
+import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_SAVE_CREDIT_CARD_QUERY;
+import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_UPDATE_CREDIT_CARD_QUERY;
+import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_EXCEPTION;
+import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_EXCEPTION_CODE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.DELIMITER;
+import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_ALL_EXCEPTION;
+import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_ALL_EXCEPTION_CODE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_EXCEPTION;
+import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_EXCEPTION_CODE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_EXCEPTION;
+import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_EXCEPTION_CODE;
+import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_EXCEPTION;
+import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_EXCEPTION_CODE;
 
-public class CreditCardDAOImpl implements CreditCardDAO {
 
-    private static CreditCardDAO instance;
+public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
+
+    private static DAO<CreditCard, Integer> instance;
 
     private final ConnectionPool connectionPool;
-    private final BankAccountDAO bankAccountDAO;
 
     private static final Logger log = LogManager.getLogger(CreditCardDAOImpl.class);
 
@@ -42,11 +47,10 @@ public class CreditCardDAOImpl implements CreditCardDAO {
     }
 
     private CreditCardDAOImpl() {
-        this.bankAccountDAO = BankAccountDAOImpl.getInstance();
         this.connectionPool = ConnectionPoolImpl.getInstance();
     }
 
-    public static CreditCardDAO getInstance() {
+    public static DAO<CreditCard, Integer> getInstance() {
         synchronized (CreditCardDAOImpl.class) {
             if (instance == null) {
                 instance = new CreditCardDAOImpl();
@@ -58,40 +62,20 @@ public class CreditCardDAOImpl implements CreditCardDAO {
     }
 
     @Override
-    public CreditCard save(CreditCard creditCard) throws InterruptedException {
+    public CreditCard save(CreditCard creditCard)
+            throws InterruptedException, DAOException {
         Connection connection = null;
         PreparedStatement statement;
-        ResultSet resultSet;
 
         try {
             connection = connectionPool.takeConnection();
-            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
-            statement = connection.prepareStatement(SQL_INSERT_QUERY);
-            statement.setInt(1, creditCard.getCreditCardNumber());
-            statement.setDate(2, Date.valueOf(creditCard.getCreditCardExpiration()));
-            statement.setString(3, creditCard.getNameAndSurname());
-            statement.setInt(4, creditCard.getCVV());
-            statement.setInt(5, creditCard.getPassword());
-            statement.setInt(6, creditCard.getUserId());
-            statement.setInt(7, creditCard.getBankAccount().getId());
-            statement.executeUpdate();
+            statement = connection.prepareStatement(SQL_SAVE_CREDIT_CARD_QUERY);
 
-            resultSet = statement.getGeneratedKeys();
-            if (resultSet.next()) {
-                creditCard.setId(resultSet.getInt(1));
-            }
+            saveCreditCard(statement, creditCard);
 
-            connection.commit();
         } catch (SQLException exception) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
-                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
-            }
-
-            log.error(SAVE_OPERATION_EXCEPTION_MESSAGE, exception);
-            throw new SaveOperationException(SAVE_OPERATION_EXCEPTION_MESSAGE);
+            log.error(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
+            throw new DAOException(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -100,35 +84,21 @@ public class CreditCardDAOImpl implements CreditCardDAO {
     }
 
     @Override
-    public List<CreditCard> findAll() throws InterruptedException {
-        List<CreditCard> creditCards = new ArrayList<>();
+    public List<CreditCard> findAll()
+            throws InterruptedException, DAOException {
+        List<CreditCard> creditCards;
         Connection connection = null;
         PreparedStatement statement;
-        ResultSet resultSet;
 
         try {
             connection = connectionPool.takeConnection();
-            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
-            statement = connection.prepareStatement(SQL_FIND_ALL_QUERY);
-            resultSet = statement.executeQuery();
+            statement = connection.prepareStatement(SQL_FIND_ALL_CREDIT_CARDS_QUERY);
 
-            while (resultSet.next()) {
-                CreditCard creditCard = createCreditCard(resultSet);
+            creditCards = findCreditCards(statement);
 
-                creditCards.add(creditCard);
-            }
-
-            connection.commit();
         } catch (SQLException exception) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
-                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
-            }
-
-            log.error(FIND_OPERATION_EXCEPTION_MESSAGE, exception);
-            throw new FindInDataBaseException(FIND_OPERATION_EXCEPTION_MESSAGE);
+            log.error(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
+            throw new DAOException(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -136,163 +106,132 @@ public class CreditCardDAOImpl implements CreditCardDAO {
         return creditCards;
     }
 
+    private List<CreditCard> findCreditCards(PreparedStatement statement) throws SQLException {
+        ResultSet resultSet = statement.executeQuery();
+        List<CreditCard> creditCards = new ArrayList<>();
+
+        while (resultSet.next()) {
+            CreditCard creditCard = createCreditCard(resultSet);
+
+            creditCards.add(creditCard);
+        }
+
+        return creditCards;
+    }
+
     @Override
-    public CreditCard findById(Integer id) throws InterruptedException {
+    public CreditCard findById(Integer id)
+            throws InterruptedException, DAOException {
         Connection connection = null;
         PreparedStatement statement;
-        ResultSet resultSet;
+        CreditCard creditCard;
 
         try {
             connection = connectionPool.takeConnection();
-            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
-            statement = connection.prepareStatement(SQL_FIND_BY_ID_QUERY);
+            statement = connection.prepareStatement(SQL_FIND_CREDIT_CARD_BY_ID_QUERY);
             statement.setInt(1, id);
-            resultSet = statement.executeQuery();
 
-            if (resultSet.next()) {
-                return createCreditCard(resultSet);
-            }
-
-            connection.commit();
+            creditCard = findCreditCard(statement);
         } catch (SQLException exception) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
-                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
-            }
-
-            log.error(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE, exception);
-            throw new FindInDataBaseException(FIND_BY_ID_OPERATION_EXCEPTION_MESSAGE);
+            log.error(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
+            throw new DAOException(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
         } finally {
             connectionPool.returnConnection(connection);
+        }
+
+        return creditCard;
+    }
+
+    @Override
+    public CreditCard update(CreditCard creditCard) throws InterruptedException, DAOException {
+        Connection connection = null;
+        PreparedStatement statement;
+
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(SQL_UPDATE_CREDIT_CARD_QUERY);
+            updateCreditCard(statement, creditCard);
+
+        } catch (SQLException exception) {
+            log.error(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
+            throw new DAOException(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
+        } finally {
+            connectionPool.returnConnection(connection);
+        }
+
+        return creditCard;
+    }
+
+    @Override
+    public void delete(CreditCard creditCard) throws InterruptedException, DAOException {
+        Connection connection = null;
+        PreparedStatement statement;
+
+        try {
+            connection = connectionPool.takeConnection();
+            statement = connection.prepareStatement(SQL_DELETE_CREDIT_CARD_QUERY);
+            statement.setInt(1, creditCard.getId());
+            statement.executeUpdate();
+
+        } catch (SQLException exception) {
+            log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
+            throw new DAOException(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
+        } finally {
+            connectionPool.returnConnection(connection);
+        }
+    }
+
+    private CreditCard createCreditCard(ResultSet resultSet)
+            throws SQLException {
+
+        return new CreditCard.Builder().withId(resultSet.getInt(1))
+                .withNumber(resultSet.getString(2))
+                .withExpirationDate(resultSet.getDate(3).toLocalDate())
+                .withFullName(resultSet.getString(4))
+                .withCVV(resultSet.getString(5))
+                .withPin(resultSet.getString(6))
+                .withUserId(resultSet.getInt(7))
+                .withBankAccountId(resultSet.getInt(8))
+                .build();
+    }
+
+    private void saveCreditCard(PreparedStatement statement, CreditCard creditCard) throws SQLException {
+        statement.setString(1, creditCard.getNumber());
+        statement.setDate(2, Date.valueOf(creditCard.getExpirationDate()));
+        statement.setString(3, creditCard.getFullName());
+        statement.setString(4, creditCard.getCVV());
+        statement.setString(5, creditCard.getPin());
+        statement.setInt(6, creditCard.getUserId());
+        statement.setInt(7, creditCard.getBankAccountId());
+
+        statement.executeUpdate();
+
+        ResultSet resultSet = statement.getGeneratedKeys();
+
+        if(resultSet.next()) {
+            creditCard.setId(resultSet.getInt(1));
+        }
+    }
+
+    private CreditCard findCreditCard(PreparedStatement statement) throws SQLException {
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next()) {
+            return createCreditCard(resultSet);
         }
 
         return null;
     }
 
-    @Override
-    public CreditCard update(CreditCard creditCard) throws InterruptedException {
-        Connection connection = null;
-        PreparedStatement statement;
-
-        try {
-            connection = connectionPool.takeConnection();
-            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
-            statement = connection.prepareStatement(SQL_UPDATE_QUERY);
-            statement.setInt(1, creditCard.getCreditCardNumber());
-            statement.setDate(2, Date.valueOf(creditCard.getCreditCardExpiration()));
-            statement.setString(3, creditCard.getNameAndSurname());
-            statement.setInt(4, creditCard.getCVV());
-            statement.setInt(5, creditCard.getPassword());
-            statement.setInt(6, creditCard.getUserId());
-            statement.setInt(7, creditCard.getId());
-            statement.executeUpdate();
-
-            connection.commit();
-        } catch (SQLException exception) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
-                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
-            }
-
-            log.error(UPDATE_DATABASE_EXCEPTION_MESSAGE, exception);
-            throw new UpdateDataBaseException(UPDATE_DATABASE_EXCEPTION_MESSAGE);
-        } finally {
-            connectionPool.returnConnection(connection);
-        }
-
-        return creditCard;
-    }
-
-    @Override
-    public void delete(CreditCard creditCard) throws InterruptedException {
-        Connection connection = null;
-        PreparedStatement statement;
-
-        try {
-            connection = connectionPool.takeConnection();
-            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
-            statement = connection.prepareStatement(SQL_DELETE_QUERY);
-            statement.setInt(1, creditCard.getId());
-            statement.executeUpdate();
-
-            connection.commit();
-        } catch (SQLException exception) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
-                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
-            }
-
-            log.error(DELETE_ENTITY_EXCEPTION_MESSAGE, exception);
-            throw new DeleteFromDataBaseException(DELETE_ENTITY_EXCEPTION_MESSAGE);
-        } finally {
-            connectionPool.returnConnection(connection);
-        }
-    }
-
-    @Override
-    public List<CreditCard> findAllCreditCardsByUserId(Integer id) throws InterruptedException {
-        List<CreditCard> creditCards = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement statement;
-        ResultSet resultSet;
-
-        try {
-            connection = connectionPool.takeConnection();
-            connection.setAutoCommit(DISABLE_AUTOCOMMIT_FLAG);
-            statement = connection.prepareStatement(SQL_FIND_ALL_CREDIT_CARDS_BY_USER_ID);
-            statement.setInt(1, id);
-
-            resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                CreditCard creditCard = new CreditCard.Builder()
-                        .withId(resultSet.getInt(1))
-                        .withCreditCardNumber(resultSet.getInt(2))
-                        .withCreditCardExpiration(resultSet.getDate(3).toLocalDate())
-                        .withNameAndSurname(resultSet.getString(4))
-                        .withCVV(resultSet.getInt(5))
-                        .withPassword(resultSet.getInt(6))
-                        .withUserId(id)
-                        .build();
-
-                creditCards.add(creditCard);
-            }
-
-            connection.commit();
-        } catch (SQLException exception) {
-            try {
-                connection.rollback();
-            } catch (SQLException e) {
-                log.error(SQL_ROLLBACK_EXCEPTION_MESSAGE, e);
-                throw new RollBackOperationException(SQL_ROLLBACK_EXCEPTION_MESSAGE);
-            }
-
-            log.error(FIND_OPERATION_EXCEPTION_MESSAGE, exception);
-            throw new FindInDataBaseException(FIND_OPERATION_EXCEPTION_MESSAGE);
-        } finally {
-            connectionPool.returnConnection(connection);
-        }
-
-        return creditCards;
-    }
-
-    private CreditCard createCreditCard(ResultSet resultSet)
-            throws SQLException, InterruptedException {
-
-        return new CreditCard.Builder().withId(resultSet.getInt(1))
-                .withCreditCardNumber(resultSet.getInt(2))
-                .withCreditCardExpiration(resultSet.getDate(3).toLocalDate())
-                .withNameAndSurname(resultSet.getString(4))
-                .withCVV(resultSet.getInt(5))
-                .withPassword(resultSet.getInt(6))
-                .withBankAccount(bankAccountDAO.findBankAccountByCreditCardId(resultSet.getInt(1)))
-                .withUserId(resultSet.getInt(7))
-                .build();
+    private void updateCreditCard(PreparedStatement statement, CreditCard creditCard) throws SQLException {
+        statement.setString(1, creditCard.getNumber());
+        statement.setDate(2, Date.valueOf(creditCard.getExpirationDate()));
+        statement.setString(3, creditCard.getFullName());
+        statement.setString(4, creditCard.getCVV());
+        statement.setString(5, creditCard.getPin());
+        statement.setInt(6, creditCard.getUserId());
+        statement.setInt(7, creditCard.getBankAccountId());
+        statement.setInt(8, creditCard.getId());
+        statement.executeUpdate();
     }
 }

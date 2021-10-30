@@ -7,11 +7,11 @@ import java.util.Objects;
 
 public class CreditCard extends AbstractEntity<Integer> {
 
-    private Integer number;
+    private String number;
     private LocalDate expirationDate;
     private String fullName;
-    private Integer CVV;
-    private Integer pin;
+    private String CVV;
+    private String pin;
     private Integer bankAccountId;
     private Integer userId;
 
@@ -23,8 +23,8 @@ public class CreditCard extends AbstractEntity<Integer> {
         super(id);
     }
 
-    public CreditCard(Integer id, Integer number, LocalDate expirationDate, String fullName,
-                      Integer CVV, Integer pin, Integer bankAccount, Integer userId) {
+    public CreditCard(Integer id, String number, LocalDate expirationDate, String fullName,
+                      String CVV, String pin, Integer bankAccount, Integer userId) {
         super(id);
         this.number = number;
         this.expirationDate = expirationDate;
@@ -35,16 +35,16 @@ public class CreditCard extends AbstractEntity<Integer> {
         this.userId = userId;
     }
 
-    public Integer getNumber() {
+    public String getNumber() {
         return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
     }
 
     public LocalDate getExpirationDate() {
         return expirationDate;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public void setExpirationDate(LocalDate expirationDate) {
@@ -59,19 +59,19 @@ public class CreditCard extends AbstractEntity<Integer> {
         this.fullName = fullName;
     }
 
-    public Integer getCVV() {
+    public String getCVV() {
         return CVV;
     }
 
-    public void setCVV(Integer CVV) {
+    public void setCVV(String CVV) {
         this.CVV = CVV;
     }
 
-    public Integer getPin() {
+    public String getPin() {
         return pin;
     }
 
-    public void setPin(Integer pin) {
+    public void setPin(String pin) {
         this.pin = pin;
     }
 
@@ -126,11 +126,11 @@ public class CreditCard extends AbstractEntity<Integer> {
     public static class Builder {
 
         private Integer id;
-        private Integer number;
+        private String number;
         private LocalDate expirationDate;
         private String fullName;
-        private Integer CVV;
-        private Integer pin;
+        private String CVV;
+        private String pin;
         private Integer bankAccountId;
         private Integer userId;
 
@@ -139,7 +139,7 @@ public class CreditCard extends AbstractEntity<Integer> {
             return this;
         }
 
-        public Builder withNumber(Integer number) {
+        public Builder withNumber(String number) {
             this.number = number;
             return this;
         }
@@ -154,12 +154,12 @@ public class CreditCard extends AbstractEntity<Integer> {
             return this;
         }
 
-        public Builder withCVV(Integer CVV) {
+        public Builder withCVV(String CVV) {
             this.CVV = CVV;
             return this;
         }
 
-        public Builder withPin(Integer pin) {
+        public Builder withPin(String pin) {
             this.pin = pin;
             return this;
         }
