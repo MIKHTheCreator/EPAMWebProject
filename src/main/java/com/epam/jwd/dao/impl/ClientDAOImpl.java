@@ -70,7 +70,6 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
 
         try {
             connection = connectionPool.takeConnection();
-            connection.setAutoCommit(false);
             statement = connection.prepareStatement(SQL_SAVE_CLIENT_QUERY);
 
             saveClient(statement, client);
@@ -79,20 +78,6 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
             throw new DAOException(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
         } finally {
             connectionPool.returnConnection(connection);
-        }
-
-        return client;
-    }
-
-    private Client saveClient(PreparedStatement statement, Client client) throws SQLException {
-        statement.setString(1, client.getUsername());
-        statement.setString(2, client.getEmail());
-        statement.setString(3, passwordManager.encode(client.getPassword()));
-        statement.executeQuery();
-
-        ResultSet resultSet = statement.getGeneratedKeys();
-        if(resultSet.next()) {
-            client.setId(resultSet.getInt(1));
         }
 
         return client;
@@ -168,13 +153,14 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
     public void delete(Client client)
             throws InterruptedException, DAOException {
         Connection connection = null;
-        PreparedStatement statement;
 
         try {
             connection = connectionPool.takeConnection();
-            statement = connection.prepareStatement(SQL_DELETE_CLIENT_QUERY);
-            statement.setInt(1, client.getId());
-            statement.executeUpdate();
+
+            try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_CLIENT_QUERY)) {
+                statement.setInt(1, client.getId());
+                statement.executeUpdate();
+            }
         } catch (SQLException exception) {
             log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
             throw new DAOException(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
@@ -196,32 +182,58 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
 
     private List<Client> findClients(PreparedStatement statement) throws SQLException {
 
-        ResultSet resultSet = statement.executeQuery();
-        List<Client> clients = new ArrayList<>();
+        try (statement; ResultSet resultSet = statement.executeQuery()) {
+            List<Client> clients = new ArrayList<>();
 
-        while (resultSet.next()) {
-            clients.add(createClient(resultSet));
+            while (resultSet.next()) {
+                clients.add(createClient(resultSet));
+            }
+
+            return clients;
         }
-
-        return clients;
     }
 
     private Client findClient(PreparedStatement statement) throws SQLException {
 
-        ResultSet resultSet = statement.executeQuery();
+        try (statement; ResultSet resultSet = statement.executeQuery()) {
 
-        if(resultSet.next()) {
-            return createClient(resultSet);
+            if (resultSet.next()) {
+                return createClient(resultSet);
+            }
+
+            return null;
         }
-
-        return null;
     }
 
     private void updateClient(PreparedStatement statement, Client client) throws SQLException {
-        statement.setString(1, client.getUsername());
-        statement.setString(2, client.getEmail());
-        statement.setString(3, passwordManager.encode(client.getPassword()));
-        statement.setInt(4, client.getId());
-        statement.executeUpdate();
+        try (statement) {
+            statement.setString(1, client.getUsername());
+            statement.setString(2, client.getEmail());
+            statement.setString(3, passwordManager.encode(client.getPassword()));
+            statement.setInt(4, client.getId());
+            statement.executeUpdate();
+        }
+    }
+
+    private void saveClient(PreparedStatement statement, Client client) throws SQLException {
+
+        ResultSet resultSet = null;
+
+        try {
+            statement.setString(1, client.getUsername());
+            statement.setString(2, client.getEmail());
+            statement.setString(3, passwordManager.encode(client.getPassword()));
+            statement.executeQuery();
+
+            resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                client.setId(resultSet.getInt(1));
+            }
+        } finally {
+            statement.close();
+            if (resultSet != null) {
+                resultSet.close();
+            }
+        }
     }
 }
