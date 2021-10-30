@@ -60,7 +60,8 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
     }
 
     @Override
-    public Payment save(Payment payment) throws InterruptedException, DAOException {
+    public Payment save(Payment payment)
+            throws InterruptedException, DAOException {
         Connection connection = null;
         PreparedStatement statement;
 
@@ -80,7 +81,8 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
     }
 
     @Override
-    public List<Payment> findAll() throws InterruptedException, DAOException {
+    public List<Payment> findAll()
+            throws InterruptedException, DAOException {
         List<Payment> payments;
         Connection connection = null;
         PreparedStatement statement;
@@ -88,9 +90,9 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
         try {
             connection = connectionPool.takeConnection();
             statement = connection.prepareStatement(SQL_FIND_ALL_PAYMENTS_QUERY);
-            
+
             payments = findAllPayments(statement);
-            
+
         } catch (SQLException exception) {
             log.error(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
             throw new DAOException(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
@@ -112,10 +114,10 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
             statement = connection.prepareStatement(SQL_FIND_PAYMENT_BY_ID_QUERY);
             statement.setInt(1, id);
             payment = findPayment(statement);
-            
+
         } catch (SQLException exception) {
-            log.error(FIND_BY_ID_EXCEPTION  + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
-            throw new DAOException(FIND_BY_ID_EXCEPTION  + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
+            log.error(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
+            throw new DAOException(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
         } finally {
             connectionPool.returnConnection(connection);
         }
@@ -131,9 +133,9 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
         try {
             connection = connectionPool.takeConnection();
             statement = connection.prepareStatement(SQL_UPDATE_PAYMENT_QUERY);
-            
+
             updatePayment(statement, payment);
-            
+
         } catch (SQLException exception) {
             log.error(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
             throw new DAOException(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
@@ -147,14 +149,15 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
     @Override
     public void delete(Payment payment) throws InterruptedException, DAOException {
         Connection connection = null;
-        PreparedStatement statement;
 
         try {
             connection = connectionPool.takeConnection();
-            statement = connection.prepareStatement(SQL_DELETE_QUERY);
-            statement.setInt(1, payment.getId());
-            statement.executeUpdate();
-            
+
+            try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_QUERY)) {
+                statement.setInt(1, payment.getId());
+                statement.executeUpdate();
+            }
+
         } catch (SQLException exception) {
             log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
             throw new DAOException(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
@@ -177,24 +180,35 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
     }
 
     private void savePayment(PreparedStatement statement, Payment payment) throws SQLException {
-        statement.setBigDecimal(1, payment.getSumOfPayment());
-        statement.setDate(2, Date.valueOf(payment.getDateOfPayment()));
-        statement.setString(3, payment.getPaymentOrganization());
-        statement.setString(4, payment.getPaymentGoal());
-        statement.setInt(5, payment.getBankAccountId());
-        statement.setInt(6, payment.getUserid());
-        statement.executeUpdate();
 
-        try (statement; ResultSet resultSet = statement.getGeneratedKeys()) {
+        ResultSet resultSet = null;
+
+        try {
+            statement.setBigDecimal(1, payment.getSumOfPayment());
+            statement.setDate(2, Date.valueOf(payment.getDateOfPayment()));
+            statement.setString(3, payment.getPaymentOrganization());
+            statement.setString(4, payment.getPaymentGoal());
+            statement.setInt(5, payment.getBankAccountId());
+            statement.setInt(6, payment.getUserid());
+            statement.executeUpdate();
+
+            resultSet = statement.getGeneratedKeys();
 
             if (resultSet.next()) {
                 payment.setId(resultSet.getInt(1));
             }
+
+        } finally {
+            statement.close();
+            if (resultSet != null) {
+                resultSet.close();
+            }
         }
+
     }
 
     private List<Payment> findAllPayments(PreparedStatement statement) throws SQLException {
-        try(statement; ResultSet resultSet = statement.executeQuery()) {
+        try (statement; ResultSet resultSet = statement.executeQuery()) {
             List<Payment> payments = new ArrayList<>();
 
             while (resultSet.next()) {
@@ -207,7 +221,7 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
     }
 
     private Payment findPayment(PreparedStatement statement) throws SQLException {
-        try(statement; ResultSet resultSet = statement.executeQuery() ) {
+        try (statement; ResultSet resultSet = statement.executeQuery()) {
 
             if (resultSet.next()) {
                 return createPayment(resultSet);
@@ -218,13 +232,15 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
     }
 
     private void updatePayment(PreparedStatement statement, Payment payment) throws SQLException {
-        statement.setBigDecimal(1, payment.getSumOfPayment());
-        statement.setDate(2, Date.valueOf(payment.getDateOfPayment()));
-        statement.setString(3, payment.getPaymentOrganization());
-        statement.setString(4, payment.getPaymentGoal());
-        statement.setInt(5, payment.getBankAccountId());
-        statement.setInt(6, payment.getUserid());
-        statement.setInt(7, payment.getId());
-        statement.executeUpdate();
+        try (statement) {
+            statement.setBigDecimal(1, payment.getSumOfPayment());
+            statement.setDate(2, Date.valueOf(payment.getDateOfPayment()));
+            statement.setString(3, payment.getPaymentOrganization());
+            statement.setString(4, payment.getPaymentGoal());
+            statement.setInt(5, payment.getBankAccountId());
+            statement.setInt(6, payment.getUserid());
+            statement.setInt(7, payment.getId());
+            statement.executeUpdate();
+        }
     }
 }
