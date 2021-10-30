@@ -24,8 +24,4 @@ public interface ExceptionMessage {
 
     String CONNECTION_EXCEPTION = "Connection failed";
     Integer CONNECTION_EXCEPTION_CODE = 666;
-
-    String SQL_CLOSE_EXCEPTION = "Can't close the statement";
-    Integer SQL_CLOSE_EXCEPTION_CODE = 7;
-
 }
