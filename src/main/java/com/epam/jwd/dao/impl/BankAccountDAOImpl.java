@@ -201,7 +201,7 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
 
     private List<BankAccount> findBankAccounts(PreparedStatement statement) throws SQLException {
 
-        try(statement; ResultSet resultSet = statement.executeQuery()) {
+        try (statement; ResultSet resultSet = statement.executeQuery()) {
 
             List<BankAccount> bankAccounts = new ArrayList<>();
 
