@@ -65,7 +65,6 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         Connection connection = null;
         PreparedStatement statement;
 
-
         try {
             connection = connectionPool.takeConnection();
             statement = connection.prepareStatement(SQL_SAVE_BANK_ACCOUNT_QUERY);
@@ -128,12 +127,12 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
     @Override
     public BankAccount update(BankAccount bankAccount) throws InterruptedException, DAOException {
         Connection connection = null;
-        PreparedStatement statement;
 
         try {
             connection = connectionPool.takeConnection();
-            statement = connection.prepareStatement(SQL_UPDATE_BANK_ACCOUNT_QUERY);
-            updateBankAccount(statement, bankAccount);
+            try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_BANK_ACCOUNT_QUERY)) {
+                updateBankAccount(statement, bankAccount);
+            }
 
         } catch (SQLException exception) {
             log.error(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
@@ -145,24 +144,17 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         return bankAccount;
     }
 
-    private void updateBankAccount(PreparedStatement statement, BankAccount bankAccount) throws SQLException {
-        statement.setBigDecimal(1, bankAccount.getBalance());
-        statement.setString(2, bankAccount.getCurrency());
-        statement.setBoolean(3, bankAccount.isBlocked());
-        statement.setInt(4, bankAccount.getId());
-        statement.executeUpdate();
-    }
-
     @Override
     public void delete(BankAccount bankAccount) throws InterruptedException, DAOException {
         Connection connection = null;
-        PreparedStatement statement;
 
         try {
             connection = connectionPool.takeConnection();
-            statement = connection.prepareStatement(SQL_DELETE_BANK_ACCOUNT_QUERY);
-            statement.setInt(1, bankAccount.getId());
-            statement.executeUpdate();
+
+            try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_BANK_ACCOUNT_QUERY)) {
+                statement.setInt(1, bankAccount.getId());
+                statement.executeUpdate();
+            }
 
         } catch (SQLException exception) {
             log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
@@ -184,41 +176,63 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         return bankAccount;
     }
 
-
     private void saveBankAccount(PreparedStatement statement, BankAccount bankAccount) throws SQLException {
-        statement.setBigDecimal(1, bankAccount.getBalance());
-        statement.setString(2, bankAccount.getCurrency());
-        statement.setBoolean(3, bankAccount.isBlocked());
-        statement.executeUpdate();
+        ResultSet resultSet = null;
 
-        ResultSet resultSet = statement.getGeneratedKeys();
+        try {
+            statement.setBigDecimal(1, bankAccount.getBalance());
+            statement.setString(2, bankAccount.getCurrency());
+            statement.setBoolean(3, bankAccount.isBlocked());
+            statement.executeUpdate();
 
-        if(resultSet.next()) {
-            bankAccount.setId(resultSet.getInt(1));
+            resultSet = statement.getGeneratedKeys();
+
+            if (resultSet.next()) {
+                bankAccount.setId(resultSet.getInt(1));
+            }
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+                statement.close();
+            }
+
         }
     }
 
     private List<BankAccount> findBankAccounts(PreparedStatement statement) throws SQLException {
-        ResultSet resultSet = statement.executeQuery();
-        List<BankAccount> bankAccounts = new ArrayList<>();
 
-        while (resultSet.next()) {
-            BankAccount bankAccount = createBankAccount(resultSet);
+        try(statement; ResultSet resultSet = statement.executeQuery()) {
 
-            bankAccounts.add(bankAccount);
+            List<BankAccount> bankAccounts = new ArrayList<>();
+
+
+            while (resultSet.next()) {
+                BankAccount bankAccount = createBankAccount(resultSet);
+
+                bankAccounts.add(bankAccount);
+            }
+
+            return bankAccounts;
         }
-
-        return bankAccounts;
     }
 
     private BankAccount findBankAccount(PreparedStatement statement) throws SQLException {
-        ResultSet resultSet = statement.executeQuery();
 
-        if (resultSet.next()) {
+        try (statement; ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
 
-            return createBankAccount(resultSet);
+                return createBankAccount(resultSet);
+            }
         }
 
         return null;
+    }
+
+    private void updateBankAccount(PreparedStatement statement, BankAccount bankAccount) throws SQLException {
+        statement.setBigDecimal(1, bankAccount.getBalance());
+        statement.setString(2, bankAccount.getCurrency());
+        statement.setBoolean(3, bankAccount.isBlocked());
+        statement.setInt(4, bankAccount.getId());
+        statement.executeUpdate();
     }
 }
