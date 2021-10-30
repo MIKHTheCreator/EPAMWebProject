@@ -106,19 +106,6 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
         return creditCards;
     }
 
-    private List<CreditCard> findCreditCards(PreparedStatement statement) throws SQLException {
-        ResultSet resultSet = statement.executeQuery();
-        List<CreditCard> creditCards = new ArrayList<>();
-
-        while (resultSet.next()) {
-            CreditCard creditCard = createCreditCard(resultSet);
-
-            creditCards.add(creditCard);
-        }
-
-        return creditCards;
-    }
-
     @Override
     public CreditCard findById(Integer id)
             throws InterruptedException, DAOException {
@@ -143,7 +130,8 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
     }
 
     @Override
-    public CreditCard update(CreditCard creditCard) throws InterruptedException, DAOException {
+    public CreditCard update(CreditCard creditCard)
+            throws InterruptedException, DAOException {
         Connection connection = null;
         PreparedStatement statement;
 
@@ -163,15 +151,17 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
     }
 
     @Override
-    public void delete(CreditCard creditCard) throws InterruptedException, DAOException {
+    public void delete(CreditCard creditCard)
+            throws InterruptedException, DAOException {
         Connection connection = null;
-        PreparedStatement statement;
 
         try {
             connection = connectionPool.takeConnection();
-            statement = connection.prepareStatement(SQL_DELETE_CREDIT_CARD_QUERY);
-            statement.setInt(1, creditCard.getId());
-            statement.executeUpdate();
+
+            try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_CREDIT_CARD_QUERY)) {
+                statement.setInt(1, creditCard.getId());
+                statement.executeUpdate();
+            }
 
         } catch (SQLException exception) {
             log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
@@ -196,42 +186,69 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
     }
 
     private void saveCreditCard(PreparedStatement statement, CreditCard creditCard) throws SQLException {
-        statement.setString(1, creditCard.getNumber());
-        statement.setDate(2, Date.valueOf(creditCard.getExpirationDate()));
-        statement.setString(3, creditCard.getFullName());
-        statement.setString(4, creditCard.getCVV());
-        statement.setString(5, creditCard.getPin());
-        statement.setInt(6, creditCard.getUserId());
-        statement.setInt(7, creditCard.getBankAccountId());
 
-        statement.executeUpdate();
+        ResultSet resultSet = null;
+        try {
+            statement.setString(1, creditCard.getNumber());
+            statement.setDate(2, Date.valueOf(creditCard.getExpirationDate()));
+            statement.setString(3, creditCard.getFullName());
+            statement.setString(4, creditCard.getCVV());
+            statement.setString(5, creditCard.getPin());
+            statement.setInt(6, creditCard.getUserId());
+            statement.setInt(7, creditCard.getBankAccountId());
 
-        ResultSet resultSet = statement.getGeneratedKeys();
+            statement.executeUpdate();
 
-        if(resultSet.next()) {
-            creditCard.setId(resultSet.getInt(1));
+            resultSet = statement.getGeneratedKeys();
+
+            if (resultSet.next()) {
+                creditCard.setId(resultSet.getInt(1));
+            }
+        } finally {
+            statement.close();
+            if (resultSet != null) {
+                resultSet.close();
+            }
         }
     }
 
     private CreditCard findCreditCard(PreparedStatement statement) throws SQLException {
-        ResultSet resultSet = statement.executeQuery();
+        try (statement; ResultSet resultSet = statement.executeQuery()) {
 
-        if (resultSet.next()) {
-            return createCreditCard(resultSet);
+            if (resultSet.next()) {
+                return createCreditCard(resultSet);
+            }
         }
 
         return null;
     }
 
     private void updateCreditCard(PreparedStatement statement, CreditCard creditCard) throws SQLException {
-        statement.setString(1, creditCard.getNumber());
-        statement.setDate(2, Date.valueOf(creditCard.getExpirationDate()));
-        statement.setString(3, creditCard.getFullName());
-        statement.setString(4, creditCard.getCVV());
-        statement.setString(5, creditCard.getPin());
-        statement.setInt(6, creditCard.getUserId());
-        statement.setInt(7, creditCard.getBankAccountId());
-        statement.setInt(8, creditCard.getId());
-        statement.executeUpdate();
+        try (statement) {
+            statement.setString(1, creditCard.getNumber());
+            statement.setDate(2, Date.valueOf(creditCard.getExpirationDate()));
+            statement.setString(3, creditCard.getFullName());
+            statement.setString(4, creditCard.getCVV());
+            statement.setString(5, creditCard.getPin());
+            statement.setInt(6, creditCard.getUserId());
+            statement.setInt(7, creditCard.getBankAccountId());
+            statement.setInt(8, creditCard.getId());
+            statement.executeUpdate();
+        }
+    }
+
+    private List<CreditCard> findCreditCards(PreparedStatement statement) throws SQLException {
+        try (statement; ResultSet resultSet = statement.executeQuery()) {
+
+            List<CreditCard> creditCards = new ArrayList<>();
+
+            while (resultSet.next()) {
+                CreditCard creditCard = createCreditCard(resultSet);
+
+                creditCards.add(creditCard);
+            }
+
+            return creditCards;
+        }
     }
 }
