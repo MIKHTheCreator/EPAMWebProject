@@ -104,13 +104,12 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
     }
 
 
-
     @Override
     public Passport findById(Integer id)
             throws InterruptedException, DAOException {
         Connection connection = null;
         PreparedStatement statement;
-        Passport passport = null;
+        Passport passport;
 
         try {
             connection = connectionPool.takeConnection();
@@ -121,8 +120,7 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
         } catch (SQLException exception) {
             log.error(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
             throw new DAOException(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
-        }
-        finally {
+        } finally {
             connectionPool.returnConnection(connection);
         }
 
@@ -154,13 +152,14 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
     public void delete(Passport passport)
             throws InterruptedException, DAOException {
         Connection connection = null;
-        PreparedStatement statement;
 
         try {
             connection = connectionPool.takeConnection();
-            statement = connection.prepareStatement(SQL_DELETE_PASSPORT_QUERY);
-            statement.setInt(1, passport.getId());
-            statement.executeUpdate();
+
+            try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_PASSPORT_QUERY)) {
+                statement.setInt(1, passport.getId());
+                statement.executeUpdate();
+            }
 
         } catch (SQLException exception) {
             log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
@@ -170,34 +169,44 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
         }
     }
 
-    private Passport savePassport(PreparedStatement statement, Passport passport)
+    private void savePassport(PreparedStatement statement, Passport passport)
             throws SQLException {
 
-        statement.setString(1, passport.getSeriaAndNumber());
-        statement.setString(2, passport.getPersonalNumber());
-        statement.setDate(3, Date.valueOf(passport.getExpirationDate()));
+        ResultSet resultSet = null;
+        try {
+            statement.setString(1, passport.getSeriaAndNumber());
+            statement.setString(2, passport.getPersonalNumber());
+            statement.setDate(3, Date.valueOf(passport.getExpirationDate()));
 
-        statement.executeUpdate();
-        ResultSet resultSet = statement.getGeneratedKeys();
+            statement.executeUpdate();
+            resultSet = statement.getGeneratedKeys();
 
-        if(resultSet.next()) {
-            passport.setId(resultSet.getInt(1));
+            if (resultSet.next()) {
+                passport.setId(resultSet.getInt(1));
+            }
+
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+
+            statement.close();
         }
-
-        return passport;
     }
 
     private List<Passport> findPassports(PreparedStatement statement)
             throws SQLException {
 
-        ResultSet resultSet = statement.executeQuery();
-        List<Passport> passports = new ArrayList<>();
+        try (statement; ResultSet resultSet = statement.executeQuery()) {
 
-        while(resultSet.next()) {
-            passports.add(createPassport(resultSet));
+            List<Passport> passports = new ArrayList<>();
+
+            while (resultSet.next()) {
+                passports.add(createPassport(resultSet));
+            }
+
+            return passports;
         }
-
-        return passports;
     }
 
     private Passport createPassport(ResultSet resultSet)
@@ -214,23 +223,27 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
     private Passport findPassport(PreparedStatement statement)
             throws SQLException {
 
-        ResultSet resultSet = statement.executeQuery();
-        Passport passport = null;
+        try (statement; ResultSet resultSet = statement.executeQuery()) {
 
-        if(resultSet.next()) {
-            passport = createPassport(resultSet);
+            Passport passport = null;
+
+            if (resultSet.next()) {
+                passport = createPassport(resultSet);
+            }
+
+            return passport;
         }
-
-        return passport;
     }
 
     private void updatePassport(PreparedStatement statement, Passport passport) throws SQLException {
 
-        statement.setString(1, passport.getSeriaAndNumber());
-        statement.setString(2, passport.getPersonalNumber());
-        statement.setDate(3, Date.valueOf(passport.getExpirationDate()));
-        statement.setInt(4, passport.getId());
+        try (statement) {
+            statement.setString(1, passport.getSeriaAndNumber());
+            statement.setString(2, passport.getPersonalNumber());
+            statement.setDate(3, Date.valueOf(passport.getExpirationDate()));
+            statement.setInt(4, passport.getId());
 
-        statement.executeUpdate();
+            statement.executeUpdate();
+        }
     }
 }
