@@ -1,7 +1,7 @@
 package com.epam.jwd.dao.entity.user_account;
 
 public enum Role {
-    USER(0), ADMIN(1);
+    USER(1), ADMIN(2);
 
     private final Integer roleId;
 
