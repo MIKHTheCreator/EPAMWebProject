@@ -64,11 +64,9 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
     @Override
     public CreditCard save(CreditCard creditCard)
             throws InterruptedException, DAOException {
-        Connection connection = null;
-        PreparedStatement statement;
 
-        try {
-            connection = connectionPool.takeConnection();
+        PreparedStatement statement;
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_SAVE_CREDIT_CARD_QUERY);
 
             saveCreditCard(statement, creditCard);
@@ -76,8 +74,6 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
         } catch (SQLException exception) {
             log.error(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
             throw new DAOException(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return creditCard;
@@ -87,11 +83,9 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
     public List<CreditCard> findAll()
             throws InterruptedException, DAOException {
         List<CreditCard> creditCards;
-        Connection connection = null;
-        PreparedStatement statement;
 
-        try {
-            connection = connectionPool.takeConnection();
+        PreparedStatement statement;
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_FIND_ALL_CREDIT_CARDS_QUERY);
 
             creditCards = findCreditCards(statement);
@@ -99,8 +93,6 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
         } catch (SQLException exception) {
             log.error(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
             throw new DAOException(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return creditCards;
@@ -109,12 +101,10 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
     @Override
     public CreditCard findById(Integer id)
             throws InterruptedException, DAOException {
-        Connection connection = null;
         PreparedStatement statement;
         CreditCard creditCard;
 
-        try {
-            connection = connectionPool.takeConnection();
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_FIND_CREDIT_CARD_BY_ID_QUERY);
             statement.setInt(1, id);
 
@@ -122,8 +112,6 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
         } catch (SQLException exception) {
             log.error(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
             throw new DAOException(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return creditCard;
@@ -132,19 +120,15 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
     @Override
     public CreditCard update(CreditCard creditCard)
             throws InterruptedException, DAOException {
-        Connection connection = null;
-        PreparedStatement statement;
 
-        try {
-            connection = connectionPool.takeConnection();
+        PreparedStatement statement;
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_UPDATE_CREDIT_CARD_QUERY);
             updateCreditCard(statement, creditCard);
 
         } catch (SQLException exception) {
             log.error(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
             throw new DAOException(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return creditCard;
@@ -153,10 +137,8 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
     @Override
     public void delete(CreditCard creditCard)
             throws InterruptedException, DAOException {
-        Connection connection = null;
 
-        try {
-            connection = connectionPool.takeConnection();
+        try (Connection connection = connectionPool.takeConnection()) {
 
             try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_CREDIT_CARD_QUERY)) {
                 statement.setInt(1, creditCard.getId());
@@ -166,8 +148,6 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
         } catch (SQLException exception) {
             log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
             throw new DAOException(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
     }
 
