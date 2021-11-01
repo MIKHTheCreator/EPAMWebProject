@@ -17,25 +17,25 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELIMITER;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_ALL_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_ALL_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.ROLLBACK_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.ROLLBACK_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_DELETE_USER_QUERY;
-import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_FIND_ALL_USERS_QUERY;
-import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_FIND_ROLE_BY_ID;
-import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_FIND_USER_BY_ID_QUERY;
-import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_SAVE_USER_QUERY;
-import static com.epam.jwd.dao.messages.UserDAOMessage.SQL_UPDATE_USER_QUERY;
+import static com.epam.jwd.dao.message.ExceptionMessage.DELETE_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.DELETE_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.DELIMITER;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_ALL_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_ALL_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_BY_ID_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_BY_ID_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.ROLLBACK_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.ROLLBACK_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.UserDAOMessage.SQL_DELETE_USER_QUERY;
+import static com.epam.jwd.dao.message.UserDAOMessage.SQL_FIND_ALL_USERS_QUERY;
+import static com.epam.jwd.dao.message.UserDAOMessage.SQL_FIND_ROLE_BY_ID;
+import static com.epam.jwd.dao.message.UserDAOMessage.SQL_FIND_USER_BY_ID_QUERY;
+import static com.epam.jwd.dao.message.UserDAOMessage.SQL_SAVE_USER_QUERY;
+import static com.epam.jwd.dao.message.UserDAOMessage.SQL_UPDATE_USER_QUERY;
 
 public class UserDAOImpl implements DAO<User, Integer> {
 

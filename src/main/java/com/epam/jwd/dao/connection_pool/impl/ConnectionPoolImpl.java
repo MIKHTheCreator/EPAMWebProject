@@ -12,14 +12,14 @@ import java.util.Collection;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import static com.epam.jwd.dao.messages.ExceptionMessage.CONNECTION_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.CONNECTION_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELIMITER;
-import static com.epam.jwd.dao.messages.SQLConfig.INITIAL_SIZE;
-import static com.epam.jwd.dao.messages.SQLConfig.SQL_DB_DRIVER;
-import static com.epam.jwd.dao.messages.SQLConfig.SQL_DB_PASSWORD;
-import static com.epam.jwd.dao.messages.SQLConfig.SQL_DB_URL;
-import static com.epam.jwd.dao.messages.SQLConfig.SQL_DB_USERNAME;
+import static com.epam.jwd.dao.message.ExceptionMessage.CONNECTION_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.CONNECTION_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.DELIMITER;
+import static com.epam.jwd.dao.message.SQLConfig.INITIAL_SIZE;
+import static com.epam.jwd.dao.message.SQLConfig.SQL_DB_DRIVER;
+import static com.epam.jwd.dao.message.SQLConfig.SQL_DB_PASSWORD;
+import static com.epam.jwd.dao.message.SQLConfig.SQL_DB_URL;
+import static com.epam.jwd.dao.message.SQLConfig.SQL_DB_USERNAME;
 
 public final class ConnectionPoolImpl implements ConnectionPool {
 

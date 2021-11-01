@@ -17,22 +17,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_DELETE_CLIENT_QUERY;
-import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_FIND_ALL_CLIENTS_QUERY;
-import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_FIND_BY_ID_CLIENT_QUERY;
-import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_SAVE_CLIENT_QUERY;
-import static com.epam.jwd.dao.messages.ClientDAOMessage.SQL_UPDATE_CLIENT_QUERY;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELIMITER;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_ALL_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_ALL_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ClientDAOMessage.SQL_DELETE_CLIENT_QUERY;
+import static com.epam.jwd.dao.message.ClientDAOMessage.SQL_FIND_ALL_CLIENTS_QUERY;
+import static com.epam.jwd.dao.message.ClientDAOMessage.SQL_FIND_BY_ID_CLIENT_QUERY;
+import static com.epam.jwd.dao.message.ClientDAOMessage.SQL_SAVE_CLIENT_QUERY;
+import static com.epam.jwd.dao.message.ClientDAOMessage.SQL_UPDATE_CLIENT_QUERY;
+import static com.epam.jwd.dao.message.ExceptionMessage.DELETE_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.DELETE_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.DELIMITER;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_ALL_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_ALL_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_BY_ID_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_BY_ID_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION_CODE;
 
 public class ClientDAOImpl implements DAO<Client, Integer> {
 

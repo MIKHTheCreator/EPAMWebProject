@@ -16,22 +16,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_DELETE_CREDIT_CARD_QUERY;
-import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_FIND_ALL_CREDIT_CARDS_QUERY;
-import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_FIND_CREDIT_CARD_BY_ID_QUERY;
-import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_SAVE_CREDIT_CARD_QUERY;
-import static com.epam.jwd.dao.messages.CreditCardDAOMessage.SQL_UPDATE_CREDIT_CARD_QUERY;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELIMITER;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_ALL_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_ALL_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_DELETE_CREDIT_CARD_QUERY;
+import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_FIND_ALL_CREDIT_CARDS_QUERY;
+import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_FIND_CREDIT_CARD_BY_ID_QUERY;
+import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_SAVE_CREDIT_CARD_QUERY;
+import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_UPDATE_CREDIT_CARD_QUERY;
+import static com.epam.jwd.dao.message.ExceptionMessage.DELETE_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.DELETE_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.DELIMITER;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_ALL_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_ALL_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_BY_ID_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_BY_ID_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION_CODE;
 
 
 public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {

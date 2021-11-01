@@ -16,22 +16,22 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELETE_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.DELIMITER;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_ALL_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_ALL_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.FIND_BY_ID_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.SAVE_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_EXCEPTION;
-import static com.epam.jwd.dao.messages.ExceptionMessage.UPDATE_EXCEPTION_CODE;
-import static com.epam.jwd.dao.messages.PassportDAOMessage.SQL_DELETE_PASSPORT_QUERY;
-import static com.epam.jwd.dao.messages.PassportDAOMessage.SQL_FIND_ALL_PASSPORTS_QUERY;
-import static com.epam.jwd.dao.messages.PassportDAOMessage.SQL_FIND_PASSPORT_BY_ID_QUERY;
-import static com.epam.jwd.dao.messages.PassportDAOMessage.SQL_SAVE_PASSPORT_DATA_QUERY;
-import static com.epam.jwd.dao.messages.PassportDAOMessage.SQL_UPDATE_PASSPORT_QUERY;
+import static com.epam.jwd.dao.message.ExceptionMessage.DELETE_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.DELETE_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.DELIMITER;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_ALL_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_ALL_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_BY_ID_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.FIND_BY_ID_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION_CODE;
+import static com.epam.jwd.dao.message.PassportDAOMessage.SQL_DELETE_PASSPORT_QUERY;
+import static com.epam.jwd.dao.message.PassportDAOMessage.SQL_FIND_ALL_PASSPORTS_QUERY;
+import static com.epam.jwd.dao.message.PassportDAOMessage.SQL_FIND_PASSPORT_BY_ID_QUERY;
+import static com.epam.jwd.dao.message.PassportDAOMessage.SQL_SAVE_PASSPORT_DATA_QUERY;
+import static com.epam.jwd.dao.message.PassportDAOMessage.SQL_UPDATE_PASSPORT_QUERY;
 
 public class PassportDAOImpl implements DAO<Passport, Integer> {
 

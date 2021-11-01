@@ -1,4 +1,4 @@
-package com.epam.jwd.dao.messages;
+package com.epam.jwd.dao.message;
 
 public interface BankAccountDAOMessage {
 
