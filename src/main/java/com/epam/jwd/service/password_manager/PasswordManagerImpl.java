@@ -1,6 +1,6 @@
-package com.epam.jwd.service.impl;
+package com.epam.jwd.service.password_manager;
 
-import com.epam.jwd.service.api.PasswordManager;
+import com.epam.jwd.service.password_manager.api.PasswordManager;
 import org.apache.xerces.impl.dv.util.Base64;
 
 import java.nio.charset.StandardCharsets;

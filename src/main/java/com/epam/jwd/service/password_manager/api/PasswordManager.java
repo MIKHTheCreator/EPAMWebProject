@@ -1,4 +1,4 @@
-package com.epam.jwd.service.api;
+package com.epam.jwd.service.password_manager.api;
 
 public interface PasswordManager {
 

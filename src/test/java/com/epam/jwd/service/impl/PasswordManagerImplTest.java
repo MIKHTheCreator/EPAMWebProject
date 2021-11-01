@@ -1,7 +1,8 @@
 package com.epam.jwd.service.impl;
 
 
-import com.epam.jwd.service.api.PasswordManager;
+import com.epam.jwd.service.password_manager.PasswordManagerImpl;
+import com.epam.jwd.service.password_manager.api.PasswordManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
