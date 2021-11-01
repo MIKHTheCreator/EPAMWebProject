@@ -5,8 +5,8 @@ import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
 import com.epam.jwd.dao.entity.user_account.Client;
 import com.epam.jwd.dao.exception.DAOException;
-import com.epam.jwd.service.api.PasswordManager;
-import com.epam.jwd.service.impl.PasswordManagerImpl;
+import com.epam.jwd.service.password_manager.api.PasswordManager;
+import com.epam.jwd.service.password_manager.PasswordManagerImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
