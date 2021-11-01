@@ -63,19 +63,15 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
     @Override
     public Passport save(Passport passport)
             throws InterruptedException, DAOException {
-        Connection connection = null;
-        PreparedStatement statement;
 
-        try {
-            connection = connectionPool.takeConnection();
+        PreparedStatement statement;
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_SAVE_PASSPORT_DATA_QUERY);
             savePassport(statement, passport);
 
         } catch (SQLException exception) {
             log.error(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
             throw new DAOException(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return passport;
@@ -84,20 +80,16 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
     @Override
     public List<Passport> findAll()
             throws InterruptedException, DAOException {
-        Connection connection = null;
         PreparedStatement statement;
         List<Passport> passports;
 
-        try {
-            connection = connectionPool.takeConnection();
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_FIND_ALL_PASSPORTS_QUERY);
 
             passports = findPassports(statement);
         } catch (SQLException exception) {
             log.error(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
             throw new DAOException(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return passports;
@@ -107,12 +99,10 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
     @Override
     public Passport findById(Integer id)
             throws InterruptedException, DAOException {
-        Connection connection = null;
         PreparedStatement statement;
         Passport passport;
 
-        try {
-            connection = connectionPool.takeConnection();
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_FIND_PASSPORT_BY_ID_QUERY);
             statement.setInt(1, id);
 
@@ -120,8 +110,6 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
         } catch (SQLException exception) {
             log.error(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
             throw new DAOException(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return passport;
@@ -130,19 +118,15 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
     @Override
     public Passport update(Passport passport)
             throws InterruptedException, DAOException {
-        Connection connection = null;
-        PreparedStatement statement;
 
-        try {
-            connection = connectionPool.takeConnection();
+        PreparedStatement statement;
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_UPDATE_PASSPORT_QUERY);
 
             updatePassport(statement, passport);
         } catch (SQLException exception) {
             log.error(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
             throw new DAOException(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return passport;
@@ -151,10 +135,8 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
     @Override
     public void delete(Passport passport)
             throws InterruptedException, DAOException {
-        Connection connection = null;
 
-        try {
-            connection = connectionPool.takeConnection();
+        try (Connection connection = connectionPool.takeConnection()) {
 
             try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_PASSPORT_QUERY)) {
                 statement.setInt(1, passport.getId());
@@ -164,8 +146,6 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
         } catch (SQLException exception) {
             log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
             throw new DAOException(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
     }
 
