@@ -66,19 +66,15 @@ public class UserDAOImpl implements DAO<User, Integer> {
     @Override
     public User save(User user)
             throws InterruptedException, DAOException {
-        Connection connection = null;
-        PreparedStatement statement;
 
-        try {
-            connection = connectionPool.takeConnection();
+        PreparedStatement statement;
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_SAVE_USER_QUERY);
 
             saveUser(statement, user);
         } catch (SQLException exception) {
             log.error(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
             throw new DAOException(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return user;
@@ -151,19 +147,15 @@ public class UserDAOImpl implements DAO<User, Integer> {
 
     @Override
     public User update(User user) throws InterruptedException, DAOException {
-        Connection connection = null;
-        PreparedStatement statement;
 
-        try {
-            connection = connectionPool.takeConnection();
+        PreparedStatement statement;
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_UPDATE_USER_QUERY);
 
             updateUser(statement, user);
         } catch (SQLException exception) {
             log.error(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
             throw new DAOException(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return user;
@@ -171,10 +163,8 @@ public class UserDAOImpl implements DAO<User, Integer> {
 
     @Override
     public void delete(User user) throws InterruptedException, DAOException {
-        Connection connection = null;
 
-        try {
-            connection = connectionPool.takeConnection();
+        try (Connection connection = connectionPool.takeConnection()) {
 
             try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_USER_QUERY)) {
                 statement.setInt(1, user.getId());
@@ -184,8 +174,6 @@ public class UserDAOImpl implements DAO<User, Integer> {
         } catch (SQLException exception) {
             log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
             throw new DAOException(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
     }
 
