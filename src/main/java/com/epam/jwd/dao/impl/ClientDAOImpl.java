@@ -65,19 +65,15 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
 
     @Override
     public Client save(Client client) throws InterruptedException, DAOException {
-        Connection connection = null;
-        PreparedStatement statement;
 
-        try {
-            connection = connectionPool.takeConnection();
+        PreparedStatement statement;
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_SAVE_CLIENT_QUERY);
 
             saveClient(statement, client);
         } catch (SQLException exception) {
             log.error(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
             throw new DAOException(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return client;
@@ -85,12 +81,10 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
 
     @Override
     public List<Client> findAll() throws InterruptedException, DAOException {
-        Connection connection = null;
         PreparedStatement statement;
         List<Client> clients;
 
-        try {
-            connection = connectionPool.takeConnection();
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_FIND_ALL_CLIENTS_QUERY);
 
             clients = findClients(statement);
@@ -98,8 +92,6 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
         } catch (SQLException exception) {
             log.error(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
             throw new DAOException(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return clients;
@@ -108,12 +100,10 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
     @Override
     public Client findById(Integer id)
             throws InterruptedException, DAOException {
-        Connection connection = null;
         PreparedStatement statement;
         Client client;
 
-        try {
-            connection = connectionPool.takeConnection();
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_FIND_BY_ID_CLIENT_QUERY);
             statement.setInt(1, id);
 
@@ -121,8 +111,6 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
         } catch (SQLException exception) {
             log.error(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
             throw new DAOException(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return client;
@@ -131,19 +119,15 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
     @Override
     public Client update(Client client)
             throws InterruptedException, DAOException {
-        Connection connection = null;
-        PreparedStatement statement;
 
-        try {
-            connection = connectionPool.takeConnection();
+        PreparedStatement statement;
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_UPDATE_CLIENT_QUERY);
 
             updateClient(statement, client);
         } catch (SQLException exception) {
             log.error(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
             throw new DAOException(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return client;
@@ -152,10 +136,8 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
     @Override
     public void delete(Client client)
             throws InterruptedException, DAOException {
-        Connection connection = null;
 
-        try {
-            connection = connectionPool.takeConnection();
+        try (Connection connection = connectionPool.takeConnection()) {
 
             try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_CLIENT_QUERY)) {
                 statement.setInt(1, client.getId());
@@ -164,8 +146,6 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
         } catch (SQLException exception) {
             log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
             throw new DAOException(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
     }
 
