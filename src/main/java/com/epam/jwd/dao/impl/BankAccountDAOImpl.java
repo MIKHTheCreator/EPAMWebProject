@@ -62,19 +62,15 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
 
     @Override
     public BankAccount save(BankAccount bankAccount) throws InterruptedException, DAOException {
-        Connection connection = null;
-        PreparedStatement statement;
 
-        try {
-            connection = connectionPool.takeConnection();
+        PreparedStatement statement;
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_SAVE_BANK_ACCOUNT_QUERY);
 
             saveBankAccount(statement, bankAccount);
         } catch (SQLException exception) {
             log.error(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
             throw new DAOException(SAVE_EXCEPTION + DELIMITER + SAVE_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return bankAccount;
@@ -83,11 +79,9 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
     @Override
     public List<BankAccount> findAll() throws InterruptedException, DAOException {
         List<BankAccount> bankAccounts;
-        Connection connection = null;
-        PreparedStatement statement;
 
-        try {
-            connection = connectionPool.takeConnection();
+        PreparedStatement statement;
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_FIND_ALL_BANK_ACCOUNTS_QUERY);
 
             bankAccounts = findBankAccounts(statement);
@@ -95,8 +89,6 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         } catch (SQLException exception) {
             log.error(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
             throw new DAOException(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return bankAccounts;
@@ -104,12 +96,10 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
 
     @Override
     public BankAccount findById(Integer id) throws InterruptedException, DAOException {
-        Connection connection = null;
         PreparedStatement statement;
         BankAccount bankAccount;
 
-        try {
-            connection = connectionPool.takeConnection();
+        try(Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_FIND_BANK_ACCOUNT_BY_ID_QUERY);
             statement.setInt(1, id);
 
@@ -117,8 +107,6 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         } catch (SQLException exception) {
             log.error(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
             throw new DAOException(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return bankAccount;
@@ -126,10 +114,8 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
 
     @Override
     public BankAccount update(BankAccount bankAccount) throws InterruptedException, DAOException {
-        Connection connection = null;
 
-        try {
-            connection = connectionPool.takeConnection();
+        try (Connection connection = connectionPool.takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_BANK_ACCOUNT_QUERY)) {
                 updateBankAccount(statement, bankAccount);
             }
@@ -137,8 +123,6 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         } catch (SQLException exception) {
             log.error(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
             throw new DAOException(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
 
         return bankAccount;
@@ -146,10 +130,8 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
 
     @Override
     public void delete(BankAccount bankAccount) throws InterruptedException, DAOException {
-        Connection connection = null;
 
-        try {
-            connection = connectionPool.takeConnection();
+        try (Connection connection = connectionPool.takeConnection()) {
 
             try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE_BANK_ACCOUNT_QUERY)) {
                 statement.setInt(1, bankAccount.getId());
@@ -159,8 +141,6 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         } catch (SQLException exception) {
             log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
             throw new DAOException(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
-        } finally {
-            connectionPool.returnConnection(connection);
         }
     }
 
