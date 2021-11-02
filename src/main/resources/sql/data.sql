@@ -1,6 +1,6 @@
-INSERT INTO `role` (`role_name`) VALUES
+INSERT INTO `role` VALUES
     ('ADMIN');
-INSERT INTO `role` (`role_name`) VALUES
+INSERT INTO `role` VALUES
     ('USER');
-INSERT INTO `role` (`role_name`) VALUES
+INSERT INTO `role` VALUES
     ('VISITOR');
