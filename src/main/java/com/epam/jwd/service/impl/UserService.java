@@ -44,7 +44,7 @@ public class UserService implements Service<UserDTO, Integer> {
         User user = mapper.convertToEntity(userDTO);
 
         try {
-            userDAO.save(user);
+            userDTO = mapper.convertToDTO(userDAO.save(user));
         } catch (DAOException e) {
             log.error(SERVICE_SAVE_METHOD_EXCEPTION + DELIMITER + SERVICE_SAVE_METHOD_EXCEPTION_CODE, e);
             throw new ServiceException(SERVICE_SAVE_METHOD_EXCEPTION + DELIMITER + SERVICE_SAVE_METHOD_EXCEPTION_CODE, e);
@@ -88,7 +88,7 @@ public class UserService implements Service<UserDTO, Integer> {
         User user = mapper.convertToEntity(userDTO);
 
         try {
-            userDAO.update(user);
+            userDTO = mapper.convertToDTO(userDAO.update(user));
         } catch (DAOException e) {
             log.error(SERVICE_UPDATE_METHOD_EXCEPTION + DELIMITER + SERVICE_UPDATE_METHOD_EXCEPTION_CODE, e);
             throw new ServiceException(SERVICE_UPDATE_METHOD_EXCEPTION + DELIMITER + SERVICE_UPDATE_METHOD_EXCEPTION_CODE, e);
