@@ -24,6 +24,7 @@ public class UserDTOMapper implements DTOMapper<UserDTO, User, Integer> {
 
     @Override
     public User convertToEntity(UserDTO userDTO) {
+
         return new User.Builder()
                 .withId(userDTO.getId())
                 .withFirstName(userDTO.getFirstName())
