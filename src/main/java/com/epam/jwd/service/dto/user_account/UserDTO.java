@@ -2,6 +2,7 @@ package com.epam.jwd.service.dto.user_account;
 
 import com.epam.jwd.dao.entity.user_account.Gender;
 import com.epam.jwd.dao.entity.user_account.Role;
+import com.epam.jwd.dao.entity.user_account.User;
 import com.epam.jwd.service.dto.AbstractEntityDTO;
 
 import java.util.Objects;
@@ -133,5 +134,79 @@ public class UserDTO extends AbstractEntityDTO<Integer> {
                 ", clientId=" + clientId +
                 ", passportId=" + passportId +
                 '}';
+    }
+
+    public static class Builder {
+
+        private Integer id;
+        private String firstName;
+        private String secondName;
+        private String phoneNumber;
+        private Integer age;
+        private Gender gender;
+        private Role role;
+        private Integer clientId;
+        private Integer passportId;
+
+        public Builder() {
+        }
+
+        public Builder withFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder withSecondName(String secondName) {
+            this.secondName = secondName;
+            return this;
+        }
+
+        public Builder withPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public Builder withAge(Integer age) {
+            this.age = age;
+            return this;
+        }
+
+        public Builder withGender(Gender gender) {
+            this.gender = gender;
+            return this;
+        }
+
+        public Builder withRole(Role role) {
+            this.role = role;
+            return this;
+        }
+
+        public Builder withPassportId(Integer passportId) {
+            this.passportId = passportId;
+            return this;
+        }
+        public Builder withClientId(Integer clientId) {
+            this.clientId = clientId;
+            return this;
+        }
+
+        public Builder withId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public UserDTO build() {
+            UserDTO userDTO = new UserDTO(this.id);
+            userDTO.setAge(this.age);
+            userDTO.setGender(this.gender);
+            userDTO.setFirstName(this.firstName);
+            userDTO.setPassportId(this.passportId);
+            userDTO.setPhoneNumber(this.phoneNumber);
+            userDTO.setSecondName(this.secondName);
+            userDTO.setClientId(this.clientId);
+            userDTO.setRole(this.role);
+
+            return userDTO;
+        }
     }
 }
