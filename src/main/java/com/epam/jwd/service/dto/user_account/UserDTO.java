@@ -2,7 +2,6 @@ package com.epam.jwd.service.dto.user_account;
 
 import com.epam.jwd.dao.entity.user_account.Gender;
 import com.epam.jwd.dao.entity.user_account.Role;
-import com.epam.jwd.dao.entity.user_account.User;
 import com.epam.jwd.service.dto.AbstractEntityDTO;
 
 import java.util.Objects;

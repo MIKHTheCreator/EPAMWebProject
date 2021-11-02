@@ -1,6 +1,5 @@
 package com.epam.jwd.service.dto.payment_system;
 
-import com.epam.jwd.dao.entity.payment_system.Payment;
 import com.epam.jwd.service.dto.AbstractEntityDTO;
 
 import java.math.BigDecimal;
