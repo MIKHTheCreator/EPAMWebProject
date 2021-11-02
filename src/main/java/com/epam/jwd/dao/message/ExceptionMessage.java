@@ -24,4 +24,7 @@ public interface ExceptionMessage {
 
     String CONNECTION_EXCEPTION = "Connection failed";
     Integer CONNECTION_EXCEPTION_CODE = 666;
+
+    String INTERRUPT_EXCEPTION = "Current thread was interrupted";
+    Integer INTERRUPT_EXCEPTION_CODE = 7;
 }

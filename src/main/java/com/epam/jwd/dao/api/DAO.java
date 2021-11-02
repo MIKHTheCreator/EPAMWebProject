@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface DAO<T extends AbstractEntity<K>, K> {
 
-    T save(T entity) throws InterruptedException, DAOException;
-    List<T> findAll() throws InterruptedException, DAOException;
-    T findById(K id) throws InterruptedException, DAOException;
-    T update(T entity) throws InterruptedException, DAOException;
-    void delete(T entity) throws InterruptedException, DAOException;
+    T save(T entity) throws DAOException;
+    List<T> findAll() throws DAOException;
+    T findById(K id) throws DAOException;
+    T update(T entity) throws DAOException;
+    void delete(T entity) throws DAOException;
 
 }

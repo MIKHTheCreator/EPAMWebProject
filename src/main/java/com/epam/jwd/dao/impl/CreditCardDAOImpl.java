@@ -63,7 +63,7 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
 
     @Override
     public CreditCard save(CreditCard creditCard)
-            throws InterruptedException, DAOException {
+            throws DAOException {
 
         PreparedStatement statement;
         try (Connection connection = connectionPool.takeConnection()) {
@@ -81,7 +81,7 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
 
     @Override
     public List<CreditCard> findAll()
-            throws InterruptedException, DAOException {
+            throws DAOException {
         List<CreditCard> creditCards;
 
         PreparedStatement statement;
@@ -100,7 +100,7 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
 
     @Override
     public CreditCard findById(Integer id)
-            throws InterruptedException, DAOException {
+            throws DAOException {
         PreparedStatement statement;
         CreditCard creditCard;
 
@@ -119,7 +119,7 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
 
     @Override
     public CreditCard update(CreditCard creditCard)
-            throws InterruptedException, DAOException {
+            throws DAOException {
 
         PreparedStatement statement;
         try (Connection connection = connectionPool.takeConnection()) {
@@ -136,7 +136,7 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
 
     @Override
     public void delete(CreditCard creditCard)
-            throws InterruptedException, DAOException {
+            throws DAOException {
 
         try (Connection connection = connectionPool.takeConnection()) {
 

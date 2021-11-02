@@ -15,6 +15,8 @@ import java.util.concurrent.BlockingQueue;
 import static com.epam.jwd.dao.message.ExceptionMessage.CONNECTION_EXCEPTION;
 import static com.epam.jwd.dao.message.ExceptionMessage.CONNECTION_EXCEPTION_CODE;
 import static com.epam.jwd.dao.message.ExceptionMessage.DELIMITER;
+import static com.epam.jwd.dao.message.ExceptionMessage.INTERRUPT_EXCEPTION;
+import static com.epam.jwd.dao.message.ExceptionMessage.INTERRUPT_EXCEPTION_CODE;
 import static com.epam.jwd.dao.message.SQLConfig.INITIAL_SIZE;
 import static com.epam.jwd.dao.message.SQLConfig.SQL_DB_DRIVER;
 import static com.epam.jwd.dao.message.SQLConfig.SQL_DB_PASSWORD;
@@ -48,7 +50,7 @@ public final class ConnectionPoolImpl implements ConnectionPool {
 
     @Override
     public boolean init()
-            throws InterruptedException, DAOException {
+            throws DAOException {
 
         if(!initialized) {
             createConnections();
@@ -71,20 +73,30 @@ public final class ConnectionPoolImpl implements ConnectionPool {
     }
 
     @Override
-    public Connection takeConnection() throws InterruptedException {
-        final ProxyConnection connection = availableConnections.take();
-        givenAwayConnections.put(connection);
+    public Connection takeConnection() {
+        try {
+            final ProxyConnection connection = availableConnections.take();
+            givenAwayConnections.put(connection);
+            return connection;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.error(INTERRUPT_EXCEPTION + DELIMITER + INTERRUPT_EXCEPTION_CODE);
+        }
 
-        return connection;
+        return null;
     }
 
     @Override
-    public void returnConnection(Connection connection) throws InterruptedException {
-        availableConnections.put(givenAwayConnections.take());
+    public void returnConnection(Connection connection) {
+        try {
+            availableConnections.put(givenAwayConnections.take());
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.error(INTERRUPT_EXCEPTION + DELIMITER + INTERRUPT_EXCEPTION_CODE);
+        }
     }
 
-    private void createConnections()
-            throws InterruptedException, DAOException {
+    private void createConnections() throws DAOException {
 
         try {
             Class.forName(SQL_DB_DRIVER);
@@ -97,6 +109,9 @@ public final class ConnectionPoolImpl implements ConnectionPool {
         } catch (SQLException | ClassNotFoundException exception) {
             log.error(CONNECTION_EXCEPTION + DELIMITER + CONNECTION_EXCEPTION_CODE, exception);
             throw new DAOException(CONNECTION_EXCEPTION + DELIMITER + CONNECTION_EXCEPTION_CODE, exception);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            log.error(INTERRUPT_EXCEPTION + DELIMITER + INTERRUPT_EXCEPTION_CODE);
         }
     }
 

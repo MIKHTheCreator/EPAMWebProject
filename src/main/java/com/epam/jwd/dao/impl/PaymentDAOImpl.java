@@ -61,7 +61,7 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
 
     @Override
     public Payment save(Payment payment)
-            throws InterruptedException, DAOException {
+            throws DAOException {
 
         PreparedStatement statement;
         try (Connection connection = connectionPool.takeConnection()) {
@@ -78,7 +78,7 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
 
     @Override
     public List<Payment> findAll()
-            throws InterruptedException, DAOException {
+            throws DAOException {
         List<Payment> payments;
 
         PreparedStatement statement;
@@ -96,7 +96,7 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
     }
 
     @Override
-    public Payment findById(Integer id) throws InterruptedException, DAOException {
+    public Payment findById(Integer id) throws DAOException {
         PreparedStatement statement;
         Payment payment;
 
@@ -114,7 +114,7 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
     }
 
     @Override
-    public Payment update(Payment payment) throws InterruptedException, DAOException {
+    public Payment update(Payment payment) throws DAOException {
 
         PreparedStatement statement;
         try (Connection connection = connectionPool.takeConnection()) {
@@ -131,7 +131,7 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
     }
 
     @Override
-    public void delete(Payment payment) throws InterruptedException, DAOException {
+    public void delete(Payment payment) throws DAOException {
 
         try (Connection connection = connectionPool.takeConnection()) {
 

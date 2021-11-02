@@ -64,7 +64,7 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
     }
 
     @Override
-    public Client save(Client client) throws InterruptedException, DAOException {
+    public Client save(Client client) throws DAOException {
 
         PreparedStatement statement;
         try (Connection connection = connectionPool.takeConnection()) {
@@ -80,7 +80,7 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
     }
 
     @Override
-    public List<Client> findAll() throws InterruptedException, DAOException {
+    public List<Client> findAll() throws DAOException {
         PreparedStatement statement;
         List<Client> clients;
 
@@ -99,7 +99,7 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
 
     @Override
     public Client findById(Integer id)
-            throws InterruptedException, DAOException {
+            throws DAOException {
         PreparedStatement statement;
         Client client;
 
@@ -118,7 +118,7 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
 
     @Override
     public Client update(Client client)
-            throws InterruptedException, DAOException {
+            throws DAOException {
 
         PreparedStatement statement;
         try (Connection connection = connectionPool.takeConnection()) {
@@ -135,7 +135,7 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
 
     @Override
     public void delete(Client client)
-            throws InterruptedException, DAOException {
+            throws DAOException {
 
         try (Connection connection = connectionPool.takeConnection()) {
 

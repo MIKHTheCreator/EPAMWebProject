@@ -62,7 +62,7 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
 
     @Override
     public Passport save(Passport passport)
-            throws InterruptedException, DAOException {
+            throws DAOException {
 
         PreparedStatement statement;
         try (Connection connection = connectionPool.takeConnection()) {
@@ -79,7 +79,7 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
 
     @Override
     public List<Passport> findAll()
-            throws InterruptedException, DAOException {
+            throws DAOException {
         PreparedStatement statement;
         List<Passport> passports;
 
@@ -98,7 +98,7 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
 
     @Override
     public Passport findById(Integer id)
-            throws InterruptedException, DAOException {
+            throws DAOException {
         PreparedStatement statement;
         Passport passport;
 
@@ -117,7 +117,7 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
 
     @Override
     public Passport update(Passport passport)
-            throws InterruptedException, DAOException {
+            throws DAOException {
 
         PreparedStatement statement;
         try (Connection connection = connectionPool.takeConnection()) {
@@ -134,7 +134,7 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
 
     @Override
     public void delete(Passport passport)
-            throws InterruptedException, DAOException {
+            throws DAOException {
 
         try (Connection connection = connectionPool.takeConnection()) {
 

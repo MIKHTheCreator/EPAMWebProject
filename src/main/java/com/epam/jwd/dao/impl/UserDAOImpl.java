@@ -65,7 +65,7 @@ public class UserDAOImpl implements DAO<User, Integer> {
 
     @Override
     public User save(User user)
-            throws InterruptedException, DAOException {
+            throws DAOException {
 
         PreparedStatement statement;
         try (Connection connection = connectionPool.takeConnection()) {
@@ -82,7 +82,7 @@ public class UserDAOImpl implements DAO<User, Integer> {
 
 
     @Override
-    public List<User> findAll() throws InterruptedException, DAOException {
+    public List<User> findAll() throws DAOException {
         List<User> users;
         Connection connection = null;
         PreparedStatement statement;
@@ -113,7 +113,7 @@ public class UserDAOImpl implements DAO<User, Integer> {
     }
 
     @Override
-    public User findById(Integer id) throws InterruptedException, DAOException {
+    public User findById(Integer id) throws DAOException {
         Connection connection = null;
         PreparedStatement statement;
         User user;
@@ -146,7 +146,7 @@ public class UserDAOImpl implements DAO<User, Integer> {
     }
 
     @Override
-    public User update(User user) throws InterruptedException, DAOException {
+    public User update(User user) throws DAOException {
 
         PreparedStatement statement;
         try (Connection connection = connectionPool.takeConnection()) {
@@ -162,7 +162,7 @@ public class UserDAOImpl implements DAO<User, Integer> {
     }
 
     @Override
-    public void delete(User user) throws InterruptedException, DAOException {
+    public void delete(User user) throws DAOException {
 
         try (Connection connection = connectionPool.takeConnection()) {
 

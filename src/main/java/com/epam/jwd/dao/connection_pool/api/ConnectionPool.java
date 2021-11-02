@@ -6,11 +6,11 @@ import java.sql.Connection;
 
 public interface ConnectionPool {
 
-    boolean init() throws InterruptedException, DAOException;
+    boolean init() throws DAOException;
 
     boolean shutDown() throws DAOException;
 
-    Connection takeConnection() throws InterruptedException;
+    Connection takeConnection();
 
-    void returnConnection(Connection connection) throws InterruptedException;
+    void returnConnection(Connection connection);
 }
