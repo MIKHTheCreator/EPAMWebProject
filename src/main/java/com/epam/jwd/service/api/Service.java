@@ -1,10 +1,10 @@
 package com.epam.jwd.service.api;
 
-import com.epam.jwd.service.dto.EntityDTO;
+import com.epam.jwd.service.dto.AbstractEntityDTO;
 
 import java.util.List;
 
-public interface Service<T extends EntityDTO<V>, V> {
+public interface Service<T extends AbstractEntityDTO<V>, V> {
 
     T save(T entity);
     List<T> findAll();

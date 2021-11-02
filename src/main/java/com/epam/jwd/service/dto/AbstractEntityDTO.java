@@ -1,13 +1,13 @@
 package com.epam.jwd.service.dto;
 
-public class EntityDTO<T> {
+public class AbstractEntityDTO<T> {
 
     private T id;
 
-    public EntityDTO() {
+    public AbstractEntityDTO() {
     }
 
-    public EntityDTO(T id) {
+    public AbstractEntityDTO(T id) {
         this.id = id;
     }
 
