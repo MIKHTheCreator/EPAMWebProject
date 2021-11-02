@@ -58,7 +58,7 @@ public class UserService implements Service<UserDTO, Integer> {
         List<UserDTO> users = new ArrayList<>();
 
         try {
-            for(User user : userDAO.findAll()) {
+            for (User user : userDAO.findAll()) {
                 users.add(mapper.convertToDTO(user));
             }
         } catch (DAOException e) {
