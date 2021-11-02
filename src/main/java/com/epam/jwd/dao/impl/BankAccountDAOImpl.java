@@ -61,7 +61,7 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
     }
 
     @Override
-    public BankAccount save(BankAccount bankAccount) throws InterruptedException, DAOException {
+    public BankAccount save(BankAccount bankAccount) throws DAOException {
 
         PreparedStatement statement;
         try (Connection connection = connectionPool.takeConnection()) {
@@ -77,7 +77,7 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
     }
 
     @Override
-    public List<BankAccount> findAll() throws InterruptedException, DAOException {
+    public List<BankAccount> findAll() throws DAOException {
         List<BankAccount> bankAccounts;
 
         PreparedStatement statement;
@@ -95,7 +95,7 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
     }
 
     @Override
-    public BankAccount findById(Integer id) throws InterruptedException, DAOException {
+    public BankAccount findById(Integer id) throws DAOException {
         PreparedStatement statement;
         BankAccount bankAccount;
 
@@ -113,7 +113,7 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
     }
 
     @Override
-    public BankAccount update(BankAccount bankAccount) throws InterruptedException, DAOException {
+    public BankAccount update(BankAccount bankAccount) throws DAOException {
 
         try (Connection connection = connectionPool.takeConnection()) {
             try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_BANK_ACCOUNT_QUERY)) {
@@ -129,7 +129,7 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
     }
 
     @Override
-    public void delete(BankAccount bankAccount) throws InterruptedException, DAOException {
+    public void delete(BankAccount bankAccount) throws DAOException {
 
         try (Connection connection = connectionPool.takeConnection()) {
 
