@@ -1,13 +1,13 @@
-package com.epam.jwd.service.impl;
+package com.epam.jwd.service.impl.user_account;
 
 import com.epam.jwd.dao.api.DAO;
-import com.epam.jwd.dao.entity.user_account.User;
+import com.epam.jwd.dao.entity.user_account.Client;
 import com.epam.jwd.dao.exception.DAOException;
-import com.epam.jwd.dao.impl.UserDAOImpl;
+import com.epam.jwd.dao.impl.ClientDAOImpl;
 import com.epam.jwd.service.api.Service;
 import com.epam.jwd.service.dto.mapper.DTOMapper;
-import com.epam.jwd.service.dto.mapper.user_account.UserDTOMapper;
-import com.epam.jwd.service.dto.user_account.UserDTO;
+import com.epam.jwd.service.dto.mapper.user_account.ClientDTOMapper;
+import com.epam.jwd.service.dto.user_account.ClientDTO;
 import com.epam.jwd.service.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,82 +27,82 @@ import static com.epam.jwd.service.message.ExceptionMessage.SERVICE_SAVE_METHOD_
 import static com.epam.jwd.service.message.ExceptionMessage.SERVICE_UPDATE_METHOD_EXCEPTION;
 import static com.epam.jwd.service.message.ExceptionMessage.SERVICE_UPDATE_METHOD_EXCEPTION_CODE;
 
-public class UserService implements Service<UserDTO, Integer> {
+public class ClientService implements Service<ClientDTO, Integer> {
 
-    private final DAO<User, Integer> userDAO;
-    private final DTOMapper<UserDTO, User, Integer> mapper;
+    private final DAO<Client, Integer> clientDAO;
+    private final DTOMapper<ClientDTO, Client, Integer> mapper;
 
-    private static final Logger log = LogManager.getLogger(UserService.class);
+    private static final Logger log = LogManager.getLogger(ClientService.class);
 
-    public UserService() {
-        this.userDAO = UserDAOImpl.getInstance();
-        this.mapper = new UserDTOMapper();
+    public ClientService() {
+        this.clientDAO = ClientDAOImpl.getInstance();
+        this.mapper = new ClientDTOMapper();
     }
 
     @Override
-    public UserDTO save(UserDTO userDTO) throws ServiceException {
-        User user = mapper.convertToEntity(userDTO);
+    public ClientDTO save(ClientDTO clientDTO) throws ServiceException {
+        Client client = mapper.convertToEntity(clientDTO);
 
         try {
-            userDTO = mapper.convertToDTO(userDAO.save(user));
+            clientDTO = mapper.convertToDTO(clientDAO.save(client));
         } catch (DAOException e) {
             log.error(SERVICE_SAVE_METHOD_EXCEPTION + DELIMITER + SERVICE_SAVE_METHOD_EXCEPTION_CODE, e);
             throw new ServiceException(SERVICE_SAVE_METHOD_EXCEPTION + DELIMITER + SERVICE_SAVE_METHOD_EXCEPTION_CODE, e);
         }
-        return userDTO;
+
+        return clientDTO;
     }
 
     @Override
-    public List<UserDTO> findAll() throws ServiceException {
-
-        List<UserDTO> users = new ArrayList<>();
+    public List<ClientDTO> findAll() throws ServiceException {
+        List<ClientDTO> clients = new ArrayList<>();
 
         try {
-            for (User user : userDAO.findAll()) {
-                users.add(mapper.convertToDTO(user));
+            for(Client client : clientDAO.findAll()) {
+                clients.add(mapper.convertToDTO(client));
             }
         } catch (DAOException e) {
             log.error(SERVICE_FIND_ALL_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_ALL_METHOD_EXCEPTION_CODE, e);
             throw new ServiceException(SERVICE_FIND_ALL_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_ALL_METHOD_EXCEPTION_CODE, e);
         }
 
-        return users;
+        return clients;
     }
 
     @Override
-    public UserDTO findById(Integer id) throws ServiceException {
-        UserDTO userDTO;
+    public ClientDTO findById(Integer id) throws ServiceException {
+        ClientDTO clientDTO;
 
         try {
-            userDTO = mapper.convertToDTO(userDAO.findById(id));
+            clientDTO = mapper.convertToDTO(clientDAO.findById(id));
         } catch (DAOException e) {
             log.error(SERVICE_FIND_BY_ID_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_BY_ID_METHOD_EXCEPTION_CODE, e);
             throw new ServiceException(SERVICE_FIND_BY_ID_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_BY_ID_METHOD_EXCEPTION_CODE, e);
         }
 
-        return userDTO;
+        return clientDTO;
     }
 
     @Override
-    public UserDTO update(UserDTO userDTO) throws ServiceException {
-        User user = mapper.convertToEntity(userDTO);
+    public ClientDTO update(ClientDTO clientDTO) throws ServiceException {
+        Client client = mapper.convertToEntity(clientDTO);
 
         try {
-            userDTO = mapper.convertToDTO(userDAO.update(user));
+            clientDTO = mapper.convertToDTO(clientDAO.update(client));
         } catch (DAOException e) {
             log.error(SERVICE_UPDATE_METHOD_EXCEPTION + DELIMITER + SERVICE_UPDATE_METHOD_EXCEPTION_CODE, e);
             throw new ServiceException(SERVICE_UPDATE_METHOD_EXCEPTION + DELIMITER + SERVICE_UPDATE_METHOD_EXCEPTION_CODE, e);
         }
 
-        return userDTO;
+        return clientDTO;
     }
 
     @Override
-    public void delete(UserDTO userDTO) throws ServiceException {
-        User user = mapper.convertToEntity(userDTO);
+    public void delete(ClientDTO clientDTO) throws ServiceException {
+        Client client = mapper.convertToEntity(clientDTO);
 
         try {
-            userDAO.delete(user);
+            clientDAO.delete(client);
         } catch (DAOException e) {
             log.error(SERVICE_DELETE_METHOD_EXCEPTION + DELIMITER + SERVICE_DELETE_METHOD_EXCEPTION_CODE, e);
             throw new ServiceException(SERVICE_DELETE_METHOD_EXCEPTION + DELIMITER + SERVICE_DELETE_METHOD_EXCEPTION_CODE, e);
