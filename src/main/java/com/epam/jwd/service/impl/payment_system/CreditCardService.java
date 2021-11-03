@@ -32,7 +32,7 @@ public class CreditCardService implements Service<CreditCardDTO, Integer> {
     private final DAO<CreditCard, Integer> creditCardDAO;
     private final DTOMapper<CreditCardDTO, CreditCard, Integer> mapper;
 
-    private static final Logger log = LogManager.getLogger(BankAccountService.class);
+    private static final Logger log = LogManager.getLogger(CreditCardService.class);
 
     public CreditCardService() {
         this.creditCardDAO = CreditCardDAOImpl.getInstance();
