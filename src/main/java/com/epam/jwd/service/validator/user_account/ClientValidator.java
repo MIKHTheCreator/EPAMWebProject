@@ -4,21 +4,22 @@ import com.epam.jwd.service.dto.user_account.ClientDTO;
 import com.epam.jwd.service.exception.ServiceException;
 import com.epam.jwd.service.validator.Validator;
 
-import java.util.Locale;
-
 import static com.epam.jwd.dao.message.ExceptionMessage.DELIMITER;
 import static com.epam.jwd.service.config.ValidatorConfig.EMAIL_PATTERN;
 import static com.epam.jwd.service.config.ValidatorConfig.MAX_PASSWORD_LENGTH;
 import static com.epam.jwd.service.config.ValidatorConfig.MAX_USERNAME_LENGTH;
 import static com.epam.jwd.service.config.ValidatorConfig.MIN_PASSWORD_LENGTH;
 import static com.epam.jwd.service.config.ValidatorConfig.MIN_USERNAME_LENGTH;
-import static com.epam.jwd.service.config.ValidatorConfig.USERNAME_SPECIAL_SYMBOLS;
+import static com.epam.jwd.service.config.ValidatorConfig.PASSWORD_PATTERN;
+import static com.epam.jwd.service.config.ValidatorConfig.USERNAME_PATTERN;
+import static com.epam.jwd.service.message.ExceptionMessage.PASSWORD_CORRESPOND_TO_PASSWORD_PATTERN_EXCEPTION;
+import static com.epam.jwd.service.message.ExceptionMessage.PASSWORD_CORRESPOND_TO_PASSWORD_PATTERN_EXCEPTION_CODE;
 import static com.epam.jwd.service.message.ExceptionMessage.PASSWORD_LENGTH_EXCEPTION;
 import static com.epam.jwd.service.message.ExceptionMessage.PASSWORD_LENGTH_EXCEPTION_CODE;
 import static com.epam.jwd.service.message.ExceptionMessage.UNSUPPORTED_EMAIL;
 import static com.epam.jwd.service.message.ExceptionMessage.UNSUPPORTED_EMAIL_CODE;
-import static com.epam.jwd.service.message.ExceptionMessage.USERNAME_CONTAINS_SPECIAL_SYMBOLS_EXCEPTION;
-import static com.epam.jwd.service.message.ExceptionMessage.USERNAME_CONTAINS_SPECIAL_SYMBOLS_EXCEPTION_CODE;
+import static com.epam.jwd.service.message.ExceptionMessage.USERNAME_CORRESPOND_TO_PATTERN_EXCEPTION;
+import static com.epam.jwd.service.message.ExceptionMessage.USERNAME_CORRESPOND_TO_PATTERN_EXCEPTION_CODE;
 import static com.epam.jwd.service.message.ExceptionMessage.USERNAME_LENGTH_EXCEPTION;
 import static com.epam.jwd.service.message.ExceptionMessage.USERNAME_LENGTH_EXCEPTION_CODE;
 
@@ -34,14 +35,13 @@ public class ClientValidator implements Validator<ClientDTO, Integer> {
     private void isValidPassword(String password) throws ServiceException {
         if (!isValidPasswordLength(password)) {
             throw new ServiceException(PASSWORD_LENGTH_EXCEPTION + DELIMITER + PASSWORD_LENGTH_EXCEPTION_CODE);
-        } else if (!isContainUpperCaseLetters(password)) {
-            throw new ServiceException(PASSWORD_LENGTH_EXCEPTION + DELIMITER + PASSWORD_LENGTH_EXCEPTION_CODE);
+        } else if (!isCorrespondToPasswordPattern(password)) {
+            throw new ServiceException(PASSWORD_CORRESPOND_TO_PASSWORD_PATTERN_EXCEPTION + DELIMITER + PASSWORD_CORRESPOND_TO_PASSWORD_PATTERN_EXCEPTION_CODE);
         }
     }
 
-    //todo check method for upper and lower case letters in text
-    private boolean isContainUpperCaseLetters(String password) {
-        return
+    private boolean isCorrespondToPasswordPattern(String password) {
+        return password.matches(PASSWORD_PATTERN);
     }
 
     private boolean isValidPasswordLength(String password) {
@@ -54,13 +54,13 @@ public class ClientValidator implements Validator<ClientDTO, Integer> {
 
         if (!isValidUsernameLength(username)) {
             throw new ServiceException(USERNAME_LENGTH_EXCEPTION + DELIMITER + USERNAME_LENGTH_EXCEPTION_CODE);
-        } else if (isContainSpecialSymbols(username)) {
-            throw new ServiceException(USERNAME_CONTAINS_SPECIAL_SYMBOLS_EXCEPTION + DELIMITER + USERNAME_CONTAINS_SPECIAL_SYMBOLS_EXCEPTION_CODE);
+        } else if (!isCorrespondToUsernamePattern(username)) {
+            throw new ServiceException(USERNAME_CORRESPOND_TO_PATTERN_EXCEPTION + DELIMITER + USERNAME_CORRESPOND_TO_PATTERN_EXCEPTION_CODE);
         }
     }
 
-    private boolean isContainSpecialSymbols(String username) {
-        return username.matches(USERNAME_SPECIAL_SYMBOLS);
+    private boolean isCorrespondToUsernamePattern(String username) {
+        return username.matches(USERNAME_PATTERN);
     }
 
     private boolean isValidUsernameLength(String username) {
