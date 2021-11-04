@@ -16,4 +16,10 @@ public interface ExceptionMessage {
 
     String SERVICE_DELETE_METHOD_EXCEPTION = "Delete operation was failed";
     Integer SERVICE_DELETE_METHOD_EXCEPTION_CODE = 12;
+
+    String USERNAME_LENGTH_EXCEPTION = "Username must be at least 3 symbols length and shorter than 32 symbols";
+    Integer USERNAME_LENGTH_EXCEPTION_CODE = 13;
+
+    String USERNAME_CONTAINS_SPECIAL_SYMBOLS_EXCEPTION = "Username shouldn't contain special symbols form list: ($&+,:;=?@#|'<>.^*()%!-/)";
+    Integer USERNAME_CONTAINS_SPECIAL_SYMBOLS_EXCEPTION_CODE = 14;
 }
