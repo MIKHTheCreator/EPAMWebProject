@@ -22,4 +22,10 @@ public interface ExceptionMessage {
 
     String USERNAME_CONTAINS_SPECIAL_SYMBOLS_EXCEPTION = "Username shouldn't contain special symbols form list: ($&+,:;=?@#|'<>.^*()%!-/)";
     Integer USERNAME_CONTAINS_SPECIAL_SYMBOLS_EXCEPTION_CODE = 14;
+
+    String UNSUPPORTED_EMAIL = "Such an email isn't valid";
+    Integer UNSUPPORTED_EMAIL_CODE = 15;
+
+    String PASSWORD_LENGTH_EXCEPTION = "Password must be at least 8 symbols length and shorter than 32 symbols";
+    Integer PASSWORD_LENGTH_EXCEPTION_CODE = 16;
 }
