@@ -1,10 +1,22 @@
 package com.epam.jwd.dao.connection_pool.impl;
 
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.sql.*;
+import java.sql.Array;
+import java.sql.Blob;
+import java.sql.CallableStatement;
+import java.sql.Clob;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.NClob;
+import java.sql.PreparedStatement;
+import java.sql.SQLClientInfoException;
+import java.sql.SQLException;
+import java.sql.SQLWarning;
+import java.sql.SQLXML;
+import java.sql.Savepoint;
+import java.sql.Statement;
+import java.sql.Struct;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
@@ -13,9 +25,6 @@ public class ProxyConnection implements Connection {
 
     private final Connection connection;
     private final ConnectionPool connectionPool;
-
-    private static final String INTERRUPTED_LOG_MESSAGE = "Thread has been interrupted";
-    private static final Logger log = LogManager.getLogger(ProxyConnection.class);
 
     public ProxyConnection(Connection connection, ConnectionPool connectionPool) {
         this.connection = connection;
@@ -63,13 +72,8 @@ public class ProxyConnection implements Connection {
     }
 
     @Override
-    public void close() throws SQLException {
-        try {
-            connectionPool.returnConnection(connection);
-        } catch (InterruptedException e) {
-            log.error(INTERRUPTED_LOG_MESSAGE);
-            Thread.currentThread().interrupt();
-        }
+    public void close() {
+        connectionPool.returnConnection(connection);
     }
 
     @Override
