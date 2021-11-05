@@ -22,4 +22,13 @@ public interface ValidatorConfig {
     String PERSONAL_NUMBER_PATTERN = "^[3-6]{1}(0[1-9]|[12]\\d|3[01])(0[1-9]|1[1-9])\\d\\d[A-Z]{1}(\\d{3})(PP|PB)([0-9])$";
     String SERIA_AND_NUMBER_PATTERN = "^([A-Z]{2})(\\d{7})$";
 
+    Integer MAX_FIRST_NAME_LENGTH = 40;
+    Integer MIN_FIRST_NAME_LENGTH = 1;
+    Integer MAX_SECOND_NAME_LENGTH = 60;
+    Integer MIN_SECOND_NAME_LENGTH = 1;
+
+    String PHONE_NUMBER_PATTERN = "^375(25|44|29|33)\\d{7}$";
+
+    Integer MIN_AGE = 14;
+    Integer MAX_AGE = 100;
 }

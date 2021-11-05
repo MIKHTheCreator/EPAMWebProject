@@ -35,9 +35,21 @@ public interface ExceptionMessage {
     String EXPIRATION_DATE_EXCEPTION = "The date must be valid";
     Integer EXPIRATION_DATE_EXCEPTION_CODE = 18;
 
-    String PERSONAL_NUMBER_MISSSMATCH = "Wrong personal Number";
-    Integer PERSONAL_NUMBER_MISSMATCH_CODE = 19;
+    String PERSONAL_NUMBER_MISS_MATCH = "Wrong personal Number";
+    Integer PERSONAL_NUMBER_MISS_MATCH_CODE = 19;
 
-    String SERIA_AND_NUMBER_MISSMATCH = "Wrong seria and number field";
-    Integer SERIA_AND_NUMBER_MISSMATCH_CODE = 20;
+    String SERIA_AND_NUMBER_MISS_MATCH = "Wrong seria and number field";
+    Integer SERIA_AND_NUMBER_MISS_MATCH_CODE = 20;
+
+    String FIRST_NAME_LENGTH_EXCEPTION = "Name should be at least 1 symbol long and less than 40 symbols long";
+    Integer FIRST_NAME_LENGTH_EXCEPTION_CODE = 21;
+
+    String SECOND_NAME_LENGTH_EXCEPTION = "Second name should be at least 1 symbol long and less than 60 symbols long";
+    Integer SECOND_NAME_LENGTH_EXCEPTION_CODE = 22;
+
+    String PHONE_NUMBER_MISS_MATCH = "Wrong phone number format";
+    Integer PHONE_NUMBER_MISS_MATCH_CODE = 23;
+
+    String AGE_EXCEPTION = "Age can be in range [14; 100]";
+    Integer AGE_EXCEPTION_CODE = 24;
 }
