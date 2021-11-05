@@ -31,4 +31,7 @@ public interface ValidatorConfig {
 
     Integer MIN_AGE = 14;
     Integer MAX_AGE = 100;
+
+    String CURRENCY_PATTERN = "^(US|EU|BYN){1}$";
+    Integer POSITIVE_NUMBER = 0;
 }

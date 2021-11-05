@@ -52,4 +52,10 @@ public interface ExceptionMessage {
 
     String AGE_EXCEPTION = "Age can be in range [14; 100]";
     Integer AGE_EXCEPTION_CODE = 24;
+
+    String CURRENCY_MISS_MATCH_EXCEPTION = "Wrong currency format";
+    Integer CURRENCY_MISS_MATCH_EXCEPTION_CODE = 25;
+
+    String INVALID_BALANCE_EXCEPTION = "Balance should be positive number";
+    Integer INVALID_BALANCE_EXCEPTION_CODE = 26;
 }
