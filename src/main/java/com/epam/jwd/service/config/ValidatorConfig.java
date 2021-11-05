@@ -19,4 +19,7 @@ public interface ValidatorConfig {
 
     String PASSWORD_PATTERN = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$";
 
+    String PERSONAL_NUMBER_PATTERN = "^[3-6]{1}(0[1-9]|[12]\\d|3[01])(0[1-9]|1[1-9])\\d\\d[A-Z]{1}(\\d{3})(PP|PB)([0-9])$";
+    String SERIA_AND_NUMBER_PATTERN = "^([A-Z]{2})(\\d{7})$";
+
 }

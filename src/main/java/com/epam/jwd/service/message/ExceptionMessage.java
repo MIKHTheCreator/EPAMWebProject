@@ -31,4 +31,13 @@ public interface ExceptionMessage {
 
     String PASSWORD_CORRESPOND_TO_PASSWORD_PATTERN_EXCEPTION = "Password should contain Upper and Lower case letters, numbers and special characters";
     Integer PASSWORD_CORRESPOND_TO_PASSWORD_PATTERN_EXCEPTION_CODE = 17;
+
+    String EXPIRATION_DATE_EXCEPTION = "The date must be valid";
+    Integer EXPIRATION_DATE_EXCEPTION_CODE = 18;
+
+    String PERSONAL_NUMBER_MISSSMATCH = "Wrong personal Number";
+    Integer PERSONAL_NUMBER_MISSMATCH_CODE = 19;
+
+    String SERIA_AND_NUMBER_MISSMATCH = "Wrong seria and number field";
+    Integer SERIA_AND_NUMBER_MISSMATCH_CODE = 20;
 }
