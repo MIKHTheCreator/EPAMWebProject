@@ -11,10 +11,10 @@ import static com.epam.jwd.service.config.ValidatorConfig.PERSONAL_NUMBER_PATTER
 import static com.epam.jwd.service.config.ValidatorConfig.SERIA_AND_NUMBER_PATTERN;
 import static com.epam.jwd.service.message.ExceptionMessage.EXPIRATION_DATE_EXCEPTION;
 import static com.epam.jwd.service.message.ExceptionMessage.EXPIRATION_DATE_EXCEPTION_CODE;
-import static com.epam.jwd.service.message.ExceptionMessage.PERSONAL_NUMBER_MISSSMATCH;
-import static com.epam.jwd.service.message.ExceptionMessage.PERSONAL_NUMBER_MISSMATCH_CODE;
-import static com.epam.jwd.service.message.ExceptionMessage.SERIA_AND_NUMBER_MISSMATCH;
-import static com.epam.jwd.service.message.ExceptionMessage.SERIA_AND_NUMBER_MISSMATCH_CODE;
+import static com.epam.jwd.service.message.ExceptionMessage.PERSONAL_NUMBER_MISS_MATCH;
+import static com.epam.jwd.service.message.ExceptionMessage.PERSONAL_NUMBER_MISS_MATCH_CODE;
+import static com.epam.jwd.service.message.ExceptionMessage.SERIA_AND_NUMBER_MISS_MATCH;
+import static com.epam.jwd.service.message.ExceptionMessage.SERIA_AND_NUMBER_MISS_MATCH_CODE;
 
 public class PassportValidator implements Validator<PassportDTO, Integer> {
 
@@ -35,13 +35,13 @@ public class PassportValidator implements Validator<PassportDTO, Integer> {
 
     private void isValidPersonalNumber(String personalNumber) throws ServiceException {
         if(!personalNumber.matches(PERSONAL_NUMBER_PATTERN)) {
-            throw new ServiceException(PERSONAL_NUMBER_MISSSMATCH + DELIMITER + PERSONAL_NUMBER_MISSMATCH_CODE);
+            throw new ServiceException(PERSONAL_NUMBER_MISS_MATCH + DELIMITER + PERSONAL_NUMBER_MISS_MATCH_CODE);
         }
     }
 
     private void isValidSeriaAndNumber(String seriaAndNumber) throws ServiceException {
         if(!seriaAndNumber.matches(SERIA_AND_NUMBER_PATTERN)) {
-            throw new ServiceException(SERIA_AND_NUMBER_MISSMATCH + DELIMITER + SERIA_AND_NUMBER_MISSMATCH_CODE);
+            throw new ServiceException(SERIA_AND_NUMBER_MISS_MATCH + DELIMITER + SERIA_AND_NUMBER_MISS_MATCH_CODE);
         }
     }
 }
