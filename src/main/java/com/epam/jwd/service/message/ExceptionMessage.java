@@ -70,4 +70,16 @@ public interface ExceptionMessage {
 
     String PAYMENT_GOAL_EXCEPTION = "Wrong payment goal";
     Integer PAYMENT_GOAL_EXCEPTION_CODE = 30;
+
+    String PIN_FORMAT_EXCEPTION = "Pin must contain 4 numbers";
+    Integer PIN_FORMAT_EXCEPTION_CODE = 31;
+
+    String CVV_CODE_EXCEPTION = "CVV code must contain 3 numbers";
+    Integer CVV_CODE_EXCEPTION_CODE = 32;
+
+    String FULL_NAME_EXCEPTION = "Full name may contain words, spaces, numbers and - with min length=1 and max length=72";
+    Integer FULL_NAME_EXCEPTION_CODE = 33;
+
+    String CREDIT_CARD_NUMBER_EXCEPTION = "Credit card number should contain only 16 numbers";
+    Integer CREDIT_CARD_NUMBER_EXCEPTION_CODE = 34;
 }

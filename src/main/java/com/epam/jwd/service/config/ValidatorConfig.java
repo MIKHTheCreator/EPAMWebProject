@@ -38,4 +38,9 @@ public interface ValidatorConfig {
 
     String PAYMENT_ORGANIZATION_PATTERN = "^[\\w\\d\\-\\.\\:\\(\\)\\;\\s]{1,45}$";
     String PAYMENT_GOAL_PATTERN = "^[\\w\\-\\:\\.\\,\\(\\)\\;\\s]{5,30}$";
+
+    String PIN_PATTERN = "^\\d{4}$";
+    String CVV_PATTERN = "^\\d{3}$";
+    String FULL_NAME_PATTERN = "^[\\w\\d\\s\\-]{1,70}$";
+    String CREDIT_CARD_NUMBER_PATTERN = "^\\d{16}$";
 }
