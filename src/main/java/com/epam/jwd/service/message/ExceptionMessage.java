@@ -58,4 +58,16 @@ public interface ExceptionMessage {
 
     String INVALID_BALANCE_EXCEPTION = "Balance should be positive number";
     Integer INVALID_BALANCE_EXCEPTION_CODE = 26;
+
+    String POSITIVE_PAYMENT_EXCEPTION = "Payment sum must be positive";
+    Integer POSITIVE_PAYMENT_EXCEPTION_CODE = 27;
+
+    String DATE_OF_PAYMENT_EXCEPTION = "Wrong date of payment";
+    Integer DATE_OF_PAYMENT_EXCEPTION_CODE = 28;
+
+    String PAYMENT_ORGANIZATION_EXCEPTION = "Wrong payment organization name";
+    Integer PAYMENT_ORGANIZATION_EXCEPTION_CODE = 29;
+
+    String PAYMENT_GOAL_EXCEPTION = "Wrong payment goal";
+    Integer PAYMENT_GOAL_EXCEPTION_CODE = 30;
 }

@@ -1,5 +1,6 @@
 package com.epam.jwd.service.config;
 
+
 public interface ValidatorConfig {
 
     Integer MAX_USERNAME_LENGTH = 32;
@@ -34,4 +35,7 @@ public interface ValidatorConfig {
 
     String CURRENCY_PATTERN = "^(US|EU|BYN){1}$";
     Integer POSITIVE_NUMBER = 0;
+
+    String PAYMENT_ORGANIZATION_PATTERN = "^[\\w\\d\\-\\.\\:\\(\\)\\;\\s]{1,45}$";
+    String PAYMENT_GOAL_PATTERN = "^[\\w\\-\\:\\.\\,\\(\\)\\;\\s]{5,30}$";
 }
