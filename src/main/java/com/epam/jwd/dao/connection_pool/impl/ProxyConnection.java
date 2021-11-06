@@ -33,7 +33,7 @@ public class ProxyConnection implements Connection {
 
     @Override
     public Statement createStatement() throws SQLException {
-        return  connection.createStatement();
+        return connection.createStatement();
     }
 
     @Override

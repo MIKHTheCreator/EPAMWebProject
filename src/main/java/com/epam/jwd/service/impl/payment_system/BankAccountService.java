@@ -58,7 +58,7 @@ public class BankAccountService implements Service<BankAccountDTO, Integer> {
         List<BankAccountDTO> bankAccounts = new ArrayList<>();
 
         try {
-            for(BankAccount bankAccount : bankAccountDAO.findAll()) {
+            for (BankAccount bankAccount : bankAccountDAO.findAll()) {
                 bankAccounts.add(mapper.convertToDTO(bankAccount));
             }
         } catch (DAOException e) {

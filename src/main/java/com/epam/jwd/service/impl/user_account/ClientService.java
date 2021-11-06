@@ -58,7 +58,7 @@ public class ClientService implements Service<ClientDTO, Integer> {
         List<ClientDTO> clients = new ArrayList<>();
 
         try {
-            for(Client client : clientDAO.findAll()) {
+            for (Client client : clientDAO.findAll()) {
                 clients.add(mapper.convertToDTO(client));
             }
         } catch (DAOException e) {

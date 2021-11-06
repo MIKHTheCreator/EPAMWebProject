@@ -39,7 +39,7 @@ public final class ConnectionPoolImpl implements ConnectionPool {
 
     public static ConnectionPool getInstance() {
         synchronized (ConnectionPool.class) {
-            if(instance == null) {
+            if (instance == null) {
                 instance = new ConnectionPoolImpl();
                 return instance;
             }
@@ -52,7 +52,7 @@ public final class ConnectionPoolImpl implements ConnectionPool {
     public boolean init()
             throws DAOException {
 
-        if(!initialized) {
+        if (!initialized) {
             createConnections();
             initialized = true;
             return true;
@@ -63,7 +63,7 @@ public final class ConnectionPoolImpl implements ConnectionPool {
 
     @Override
     public boolean shutDown() throws DAOException {
-        if(initialized) {
+        if (initialized) {
             closeConnections();
             initialized = false;
             return true;

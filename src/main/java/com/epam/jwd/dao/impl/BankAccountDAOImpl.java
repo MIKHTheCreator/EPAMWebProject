@@ -99,7 +99,7 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         PreparedStatement statement;
         BankAccount bankAccount;
 
-        try(Connection connection = connectionPool.takeConnection()) {
+        try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_FIND_BANK_ACCOUNT_BY_ID_QUERY);
             statement.setInt(1, id);
 

@@ -25,7 +25,7 @@ public class PaymentDTO extends AbstractEntityDTO<Integer> {
     }
 
     public PaymentDTO(Integer id, BigDecimal sumOfPayment, Integer billPerCent, BigDecimal totalPaymentSum, LocalDate dateOfPayment,
-                   String paymentOrganization, String paymentGoal, Integer bankAccountId, Integer userid) {
+                      String paymentOrganization, String paymentGoal, Integer bankAccountId, Integer userid) {
         super(id);
         this.sumOfPayment = sumOfPayment;
         this.billPerCent = billPerCent;

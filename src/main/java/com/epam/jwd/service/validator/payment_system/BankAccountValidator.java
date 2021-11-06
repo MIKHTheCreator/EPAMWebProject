@@ -23,13 +23,13 @@ public class BankAccountValidator implements Validator<BankAccountDTO, Integer> 
     }
 
     private void isValidCurrency(String currency) throws ServiceException {
-        if(!currency.matches(CURRENCY_PATTERN)) {
+        if (!currency.matches(CURRENCY_PATTERN)) {
             throw new ServiceException(CURRENCY_MISS_MATCH_EXCEPTION + DELIMITER + CURRENCY_MISS_MATCH_EXCEPTION_CODE);
         }
     }
 
     private void isValidBalance(BigDecimal balance) throws ServiceException {
-        if(!isPositiveNumber(balance)) {
+        if (!isPositiveNumber(balance)) {
             throw new ServiceException(INVALID_BALANCE_EXCEPTION + DELIMITER + INVALID_BALANCE_EXCEPTION_CODE);
         }
     }

@@ -24,7 +24,7 @@ public class CreditCardDTO extends AbstractEntityDTO<Integer> {
     }
 
     public CreditCardDTO(Integer id, String number, LocalDate expirationDate, String fullName,
-                      String CVV, String pin, Integer bankAccount, Integer userId) {
+                         String CVV, String pin, Integer bankAccount, Integer userId) {
         super(id);
         this.number = number;
         this.expirationDate = expirationDate;

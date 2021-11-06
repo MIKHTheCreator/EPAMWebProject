@@ -58,7 +58,7 @@ public class CreditCardService implements Service<CreditCardDTO, Integer> {
         List<CreditCardDTO> creditCards = new ArrayList<>();
 
         try {
-            for(CreditCard creditCard : creditCardDAO.findAll()) {
+            for (CreditCard creditCard : creditCardDAO.findAll()) {
                 creditCards.add(mapper.convertToDTO(creditCard));
             }
         } catch (DAOException e) {

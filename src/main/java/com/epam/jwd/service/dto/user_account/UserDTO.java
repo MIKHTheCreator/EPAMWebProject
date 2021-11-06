@@ -25,7 +25,7 @@ public class UserDTO extends AbstractEntityDTO<Integer> {
     }
 
     public UserDTO(Integer id, String firstName, String secondName, String phoneNumber,
-                Integer age, Gender gender, Role role, Integer clientId,  Integer passportId) {
+                   Integer age, Gender gender, Role role, Integer clientId, Integer passportId) {
         super(id);
         this.firstName = firstName;
         this.secondName = secondName;
@@ -184,6 +184,7 @@ public class UserDTO extends AbstractEntityDTO<Integer> {
             this.passportId = passportId;
             return this;
         }
+
         public Builder withClientId(Integer clientId) {
             this.clientId = clientId;
             return this;

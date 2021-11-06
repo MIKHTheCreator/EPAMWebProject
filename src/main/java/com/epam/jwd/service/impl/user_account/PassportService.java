@@ -59,7 +59,7 @@ public class PassportService implements Service<PassportDTO, Integer> {
         List<PassportDTO> passports = new ArrayList<>();
 
         try {
-            for(Passport passport : passportDAO.findAll()) {
+            for (Passport passport : passportDAO.findAll()) {
                 passports.add(mapper.convertToDTO(passport));
             }
         } catch (DAOException e) {

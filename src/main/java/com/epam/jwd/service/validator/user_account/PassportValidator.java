@@ -27,20 +27,20 @@ public class PassportValidator implements Validator<PassportDTO, Integer> {
 
     private void isValidExpirationDate(LocalDate expirationDate) throws ServiceException {
 
-         final LocalDate todayDate = LocalDate.now();
-         if(!expirationDate.isAfter(todayDate)) {
-             throw new ServiceException(EXPIRATION_DATE_EXCEPTION + DELIMITER + EXPIRATION_DATE_EXCEPTION_CODE);
-         }
+        final LocalDate todayDate = LocalDate.now();
+        if (!expirationDate.isAfter(todayDate)) {
+            throw new ServiceException(EXPIRATION_DATE_EXCEPTION + DELIMITER + EXPIRATION_DATE_EXCEPTION_CODE);
+        }
     }
 
     private void isValidPersonalNumber(String personalNumber) throws ServiceException {
-        if(!personalNumber.matches(PERSONAL_NUMBER_PATTERN)) {
+        if (!personalNumber.matches(PERSONAL_NUMBER_PATTERN)) {
             throw new ServiceException(PERSONAL_NUMBER_MISS_MATCH + DELIMITER + PERSONAL_NUMBER_MISS_MATCH_CODE);
         }
     }
 
     private void isValidSeriaAndNumber(String seriaAndNumber) throws ServiceException {
-        if(!seriaAndNumber.matches(SERIA_AND_NUMBER_PATTERN)) {
+        if (!seriaAndNumber.matches(SERIA_AND_NUMBER_PATTERN)) {
             throw new ServiceException(SERIA_AND_NUMBER_MISS_MATCH + DELIMITER + SERIA_AND_NUMBER_MISS_MATCH_CODE);
         }
     }

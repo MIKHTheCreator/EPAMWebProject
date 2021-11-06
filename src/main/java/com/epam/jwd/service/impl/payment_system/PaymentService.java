@@ -35,7 +35,7 @@ public class PaymentService implements Service<PaymentDTO, Integer> {
     private static final Logger log = LogManager.getLogger(PaymentService.class);
 
     public PaymentService() {
-        this. paymentDAO = PaymentDAOImpl.getInstance();
+        this.paymentDAO = PaymentDAOImpl.getInstance();
         this.mapper = new PaymentDTOMapper();
     }
 
@@ -58,7 +58,7 @@ public class PaymentService implements Service<PaymentDTO, Integer> {
         List<PaymentDTO> payments = new ArrayList<>();
 
         try {
-            for(Payment payment : paymentDAO.findAll()) {
+            for (Payment payment : paymentDAO.findAll()) {
                 payments.add(mapper.convertToDTO(payment));
             }
         } catch (DAOException e) {

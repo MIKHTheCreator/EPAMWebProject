@@ -51,7 +51,7 @@ public class PaymentValidator implements Validator<PaymentDTO, Integer> {
     }
 
     private void isValidGoal(String paymentGoal) throws ServiceException {
-        if(!paymentGoal.matches(PAYMENT_GOAL_PATTERN)) {
+        if (!paymentGoal.matches(PAYMENT_GOAL_PATTERN)) {
             throw new ServiceException(PAYMENT_GOAL_EXCEPTION + DELIMITER + PAYMENT_GOAL_EXCEPTION_CODE);
         }
     }

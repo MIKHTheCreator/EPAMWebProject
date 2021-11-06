@@ -16,7 +16,7 @@ public class PasswordManagerImpl implements PasswordManager {
     @Override
     public String decode(String password) {
         StringBuilder result = new StringBuilder();
-        for(int i : Base64.decode(password)) {
+        for (int i : Base64.decode(password)) {
             result.append(Character.toString(i));
         }
         return result.toString();
