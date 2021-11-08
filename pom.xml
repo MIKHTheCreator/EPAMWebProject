@@ -17,6 +17,7 @@
         <junit5.version>5.8.1</junit5.version>
         <mysql.connctor.version>8.0.26</mysql.connctor.version>
         <xerces.version>2.12.1</xerces.version>
+        <javaee.version>8.0.1</javaee.version>
     </properties>
 
     <dependencies>
@@ -51,6 +52,12 @@
             <groupId>xerces</groupId>
             <artifactId>xercesImpl</artifactId>
             <version>${xerces.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>${javaee.version}</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
