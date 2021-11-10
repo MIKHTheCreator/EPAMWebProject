@@ -10,11 +10,11 @@ public enum Commands {
     DEFAULT(DefaultCommand.getInstance()),
     ERROR(ErrorCommand.getInstance()),
     SHOW_USERS(ShowUsersCommand.getInstance()),
-    BLOCK_USER(),
-    SHOW_CREDIT_CARDS(),
-    DELETE_CREDIT_CARD(),
-    SHOW_PAYMENTS(),
-    SHOW_PASSPORT_DATA();
+    BLOCK_USER(BlockUserCommand.getInstance()),
+    SHOW_CREDIT_CARDS(ShowCreditCardsCommand.getInstance()),
+    DELETE_CREDIT_CARD(DeleteCreditCardCommand.getInstance()),
+    SHOW_PAYMENTS(ShowPaymentsCommand.getInstance()),
+    SHOW_PASSPORT_DATA(ShowPassportDataCommand.getInstance());
 
     private final Command command;
 

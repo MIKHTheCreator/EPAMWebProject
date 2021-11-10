@@ -6,11 +6,13 @@ import com.epam.jwd.controller.request_context.impl.RequestContextImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@WebServlet(urlPatterns = "/banksystem")
 public class ApplicationController extends HttpServlet {
 
     private static final String COMMAND_PARAMETER = "command";
