@@ -24,6 +24,12 @@ public class ClientDTO extends AbstractEntityDTO<Integer> {
         this.password = password;
     }
 
+    public ClientDTO(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
+
     public String getUsername() {
         return username;
     }
