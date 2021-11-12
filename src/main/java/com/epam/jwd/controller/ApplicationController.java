@@ -2,7 +2,7 @@ package com.epam.jwd.controller;
 
 import com.epam.jwd.controller.command.Command;
 import com.epam.jwd.controller.command.ResponseContext;
-import com.epam.jwd.controller.request_context.impl.RequestContextImpl;
+import com.epam.jwd.controller.request_context.RequestContextImpl;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
