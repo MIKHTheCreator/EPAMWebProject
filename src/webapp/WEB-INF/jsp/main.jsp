@@ -10,6 +10,6 @@
     </head>
 
     <body>
-        <c:redirect url ="/WEB-INF/jsp/main.jsp"
+
     </body>
 </html>

@@ -1,7 +1,5 @@
 package com.epam.jwd.controller.request_context;
 
-import com.epam.jwd.controller.request_context.RequestContext;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -21,5 +19,10 @@ public class RequestContextImpl implements RequestContext {
     @Override
     public HttpSession getSession() {
         return this.request.getSession();
+    }
+
+    @Override
+    public String getParameterByName(String paramName) {
+        return this.request.getParameter(paramName);
     }
 }

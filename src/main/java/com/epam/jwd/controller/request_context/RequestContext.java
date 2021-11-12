@@ -7,4 +7,6 @@ public interface RequestContext {
     void addAttributeToJsp(String attrName, Object attr);
 
     HttpSession getSession();
+
+    String getParameterByName(String paramName);
 }
