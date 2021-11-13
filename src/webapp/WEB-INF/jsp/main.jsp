@@ -197,7 +197,7 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.0/SmoothScroll.min.js'></script>
 
-<script src="js/index.js"></script>
+<script src="/../scripts/index.js"></script>
 
 </body>
 </html>
