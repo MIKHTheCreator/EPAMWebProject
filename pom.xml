@@ -18,6 +18,7 @@
         <mysql.connctor.version>8.0.26</mysql.connctor.version>
         <xerces.version>2.12.1</xerces.version>
         <javaee.version>8.0.1</javaee.version>
+        <jsp.api.version>2.0</jsp.api.version>
     </properties>
 
     <dependencies>
@@ -57,6 +58,12 @@
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>${javaee.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>${jsp.api.version}</version>
             <scope>provided</scope>
         </dependency>
 
