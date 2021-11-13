@@ -8,6 +8,7 @@ $('.hero').mousewheel(function(e){
 		return false;
 	}
 });
+
 $(window).mousewheel(function(e){
 	if( $('.hero.scrolled').length ){
 		if( $(window).scrollTop() == 0 && e.deltaY > 0 ){
