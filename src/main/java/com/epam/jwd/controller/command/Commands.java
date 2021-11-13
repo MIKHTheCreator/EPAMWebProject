@@ -1,13 +1,14 @@
 package com.epam.jwd.controller.command;
 
 import com.epam.jwd.controller.command.impl.DefaultCommand;
-import com.epam.jwd.controller.command.impl.ShowUsersCommand;
+import com.epam.jwd.controller.command.impl.SaveClientCommand;
 
 import java.util.Arrays;
 
 public enum Commands {
     DEFAULT(DefaultCommand.getInstance()),
-    SHOW_USERS(ShowUsersCommand.getInstance());
+    SAVE_CLIENT_COMMAND(SaveClientCommand.getInstance());
+
 
     private final Command command;
 
