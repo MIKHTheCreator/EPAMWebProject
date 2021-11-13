@@ -52,7 +52,7 @@ public class SaveUserCommand implements Command {
     }
 
     @Override
-    public ResponseContext execute(RequestContext context) throws ServiceException {
+    public ResponseContext execute(RequestContext context) {
 
         HttpSession session = context.getSession(false);
         ClientDTO clientDTO = (ClientDTO) session.getAttribute(CLIENT_ATTRIBUTE);
