@@ -17,7 +17,7 @@ public class RequestContextImpl implements RequestContext {
     }
 
     @Override
-    public HttpSession getSession() {
+    public HttpSession getSession(boolean flag) {
         return this.request.getSession();
     }
 

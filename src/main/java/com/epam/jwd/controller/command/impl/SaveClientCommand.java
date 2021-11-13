@@ -65,7 +65,7 @@ public class SaveClientCommand implements Command {
             log.error(REGISTRATION_FAILED, e);
         }
 
-        HttpSession session = context.getSession();
+        HttpSession session = context.getSession(true);
 
         if(isRegistrationSuccessful) {
             ClientDTO client = new ClientDTO();
