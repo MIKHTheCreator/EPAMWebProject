@@ -14,9 +14,9 @@ import javax.servlet.http.HttpSession;
 
 public class SaveClientCommand implements Command {
 
+    private final Service<ClientDTO, Integer> clientService = new ClientService();
     private static final Command INSTANCE = new SaveClientCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/registration.jsp";
-    private final Service<ClientDTO, Integer> clientService = new ClientService();
     private static final String PASSWORD_PARAM = "password";
     private static final String EMAIL_PARAM = "email";
     private static final String USERNAME_PARAM = "username";
@@ -29,7 +29,7 @@ public class SaveClientCommand implements Command {
 
     private static final Logger log = LogManager.getLogger(SaveClientCommand.class);
 
-    private final ResponseContext SAVE_USER_CONTEXT = new ResponseContext() {
+    private final ResponseContext SAVE_CLIENT_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {
             return PAGE_PATH;
@@ -56,9 +56,10 @@ public class SaveClientCommand implements Command {
         String password = context.getParameterByName(PASSWORD_PARAM);
 
         boolean isRegistrationSuccessful = false;
+        Integer clientId = null;
         try {
             ClientDTO client = new ClientDTO(username, email, password);
-            clientService.save(client);
+            clientId = clientService.save(client).getId();
             isRegistrationSuccessful = true;
         } catch (ServiceException e) {
             log.error(REGISTRATION_FAILED, e);
@@ -71,12 +72,13 @@ public class SaveClientCommand implements Command {
             client.setUsername(username);
             client.setEmail(email);
             client.setPassword(password);
+            client.setId(clientId);
             session.setAttribute(CURRENT_CLIENT_ATTRIBUTE_NAME, client);
             context.addAttributeToJsp(MESSAGE_ATTRIBUTE, REGISTRATION_COMPLETED_MESSAGE);
         } else {
             context.addAttributeToJsp(ERROR_ATTRIBUTE,  ERROR_MESSAGE);
         }
 
-        return SAVE_USER_CONTEXT;
+        return SAVE_CLIENT_CONTEXT;
     }
 }
