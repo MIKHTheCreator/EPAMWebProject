@@ -103,7 +103,7 @@
             <div class="hero-inner">
                     <div class="hero-title">
                         <h1 class="text-light title font-2">Globo Bank System</h1>
-                        <p class="text-capitalize text-light">There you can save your money</p>
+                        <p class="text-capitalize text-light">Here you can save your money</p>
                     </div>
                     <a href="#" class="sd">Scroll Down</a>
             </div>
