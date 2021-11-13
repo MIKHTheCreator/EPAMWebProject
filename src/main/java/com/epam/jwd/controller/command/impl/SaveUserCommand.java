@@ -19,7 +19,7 @@ public class SaveUserCommand implements Command {
 
     private final Service<UserDTO, Integer> userService = new UserService();
     private static final Command INSTANCE = new SaveUserCommand();
-    private static final String FILL_USERDATA_PAGE = "/WEB-INF/create_account.jsp";
+    private static final String FILL_USERDATA_PAGE = "/WEB-INF/jsp/create_account.jsp";
 
     private static final String FIRST_NAME_ATTRIBUTE = "firstName";
     private static final String SECOND_NAME_ATTRIBUTE = "secondName";
