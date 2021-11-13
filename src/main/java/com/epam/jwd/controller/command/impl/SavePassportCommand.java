@@ -63,6 +63,7 @@ public class SavePassportCommand implements Command {
             PassportDTO passport = new PassportDTO(seriaAndNumber, personalNumber, expirationDate);
             passport = passportService.save(passport);
             user.setPassportId(passport.getId());
+            userService.update(user);
             session.setAttribute(USER_ATTRIBUTE, user);
             context.addAttributeToJsp(PASSPORT_ATTRIBUTE, passport);
             context.addAttributeToJsp(MESSAGE_ATTRIBUTE, SUCCESSFUL_PASSPORT_CREATION);
