@@ -25,6 +25,12 @@ public class PassportDTO extends AbstractEntityDTO<Integer> {
         this.expirationDate = expirationDate;
     }
 
+    public PassportDTO(String seriaAndNumber, String personalNumber, LocalDate expirationDate) {
+        this.seriaAndNumber = seriaAndNumber;
+        this.personalNumber = personalNumber;
+        this.expirationDate =expirationDate;
+    }
+
     public String getSeriaAndNumber() {
         return seriaAndNumber;
     }
