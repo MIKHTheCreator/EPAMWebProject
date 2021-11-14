@@ -33,7 +33,7 @@ public class ApplicationController extends HttpServlet {
         Command command = Command.of(commandName);
         ResponseContext commandResult = command.execute(new RequestContextImpl(request));
 
-        if(commandResult.isRedirect()) {
+        if (commandResult.isRedirect()) {
             response.sendRedirect(commandResult.getPage());
         } else {
             RequestDispatcher dispatcher = request.getRequestDispatcher(commandResult.getPage());

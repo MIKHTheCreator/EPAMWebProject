@@ -82,18 +82,18 @@ public class SaveClientCommand implements Command {
             isRegistrationSuccessful = true;
         } catch (ServiceException e) {
             log.error(REGISTRATION_FAILED, e);
-            context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE +  e.getMessage());
+            context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());
         }
 
         HttpSession session;
 
-        if(context.getCurrentSession().isPresent()) {
+        if (context.getCurrentSession().isPresent()) {
             session = context.getCurrentSession().get();
         } else {
             return ERROR_CONTEXT;
         }
 
-        if(isRegistrationSuccessful) {
+        if (isRegistrationSuccessful) {
             ClientDTO client = new ClientDTO();
             client.setUsername(username);
             client.setEmail(email);
@@ -102,7 +102,7 @@ public class SaveClientCommand implements Command {
             session.setAttribute(CURRENT_CLIENT_ATTRIBUTE_NAME, client);
             context.addAttributeToJsp(MESSAGE_ATTRIBUTE, REGISTRATION_COMPLETED_MESSAGE);
         } else {
-            context.addAttributeToJsp(ERROR_ATTRIBUTE,  ERROR_MESSAGE);
+            context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE);
         }
 
         return SAVE_CLIENT_CONTEXT;

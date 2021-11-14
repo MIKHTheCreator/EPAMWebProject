@@ -52,7 +52,7 @@ public class LogOutUserCommand implements Command {
     public ResponseContext execute(RequestContext context) {
 
         HttpSession session;
-        if(context.getCurrentSession().isPresent()) {
+        if (context.getCurrentSession().isPresent()) {
             session = context.getCurrentSession().get();
         } else {
             return ERROR_CONTEXT;
