@@ -9,6 +9,8 @@ import com.epam.jwd.service.dto.user_account.UserDTO;
 import com.epam.jwd.service.exception.ServiceException;
 import com.epam.jwd.service.impl.user_account.PassportService;
 import com.epam.jwd.service.impl.user_account.UserService;
+import com.epam.jwd.service.validator.Validator;
+import com.epam.jwd.service.validator.user_account.PassportValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,8 +21,10 @@ public class SavePassportCommand implements Command {
 
     private final Service<PassportDTO, Integer> passportService = new PassportService();
     private final Service<UserDTO, Integer> userService = new UserService();
+    private final Validator<PassportDTO, Integer> validator = new PassportValidator();
     private static final Command INSTANCE = new SavePassportCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/passport_info.jsp";
+    private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String SERIA_AND_NUMBER_ATTRIBUTE = "seriaAndNumber";
     private static final String PERSONAL_NUMBER_ATTRIBUTE = "personalNumber";
@@ -45,6 +49,18 @@ public class SavePassportCommand implements Command {
         }
     };
 
+    private static final ResponseContext ERROR_CONTEXT = new ResponseContext() {
+        @Override
+        public String getPage() {
+            return ERROR_PAGE_PATH;
+        }
+
+        @Override
+        public boolean isRedirect() {
+            return false;
+        }
+    };
+
     public static Command getInstance() {
         return INSTANCE;
     }
@@ -52,7 +68,13 @@ public class SavePassportCommand implements Command {
     @Override
     public ResponseContext execute(RequestContext context) {
 
-        HttpSession session = context.getSession(false);
+        HttpSession session;
+        if(context.getCurrentSession().isPresent()){
+            session = context.getCurrentSession().get();
+        } else {
+            return ERROR_CONTEXT;
+        }
+
         UserDTO user = (UserDTO) session.getAttribute(USER_ATTRIBUTE);
 
         String seriaAndNumber = context.getParameterByName(SERIA_AND_NUMBER_ATTRIBUTE);
@@ -61,6 +83,9 @@ public class SavePassportCommand implements Command {
 
         try {
             PassportDTO passport = new PassportDTO(seriaAndNumber, personalNumber, expirationDate);
+
+            validator.validate(passport);
+
             passport = passportService.save(passport);
             user.setPassportId(passport.getId());
             userService.update(user);
@@ -69,9 +94,8 @@ public class SavePassportCommand implements Command {
             context.addAttributeToJsp(MESSAGE_ATTRIBUTE, SUCCESSFUL_PASSPORT_CREATION);
         } catch (ServiceException e) {
             log.error(ERROR_MESSAGE, e);
-            context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE);
+            context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());
         }
-
 
         return SAVE_PASSPORT_CONTEXT;
     }
