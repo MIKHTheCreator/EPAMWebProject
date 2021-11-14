@@ -7,6 +7,8 @@ import com.epam.jwd.service.api.Service;
 import com.epam.jwd.service.dto.user_account.ClientDTO;
 import com.epam.jwd.service.exception.ServiceException;
 import com.epam.jwd.service.impl.user_account.ClientService;
+import com.epam.jwd.service.validator.Validator;
+import com.epam.jwd.service.validator.user_account.ClientValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,8 +17,10 @@ import javax.servlet.http.HttpSession;
 public class SaveClientCommand implements Command {
 
     private final Service<ClientDTO, Integer> clientService = new ClientService();
+    private final Validator<ClientDTO, Integer> validator = new ClientValidator();
     private static final Command INSTANCE = new SaveClientCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/registration.jsp";
+    private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String PASSWORD_PARAM = "password";
     private static final String EMAIL_PARAM = "email";
     private static final String USERNAME_PARAM = "username";
@@ -29,10 +33,22 @@ public class SaveClientCommand implements Command {
 
     private static final Logger log = LogManager.getLogger(SaveClientCommand.class);
 
-    private final ResponseContext SAVE_CLIENT_CONTEXT = new ResponseContext() {
+    private static final ResponseContext SAVE_CLIENT_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {
             return PAGE_PATH;
+        }
+
+        @Override
+        public boolean isRedirect() {
+            return false;
+        }
+    };
+
+    private final ResponseContext ERROR_CONTEXT = new ResponseContext() {
+        @Override
+        public String getPage() {
+            return ERROR_PAGE_PATH;
         }
 
         @Override
@@ -59,13 +75,23 @@ public class SaveClientCommand implements Command {
         Integer clientId = null;
         try {
             ClientDTO client = new ClientDTO(username, email, password);
+
+            validator.validate(client);
+
             clientId = clientService.save(client).getId();
             isRegistrationSuccessful = true;
         } catch (ServiceException e) {
             log.error(REGISTRATION_FAILED, e);
+            context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE +  e.getMessage());
         }
 
-        HttpSession session = context.getSession(true);
+        HttpSession session;
+
+        if(context.getCurrentSession().isPresent()) {
+            session = context.getCurrentSession().get();
+        } else {
+            return ERROR_CONTEXT;
+        }
 
         if(isRegistrationSuccessful) {
             ClientDTO client = new ClientDTO();

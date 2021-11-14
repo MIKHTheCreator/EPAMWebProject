@@ -91,7 +91,7 @@ public class EditUserCommand implements Command {
             session.setAttribute(USER_ATTRIBUTE, user);
         } catch (ServiceException e) {
             log.error(ERROR_MESSAGE, e);
-            context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE);
+            context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());
         }
 
         return EDIT_USER_CONTEXT;
