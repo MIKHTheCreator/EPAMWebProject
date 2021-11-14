@@ -34,7 +34,7 @@ public class DefaultCommand implements Command {
 
     @Override
     public ResponseContext execute(RequestContext context) {
-        HttpSession session = context.getSession(true);
+        HttpSession session = context.getCurrentSession().orElse(context.createSession());
         session.setAttribute(LANGUAGE_ATTRIBUTE, ENGLISH_LANGUAGE_ATTRIBUTE);
         return DEFAULT_PAGE_CONTEXT;
     }
