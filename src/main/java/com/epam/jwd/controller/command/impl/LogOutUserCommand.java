@@ -13,6 +13,7 @@ public class LogOutUserCommand implements Command {
 
     private static final Command INSTANCE = new LogOutUserCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/main.jsp";
+    private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String DEBUG_MESSAGE = "User with name: %s %s logged out of the service";
 
@@ -30,6 +31,19 @@ public class LogOutUserCommand implements Command {
         }
     };
 
+    private static final ResponseContext ERROR_CONTEXT = new ResponseContext() {
+        @Override
+        public String getPage() {
+            return ERROR_PAGE_PATH;
+        }
+
+        @Override
+        public boolean isRedirect() {
+            return false;
+        }
+    };
+
+
     public static Command getInstance() {
         return INSTANCE;
     }
@@ -37,10 +51,16 @@ public class LogOutUserCommand implements Command {
     @Override
     public ResponseContext execute(RequestContext context) {
 
-        HttpSession session = context.getSession(false);
+        HttpSession session;
+        if(context.getCurrentSession().isPresent()) {
+            session = context.getCurrentSession().get();
+        } else {
+            return ERROR_CONTEXT;
+        }
+
         UserDTO user = (UserDTO) session.getAttribute(USER_ATTRIBUTE);
         log.debug(DEBUG_MESSAGE, user.getFirstName(), user.getSecondName());
-        session.invalidate();
+        context.invalidateCurrentSession();
         return LOG_OUT_CONTEXT;
     }
 }
