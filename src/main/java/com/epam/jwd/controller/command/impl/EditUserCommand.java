@@ -7,6 +7,8 @@ import com.epam.jwd.service.api.Service;
 import com.epam.jwd.service.dto.user_account.UserDTO;
 import com.epam.jwd.service.exception.ServiceException;
 import com.epam.jwd.service.impl.user_account.UserService;
+import com.epam.jwd.service.validator.Validator;
+import com.epam.jwd.service.validator.user_account.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,8 +17,10 @@ import javax.servlet.http.HttpSession;
 public class EditUserCommand implements Command {
 
     private final Service<UserDTO, Integer> userService = new UserService();
+    private final Validator<UserDTO, Integer> validator = new UserValidator();
     private static final Command INSTANCE = new EditUserCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/edit_user.jsp";
+    private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String FIRST_NAME_ATTRIBUTE = "firstName";
     private static final String SECOND_NAME_ATTRIBUTE = "secondName";
@@ -41,6 +45,18 @@ public class EditUserCommand implements Command {
         }
     };
 
+    private static final ResponseContext ERROR_CONTEXT = new ResponseContext() {
+        @Override
+        public String getPage() {
+            return ERROR_PAGE_PATH;
+        }
+
+        @Override
+        public boolean isRedirect() {
+            return false;
+        }
+    };
+
     public static Command getInstance() {
         return INSTANCE;
     }
@@ -48,7 +64,13 @@ public class EditUserCommand implements Command {
     @Override
     public ResponseContext execute(RequestContext context) {
 
-        HttpSession session = context.getSession(false);
+        HttpSession session;
+        if(context.getCurrentSession().isPresent()){
+            session = context.getCurrentSession().get();
+        } else {
+            return ERROR_CONTEXT;
+        }
+
         UserDTO user = (UserDTO) session.getAttribute(USER_ATTRIBUTE);
         String firstName = context.getParameterByName(FIRST_NAME_ATTRIBUTE);
         String secondName = context.getParameterByName(SECOND_NAME_ATTRIBUTE);
@@ -60,6 +82,8 @@ public class EditUserCommand implements Command {
             user.setSecondName(secondName);
             user.setPhoneNumber(phoneNumber);
             user.setAge(age);
+
+            validator.validate(user);
 
             user = userService.update(user);
             context.addAttributeToJsp(USER_ATTRIBUTE, user);
