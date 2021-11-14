@@ -1,12 +1,17 @@
 package com.epam.jwd.controller.request_context;
 
 import javax.servlet.http.HttpSession;
+import java.util.Optional;
 
 public interface RequestContext {
 
     void addAttributeToJsp(String attrName, Object attr);
 
-    HttpSession getSession(boolean flag);
+    Optional<HttpSession> getCurrentSession(boolean flag);
 
     String getParameterByName(String paramName);
+
+    void invalidateCurrentSession();
+
+    HttpSession createSession();
 }
