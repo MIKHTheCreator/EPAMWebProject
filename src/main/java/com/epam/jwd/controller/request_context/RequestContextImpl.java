@@ -18,7 +18,7 @@ public class RequestContextImpl implements RequestContext {
     }
 
     @Override
-    public Optional<HttpSession> getCurrentSession(boolean flag) {
+    public Optional<HttpSession> getCurrentSession() {
         return Optional.ofNullable(this.request.getSession());
     }
 
