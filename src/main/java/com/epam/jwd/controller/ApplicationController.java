@@ -20,6 +20,15 @@ public class ApplicationController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        process(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        process(request, response);
+    }
+
+    private void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String commandName = request.getParameter(COMMAND_PARAMETER);
         Command command = Command.of(commandName);
         ResponseContext commandResult = command.execute(new RequestContextImpl(request));
@@ -30,6 +39,5 @@ public class ApplicationController extends HttpServlet {
             RequestDispatcher dispatcher = request.getRequestDispatcher(commandResult.getPage());
             dispatcher.forward(request, response);
         }
-
     }
 }
