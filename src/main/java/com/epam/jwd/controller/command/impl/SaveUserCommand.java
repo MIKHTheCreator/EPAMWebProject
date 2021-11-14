@@ -10,6 +10,8 @@ import com.epam.jwd.service.dto.user_account.ClientDTO;
 import com.epam.jwd.service.dto.user_account.UserDTO;
 import com.epam.jwd.service.exception.ServiceException;
 import com.epam.jwd.service.impl.user_account.UserService;
+import com.epam.jwd.service.validator.Validator;
+import com.epam.jwd.service.validator.user_account.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,8 +20,10 @@ import javax.servlet.http.HttpSession;
 public class SaveUserCommand implements Command {
 
     private final Service<UserDTO, Integer> userService = new UserService();
+    private final Validator<UserDTO, Integer> validator = new UserValidator();
     private static final Command INSTANCE = new SaveUserCommand();
     private static final String FILL_USERDATA_PAGE = "/WEB-INF/jsp/create_account.jsp";
+    private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
 
     private static final String FIRST_NAME_ATTRIBUTE = "firstName";
     private static final String SECOND_NAME_ATTRIBUTE = "secondName";
@@ -47,6 +51,18 @@ public class SaveUserCommand implements Command {
         }
     };
 
+    private static final ResponseContext ERROR_CONTEXT = new ResponseContext() {
+        @Override
+        public String getPage() {
+            return ERROR_PAGE_PATH;
+        }
+
+        @Override
+        public boolean isRedirect() {
+            return false;
+        }
+    };
+
     public static Command getInstance() {
         return INSTANCE;
     }
@@ -54,7 +70,12 @@ public class SaveUserCommand implements Command {
     @Override
     public ResponseContext execute(RequestContext context) {
 
-        HttpSession session = context.getSession(false);
+        HttpSession session;
+        if (context.getCurrentSession().isPresent()) {
+            session = context.getCurrentSession().get();
+        } else {
+            return ERROR_CONTEXT;
+        }
         ClientDTO clientDTO = (ClientDTO) session.getAttribute(CLIENT_ATTRIBUTE);
         String firstName = context.getParameterByName(FIRST_NAME_ATTRIBUTE);
         String secondName = context.getParameterByName(SECOND_NAME_ATTRIBUTE);
@@ -72,13 +93,16 @@ public class SaveUserCommand implements Command {
                     .withClientId(clientDTO.getId())
                     .withRole(Role.USER)
                     .build();
+
+            validator.validate(user);
+
             user = userService.save(user);
             context.addAttributeToJsp(CURRENT_USER_ATTRIBUTE, user);
             context.addAttributeToJsp(MESSAGE_ATTRIBUTE, SUCCESSFUL_USER_CREATION_MESSAGE);
             session.setAttribute(CURRENT_USER_ATTRIBUTE, user);
         } catch (ServiceException e) {
             log.error(ERROR_MESSAGE, e);
-            context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE);
+            context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());
         }
 
         return SAVE_USER_RESPONSE_CONTEXT;
