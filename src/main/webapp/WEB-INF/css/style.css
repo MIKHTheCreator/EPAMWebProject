@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700|Josefin+Sans:400,600,700,400italic,600italic);
 
 body{
-	font-family: 'josefin sans';
+	font-family: 'josefin sans', serif;
 	font-size: 16px;
 }
 
@@ -37,11 +37,11 @@ body{
 }
 
 h1, h2, h3, h4, h5, h6{
-	font-family: montserrat;
+	font-family: montserrat, serif;
 }
 
 .font-2{
-	font-family: 'josefin sans';
+	font-family: 'josefin sans', serif;
 	font-weight: 700;
 }
 
@@ -50,7 +50,7 @@ h1, h2, h3, h4, h5, h6{
 .text-light{ color: #fff }
 
 .font-alt{
-	font-family: 'georgia';
+	font-family: 'georgia', serif;
 	font-style: italic;
 	color: #666;
 }

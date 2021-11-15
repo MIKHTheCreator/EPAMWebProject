@@ -9,7 +9,7 @@
 <fmt:message bundle="${loc}" key="helloMessage" var="hello">
 <fmt:message bundle="${loc}" key="logIn" var="logIn">
 <fmt:message bundle="${loc}" key="logOut" var="logOut">
-<fmt:message bundle="${loc}" key="Registration" var="registration">
+<fmt:message bundle="${loc}" key="registration" var="registration">
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 
@@ -27,7 +27,7 @@
                     <div class="header-right">
                       <custom:helloTag userName=${currentUser.firstName} ${currentUser.secondName}>
                     </div>
-                </c:if>
+                </fmt:message>
                 <div class="header-right">
                   <a class="active" href="/../login.jsp">LogIn</a>
                 </div>

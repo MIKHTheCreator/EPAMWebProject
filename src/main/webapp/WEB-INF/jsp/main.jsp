@@ -1,24 +1,49 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<c:set value="en"/>
+<fmt:setBundle basename="locale" var="loc"/>
+
+<fmt:message bundle="${loc}" key="logIn" var="logIn"/>
+<fmt:message bundle="${loc}" key="registration" var="registration"/>
+<fmt:message bundle="${loc}" key="mainPageSlogan" var="main"/>
+<fmt:message bundle="${loc}" key="mainPageTextBlockFirstSlogan" var="firstSlogan"/>
+<fmt:message bundle="${loc}" key="mainPageTextBlockFirstPart" var="firstPart"/>
+<fmt:message bundle="${loc}" key="mainPageTextBlockFirstMain" var="firstMain"/>
+<fmt:message bundle="${loc}" key="mainPageTextBlockSecondSlogan" var="secondSlogan"/>
+<fmt:message bundle="${loc}" key="mainPageTextBlockSecondPart" var="secondPart"/>
+<fmt:message bundle="${loc}" key="mainPageTextBlockSecondMain" var="secondMain"/>
+<fmt:message bundle="${loc}" key="mainPageTextBlockThirdSlogan" var="thirdSlogan"/>
+<fmt:message bundle="${loc}" key="mainPageTextBlockThirdPart" var="thirddPart"/>
+<fmt:message bundle="${loc}" key="mainPageTextBlockThirdMain" var="thirdMain"/>
+<fmt:message bundle="${loc}" key="mainPageTextBlockFourthSlogan" var="fourthSlogan"/>
+<fmt:message bundle="${loc}" key="mainPageTextBlockFourthPart" var="fourthPart"/>
+<fmt:message bundle="${loc}" key="mainPageTextBlockFourthMain" var="fourthMain"/>
+
+<%@ page contentType="text/html;charset=UTF-8" %>
+
 <!DOCTYPE html>
-<html >
+<html>
     <head>
       <meta charset="UTF-8">
       <title>Main Page</title>
 
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-      <link rel="stylesheet" href="/../css/style.css">
       <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-      <link rel="stylesheet" href="/../css/footer.css">
+      <style>
+          <%@include file="/WEB-INF/css/style.css"%>
+      </style>
+      <style>
+          <%@include file="/WEB-INF/css/footer.css"%>
+      </style>
 
         <style>
 
           @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700|Josefin+Sans:400,600,700,400italic,600italic);
 
             body{
-                font-family: 'josefin sans';
+                font-family: 'josefin sans', serif;
                 font-size: 16px;
             }
 
@@ -50,16 +75,16 @@
                 text-align: center;
             }
             h1, h2, h3, h4, h5, h6{
-                font-family: montserrat;
+                font-family: montserrat, serif;
             }
             .font-2{
-                font-family: 'josefin sans';
+                font-family: 'josefin sans', serif;
                 font-weight: 700;
             }
             .title{ letter-spacing: .3em; text-transform: uppercase; }
             .text-light{ color: #fff }
             .font-alt{
-                font-family: 'georgia';
+                font-family: 'georgia', serif;
                 font-style: italic;
                 color: #666;
             }
@@ -103,7 +128,7 @@
             <div class="hero-inner">
                     <div class="hero-title">
                         <h1 class="text-light title font-2">Globo Bank System</h1>
-                        <p class="text-capitalize text-light">Here you can save your money</p>
+                        <p class="text-capitalize text-light">${main}</p>
                     </div>
                     <a href="#" class="sd">Scroll Down</a>
             </div>
@@ -112,44 +137,44 @@
             <div class="container" style="padding-top: 60px">
                 <div class="row">
                     <div class="col-md-5">
-                        <h2 class="text-uppercase">Security</h2>
-                        <p class="font-alt">A financial control center to suit your every need</p>
+                        <h2 class="text-uppercase">${firstMain}</h2>
+                        <p class="font-alt">${firstSlogan}</p>
                     </div>
                     <div class="col-md-7">
-                        <p style="padding-top: 47px">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam earum eos corporis totam vel, eaque sapiente officiis sint culpa inventore blanditiis hic cupiditate illo nam assumenda reprehenderit suscipit dolorum quibusdam.</p>
+                        <p style="padding-top: 47px">${firstPart}</p>
                     </div>
                 </div>
             </div>
             <div class="container" style="padding-top: 60px">
                 <div class="row">
                     <div class="col-md-5">
-                        <h2 class="text-uppercase">Payments</h2>
-                        <p class="font-alt">Your bank, your world</p>
+                        <h2 class="text-uppercase">${secondMain}</h2>
+                        <p class="font-alt">${secondSlogan}</p>
                     </div>
                     <div class="col-md-7">
-                        <p style="padding-top: 47px">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam earum eos corporis totam vel, eaque sapiente officiis sint culpa inventore blanditiis hic cupiditate illo nam assumenda reprehenderit suscipit dolorum quibusdam.</p>
+                        <p style="padding-top: 47px">${secondPart}</p>
                     </div>
                 </div>
             </div>
             <div class="container" style="padding-top: 60px">
                 <div class="row">
                     <div class="col-md-5">
-                        <h2 class="text-uppercase">Speed</h2>
-                        <p class="font-alt">A customer-focused bank that provides complete financial solutions to meet your entire financial needs</p>
+                        <h2 class="text-uppercase">${thirdMain}</h2>
+                        <p class="font-alt">${thirdSlogan}</p>
                     </div>
                     <div class="col-md-7">
-                        <p style="padding-top: 47px">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam earum eos corporis totam vel, eaque sapiente officiis sint culpa inventore blanditiis hic cupiditate illo nam assumenda reprehenderit suscipit dolorum quibusdam.</p>
+                        <p style="padding-top: 47px">${thirddPart}</p>
                     </div>
                 </div>
             </div>
             <div class="container" style="padding-top: 60px">
                 <div class="row">
                     <div class="col-md-5">
-                        <h2 class="text-uppercase">Quality</h2>
-                        <p class="font-alt">We’re more than just someone’s ATM. We’re here for life’s big moments</p>
+                        <h2 class="text-uppercase">${fourthMain}</h2>
+                        <p class="font-alt">${fourthSlogan}</p>
                     </div>
                     <div class="col-md-7">
-                        <p style="padding-top: 47px">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam earum eos corporis totam vel, eaque sapiente officiis sint culpa inventore blanditiis hic cupiditate illo nam assumenda reprehenderit suscipit dolorum quibusdam.</p>
+                        <p style="padding-top: 47px">${fourthPart}</p>
                     </div>
                 </div>
             </div>
@@ -197,7 +222,26 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js'></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/smoothscroll/1.4.0/SmoothScroll.min.js'></script>
 
-        <script src="/../scripts/index.js"></script>
+        <script>
+            $('.sd').click(function(){
+                $('.hero, .content').addClass('scrolled');
+            });
+
+            $('.hero').mousewheel(function(e){
+                if( e.deltaY < 0 ){
+                    $('.hero, .content').addClass('scrolled');
+                    return false;
+                }
+            });
+
+            $(window).mousewheel(function(e){
+                if( $('.hero.scrolled').length ){
+                    if( $(window).scrollTop() === 0 && e.deltaY > 0 ){
+                        $('.hero, .content').removeClass('scrolled');
+                    }
+                }
+            });
+        </script>
 
     </body>
 </html>

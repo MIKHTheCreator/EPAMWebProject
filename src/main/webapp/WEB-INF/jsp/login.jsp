@@ -4,10 +4,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="/../scss/login.css">
-        <link rel="stylesheet" href="/../css/footer.css">
-        <link rel="stylesheet" href="/../css/header.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/WEB-INF/scss/login.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/WEB-INF/css/footer.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/WEB-INF/css/header.css">
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+        <title>LogIn Page</title>
     </head>
 
     <body>
@@ -21,12 +22,16 @@
         <div class="wrapper">
             <form class="form-signin">       
               <h2 class="form-signin-heading">Enter Your Data</h2>
-              <input type="text" class="form-control" name="username" placeholder="Username or Email Address" required="" autofocus="" />
-              <input type="password" class="form-control" name="password" placeholder="Password" required=""/>      
-              <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>   
+                <label>
+                    <input type="text" class="form-control" name="username" placeholder="Username or Email Address" required="" autofocus="" />
+                </label>
+                <label>
+                    <input type="password" class="form-control" name="password" placeholder="Password" required=""/>
+                </label>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
             </form>
           </div>
-          <div class="footer-dark" style="position: fixed; bottom:0px; left:0px; width:100%">
+          <div class="footer-dark" style="position: fixed; bottom:0; left:0; width:100%">
             <footer>
                 <div class="container">
                     <div class="row">

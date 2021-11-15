@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<DOCKTYPE html>
+<!doctype html>
 <html>
     <head>
         <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap" rel="stylesheet">
-        <link href="/../css/error.css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/WEB-INF/css/error.css" rel="stylesheet">
+        <title>Error Page</title>
     </head>
     <body>
         <div class="mainbox">
