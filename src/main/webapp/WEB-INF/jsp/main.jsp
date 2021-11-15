@@ -25,11 +25,16 @@
 <html>
     <head>
       <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>Main Page</title>
 
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
       <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+        <style>
+            <%@include file="/WEB-INF/css/footer_buttons.css"%>
+        </style>
       <style>
           <%@include file="/WEB-INF/css/style.css"%>
       </style>
@@ -203,8 +208,29 @@
                         <div class="col-md-6 item text">
                             <h3>MIP</h3>
                             <p>Make it Perfect</p>
+                            <div class = "wrapper">
+                                <div class="icon facebook">
+                                    <div class="tooltip">Facebook</div>
+                                    <span><i class="fab fa-facebook-f"></i></span>
+                                </div>
+                                <div class="icon twitter">
+                                    <div class="tooltip">Twitter</div>
+                                    <span><i class="fab fa-twitter"></i></span>
+                                </div>
+                                <div class="icon instagram">
+                                    <div class="tooltip">Instagram</div>
+                                    <span><i class="fab fa-instagram"></i></span>
+                                </div>
+                                <div class="icon github">
+                                    <div class="tooltip">Github</div>
+                                    <span><i class="fab fa-github"></i></span>
+                                </div>
+                                <div class="icon youtube">
+                                    <div class="tooltip">Youtube</div>
+                                    <span><a href="https://youtube.com" style="text-decoration: none; color: #282d32"><i class="fab fa-youtube"></i></a></span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col item social"><a href="#"><i class="icon ion-social-facebook"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-instagram"></i></a></div>
                     </div>
                     <p class="copyright">MIP © 2021</p>
                 </div>
@@ -234,10 +260,11 @@
             });
 
             $(window).mousewheel(function(e){
-                if( $('.hero.scrolled').length ){
-                    if( $(window).scrollTop() === 0 && e.deltaY > 0 ){
-                        $('.hero, .content').removeClass('scrolled');
-                    }
+                if (!$('.hero.scrolled').length) {
+                    return;
+                }
+                if ($(window).scrollTop() === 0 && e.deltaY > 0) {
+                    $('.hero, .content').removeClass('scrolled');
                 }
             });
         </script>
