@@ -32,14 +32,18 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
       <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-        <style>
+      <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
+      <style>
             <%@include file="/WEB-INF/css/footer_buttons.css"%>
-        </style>
+      </style>
       <style>
           <%@include file="/WEB-INF/css/style.css"%>
       </style>
       <style>
           <%@include file="/WEB-INF/css/footer.css"%>
+      </style>
+      <style>
+            <%@include file="/WEB-INF/css/main_page_buttons.css"%>
       </style>
 
         <style>
@@ -181,6 +185,12 @@
                         <p style="padding-top: 47px">${fourthPart}</p>
                     </div>
                 </div>
+                <button-body>
+                    <button class="name noselect">${registration}</button>
+                </button-body>
+                <button-body>
+                    <button class="name noselect">${logIn}</button>
+                </button-body>
             </div>
             <div class="container" style="height: 100px"></div>
         </div>
