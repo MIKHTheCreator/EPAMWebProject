@@ -1,26 +1,25 @@
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<c:set value="en"/>
-<fmt:setBundle basename="locale" var="loc"/>
+<fmt:setLocale value="en"/>
+<fmt:setBundle basename="locale" var="loc" />
 
-<fmt:message bundle="${loc}" key="logIn" var="logIn"/>
-<fmt:message bundle="${loc}" key="registration" var="registration"/>
-<fmt:message bundle="${loc}" key="mainPageSlogan" var="main"/>
-<fmt:message bundle="${loc}" key="mainPageTextBlockFirstSlogan" var="firstSlogan"/>
-<fmt:message bundle="${loc}" key="mainPageTextBlockFirstPart" var="firstPart"/>
-<fmt:message bundle="${loc}" key="mainPageTextBlockFirstMain" var="firstMain"/>
-<fmt:message bundle="${loc}" key="mainPageTextBlockSecondSlogan" var="secondSlogan"/>
-<fmt:message bundle="${loc}" key="mainPageTextBlockSecondPart" var="secondPart"/>
-<fmt:message bundle="${loc}" key="mainPageTextBlockSecondMain" var="secondMain"/>
-<fmt:message bundle="${loc}" key="mainPageTextBlockThirdSlogan" var="thirdSlogan"/>
-<fmt:message bundle="${loc}" key="mainPageTextBlockThirdPart" var="thirddPart"/>
-<fmt:message bundle="${loc}" key="mainPageTextBlockThirdMain" var="thirdMain"/>
-<fmt:message bundle="${loc}" key="mainPageTextBlockFourthSlogan" var="fourthSlogan"/>
-<fmt:message bundle="${loc}" key="mainPageTextBlockFourthPart" var="fourthPart"/>
-<fmt:message bundle="${loc}" key="mainPageTextBlockFourthMain" var="fourthMain"/>
-
-<%@ page contentType="text/html;charset=UTF-8" %>
+<fmt:message bundle="${loc}" key="logIn" var="logIn" />
+<fmt:message bundle="${loc}" key="registration" var="registration" />
+<fmt:message bundle="${loc}" key="mainPageSlogan" var="main" />
+<fmt:message bundle="${loc}" key="mainPageTextBlockFirstSlogan" var="firstSlogan" />
+<fmt:message bundle="${loc}" key="mainPageTextBlockFirstPart" var="firstPart" />
+<fmt:message bundle="${loc}" key="mainPageTextBlockFirstMain" var="firstMain" />
+<fmt:message bundle="${loc}" key="mainPageTextBlockSecondSlogan" var="secondSlogan" />
+<fmt:message bundle="${loc}" key="mainPageTextBlockSecondPart" var="secondPart" />
+<fmt:message bundle="${loc}" key="mainPageTextBlockSecondMain" var="secondMain" />
+<fmt:message bundle="${loc}" key="mainPageTextBlockThirdSlogan" var="thirdSlogan" />
+<fmt:message bundle="${loc}" key="mainPageTextBlockThirdPart" var="thirddPart" />
+<fmt:message bundle="${loc}" key="mainPageTextBlockThirdMain" var="thirdMain" />
+<fmt:message bundle="${loc}" key="mainPageTextBlockFourthSlogan" var="fourthSlogan" />
+<fmt:message bundle="${loc}" key="mainPageTextBlockFourthPart" var="fourthPart" />
+<fmt:message bundle="${loc}" key="mainPageTextBlockFourthMain" var="fourthMain" />
 
 <!DOCTYPE html>
 <html>
@@ -127,7 +126,7 @@
           <div class="hero">
             <div class="hero-inner">
                     <div class="hero-title">
-                        <h1 class="text-light title font-2">Globo Bank System</h1>
+                        <h1 class="text-light title font-2">GloboBank System</h1>
                         <p class="text-capitalize text-light">${main}</p>
                     </div>
                     <a href="#" class="sd">Scroll Down</a>
