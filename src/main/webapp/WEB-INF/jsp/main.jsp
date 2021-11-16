@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<fmt:setLocale value="en"/>
+<fmt:setLocale value="${sessionScope.language}"/>
 <fmt:setBundle basename="locale" var="loc" />
 
 <fmt:message bundle="${loc}" key="logIn" var="logIn" />
@@ -44,6 +44,9 @@
       </style>
       <style>
             <%@include file="/WEB-INF/css/main_page_buttons.css"%>
+      </style>
+      <style>
+            <%@include file="/WEB-INF/css/language_bar.css"%>
       </style>
 
         <style>
@@ -186,10 +189,10 @@
                     </div>
                 </div>
                 <button-body>
-                    <button class="name noselect">${registration}</button>
+                    <button class="name noselect"><a href="${pageContext.request.contextPath}/bank?command=save_client_command" style="text-decoration: none; color: black">${registration}</a></button>
                 </button-body>
                 <button-body>
-                    <button class="name noselect">${logIn}</button>
+                    <button class="name noselect"><a href="${pageContext.request.contextPath}/bank?command=log_in_command" style="text-decoration: none; color: black">${logIn}</a></button>
                 </button-body>
             </div>
             <div class="container" style="height: 100px"></div>
@@ -238,6 +241,13 @@
                                 <div class="icon youtube">
                                     <div class="tooltip">Youtube</div>
                                     <span><a href="https://youtube.com" style="text-decoration: none; color: #282d32"><i class="fab fa-youtube"></i></a></span>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <div class="dropbtn">RU</div>
+                                <div class="dropdown-content">
+                                    <a href="${pageContext.request.contextPath}/bank?command=change_language_command&language=ru">RU</a>
+                                    <a href="${pageContext.request.contextPath}/bank?command=change_language_command&language=en">EN</a>
                                 </div>
                             </div>
                         </div>
