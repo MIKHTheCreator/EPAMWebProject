@@ -11,7 +11,8 @@ public enum Commands {
     EDIT_USER_COMMAND(EditUserCommand.getInstance()),
     SAVE_PASSPORT_COMMAND(SavePassportCommand.getInstance()),
     LOG_OUT_USER_COMMAND(LogOutUserCommand.getInstance()),
-    CHANGE_LANGUAGE_COMMAND(ChangeLanguageCommand.getInstance());
+    CHANGE_LANGUAGE_COMMAND(ChangeLanguageCommand.getInstance()),
+    AUTHORIZATION_COMMAND(AuthorisationCommand.getInstance());
 
     private final Command command;
 
