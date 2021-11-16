@@ -1,10 +1,10 @@
 package com.epam.jwd.service.impl.user_account;
 
+import com.epam.jwd.dao.api.ClientDAO;
 import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.entity.user_account.Client;
 import com.epam.jwd.dao.exception.DAOException;
 import com.epam.jwd.dao.impl.ClientDAOImpl;
-import com.epam.jwd.service.api.Service;
 import com.epam.jwd.service.dto.mapper.DTOMapper;
 import com.epam.jwd.service.dto.mapper.user_account.ClientDTOMapper;
 import com.epam.jwd.service.dto.user_account.ClientDTO;
@@ -27,9 +27,9 @@ import static com.epam.jwd.service.message.ExceptionMessage.SERVICE_SAVE_METHOD_
 import static com.epam.jwd.service.message.ExceptionMessage.SERVICE_UPDATE_METHOD_EXCEPTION;
 import static com.epam.jwd.service.message.ExceptionMessage.SERVICE_UPDATE_METHOD_EXCEPTION_CODE;
 
-public class ClientService implements Service<ClientDTO, Integer> {
+public class ClientService implements com.epam.jwd.service.api.ClientService<ClientDTO, Integer> {
 
-    private final DAO<Client, Integer> clientDAO;
+    private final ClientDAO<Client, Integer> clientDAO;
     private final DTOMapper<ClientDTO, Client, Integer> mapper;
 
     private static final Logger log = LogManager.getLogger(ClientService.class);
@@ -107,5 +107,19 @@ public class ClientService implements Service<ClientDTO, Integer> {
             log.error(SERVICE_DELETE_METHOD_EXCEPTION + DELIMITER + SERVICE_DELETE_METHOD_EXCEPTION_CODE, e);
             throw new ServiceException(SERVICE_DELETE_METHOD_EXCEPTION + DELIMITER + SERVICE_DELETE_METHOD_EXCEPTION_CODE, e);
         }
+    }
+
+    @Override
+    public ClientDTO findClientByUsername(String username) throws ServiceException {
+        ClientDTO clientDTO;
+
+        try {
+            clientDTO = mapper.convertToDTO(clientDAO.findByUsername(username));
+        } catch (DAOException e) {
+            log.error(SERVICE_FIND_BY_ID_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_BY_ID_METHOD_EXCEPTION_CODE, e);
+            throw new ServiceException(SERVICE_FIND_BY_ID_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_BY_ID_METHOD_EXCEPTION_CODE, e);
+        }
+
+        return clientDTO;
     }
 }

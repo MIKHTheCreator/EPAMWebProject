@@ -1,5 +1,6 @@
 package com.epam.jwd.dao.impl;
 
+import com.epam.jwd.dao.api.ClientDAO;
 import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
@@ -17,11 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.jwd.dao.message.ClientDAOMessage.SQL_DELETE_CLIENT_QUERY;
-import static com.epam.jwd.dao.message.ClientDAOMessage.SQL_FIND_ALL_CLIENTS_QUERY;
-import static com.epam.jwd.dao.message.ClientDAOMessage.SQL_FIND_BY_ID_CLIENT_QUERY;
-import static com.epam.jwd.dao.message.ClientDAOMessage.SQL_SAVE_CLIENT_QUERY;
-import static com.epam.jwd.dao.message.ClientDAOMessage.SQL_UPDATE_CLIENT_QUERY;
+import static com.epam.jwd.dao.message.ClientDAOMessage.*;
 import static com.epam.jwd.dao.message.ExceptionMessage.DELETE_EXCEPTION;
 import static com.epam.jwd.dao.message.ExceptionMessage.DELETE_EXCEPTION_CODE;
 import static com.epam.jwd.dao.message.ExceptionMessage.DELIMITER;
@@ -34,9 +31,9 @@ import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION_CODE;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION_CODE;
 
-public class ClientDAOImpl implements DAO<Client, Integer> {
+public class ClientDAOImpl implements ClientDAO<Client, Integer> {
 
-    private static DAO<Client, Integer> instance;
+    private static ClientDAO<Client, Integer> instance;
 
     private final ConnectionPool connectionPool;
     private final PasswordManager passwordManager;
@@ -52,7 +49,7 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
         this.passwordManager = new PasswordManagerImpl();
     }
 
-    public static DAO<Client, Integer> getInstance() {
+    public static ClientDAO<Client, Integer> getInstance() {
         synchronized (ClientDAOImpl.class) {
             if (instance == null) {
                 instance = new ClientDAOImpl();
@@ -147,6 +144,25 @@ public class ClientDAOImpl implements DAO<Client, Integer> {
             log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
             throw new DAOException(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
         }
+    }
+
+    @Override
+    public Client findByUsername(String username) throws DAOException {
+        PreparedStatement statement;
+        Client client;
+
+        try (Connection connection = connectionPool.takeConnection()) {
+            statement = connection.prepareStatement(SQL_FIND_BY_USERNAME_CLIENT_QUERY);
+            statement.setString(1, username);
+
+            client = findClient(statement);
+        } catch (SQLException exception) {
+            log.error(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
+            throw new DAOException(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
+        }
+
+        return client;
+
     }
 
     private Client createClient(ResultSet resultSet)
