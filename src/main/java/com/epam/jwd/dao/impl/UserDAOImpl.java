@@ -1,6 +1,7 @@
 package com.epam.jwd.dao.impl;
 
 import com.epam.jwd.dao.api.DAO;
+import com.epam.jwd.dao.api.UserDAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
 import com.epam.jwd.dao.entity.user_account.Gender;
@@ -30,16 +31,11 @@ import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION;
 import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION_CODE;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION_CODE;
-import static com.epam.jwd.dao.message.UserDAOMessage.SQL_DELETE_USER_QUERY;
-import static com.epam.jwd.dao.message.UserDAOMessage.SQL_FIND_ALL_USERS_QUERY;
-import static com.epam.jwd.dao.message.UserDAOMessage.SQL_FIND_ROLE_BY_ID;
-import static com.epam.jwd.dao.message.UserDAOMessage.SQL_FIND_USER_BY_ID_QUERY;
-import static com.epam.jwd.dao.message.UserDAOMessage.SQL_SAVE_USER_QUERY;
-import static com.epam.jwd.dao.message.UserDAOMessage.SQL_UPDATE_USER_QUERY;
+import static com.epam.jwd.dao.message.UserDAOMessage.*;
 
-public class UserDAOImpl implements DAO<User, Integer> {
+public class UserDAOImpl implements UserDAO<User, Integer> {
 
-    private static DAO<User, Integer> instance;
+    private static UserDAO<User, Integer> instance;
     private final ConnectionPool connectionPool;
 
     private static final Logger log = LogManager.getLogger(UserDAOImpl.class);
@@ -52,7 +48,7 @@ public class UserDAOImpl implements DAO<User, Integer> {
         this.connectionPool = ConnectionPoolImpl.getInstance();
     }
 
-    public static DAO<User, Integer> getInstance() {
+    public static UserDAO<User, Integer> getInstance() {
         synchronized (UserDAOImpl.class) {
             if (instance == null) {
                 instance = new UserDAOImpl();
@@ -175,6 +171,39 @@ public class UserDAOImpl implements DAO<User, Integer> {
             log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
             throw new DAOException(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
         }
+    }
+
+    @Override
+    public User findUserByClientId(Integer id) throws DAOException {
+        Connection connection = null;
+        PreparedStatement statement;
+        User user;
+
+        try {
+            connection = connectionPool.takeConnection();
+            connection.setAutoCommit(true);
+            statement = connection.prepareStatement(SQL_FIND_USER_BY_CLIENT_ID_QUERY);
+            statement.setInt(1, id);
+
+            user = findUser(statement, connection);
+
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
+                throw new DAOException(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
+            }
+
+            log.error(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
+            throw new DAOException(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
+        } finally {
+            connectionPool.returnConnection(connection);
+        }
+
+        return user;
     }
 
     private void saveUser(PreparedStatement statement, User user)

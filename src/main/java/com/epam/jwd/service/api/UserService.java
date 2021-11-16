@@ -5,7 +5,7 @@ import com.epam.jwd.service.exception.ServiceException;
 
 import java.util.List;
 
-public interface Service<T extends AbstractEntityDTO<V>, V> {
+public interface UserService<T extends AbstractEntityDTO<V>, V> {
 
     T save(T entity) throws ServiceException;
 
@@ -16,4 +16,6 @@ public interface Service<T extends AbstractEntityDTO<V>, V> {
     T update(T entity) throws ServiceException;
 
     void delete(T entity) throws ServiceException;
+
+    T findUserByClientId(V id) throws ServiceException;
 }

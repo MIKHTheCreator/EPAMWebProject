@@ -244,7 +244,14 @@
                                 </div>
                             </div>
                             <div class="dropdown">
-                                <div class="dropbtn">RU</div>
+                                <c:choose>
+                                    <c:when test="${sessionScope.get(language) eq RU}">
+                                        <div class="dropbtn">RU</div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="dropbtn">EN</div>
+                                    </c:otherwise>
+                                </c:choose>
                                 <div class="dropdown-content">
                                     <a href="${pageContext.request.contextPath}/bank?command=change_language_command&language=ru">RU</a>
                                     <a href="${pageContext.request.contextPath}/bank?command=change_language_command&language=en">EN</a>

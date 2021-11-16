@@ -1,6 +1,7 @@
 package com.epam.jwd.service.impl.user_account;
 
 import com.epam.jwd.dao.api.DAO;
+import com.epam.jwd.dao.api.UserDAO;
 import com.epam.jwd.dao.entity.user_account.User;
 import com.epam.jwd.dao.exception.DAOException;
 import com.epam.jwd.dao.impl.UserDAOImpl;
@@ -27,9 +28,9 @@ import static com.epam.jwd.service.message.ExceptionMessage.SERVICE_SAVE_METHOD_
 import static com.epam.jwd.service.message.ExceptionMessage.SERVICE_UPDATE_METHOD_EXCEPTION;
 import static com.epam.jwd.service.message.ExceptionMessage.SERVICE_UPDATE_METHOD_EXCEPTION_CODE;
 
-public class UserService implements Service<UserDTO, Integer> {
+public class UserService implements com.epam.jwd.service.api.UserService<UserDTO, Integer> {
 
-    private final DAO<User, Integer> userDAO;
+    private final UserDAO<User, Integer> userDAO;
     private final DTOMapper<UserDTO, User, Integer> mapper;
 
     private static final Logger log = LogManager.getLogger(UserService.class);
@@ -107,5 +108,19 @@ public class UserService implements Service<UserDTO, Integer> {
             log.error(SERVICE_DELETE_METHOD_EXCEPTION + DELIMITER + SERVICE_DELETE_METHOD_EXCEPTION_CODE, e);
             throw new ServiceException(SERVICE_DELETE_METHOD_EXCEPTION + DELIMITER + SERVICE_DELETE_METHOD_EXCEPTION_CODE, e);
         }
+    }
+
+    @Override
+    public UserDTO findUserByClientId(Integer id) throws ServiceException {
+        UserDTO userDTO;
+
+        try {
+            userDTO = mapper.convertToDTO(userDAO.findUserByClientId(id));
+        } catch (DAOException e) {
+            log.error(SERVICE_FIND_BY_ID_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_BY_ID_METHOD_EXCEPTION_CODE, e);
+            throw new ServiceException(SERVICE_FIND_BY_ID_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_BY_ID_METHOD_EXCEPTION_CODE, e);
+        }
+
+        return userDTO;
     }
 }
