@@ -190,12 +190,12 @@
                 </div>
                 <button-body>
                     <button class="name noselect">
-                        <a href="${pageContext.request.contextPath}/bank?command=save_client_command" style="text-decoration: none; color: black">${registration}</a>
+                        <a href="${pageContext.request.contextPath}/bank?command=show_registration_page_command" style="text-decoration: none; color: black">${registration}</a>
                     </button>
                 </button-body>
                 <button-body>
                     <button class="name noselect">
-                        <a href="${pageContext.request.contextPath}/bank?command=log_in_command" style="text-decoration: none; color: black">${logIn}</a>
+                        <a href="${pageContext.request.contextPath}/bank?command=show_login_page_command" style="text-decoration: none; color: black">${logIn}</a>
                     </button>
                 </button-body>
             </div>

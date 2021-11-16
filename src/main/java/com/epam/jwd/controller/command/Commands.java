@@ -12,7 +12,9 @@ public enum Commands {
     SAVE_PASSPORT_COMMAND(SavePassportCommand.getInstance()),
     LOG_OUT_USER_COMMAND(LogOutUserCommand.getInstance()),
     CHANGE_LANGUAGE_COMMAND(ChangeLanguageCommand.getInstance()),
-    AUTHORIZATION_COMMAND(AuthorisationCommand.getInstance());
+    AUTHORIZATION_COMMAND(AuthorisationCommand.getInstance()),
+    SHOW_LOGIN_PAGE_COMMAND(ShowLogInPageCommand.getInstance()),
+    SHOW_REGISTRATION_PAGE_COMMAND(ShowRegistrationPageCommand.getInstance());
 
     private final Command command;
 
