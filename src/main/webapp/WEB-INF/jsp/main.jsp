@@ -224,23 +224,43 @@
                             <div class = "wrapper">
                                 <div class="icon facebook">
                                     <div class="tooltip">Facebook</div>
-                                    <span><i class="fab fa-facebook-f"></i></span>
+                                    <span>
+                                        <a href="https://facebook.com" style="text-decoration: none; color: #282d32">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+                                    </span>
                                 </div>
                                 <div class="icon twitter">
                                     <div class="tooltip">Twitter</div>
-                                    <span><i class="fab fa-twitter"></i></span>
+                                    <span>
+                                        <a href="https://twitter.com" style="text-decoration: none; color: #282d32">
+                                            <i class="fab fa-twitter"></i>
+                                        </a>
+                                    </span>
                                 </div>
                                 <div class="icon instagram">
                                     <div class="tooltip">Instagram</div>
-                                    <span><i class="fab fa-instagram"></i></span>
+                                    <span>
+                                        <a href="https://instagram.com" style="text-decoration: none; color: #282d32">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+                                    </span>
                                 </div>
                                 <div class="icon github">
                                     <div class="tooltip">Github</div>
-                                    <span><i class="fab fa-github"></i></span>
+                                    <span>
+                                        <a href="https://github.com/MIKHTheCreator" style="text-decoration: none; color: #282d32">
+                                            <i class="fab fa-github"></i>
+                                        </a>
+                                    </span>
                                 </div>
                                 <div class="icon youtube">
                                     <div class="tooltip">Youtube</div>
-                                    <span><a href="https://youtube.com" style="text-decoration: none; color: #282d32"><i class="fab fa-youtube"></i></a></span>
+                                    <span>
+                                        <a href="https://youtube.com" style="text-decoration: none; color: #282d32">
+                                            <i class="fab fa-youtube"></i>
+                                        </a>
+                                    </span>
                                 </div>
                             </div>
                             <div class="dropdown">
