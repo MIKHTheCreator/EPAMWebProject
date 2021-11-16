@@ -44,6 +44,8 @@ public class ChangeLanguageCommand implements Command {
     @Override
     public ResponseContext execute(RequestContext context) {
 
+        String language = context.getParameterByName(LANGUAGE_ATTRIBUTE);
+
         HttpSession session;
         if (context.getCurrentSession().isPresent()){
             session = context.getCurrentSession().get();
@@ -51,7 +53,8 @@ public class ChangeLanguageCommand implements Command {
             return ERROR_CONTEXT;
         }
 
-        session.setAttribute(LANGUAGE_ATTRIBUTE, context.getParameterByName(LANGUAGE_ATTRIBUTE));
+        context.addAttributeToJsp(LANGUAGE_ATTRIBUTE, language);
+        session.setAttribute(LANGUAGE_ATTRIBUTE, language);
         return CHANGE_LANGUAGE_CONTEXT;
     }
 }

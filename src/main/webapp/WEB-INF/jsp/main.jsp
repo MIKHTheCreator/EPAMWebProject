@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<fmt:setLocale value="${sessionScope.language}"/>
+<fmt:setLocale value="${not empty sessionScope.language ? sessionScope.language : en }"/>
 <fmt:setBundle basename="locale" var="loc" />
 
 <fmt:message bundle="${loc}" key="logIn" var="logIn" />
@@ -189,10 +189,14 @@
                     </div>
                 </div>
                 <button-body>
-                    <button class="name noselect"><a href="${pageContext.request.contextPath}/bank?command=save_client_command" style="text-decoration: none; color: black">${registration}</a></button>
+                    <button class="name noselect">
+                        <a href="${pageContext.request.contextPath}/bank?command=save_client_command" style="text-decoration: none; color: black">${registration}</a>
+                    </button>
                 </button-body>
                 <button-body>
-                    <button class="name noselect"><a href="${pageContext.request.contextPath}/bank?command=log_in_command" style="text-decoration: none; color: black">${logIn}</a></button>
+                    <button class="name noselect">
+                        <a href="${pageContext.request.contextPath}/bank?command=log_in_command" style="text-decoration: none; color: black">${logIn}</a>
+                    </button>
                 </button-body>
             </div>
             <div class="container" style="height: 100px"></div>
@@ -265,7 +269,7 @@
                             </div>
                             <div class="dropdown">
                                 <c:choose>
-                                    <c:when test="${sessionScope.get(language) eq RU}">
+                                    <c:when test="${sessionScope.language eq 'ru'}">
                                         <div class="dropbtn">RU</div>
                                     </c:when>
                                     <c:otherwise>
