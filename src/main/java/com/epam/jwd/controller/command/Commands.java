@@ -1,11 +1,6 @@
 package com.epam.jwd.controller.command;
 
-import com.epam.jwd.controller.command.impl.DefaultCommand;
-import com.epam.jwd.controller.command.impl.EditUserCommand;
-import com.epam.jwd.controller.command.impl.LogOutUserCommand;
-import com.epam.jwd.controller.command.impl.SaveClientCommand;
-import com.epam.jwd.controller.command.impl.SavePassportCommand;
-import com.epam.jwd.controller.command.impl.SaveUserCommand;
+import com.epam.jwd.controller.command.impl.*;
 
 import java.util.Arrays;
 
@@ -15,7 +10,8 @@ public enum Commands {
     SAVE_USER_COMMAND(SaveUserCommand.getInstance()),
     EDIT_USER_COMMAND(EditUserCommand.getInstance()),
     SAVE_PASSPORT_COMMAND(SavePassportCommand.getInstance()),
-    LOG_OUT_USER_COMMAND(LogOutUserCommand.getInstance());
+    LOG_OUT_USER_COMMAND(LogOutUserCommand.getInstance()),
+    CHANGE_LANGUAGE_COMMAND(ChangeLanguageCommand.getInstance());
 
     private final Command command;
 
