@@ -3,7 +3,6 @@ package com.epam.jwd.controller.command.impl;
 import com.epam.jwd.controller.command.Command;
 import com.epam.jwd.controller.command.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContext;
-import com.epam.jwd.service.api.Service;
 import com.epam.jwd.service.dto.user_account.ClientDTO;
 import com.epam.jwd.service.exception.ServiceException;
 import com.epam.jwd.service.impl.user_account.ClientService;
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 public class SaveClientCommand implements Command {
 
-    private final Service<ClientDTO, Integer> clientService = new ClientService();
+    private final ClientService clientService = new ClientService();
     private final Validator<ClientDTO, Integer> validator = new ClientValidator();
     private static final Command INSTANCE = new SaveClientCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/registration.jsp";

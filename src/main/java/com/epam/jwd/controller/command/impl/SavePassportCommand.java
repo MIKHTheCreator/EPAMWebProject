@@ -20,7 +20,7 @@ import java.time.LocalDate;
 public class SavePassportCommand implements Command {
 
     private final Service<PassportDTO, Integer> passportService = new PassportService();
-    private final Service<UserDTO, Integer> userService = new UserService();
+    private final UserService userService = new UserService();
     private final Validator<PassportDTO, Integer> validator = new PassportValidator();
     private static final Command INSTANCE = new SavePassportCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/passport_info.jsp";

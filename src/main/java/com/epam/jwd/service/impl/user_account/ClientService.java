@@ -1,7 +1,6 @@
 package com.epam.jwd.service.impl.user_account;
 
 import com.epam.jwd.dao.api.ClientDAO;
-import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.entity.user_account.Client;
 import com.epam.jwd.dao.exception.DAOException;
 import com.epam.jwd.dao.impl.ClientDAOImpl;

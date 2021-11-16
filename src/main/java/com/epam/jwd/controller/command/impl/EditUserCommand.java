@@ -3,7 +3,6 @@ package com.epam.jwd.controller.command.impl;
 import com.epam.jwd.controller.command.Command;
 import com.epam.jwd.controller.command.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContext;
-import com.epam.jwd.service.api.Service;
 import com.epam.jwd.service.dto.user_account.UserDTO;
 import com.epam.jwd.service.exception.ServiceException;
 import com.epam.jwd.service.impl.user_account.UserService;
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 public class EditUserCommand implements Command {
 
-    private final Service<UserDTO, Integer> userService = new UserService();
+    private final UserService userService = new UserService();
     private final Validator<UserDTO, Integer> validator = new UserValidator();
     private static final Command INSTANCE = new EditUserCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/edit_user.jsp";

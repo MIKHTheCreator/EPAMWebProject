@@ -1,11 +1,9 @@
 package com.epam.jwd.service.impl.user_account;
 
-import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.api.UserDAO;
 import com.epam.jwd.dao.entity.user_account.User;
 import com.epam.jwd.dao.exception.DAOException;
 import com.epam.jwd.dao.impl.UserDAOImpl;
-import com.epam.jwd.service.api.Service;
 import com.epam.jwd.service.dto.mapper.DTOMapper;
 import com.epam.jwd.service.dto.mapper.user_account.UserDTOMapper;
 import com.epam.jwd.service.dto.user_account.UserDTO;

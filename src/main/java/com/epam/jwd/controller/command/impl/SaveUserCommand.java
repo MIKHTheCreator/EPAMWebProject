@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 
 public class SaveUserCommand implements Command {
 
-    private final Service<UserDTO, Integer> userService = new UserService();
+    private final UserService userService = new UserService();
     private final Validator<UserDTO, Integer> validator = new UserValidator();
     private static final Command INSTANCE = new SaveUserCommand();
     private static final String FILL_USERDATA_PAGE = "/WEB-INF/jsp/create_account.jsp";
