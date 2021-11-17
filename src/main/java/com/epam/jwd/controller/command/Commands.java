@@ -34,7 +34,7 @@ public enum Commands {
         return allowedRoles;
     }
 
-    static Command getCommand(String commandName) {
+    public static Command of(String commandName) {
         return Arrays.stream(Commands.values())
                 .filter(command -> command.name().equalsIgnoreCase(commandName))
                 .map(command -> command.command)
