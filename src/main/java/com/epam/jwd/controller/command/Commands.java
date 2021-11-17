@@ -26,6 +26,14 @@ public enum Commands {
         this.allowedRoles = roles != null && roles.length > 0 ? Arrays.asList(roles) : Role.valuesAsList();
     }
 
+    public Command getCommand() {
+        return command;
+    }
+
+    public List<Role> getAllowedRoles() {
+        return allowedRoles;
+    }
+
     static Command getCommand(String commandName) {
         return Arrays.stream(Commands.values())
                 .filter(command -> command.name().equalsIgnoreCase(commandName))
