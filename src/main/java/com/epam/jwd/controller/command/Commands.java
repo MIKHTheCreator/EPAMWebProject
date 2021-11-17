@@ -1,8 +1,10 @@
 package com.epam.jwd.controller.command;
 
 import com.epam.jwd.controller.command.impl.*;
+import com.epam.jwd.dao.entity.user_account.Role;
 
 import java.util.Arrays;
+import java.util.List;
 
 public enum Commands {
     DEFAULT(DefaultCommand.getInstance()),
@@ -17,9 +19,11 @@ public enum Commands {
     SHOW_REGISTRATION_PAGE_COMMAND(ShowRegistrationPageCommand.getInstance());
 
     private final Command command;
+    private final List<Role> allowedRoles;
 
-    Commands(Command command) {
+    Commands(Command command, Role... roles) {
         this.command = command;
+        this.allowedRoles = roles != null && roles.length > 0 ? Arrays.asList(roles) : Role.valuesAsList();
     }
 
     static Command getCommand(String commandName) {

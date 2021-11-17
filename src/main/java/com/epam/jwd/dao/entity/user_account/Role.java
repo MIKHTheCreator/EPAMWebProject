@@ -1,9 +1,14 @@
 package com.epam.jwd.dao.entity.user_account;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum Role {
     UNAUTHORIZED(0), USER(1), ADMIN(2);
 
     private final Integer roleId;
+
+    private static final List<Role> ALL_AVAILABLE_ROLES = Arrays.asList(values());
 
     Role(Integer roleId) {
         this.roleId = roleId;
@@ -11,5 +16,9 @@ public enum Role {
 
     public Integer getRoleId() {
         return roleId;
+    }
+
+    public static List<Role> valuesAsList() {
+        return ALL_AVAILABLE_ROLES;
     }
 }
