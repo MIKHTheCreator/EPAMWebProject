@@ -1,9 +1,7 @@
 package com.epam.jwd.controller.command;
 
 import com.epam.jwd.controller.command.impl.*;
-import com.epam.jwd.controller.command.impl.show_page.ShowErrorPageCommand;
-import com.epam.jwd.controller.command.impl.show_page.ShowLogInPageCommand;
-import com.epam.jwd.controller.command.impl.show_page.ShowRegistrationPageCommand;
+import com.epam.jwd.controller.command.impl.show_page.*;
 import com.epam.jwd.dao.entity.user_account.Role;
 
 import java.util.Arrays;
@@ -20,7 +18,10 @@ public enum Commands {
     AUTHORIZATION_COMMAND(AuthorisationCommand.getInstance(), Role.UNAUTHORIZED),
     SHOW_LOGIN_PAGE_COMMAND(ShowLogInPageCommand.getInstance(), Role.UNAUTHORIZED),
     SHOW_REGISTRATION_PAGE_COMMAND(ShowRegistrationPageCommand.getInstance(), Role.UNAUTHORIZED),
-    SHOW_ERROR_PAGE_COMMAND(ShowErrorPageCommand.getInstance());
+    SHOW_ERROR_PAGE_COMMAND(ShowErrorPageCommand.getInstance()),
+    SHOW_EDIT_USER_INFO_PAGE_COMMAND(ShowEditUserInfoPageCommand.getInstance(), Role.USER, Role.ADMIN),
+    SHOW_USER_INFO_PAGE_COMMAND(ShowUserInfoPageCommand.getInstance(), Role.USER, Role.ADMIN),
+    SHOW_MAIN_PAGE_COMMAND(ShowMainPageCommand.getInstance());
 
     private final Command command;
     private final List<Role> allowedRoles;
