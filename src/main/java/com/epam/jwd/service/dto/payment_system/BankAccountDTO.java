@@ -25,6 +25,12 @@ public class BankAccountDTO extends AbstractEntityDTO<Integer> {
         this.blocked = blocked;
     }
 
+    public BankAccountDTO(BigDecimal starterBalance, String currency, boolean blocked) {
+        this.balance = starterBalance;
+        this.currency = currency;
+        this.blocked = blocked;
+    }
+
     public BigDecimal getBalance() {
         return balance;
     }
