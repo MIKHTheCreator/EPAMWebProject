@@ -22,7 +22,7 @@ import java.time.LocalDate;
 
 public class SaveCreditCardCommand implements Command {
 
-    private final Service<CreditCardDTO, Integer> creditCardService = new CreditCardService();
+    private final CreditCardService creditCardService = new CreditCardService();
     private final Service<BankAccountDTO, Integer> bankAccountService = new BankAccountService();
     private final Validator<CreditCardDTO, Integer> creditCardValidator = new CreditCardValidator();
     private final  Validator<BankAccountDTO, Integer> bankAccountValidator = new BankAccountValidator();
