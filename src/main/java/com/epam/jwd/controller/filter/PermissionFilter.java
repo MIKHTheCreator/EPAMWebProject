@@ -21,9 +21,9 @@ import static com.epam.jwd.dao.entity.user_account.Role.UNAUTHORIZED;
 @WebFilter(urlPatterns = "/*")
 public class PermissionFilter implements Filter {
 
-    private static final String ERROR_PAGE = "/WEB-INF/jsp/error/jsp";
+    private static final String ERROR_PAGE = "/bank?command=show_error_page_command";
     private static final String USER_ATTRIBUTE = "currentUser";
-    private static final String COMMAND_ATTRIBUTE = "currentUser";
+    private static final String COMMAND_ATTRIBUTE = "command";
 
     private final Map<Role, Set<Commands>> commandsByRole;
 
@@ -32,7 +32,9 @@ public class PermissionFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
+            throws IOException, ServletException {
+
         final HttpServletRequest req = (HttpServletRequest) request;
         final Command command = Commands.of(req.getParameter(COMMAND_ATTRIBUTE));
         final HttpSession session = req.getSession(false);
@@ -46,8 +48,7 @@ public class PermissionFilter implements Filter {
     }
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        Filter.super.init(filterConfig);
+    public void init(FilterConfig filterConfig) {
 
         for (Commands command : Commands.values()) {
             for (Role allowedRole : command.getAllowedRoles()) {
