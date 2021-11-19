@@ -1,6 +1,7 @@
 package com.epam.jwd.dao.impl;
 
 import com.epam.jwd.dao.api.DAO;
+import com.epam.jwd.dao.api.PaymentDAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
 import com.epam.jwd.dao.entity.payment_system.Payment;
@@ -28,14 +29,15 @@ import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION_CODE;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION_CODE;
 import static com.epam.jwd.dao.message.PaymentDAOMessage.SQL_DELETE_QUERY;
+import static com.epam.jwd.dao.message.PaymentDAOMessage.SQL_FIND_ALL_PAYMENTS_BY_USER_ID_QUERY;
 import static com.epam.jwd.dao.message.PaymentDAOMessage.SQL_FIND_ALL_PAYMENTS_QUERY;
 import static com.epam.jwd.dao.message.PaymentDAOMessage.SQL_FIND_PAYMENT_BY_ID_QUERY;
 import static com.epam.jwd.dao.message.PaymentDAOMessage.SQL_SAVE_PAYMENT_QUERY;
 import static com.epam.jwd.dao.message.PaymentDAOMessage.SQL_UPDATE_PAYMENT_QUERY;
 
-public class PaymentDAOImpl implements DAO<Payment, Integer> {
+public class PaymentDAOImpl implements PaymentDAO<Payment, Integer> {
 
-    private static DAO<Payment, Integer> instance;
+    private static PaymentDAO<Payment, Integer> instance;
 
     private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
 
@@ -48,7 +50,7 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
     private PaymentDAOImpl() {
     }
 
-    public static DAO<Payment, Integer> getInstance() {
+    public static PaymentDAO<Payment, Integer> getInstance() {
         synchronized (PaymentDAOImpl.class) {
             if (instance == null) {
                 instance = new PaymentDAOImpl();
@@ -144,6 +146,25 @@ public class PaymentDAOImpl implements DAO<Payment, Integer> {
             log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
             throw new DAOException(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
         }
+    }
+
+    @Override
+    public List<Payment> findAllPaymentsByUserId(Integer id) throws DAOException {
+        List<Payment> payments;
+
+        PreparedStatement statement;
+        try (Connection connection = connectionPool.takeConnection()) {
+            statement = connection.prepareStatement(SQL_FIND_ALL_PAYMENTS_BY_USER_ID_QUERY);
+            statement.setInt(1, id);
+
+            payments = findAllPayments(statement);
+
+        } catch (SQLException exception) {
+            log.error(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
+            throw new DAOException(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
+        }
+
+        return payments;
     }
 
     private Payment createPayment(ResultSet resultSet) throws SQLException {

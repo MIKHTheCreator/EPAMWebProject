@@ -1,6 +1,7 @@
 package com.epam.jwd.service.impl.payment_system;
 
 import com.epam.jwd.dao.api.DAO;
+import com.epam.jwd.dao.api.PaymentDAO;
 import com.epam.jwd.dao.entity.payment_system.Payment;
 import com.epam.jwd.dao.exception.DAOException;
 import com.epam.jwd.dao.impl.PaymentDAOImpl;
@@ -27,9 +28,9 @@ import static com.epam.jwd.service.message.ExceptionMessage.SERVICE_SAVE_METHOD_
 import static com.epam.jwd.service.message.ExceptionMessage.SERVICE_UPDATE_METHOD_EXCEPTION;
 import static com.epam.jwd.service.message.ExceptionMessage.SERVICE_UPDATE_METHOD_EXCEPTION_CODE;
 
-public class PaymentService implements Service<PaymentDTO, Integer> {
+public class PaymentService implements com.epam.jwd.service.api.PaymentService<PaymentDTO, Integer> {
 
-    private final DAO<Payment, Integer> paymentDAO;
+    private final PaymentDAO<Payment, Integer> paymentDAO;
     private final DTOMapper<PaymentDTO, Payment, Integer> mapper;
 
     private static final Logger log = LogManager.getLogger(PaymentService.class);
@@ -107,5 +108,21 @@ public class PaymentService implements Service<PaymentDTO, Integer> {
             log.error(SERVICE_DELETE_METHOD_EXCEPTION + DELIMITER + SERVICE_DELETE_METHOD_EXCEPTION_CODE, e);
             throw new ServiceException(SERVICE_DELETE_METHOD_EXCEPTION + DELIMITER + SERVICE_DELETE_METHOD_EXCEPTION_CODE, e);
         }
+    }
+
+    @Override
+    public List<PaymentDTO> findPaymentsByUserId(Integer id) throws ServiceException {
+        List<PaymentDTO> payments = new ArrayList<>();
+
+        try {
+            for (Payment payment : paymentDAO.findAllPaymentsByUserId(id)) {
+                payments.add(mapper.convertToDTO(payment));
+            }
+        } catch (DAOException e) {
+            log.error(SERVICE_FIND_ALL_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_ALL_METHOD_EXCEPTION_CODE, e);
+            throw new ServiceException(SERVICE_FIND_ALL_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_ALL_METHOD_EXCEPTION_CODE, e);
+        }
+
+        return payments;
     }
 }
