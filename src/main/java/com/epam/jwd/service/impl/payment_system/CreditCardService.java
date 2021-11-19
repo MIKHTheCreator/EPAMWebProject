@@ -1,5 +1,6 @@
 package com.epam.jwd.service.impl.payment_system;
 
+import com.epam.jwd.dao.api.CreditCardDAO;
 import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.entity.payment_system.CreditCard;
 import com.epam.jwd.dao.exception.DAOException;
@@ -27,9 +28,9 @@ import static com.epam.jwd.service.message.ExceptionMessage.SERVICE_SAVE_METHOD_
 import static com.epam.jwd.service.message.ExceptionMessage.SERVICE_UPDATE_METHOD_EXCEPTION;
 import static com.epam.jwd.service.message.ExceptionMessage.SERVICE_UPDATE_METHOD_EXCEPTION_CODE;
 
-public class CreditCardService implements Service<CreditCardDTO, Integer> {
+public class CreditCardService implements com.epam.jwd.service.api.CreditCardService<CreditCardDTO, Integer> {
 
-    private final DAO<CreditCard, Integer> creditCardDAO;
+    private final CreditCardDAO<CreditCard, Integer> creditCardDAO;
     private final DTOMapper<CreditCardDTO, CreditCard, Integer> mapper;
 
     private static final Logger log = LogManager.getLogger(CreditCardService.class);
@@ -107,5 +108,21 @@ public class CreditCardService implements Service<CreditCardDTO, Integer> {
             log.error(SERVICE_DELETE_METHOD_EXCEPTION + DELIMITER + SERVICE_DELETE_METHOD_EXCEPTION_CODE, e);
             throw new ServiceException(SERVICE_DELETE_METHOD_EXCEPTION + DELIMITER + SERVICE_DELETE_METHOD_EXCEPTION_CODE, e);
         }
+    }
+
+    @Override
+    public List<CreditCardDTO> findCreditCardsByUserId(Integer id) throws ServiceException {
+        List<CreditCardDTO> creditCards = new ArrayList<>();
+
+        try {
+            for (CreditCard creditCard : creditCardDAO.findCreditCardsByUserId(id)) {
+                creditCards.add(mapper.convertToDTO(creditCard));
+            }
+        } catch (DAOException e) {
+            log.error(SERVICE_FIND_ALL_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_ALL_METHOD_EXCEPTION_CODE, e);
+            throw new ServiceException(SERVICE_FIND_ALL_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_ALL_METHOD_EXCEPTION_CODE, e);
+        }
+
+        return creditCards;
     }
 }

@@ -1,5 +1,6 @@
 package com.epam.jwd.dao.impl;
 
+import com.epam.jwd.dao.api.CreditCardDAO;
 import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_DELETE_CREDIT_CARD_QUERY;
+import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_FIND_ALL_CREDIT_CARDS_BY_USER_ID_QUERY;
 import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_FIND_ALL_CREDIT_CARDS_QUERY;
 import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_FIND_CREDIT_CARD_BY_ID_QUERY;
 import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_SAVE_CREDIT_CARD_QUERY;
@@ -34,9 +36,9 @@ import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION_CODE;
 
 
-public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
+public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
 
-    private static DAO<CreditCard, Integer> instance;
+    private static CreditCardDAO<CreditCard, Integer> instance;
 
     private final ConnectionPool connectionPool;
 
@@ -50,7 +52,7 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
         this.connectionPool = ConnectionPoolImpl.getInstance();
     }
 
-    public static DAO<CreditCard, Integer> getInstance() {
+    public static CreditCardDAO<CreditCard, Integer> getInstance() {
         synchronized (CreditCardDAOImpl.class) {
             if (instance == null) {
                 instance = new CreditCardDAOImpl();
@@ -149,6 +151,25 @@ public class CreditCardDAOImpl implements DAO<CreditCard, Integer> {
             log.error(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
             throw new DAOException(DELETE_EXCEPTION + DELIMITER + DELETE_EXCEPTION_CODE, exception);
         }
+    }
+
+    @Override
+    public List<CreditCard> findCreditCardsByUserId(Integer id) throws DAOException {
+        List<CreditCard> creditCards;
+
+        PreparedStatement statement;
+        try (Connection connection = connectionPool.takeConnection()) {
+            statement = connection.prepareStatement(SQL_FIND_ALL_CREDIT_CARDS_BY_USER_ID_QUERY);
+            statement.setInt(1, id);
+
+            creditCards = findCreditCards(statement);
+
+        } catch (SQLException exception) {
+            log.error(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
+            throw new DAOException(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
+        }
+
+        return creditCards;
     }
 
     private CreditCard createCreditCard(ResultSet resultSet)
