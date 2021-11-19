@@ -9,10 +9,13 @@ import com.epam.jwd.controller.command.impl.SaveClientCommand;
 import com.epam.jwd.controller.command.impl.SaveCreditCardCommand;
 import com.epam.jwd.controller.command.impl.SavePassportCommand;
 import com.epam.jwd.controller.command.impl.SaveUserCommand;
+import com.epam.jwd.controller.command.impl.show_page.ShowAddCreditCardPageCommand;
+import com.epam.jwd.controller.command.impl.show_page.ShowCreditCardPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowEditUserInfoPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowErrorPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowLogInPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowMainPageCommand;
+import com.epam.jwd.controller.command.impl.show_page.ShowPaymentsPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowRegistrationPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowUserInfoPageCommand;
 import com.epam.jwd.dao.entity.user_account.Role;
@@ -35,7 +38,10 @@ public enum Commands {
     SHOW_EDIT_USER_INFO_PAGE_COMMAND(ShowEditUserInfoPageCommand.getInstance(), Role.USER, Role.ADMIN),
     SHOW_USER_INFO_PAGE_COMMAND(ShowUserInfoPageCommand.getInstance(), Role.USER, Role.ADMIN),
     SHOW_MAIN_PAGE_COMMAND(ShowMainPageCommand.getInstance()),
-    SAVE_CREDIT_CARD_COMMAND(SaveCreditCardCommand.getInstance(), Role.USER);
+    SAVE_CREDIT_CARD_COMMAND(SaveCreditCardCommand.getInstance(), Role.USER),
+    SHOW_ADD_CREDIT_CARD_PAGE_COMMAND(ShowAddCreditCardPageCommand.getInstance(), Role.USER),
+    SHOW_CREDIT_CARD_PAGE_COMMAND(ShowCreditCardPageCommand.getInstance(), Role.USER),
+    SHOW_PAYMENTS_PAGE_COMMAND(ShowPaymentsPageCommand.getInstance(), Role.USER);
 
     private final Command command;
     private final List<Role> allowedRoles;
