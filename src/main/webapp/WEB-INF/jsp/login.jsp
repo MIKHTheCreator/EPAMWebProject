@@ -22,7 +22,7 @@
         <jsp:include page="/WEB-INF/jsp/common_resource/header.jsp"/>
 
         <div class="wrapper">
-            <form class="form-signin">       
+            <form class="form-signin" action="login.jsp">
               <h2 class="form-signin-heading">${enterData}</h2>
                 <label>
                     <input type="text" class="form-control" name="username" placeholder="Username or Email Address" required="" autofocus="" />
@@ -30,7 +30,7 @@
                 <label>
                     <input type="password" class="form-control" name="password" placeholder="Password" required=""/>
                 </label>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">${logIn}</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit" >${logIn}</button>
             </form>
           </div>
           <div class="footer-dark" style="position: fixed; bottom:0; left:0; width:100%">
