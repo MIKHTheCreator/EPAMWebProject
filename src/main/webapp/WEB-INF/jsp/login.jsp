@@ -10,9 +10,12 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/WEB-INF/scss/login.scss">
         <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
         <title>LogIn Page</title>
+
+        <style>
+            <%@include file="/WEB-INF/scss/login.scss"%>
+        </style>
     </head>
 
     <body>
