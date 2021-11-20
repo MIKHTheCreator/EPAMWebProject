@@ -5,7 +5,9 @@
 <html>
     <head>
         <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap" rel="stylesheet">
-        <link href="${pageContext.request.contextPath}/WEB-INF/css/error.css" rel="stylesheet">
+        <style>
+            <%@include file="/WEB-INF/css/error.css"%>
+        </style>
         <title>Error Page</title>
     </head>
     <body>
