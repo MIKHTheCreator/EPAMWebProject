@@ -1,6 +1,7 @@
 package com.epam.jwd.controller.command;
 
 import com.epam.jwd.controller.command.impl.AuthorisationCommand;
+import com.epam.jwd.controller.command.impl.BlockUsersBankAccountCommand;
 import com.epam.jwd.controller.command.impl.ChangeLanguageCommand;
 import com.epam.jwd.controller.command.impl.DefaultCommand;
 import com.epam.jwd.controller.command.impl.EditUserCommand;
@@ -8,7 +9,11 @@ import com.epam.jwd.controller.command.impl.LogOutUserCommand;
 import com.epam.jwd.controller.command.impl.SaveClientCommand;
 import com.epam.jwd.controller.command.impl.SaveCreditCardCommand;
 import com.epam.jwd.controller.command.impl.SavePassportCommand;
+import com.epam.jwd.controller.command.impl.SavePaymentCommand;
 import com.epam.jwd.controller.command.impl.SaveUserCommand;
+import com.epam.jwd.controller.command.impl.ShowCreditCardsCommand;
+import com.epam.jwd.controller.command.impl.ShowUsersCommand;
+import com.epam.jwd.controller.command.impl.ShowUsersCreditCardsCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowAddCreditCardPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowCreditCardPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowEditUserInfoPageCommand;
@@ -18,6 +23,7 @@ import com.epam.jwd.controller.command.impl.show_page.ShowMainPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowPaymentsPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowRegistrationPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowUserInfoPageCommand;
+import com.epam.jwd.controller.command.impl.show_page.ShowUsersPageCommand;
 import com.epam.jwd.dao.entity.user_account.Role;
 
 import java.util.Arrays;
@@ -41,7 +47,13 @@ public enum Commands {
     SAVE_CREDIT_CARD_COMMAND(SaveCreditCardCommand.getInstance(), Role.USER),
     SHOW_ADD_CREDIT_CARD_PAGE_COMMAND(ShowAddCreditCardPageCommand.getInstance(), Role.USER),
     SHOW_CREDIT_CARD_PAGE_COMMAND(ShowCreditCardPageCommand.getInstance(), Role.USER),
-    SHOW_PAYMENTS_PAGE_COMMAND(ShowPaymentsPageCommand.getInstance(), Role.USER);
+    SHOW_PAYMENTS_PAGE_COMMAND(ShowPaymentsPageCommand.getInstance(), Role.USER),
+    SHOW_USERS_PAGE_COMMAND(ShowUsersPageCommand.getInstance(), Role.ADMIN),
+    BLOCK_USERS_BANK_ACCOUNT_COMMAND(BlockUsersBankAccountCommand.getInstance(), Role.ADMIN),
+    SAVE_PAYMENT_COMMAND(SavePaymentCommand.getInstance(), Role.USER),
+    SHOW_CREDIT_CARDS_COMMAND(ShowCreditCardsCommand.getInstance(), Role.ADMIN),
+    SHOW_USERS_COMMAND(ShowUsersCommand.getInstance(), Role.ADMIN),
+    SHOW_USERS_CREDIT_CARDS_COMMAND(ShowUsersCreditCardsCommand.getInstance(), Role.ADMIN);
 
     private final Command command;
     private final List<Role> allowedRoles;
