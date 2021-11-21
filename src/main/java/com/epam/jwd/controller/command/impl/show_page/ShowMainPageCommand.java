@@ -17,7 +17,7 @@ public class ShowMainPageCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return true;
+            return false;
         }
     };
 
