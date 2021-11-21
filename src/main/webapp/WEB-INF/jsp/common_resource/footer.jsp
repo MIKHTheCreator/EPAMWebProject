@@ -4,27 +4,20 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <fmt:setLocale value="${not empty sessionScope.language ? sessionScope.language : 'en'}"/>
-
 <fmt:setBundle basename="locale" var="loc"/>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<fmt:message bundle="${loc}" key="language" var="language"/>
+<fmt:message bundle="${loc}" key="social" var="social"/>
+<fmt:message bundle="${loc}" key="adress" var="adress"/>
 
 <!DOCTYPE html>
 <html>
     <head>
         <title>Footer</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-        <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <style>
-            <%@include file="/WEB-INF/css/footer.css"%>
-        </style>
-        <style>
-            <%@include file="/WEB-INF/css/footer_buttons.css"%>
-        </style>
-        <style>
-            <%@include file="/WEB-INF/css/language_bar.css"%>
+            <%@include file="/WEB-INF/css/common_footer.css"%>
         </style>
     </head>
 
@@ -32,84 +25,49 @@
     <footer>
         <div class="container">
             <div class="row">
-                <div class="col-sm-6 col-md-3 item">
-                    <h3>Services</h3>
-                    <ul>
-                        <li><a href="#">Web design</a></li>
-                        <li><a href="#">Development</a></li>
-                        <li><a href="#">Hosting</a></li>
+                <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12">
+                    <ul class="adress">
+                        <span>Adress</span>
+                        <li>
+                            <p>Minsk, Republic of Belarus</p>
+                        </li>
+
+                        <li>
+                            <p>+375 25 733 67 13</p>
+                        </li>
+
+                        <li>
+                            <p>kharevich.ifconfig@gmail.com</p>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-sm-6 col-md-3 item">
-                    <h3>About</h3>
-                    <ul>
-                        <li><a href="#">Company</a></li>
-                        <li><a href="#">Team</a></li>
-                        <li><a href="#">Careers</a></li>
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <ul class="contact">
+                        <span>${language}</span>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/bank?command=change_language_command&language=en">English</a>
+                        </li>
+
+                        <li>
+                            <a href="${pageContext.request.contextPath}/bank?command=change_language_command&language=ru">Russian</a>
+                        </li>
                     </ul>
                 </div>
-                <div class="col-md-6 item text">
-                    <h3>MIP</h3>
-                    <p>Make it Perfect</p>
-                    <div class = "wrapper">
-                        <div class="icon facebook">
-                            <div class="tooltip">Facebook</div>
-                            <span>
-                                <a href="https://facebook.com" style="text-decoration: none; color: #282d32">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                            </span>
-                        </div>
-                        <div class="icon twitter">
-                            <div class="tooltip">Twitter</div>
-                            <span>
-                                <a href="https://twitter.com" style="text-decoration: none; color: #282d32">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                            </span>
-                        </div>
-                        <div class="icon instagram">
-                            <div class="tooltip">Instagram</div>
-                            <span>
-                                <a href="https://instagram.com" style="text-decoration: none; color: #282d32">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            </span>
-                        </div>
-                        <div class="icon github">
-                            <div class="tooltip">Github</div>
-                                <span>
-                                    <a href="https://github.com/MIKHTheCreator" style="text-decoration: none; color: #282d32">
-                                        <i class="fab fa-github"></i>
-                                    </a>
-                                </span>
-                        </div>
-                        <div class="icon youtube">
-                            <div class="tooltip">Youtube</div>
-                                <span>
-                                    <a href="https://youtube.com" style="text-decoration: none; color: #282d32">
-                                        <i class="fab fa-youtube"></i>
-                                    </a>
-                                </span>
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <c:choose>
-                            <c:when test="${sessionScope.language eq 'ru'}">
-                                <div class="dropbtn">RU</div>
-                            </c:when>
-                            <c:otherwise>
-                                <div class="dropbtn">EN</div>
-                            </c:otherwise>
-                        </c:choose>
-                        <div class="dropdown-content">
-                            <a href="${pageContext.request.contextPath}/bank?command=change_language_command&language=ru">RU</a>
-                            <a href="${pageContext.request.contextPath}/bank?command=change_language_command&language=en">EN</a>
-                        </div>
-                    </div>
+
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                    <ul class="social">
+                        <span>Social</span>
+                        <li>
+                            <a href="https://facebook.com"><i class="fa fa-facebook fa-2x"></i></a>
+                        </li>
+
+                        <li>
+                            <a href="https://github.com/MIKHTheCreator"><i class="fa fa-github fa-2x"></i></a>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <p class="copyright">MIP © 2021</p>
         </div>
     </footer>
     </body>
