@@ -78,4 +78,13 @@ public enum Commands {
                 .findFirst()
                 .orElse(DefaultCommand.getInstance());
     }
+
+    public static Commands getCommands(String commandName) {
+        for (Commands command : values()) {
+            if (command.name().equalsIgnoreCase(commandName)) {
+                return command;
+            }
+        }
+        return DEFAULT;
+    }
 }
