@@ -1,6 +1,5 @@
 package com.epam.jwd.controller.filter;
 
-import com.epam.jwd.controller.command.Command;
 import com.epam.jwd.controller.command.Commands;
 import com.epam.jwd.dao.entity.user_account.Role;
 import com.epam.jwd.service.dto.user_account.UserDTO;
@@ -36,7 +35,7 @@ public class PermissionFilter implements Filter {
             throws IOException, ServletException {
 
         final HttpServletRequest req = (HttpServletRequest) request;
-        final Command command = Commands.of(req.getParameter(COMMAND_ATTRIBUTE));
+        final Commands command = Commands.getCommands(req.getParameter(COMMAND_ATTRIBUTE));
         final HttpSession session = req.getSession(false);
         Role currentRole = extractRoleFromSession(session);
         final Set<Commands> allowedCommands = commandsByRole.get(currentRole);
