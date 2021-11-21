@@ -31,7 +31,7 @@ import java.util.List;
 
 public enum Commands {
     DEFAULT(DefaultCommand.getInstance()),
-    SAVE_CLIENT_COMMAND(SaveClientCommand.getInstance(), Role.UNAUTHORIZED),
+    REGISTRATION(SaveClientCommand.getInstance(), Role.UNAUTHORIZED),
     SAVE_USER_COMMAND(SaveUserCommand.getInstance(), Role.UNAUTHORIZED),
     EDIT_USER_COMMAND(EditUserCommand.getInstance(), Role.USER, Role.ADMIN),
     SAVE_PASSPORT_COMMAND(SavePassportCommand.getInstance(), Role.USER, Role.ADMIN),

@@ -39,6 +39,9 @@
                             <li>
                                 <p>kharevich.ifconfig@gmail.com</p>
                             </li>
+                            <li>
+                                <p>MIP © 2021</p>
+                            </li>
                         </ul>
                     </div>
 
