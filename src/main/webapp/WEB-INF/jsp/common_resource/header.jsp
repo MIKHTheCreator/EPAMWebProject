@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="custom" uri="customtag" %>
+<%@ taglib prefix="ctg" uri="customtag" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <fmt:setLocale value="${not empty sessionScope.language ? sessionScope.language : 'en'}"/>
@@ -11,8 +11,6 @@
 <fmt:message bundle="${loc}" key="logOut" var="logOut"/>
 <fmt:message bundle="${loc}" key="registration" var="registration"/>
 <fmt:message bundle="${loc}" key="dearFriend" var="friend"/>
-
-<%@ page contentType="text/html;charset=UTF-8" %>
 
 <!DOCTYPE html>
 <html>
@@ -26,19 +24,25 @@
     <body>
             <div class="header">
                 <a href="${pageContext.request.contextPath}/bank?command=show_main_page_command" class="logo">GloBank</a>
+                <div class="header-right">
+                    <a class="active" href="${pageContext.request.contextPath}/bank?command=show_login_page_command">${logIn}</a>
+                </div>
                 <c:choose>
                     <c:when test="${not empty sessionScope.currentUser}">
                         <div class="header-right">
-                            <custom:helloTag userName="${sessionScope.currentUser.firstName} ${sessionScope.currentUser.secondName}"/>
+                            <a class="passive">
+                                <ctg:helloTag/>
+                            </a>
                         </div>
                     </c:when>
                     <c:otherwise>
-                        <custom:helloTag userName="${friend}"/>
+                        <div class="header-right">
+                            <a class="passive">
+                                <ctg:helloTag/>
+                            </a>
+                        </div>
                     </c:otherwise>
                 </c:choose>
-                <div class="header-right">
-                  <a class="active" href="${pageContext.request.contextPath}/WEB-INF/jsp/login.jsp">${logIn}</a>
-                </div>
             </div>
     </body>
 </html>
