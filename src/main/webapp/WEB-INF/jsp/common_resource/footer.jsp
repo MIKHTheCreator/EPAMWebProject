@@ -22,6 +22,7 @@
     </head>
 
     <body>
+        <footer>
             <div class="container">
                 <div class="row">
                     <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12">
@@ -68,5 +69,6 @@
                     </div>
                 </div>
             </div>
+        </footer>
     </body>
 </html>
