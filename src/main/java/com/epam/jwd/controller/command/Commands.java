@@ -37,7 +37,7 @@ public enum Commands {
     SAVE_PASSPORT_COMMAND(SavePassportCommand.getInstance(), Role.USER, Role.ADMIN),
     LOG_OUT_USER_COMMAND(LogOutUserCommand.getInstance(), Role.USER, Role.ADMIN),
     CHANGE_LANGUAGE_COMMAND(ChangeLanguageCommand.getInstance()),
-    AUTHORIZATION_COMMAND(AuthorisationCommand.getInstance(), Role.UNAUTHORIZED),
+    LOGIN(AuthorisationCommand.getInstance(), Role.UNAUTHORIZED),
     SHOW_LOGIN_PAGE_COMMAND(ShowLogInPageCommand.getInstance(), Role.UNAUTHORIZED),
     SHOW_REGISTRATION_PAGE_COMMAND(ShowRegistrationPageCommand.getInstance(), Role.UNAUTHORIZED),
     SHOW_ERROR_PAGE_COMMAND(ShowErrorPageCommand.getInstance()),
