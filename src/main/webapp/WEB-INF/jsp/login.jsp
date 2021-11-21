@@ -7,7 +7,7 @@
 <fmt:setBundle basename="locale" var="loc"/>
 
 <fmt:message bundle="${loc}" key="logHere" var="logHere"/>
-<fmt:message bundle="${loc}" key="dontHaveAccount" var="dontHaveAccount"/>
+<fmt:message bundle="${loc}" key="enterDataMessage" var="enterData"/>
 <fmt:message bundle="${loc}" key="or" var="orr"/>
 
 <!DOCTYPE html>
@@ -22,25 +22,27 @@
 
     <body>
     <%@include file="common_resource/header.jsp"%>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Login via site</h3>
-                    </div>
-                    <div class="panel-body">
-                        <form accept-charset="UTF-8" role="form" action="${pageContext.request.contextPath}/bank?command=login" method="post">
-                            <fieldset>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="email" name="email" type="text">
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" placeholder="Password" name="password" type="password">
-                                </div>
-                                <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
-                            </fieldset>
-                        </form>
+    <div class="center">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">${enterData}</h3>
+                        </div>
+                        <div class="panel-body">
+                            <form accept-charset="UTF-8" role="form" action="${pageContext.request.contextPath}/bank?command=login" method="post">
+                                <fieldset>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="email" name="email" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Password" name="password" type="password">
+                                    </div>
+                                    <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
+                                </fieldset>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
