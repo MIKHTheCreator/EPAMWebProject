@@ -1,141 +1,75 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="ctg" uri="customtag" %>
 
+<fmt:setLocale value="${not empty sessionScope.language ? sessionScope.language : 'en'}"/>
+<fmt:setBundle basename="locale" var="loc"/>
+
+<fmt:message bundle="${loc}" key="logHere" var="logHere"/>
+<fmt:message bundle="${loc}" key="enterDataMessage" var="enterData"/>
+<fmt:message bundle="${loc}" key="provideEmail" var="provideEmail"/>
+<fmt:message bundle="${loc}" key="passwordMessage" var="passwordMessage"/>
+<fmt:message bundle="${loc}" key="usernameMessage" var="usernameMessage"/>
+<fmt:message bundle="${loc}" key="confirmPasswordMessage" var="confirmPasswordMessage"/>
 
 <!DOCTYPE html>
-    <html>
+<html>
     <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/WEB-INF/css/registration.css">
-        <script src="${pageContext.request.contextPath}/WEB-INF/scripts/registration.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.0/css/bootstrapValidator.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.4.5/js/bootstrapvalidator.min.js"></script>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/WEB-INF/css/footer.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/WEB-INF/css/header.css">
         <title>Registration Page</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-csss">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
     </head>
 
     <body>
-
-    <div class="header">
-        <a href="#default" class="logo">GloBank</a>
-        <div class="header-right">
-            <a class="active" href="#home">LogIn</a>
-        </div>
-    </div>
-
-    <div class="container">
-        <form class="well form-horizontal" action=" " method="post"  id="contact_form">
-            <fieldset>
-
-                <!-- Form Name -->
-                <legend><h2><b>Registration Form</b></h2></legend><br>
-
-                <!-- Text input-->
-
-                <div class="form-group">
-                    <label class="col-md-4 control-label">Username</label>
-                    <div class="col-md-4 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <label>
-                                <input  name="first_name" placeholder="Username" class="form-control"  type="text">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-md-4 control-label" >Password</label>
-                    <div class="col-md-4 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <label>
-                                <input name="user_password" placeholder="Password" class="form-control"  type="password">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Text input-->
-
-                <div class="form-group">
-                    <label class="col-md-4 control-label" >Confirm Password</label>
-                    <div class="col-md-4 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                            <label>
-                                <input name="confirm_password" placeholder="Confirm Password" class="form-control"  type="password">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Text input-->
-                <div class="form-group">
-                    <label class="col-md-4 control-label">E-Mail</label>
-                    <div class="col-md-4 inputGroupContainer">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                            <label>
-                                <input name="email" placeholder="E-Mail Address" class="form-control"  type="text">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Select Basic -->
-
-                <!-- Success message -->
-                <div class="alert alert-success" role="alert" id="success_message">Success <i class="glyphicon glyphicon-thumbs-up"></i> Success!.</div>
-
-                <!-- Button -->
-                <div class="form-group">
-                    <label class="col-md-4 control-label"></label>
-                    <div class="col-md-4"><br>
-                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button type="submit" class="btn btn-warning" >&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSUBMIT <span class="glyphicon glyphicon-send"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
-                    </div>
-                </div>
-
-            </fieldset>
-        </form>
-    </div>
-    <div class="footer-dark" style="position: fixed; bottom:0; left:0; height:225px; width:100%">
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-6 col-md-3 item">
-                        <h3>Services</h3>
-                        <ul>
-                            <li><a href="#">Web design</a></li>
-                            <li><a href="#">Development</a></li>
-                            <li><a href="#">Hosting</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-6 col-md-3 item">
-                        <h3>About</h3>
-                        <ul>
-                            <li><a href="#">Company</a></li>
-                            <li><a href="#">Team</a></li>
-                            <li><a href="#">Careers</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6 item text">
-                        <h3>MIP</h3>
-                        <p>Make it Perfect</p>
-                    </div>
-
-                </div>
-                <p class="copyright">MIP © 2021</p>
+    <%@include file="common_resource/header.jsp"%>
+    <form class="form-horizontal" action="${pageContext.request.contextPath}/bank?command=registration" method="post" style="padding-bottom: 20px; padding-top: 42px; padding-left: 30px">
+        <fieldset>
+            <div id="legend">
+                <legend class="">${registration}</legend>
             </div>
-        </footer>
-    </div>
+            <div class="control-group">
+                <label class="control-label"  for="username">Username</label>
+                <div class="controls">
+                    <input type="text" id="username" name="username" placeholder="" class="input-xlarge">
+                    <p class="help-block">${usernameMessage}</p>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="email">E-mail</label>
+                <div class="controls">
+                    <input type="text" id="email" name="email" placeholder="" class="input-xlarge">
+                    <p class="help-block">${provideEmail}</p>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="password">Password</label>
+                <div class="controls">
+                    <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
+                    <p class="help-block">${passwordMessage}</p>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label"  for="password_confirm">Password (Confirm)</label>
+                <div class="controls">
+                    <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge">
+                    <p class="help-block">${confirmPasswordMessage}</p>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <button class="btn btn-success">${registration}</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+    <jsp:include page="common_resource/footer.jsp"/>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     </body>
 </html>
