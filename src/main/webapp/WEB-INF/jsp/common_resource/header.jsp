@@ -24,15 +24,14 @@
     <body>
             <div class="header">
                 <a href="${pageContext.request.contextPath}/bank?command=show_main_page_command" class="logo">GloBank</a>
-                <div class="header-right">
-                    <a class="active" href="${pageContext.request.contextPath}/bank?command=show_login_page_command">${logIn}</a>
-                </div>
+
                 <c:choose>
                     <c:when test="${not empty sessionScope.currentUser}">
                         <div class="header-right">
                             <a class="passive">
                                 <ctg:helloTag/>
                             </a>
+                            <a class="active" href="${pageContext.request.contextPath}/bank?command=logout">${logOut}</a>
                         </div>
                     </c:when>
                     <c:otherwise>
@@ -40,6 +39,7 @@
                             <a class="passive">
                                 <ctg:helloTag/>
                             </a>
+                            <a class="active" href="${pageContext.request.contextPath}/bank?command=show_registration_page_command">${registration}</a>
                         </div>
                     </c:otherwise>
                 </c:choose>
