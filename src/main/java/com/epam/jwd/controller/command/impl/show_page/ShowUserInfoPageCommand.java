@@ -17,7 +17,7 @@ public class ShowUserInfoPageCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return true;
+            return false;
         }
     };
 
