@@ -27,7 +27,7 @@
             <div class="row">
                 <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12">
                     <ul class="adress">
-                        <span>Adress</span>
+                        <span>${adress}</span>
                         <li>
                             <p>Minsk, Republic of Belarus</p>
                         </li>
@@ -57,7 +57,7 @@
 
                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                     <ul class="social">
-                        <span>Social</span>
+                        <span>${social}</span>
                         <li>
                             <a href="https://facebook.com"><i class="fa fa-facebook fa-2x"></i></a>
                         </li>
