@@ -3,9 +3,10 @@ package com.epam.jwd.controller;
 import com.epam.jwd.controller.command.Command;
 import com.epam.jwd.controller.command.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContextImpl;
-import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
 import com.epam.jwd.dao.exception.DAOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,6 +20,9 @@ import java.io.IOException;
 public class ApplicationController extends HttpServlet {
 
     private static final String COMMAND_PARAMETER = "command";
+    private static final String ERROR_MESSAGE = "Can't initialize connectionPool";
+
+    private static final Logger log = LogManager.getLogger(ApplicationController.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -45,11 +49,11 @@ public class ApplicationController extends HttpServlet {
     }
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         try {
             ConnectionPoolImpl.getInstance().init();
         } catch (DAOException e) {
-            e.printStackTrace();
+            log.error(ERROR_MESSAGE, e);
         }
     }
 }
