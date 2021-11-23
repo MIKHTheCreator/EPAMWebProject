@@ -3,6 +3,9 @@ package com.epam.jwd.controller;
 import com.epam.jwd.controller.command.Command;
 import com.epam.jwd.controller.command.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContextImpl;
+import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
+import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
+import com.epam.jwd.dao.exception.DAOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -38,6 +41,15 @@ public class ApplicationController extends HttpServlet {
         } else {
             RequestDispatcher dispatcher = request.getRequestDispatcher(commandResult.getPage());
             dispatcher.forward(request, response);
+        }
+    }
+
+    @Override
+    public void init() throws ServletException {
+        try {
+            ConnectionPoolImpl.getInstance().init();
+        } catch (DAOException e) {
+            e.printStackTrace();
         }
     }
 }
