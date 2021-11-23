@@ -19,7 +19,7 @@ public class SaveClientCommand implements Command {
     private final Validator<ClientDTO, Integer> validator = new ClientValidator();
     private static final Command INSTANCE = new SaveClientCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/create_account.jsp";
-    private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/create_account.jsp";
+    private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/registration.jsp";
     private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String PASSWORD_PARAM = "password";
     private static final String EMAIL_PARAM = "email";
@@ -48,7 +48,7 @@ public class SaveClientCommand implements Command {
     private static final ResponseContext SAVE_CLIENT_FAILED_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {
-            return PAGE_PATH;
+            return FAIL_PAGE_PATH;
         }
 
         @Override
