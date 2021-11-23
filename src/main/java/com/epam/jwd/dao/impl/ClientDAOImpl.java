@@ -1,7 +1,6 @@
 package com.epam.jwd.dao.impl;
 
 import com.epam.jwd.dao.api.ClientDAO;
-import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
 import com.epam.jwd.dao.entity.user_account.Client;
@@ -15,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +65,7 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
 
         PreparedStatement statement;
         try (Connection connection = connectionPool.takeConnection()) {
-            statement = connection.prepareStatement(SQL_SAVE_CLIENT_QUERY);
+            statement = connection.prepareStatement(SQL_SAVE_CLIENT_QUERY, Statement.RETURN_GENERATED_KEYS);
 
             saveClient(statement, client);
         } catch (SQLException exception) {
@@ -219,7 +219,7 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
             statement.setString(1, client.getUsername());
             statement.setString(2, client.getEmail());
             statement.setString(3, passwordManager.encode(client.getPassword()));
-            statement.executeQuery();
+            statement.executeUpdate();
 
             resultSet = statement.getGeneratedKeys();
             if (resultSet.next()) {

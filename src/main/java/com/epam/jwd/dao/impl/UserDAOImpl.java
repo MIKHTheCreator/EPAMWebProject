@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
 
         PreparedStatement statement;
         try (Connection connection = connectionPool.takeConnection()) {
-            statement = connection.prepareStatement(SQL_SAVE_USER_QUERY);
+            statement = connection.prepareStatement(SQL_SAVE_USER_QUERY, Statement.RETURN_GENERATED_KEYS);
 
             saveUser(statement, user);
         } catch (SQLException exception) {

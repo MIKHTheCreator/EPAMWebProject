@@ -14,6 +14,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
 
         PreparedStatement statement;
         try (Connection connection = connectionPool.takeConnection()) {
-            statement = connection.prepareStatement(SQL_SAVE_CREDIT_CARD_QUERY);
+            statement = connection.prepareStatement(SQL_SAVE_CREDIT_CARD_QUERY, Statement.RETURN_GENERATED_KEYS);
 
             saveCreditCard(statement, creditCard);
 

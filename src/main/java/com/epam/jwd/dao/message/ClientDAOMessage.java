@@ -2,7 +2,7 @@ package com.epam.jwd.dao.message;
 
 public interface ClientDAOMessage {
 
-    String SQL_SAVE_CLIENT_QUERY = "INSERT INTO client (username, email, password)" +
+    String SQL_SAVE_CLIENT_QUERY = "INSERT INTO `client` (username, email, password)" +
             "VALUES (?, ?, ?)";
     String SQL_FIND_ALL_CLIENTS_QUERY = "SELECT (client_id, username, email, password) FROM client";
     String SQL_FIND_BY_ID_CLIENT_QUERY = "SELECT (client_id, username, email, password) FROM client WHERE client_id=?";
