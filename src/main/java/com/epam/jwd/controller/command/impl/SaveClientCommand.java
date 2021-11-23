@@ -19,6 +19,7 @@ public class SaveClientCommand implements Command {
     private final Validator<ClientDTO, Integer> validator = new ClientValidator();
     private static final Command INSTANCE = new SaveClientCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/create_account.jsp";
+    private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/create_account.jsp";
     private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String PASSWORD_PARAM = "password";
     private static final String EMAIL_PARAM = "email";
@@ -32,7 +33,19 @@ public class SaveClientCommand implements Command {
 
     private static final Logger log = LogManager.getLogger(SaveClientCommand.class);
 
-    private static final ResponseContext SAVE_CLIENT_CONTEXT = new ResponseContext() {
+    private static final ResponseContext SUCCESSFUL_SAVE_CLIENT_CONTEXT = new ResponseContext() {
+        @Override
+        public String getPage() {
+            return PAGE_PATH;
+        }
+
+        @Override
+        public boolean isRedirect() {
+            return false;
+        }
+    };
+
+    private static final ResponseContext SAVE_CLIENT_FAILED_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {
             return PAGE_PATH;
@@ -76,9 +89,7 @@ public class SaveClientCommand implements Command {
             ClientDTO client = new ClientDTO(username, email, password);
 
             validator.validate(client);
-            System.out.println("HERE after valid");
             clientId = clientService.save(client).getId();
-            System.out.println("AFTER SAVE");
             isRegistrationSuccessful = true;
         } catch (ServiceException e) {
             log.error(REGISTRATION_FAILED, e);
@@ -94,7 +105,6 @@ public class SaveClientCommand implements Command {
         }
 
         if (isRegistrationSuccessful) {
-            System.out.println("Successful registration");
             ClientDTO client = new ClientDTO();
             client.setUsername(username);
             client.setEmail(email);
@@ -104,8 +114,9 @@ public class SaveClientCommand implements Command {
             context.addAttributeToJsp(MESSAGE_ATTRIBUTE, REGISTRATION_COMPLETED_MESSAGE);
         } else {
             context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE);
+            return SAVE_CLIENT_FAILED_CONTEXT;
         }
 
-        return SAVE_CLIENT_CONTEXT;
+        return SUCCESSFUL_SAVE_CLIENT_CONTEXT;
     }
 }
