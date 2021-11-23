@@ -11,7 +11,6 @@
 <fmt:message bundle="${loc}" key="provideEmail" var="provideEmail"/>
 <fmt:message bundle="${loc}" key="passwordMessage" var="passwordMessage"/>
 <fmt:message bundle="${loc}" key="usernameMessage" var="usernameMessage"/>
-<fmt:message bundle="${loc}" key="confirmPasswordMessage" var="confirmPasswordMessage"/>
 
 <!DOCTYPE html>
 <html>
@@ -50,14 +49,6 @@
                 <div class="controls">
                     <input type="password" id="password" name="password" placeholder="" class="input-xlarge">
                     <p class="help-block">${passwordMessage}</p>
-                </div>
-            </div>
-
-            <div class="control-group">
-                <label class="control-label"  for="password_confirm">Password (Confirm)</label>
-                <div class="controls">
-                    <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="input-xlarge">
-                    <p class="help-block">${confirmPasswordMessage}</p>
                 </div>
             </div>
 
