@@ -60,7 +60,7 @@ public class UserValidator implements Validator<UserDTO, Integer> {
     }
 
     private void isValidAge(Integer age) throws ServiceException {
-        if (isValidAgeRange(age)) {
+        if (!isValidAgeRange(age)) {
             throw new ServiceException(AGE_EXCEPTION + DELIMITER + AGE_EXCEPTION_CODE);
         }
     }

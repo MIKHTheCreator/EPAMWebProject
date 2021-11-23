@@ -112,7 +112,7 @@ public class User extends AbstractEntity<Integer> {
                 && gender == user.gender
                 && role == user.role
                 && clientId.equals(user.clientId)
-                && passportId.equals(user.passportId);
+                && Objects.equals(passportId, user.passportId);
     }
 
     @Override

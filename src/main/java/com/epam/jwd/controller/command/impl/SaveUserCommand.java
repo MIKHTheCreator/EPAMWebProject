@@ -15,14 +15,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 
 public class SaveUserCommand implements Command {
 
     private final UserService userService = new UserService();
     private final Validator<UserDTO, Integer> validator = new UserValidator();
     private static final Command INSTANCE = new SaveUserCommand();
-    private static final String FILL_USERDATA_PAGE = "/WEB-INF/jsp/create_account.jsp";
+    private static final String FILL_USERDATA_PAGE = "/WEB-INF/jsp/user_info.jsp";
     private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
+    private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/create_account.jsp";
 
     private static final String FIRST_NAME_ATTRIBUTE = "firstName";
     private static final String SECOND_NAME_ATTRIBUTE = "secondName";
@@ -38,10 +40,22 @@ public class SaveUserCommand implements Command {
 
     private static final Logger log = LogManager.getLogger(SaveUserCommand.class);
 
-    private static final ResponseContext SAVE_USER_RESPONSE_CONTEXT = new ResponseContext() {
+    private static final ResponseContext SUCCESSFUL_SAVE_USER_RESPONSE_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {
             return FILL_USERDATA_PAGE;
+        }
+
+        @Override
+        public boolean isRedirect() {
+            return false;
+        }
+    };
+
+    private static final ResponseContext SAVE_USER_RESPONSE_FAIL_CONTEXT = new ResponseContext() {
+        @Override
+        public String getPage() {
+            return FAIL_PAGE_PATH;
         }
 
         @Override
@@ -96,14 +110,15 @@ public class SaveUserCommand implements Command {
             validator.validate(user);
 
             user = userService.save(user);
-            context.addAttributeToJsp(CURRENT_USER_ATTRIBUTE, user);
             context.addAttributeToJsp(MESSAGE_ATTRIBUTE, SUCCESSFUL_USER_CREATION_MESSAGE);
             session.setAttribute(CURRENT_USER_ATTRIBUTE, user);
         } catch (ServiceException e) {
             log.error(ERROR_MESSAGE, e);
             context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());
+            return SAVE_USER_RESPONSE_FAIL_CONTEXT;
         }
 
-        return SAVE_USER_RESPONSE_CONTEXT;
+
+        return SUCCESSFUL_SAVE_USER_RESPONSE_CONTEXT;
     }
 }

@@ -17,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.epam.jwd.dao.message.ExceptionMessage.DELETE_EXCEPTION;
@@ -219,8 +220,7 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
             statement.setInt(4, user.getAge());
             statement.setString(5, user.getGender().toString());
             statement.setInt(6, user.getClientId());
-            statement.setInt(7, user.getPassportId());
-            statement.setInt(8, user.getRole().getRoleId());
+            statement.setInt(7, user.getRole().getRoleId());
             statement.executeUpdate();
 
             resultSet = statement.getGeneratedKeys();
