@@ -6,22 +6,14 @@ import com.epam.jwd.service.validator.Validator;
 
 import static com.epam.jwd.dao.message.ExceptionMessage.DELIMITER;
 import static com.epam.jwd.service.config.ValidatorConfig.EMAIL_PATTERN;
-import static com.epam.jwd.service.config.ValidatorConfig.MAX_PASSWORD_LENGTH;
-import static com.epam.jwd.service.config.ValidatorConfig.MAX_USERNAME_LENGTH;
-import static com.epam.jwd.service.config.ValidatorConfig.MIN_PASSWORD_LENGTH;
-import static com.epam.jwd.service.config.ValidatorConfig.MIN_USERNAME_LENGTH;
 import static com.epam.jwd.service.config.ValidatorConfig.PASSWORD_PATTERN;
 import static com.epam.jwd.service.config.ValidatorConfig.USERNAME_PATTERN;
 import static com.epam.jwd.service.message.ExceptionMessage.PASSWORD_CORRESPOND_TO_PASSWORD_PATTERN_EXCEPTION;
 import static com.epam.jwd.service.message.ExceptionMessage.PASSWORD_CORRESPOND_TO_PASSWORD_PATTERN_EXCEPTION_CODE;
-import static com.epam.jwd.service.message.ExceptionMessage.PASSWORD_LENGTH_EXCEPTION;
-import static com.epam.jwd.service.message.ExceptionMessage.PASSWORD_LENGTH_EXCEPTION_CODE;
 import static com.epam.jwd.service.message.ExceptionMessage.UNSUPPORTED_EMAIL;
 import static com.epam.jwd.service.message.ExceptionMessage.UNSUPPORTED_EMAIL_CODE;
 import static com.epam.jwd.service.message.ExceptionMessage.USERNAME_CORRESPOND_TO_PATTERN_EXCEPTION;
 import static com.epam.jwd.service.message.ExceptionMessage.USERNAME_CORRESPOND_TO_PATTERN_EXCEPTION_CODE;
-import static com.epam.jwd.service.message.ExceptionMessage.USERNAME_LENGTH_EXCEPTION;
-import static com.epam.jwd.service.message.ExceptionMessage.USERNAME_LENGTH_EXCEPTION_CODE;
 
 public class ClientValidator implements Validator<ClientDTO, Integer> {
 
@@ -34,9 +26,7 @@ public class ClientValidator implements Validator<ClientDTO, Integer> {
 
     private void isValidUsername(String username) throws ServiceException {
 
-        if (!isValidUsernameLength(username)) {
-            throw new ServiceException(USERNAME_LENGTH_EXCEPTION + DELIMITER + USERNAME_LENGTH_EXCEPTION_CODE);
-        } else if (!isCorrespondToUsernamePattern(username)) {
+        if (!isCorrespondToUsernamePattern(username)) {
             throw new ServiceException(USERNAME_CORRESPOND_TO_PATTERN_EXCEPTION + DELIMITER + USERNAME_CORRESPOND_TO_PATTERN_EXCEPTION_CODE);
         }
     }
@@ -48,9 +38,7 @@ public class ClientValidator implements Validator<ClientDTO, Integer> {
     }
 
     private void isValidPassword(String password) throws ServiceException {
-        if (!isValidPasswordLength(password)) {
-            throw new ServiceException(PASSWORD_LENGTH_EXCEPTION + DELIMITER + PASSWORD_LENGTH_EXCEPTION_CODE);
-        } else if (!isCorrespondToPasswordPattern(password)) {
+        if (!isCorrespondToPasswordPattern(password)) {
             throw new ServiceException(PASSWORD_CORRESPOND_TO_PASSWORD_PATTERN_EXCEPTION + DELIMITER + PASSWORD_CORRESPOND_TO_PASSWORD_PATTERN_EXCEPTION_CODE);
         }
     }
@@ -59,19 +47,8 @@ public class ClientValidator implements Validator<ClientDTO, Integer> {
         return password.matches(PASSWORD_PATTERN);
     }
 
-    private boolean isValidPasswordLength(String password) {
-
-        final int passwordLength = password.length();
-        return passwordLength >= MIN_PASSWORD_LENGTH && passwordLength <= MAX_PASSWORD_LENGTH;
-    }
-
     private boolean isCorrespondToUsernamePattern(String username) {
         return username.matches(USERNAME_PATTERN);
     }
 
-    private boolean isValidUsernameLength(String username) {
-
-        final int usernameLength = username.length();
-        return usernameLength >= MIN_USERNAME_LENGTH && usernameLength <= MAX_USERNAME_LENGTH;
-    }
 }
