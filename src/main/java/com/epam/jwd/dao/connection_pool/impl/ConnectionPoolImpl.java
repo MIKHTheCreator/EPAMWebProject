@@ -99,9 +99,9 @@ public final class ConnectionPoolImpl implements ConnectionPool {
     private void createConnections() throws DAOException {
 
         try {
-            Class.forName(SQL_DB_DRIVER);
 
             for (int i = 0; i < INITIAL_SIZE; i++) {
+                Class.forName("com.mysql.jdbc.Driver");
                 final Connection connection = DriverManager.getConnection(SQL_DB_URL, SQL_DB_USERNAME, SQL_DB_PASSWORD);
                 final ProxyConnection proxyConnection = new ProxyConnection(connection, this);
                 availableConnections.put(proxyConnection);

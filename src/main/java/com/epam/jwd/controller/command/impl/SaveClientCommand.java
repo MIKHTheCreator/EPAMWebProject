@@ -76,8 +76,9 @@ public class SaveClientCommand implements Command {
             ClientDTO client = new ClientDTO(username, email, password);
 
             validator.validate(client);
-
+            System.out.println("HERE after valid");
             clientId = clientService.save(client).getId();
+            System.out.println("AFTER SAVE");
             isRegistrationSuccessful = true;
         } catch (ServiceException e) {
             log.error(REGISTRATION_FAILED, e);
@@ -93,6 +94,7 @@ public class SaveClientCommand implements Command {
         }
 
         if (isRegistrationSuccessful) {
+            System.out.println("Successful registration");
             ClientDTO client = new ClientDTO();
             client.setUsername(username);
             client.setEmail(email);
