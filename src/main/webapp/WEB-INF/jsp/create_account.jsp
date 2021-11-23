@@ -57,7 +57,7 @@
         <div class="control-group">
             <label class="control-label" for="age">Age</label>
             <div class="controls">
-                <input type="number" id="age" name="age" placeholder="" class="input-xlarge">
+                <input type="text" id="age" name="age" placeholder="" class="input-xlarge">
                 <p class="help-block">${ageMessage}</p>
             </div>
         </div>
