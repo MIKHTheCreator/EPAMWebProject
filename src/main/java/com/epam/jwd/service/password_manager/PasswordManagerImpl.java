@@ -24,6 +24,6 @@ public class PasswordManagerImpl implements PasswordManager {
 
     @Override
     public boolean checkForIdentity(String inputPassword, String encodedPassword) {
-        return encode(inputPassword).equals(encodedPassword);
+        return inputPassword.equals(encodedPassword);
     }
 }
