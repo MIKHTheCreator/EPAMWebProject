@@ -21,7 +21,7 @@ public class AuthorisationCommand implements Command {
     private final UserService userService = new UserService();
     private final ClientService clientService = new ClientService();
     private static final Command INSTANCE = new AuthorisationCommand();
-    private static final String PAGE_PATH = "WEB-INF/jsp/account.jsp";
+    private static final String PAGE_PATH = "WEB-INF/jsp/user_info.jsp";
     private static final String FAIL_PAGE_PATH = "WEB-INF/jsp/login.jsp";
     private static final String ERROR_PATH = "WEB-INF/jsp/error.jsp";
     private static final String USERNAME_ATTRIBUTE = "username";

@@ -38,6 +38,7 @@
     <body>
     <%@include file="common_resource/header.jsp"%>
     <div class="container emp-profile">
+        <form method="post">
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-img">
@@ -153,6 +154,7 @@
                     </div>
                 </div>
             </div>
+        </form>
     </div>
     <jsp:include page="common_resource/footer.jsp"/>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
