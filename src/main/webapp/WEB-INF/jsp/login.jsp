@@ -34,10 +34,10 @@
                             <form accept-charset="UTF-8" role="form" action="${pageContext.request.contextPath}/bank?command=login" method="post">
                                 <fieldset>
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="email" name="email" type="text">
+                                        <input class="form-control" placeholder="username" name="username" type="text">
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="Password" name="password" type="password">
+                                        <input class="form-control" placeholder="password" name="password" type="password">
                                     </div>
                                     <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
                                 </fieldset>
