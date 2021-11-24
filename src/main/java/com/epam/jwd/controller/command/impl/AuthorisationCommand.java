@@ -22,6 +22,7 @@ public class AuthorisationCommand implements Command {
     private final ClientService clientService = new ClientService();
     private static final Command INSTANCE = new AuthorisationCommand();
     private static final String PAGE_PATH = "WEB-INF/jsp/account.jsp";
+    private static final String FAIL_PAGE_PATH = "WEB-INF/jsp/login.jsp";
     private static final String ERROR_PATH = "WEB-INF/jsp/error.jsp";
     private static final String USERNAME_ATTRIBUTE = "username";
     private static final String PASSWORD_ATTRIBUTE = "password";
@@ -33,7 +34,7 @@ public class AuthorisationCommand implements Command {
 
     private static final Logger log = LogManager.getLogger(AuthorisationCommand.class);
 
-    private static final ResponseContext AUTHORISATION_CONTEXT = new ResponseContext() {
+    private static final ResponseContext SUCCESSFUL_AUTHORISATION_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {
             return PAGE_PATH;
@@ -41,7 +42,19 @@ public class AuthorisationCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return true;
+            return false;
+        }
+    };
+
+    private static final ResponseContext FAIL_AUTHORIZATION_CONTEXT = new ResponseContext() {
+        @Override
+        public String getPage() {
+            return FAIL_PAGE_PATH;
+        }
+
+        @Override
+        public boolean isRedirect() {
+            return false;
         }
     };
 
@@ -82,6 +95,7 @@ public class AuthorisationCommand implements Command {
                 session.setAttribute(CURRENT_USER_ATTRIBUTE, user);
             } else {
                 context.addAttributeToJsp(MESSAGE_ATTRIBUTE, MESSAGE);
+                return FAIL_AUTHORIZATION_CONTEXT;
             }
 
         } catch (ServiceException e) {
@@ -89,6 +103,6 @@ public class AuthorisationCommand implements Command {
             context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());
         }
 
-        return AUTHORISATION_CONTEXT;
+        return SUCCESSFUL_AUTHORISATION_CONTEXT;
     }
 }
