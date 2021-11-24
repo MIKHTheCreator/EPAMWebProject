@@ -112,7 +112,7 @@
                                 <div class="col-md-6">
                                     <c:choose>
                                         <c:when test="${sessionScope.currentUser.phoneNumber ne null}">
-                                            <p>+ ${sessionScope.currentUser.phoneNumber}</p>
+                                            <p>+${sessionScope.currentUser.phoneNumber}</p>
                                         </c:when>
                                         <c:otherwise>
                                             <p>${undefined}</p>
