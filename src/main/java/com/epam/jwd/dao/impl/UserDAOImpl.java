@@ -1,6 +1,5 @@
 package com.epam.jwd.dao.impl;
 
-import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.api.UserDAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
@@ -17,7 +16,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.epam.jwd.dao.message.ExceptionMessage.DELETE_EXCEPTION;
@@ -183,7 +181,7 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
 
         try {
             connection = connectionPool.takeConnection();
-            connection.setAutoCommit(true);
+            connection.setAutoCommit(false);
             statement = connection.prepareStatement(SQL_FIND_USER_BY_CLIENT_ID_QUERY);
             statement.setInt(1, id);
 
@@ -263,8 +261,7 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
                 .withAge(resultSet.getInt(5))
                 .withGender(Gender.valueOf(resultSet.getString(6).toUpperCase()))
                 .withClientId(resultSet.getInt(7))
-                .withPassportId(resultSet.getInt(8))
-                .withRole(findRoleById(connection, resultSet.getInt(9)))
+                .withRole(findRoleById(connection, resultSet.getInt(8)))
                 .build();
     }
 
