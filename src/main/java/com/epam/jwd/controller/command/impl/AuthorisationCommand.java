@@ -29,6 +29,7 @@ public class AuthorisationCommand implements Command {
     private static final String PASSWORD_ATTRIBUTE = "password";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
+    private static final String CURRENT_CLIENT_ATTRIBUTE = "currentClient";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String MESSAGE = "There is no user with such username or password is incorrect";
     private static final String ERROR_MESSAGE = "Authorization failed";
@@ -94,6 +95,7 @@ public class AuthorisationCommand implements Command {
             if (client != null && passwordManager.checkForIdentity(password, client.getPassword())) {
                 UserDTO user = userService.findUserByClientId(client.getId());
                 session.setAttribute(CURRENT_USER_ATTRIBUTE, user);
+                session.setAttribute(CURRENT_CLIENT_ATTRIBUTE, client);
             } else {
                 context.addAttributeToJsp(MESSAGE_ATTRIBUTE, MESSAGE);
                 return FAIL_AUTHORIZATION_CONTEXT;
