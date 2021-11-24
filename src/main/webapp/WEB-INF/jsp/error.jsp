@@ -17,7 +17,7 @@
         <div class="err3">4</div>
         <div class="msg">Maybe this page moved? Got deleted? Is hiding out in quarantine? Never existed in the first place? The URL is incorrect?
             <p>Let's go to the 
-            <a href="${pageContext.request.contextPath}/bank?command=show_main_page_command">main page</a>
+            <a href="${pageContext.request.contextPath}/bank?command=default">main page</a>
              and try again.</p>
             </div>
         </div>
