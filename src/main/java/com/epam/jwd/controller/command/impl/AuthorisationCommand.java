@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 
 public class AuthorisationCommand implements Command {
 
@@ -79,7 +80,7 @@ public class AuthorisationCommand implements Command {
 
         HttpSession session;
 
-        if(context.getCurrentSession().isPresent()) {
+        if (context.getCurrentSession().isPresent()) {
             session = context.getCurrentSession().get();
         } else {
             return ERROR_CONTEXT;
@@ -90,7 +91,7 @@ public class AuthorisationCommand implements Command {
 
         try {
             ClientDTO client = clientService.findClientByUsername(username);
-            if(client != null && passwordManager.checkForIdentity(password, client.getPassword())) {
+            if (client != null && passwordManager.checkForIdentity(password, client.getPassword())) {
                 UserDTO user = userService.findUserByClientId(client.getId());
                 session.setAttribute(CURRENT_USER_ATTRIBUTE, user);
             } else {
