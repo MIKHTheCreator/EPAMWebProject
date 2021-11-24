@@ -19,6 +19,7 @@
 <fmt:message bundle="${loc}" key="age" var="age"/>
 <fmt:message bundle="${loc}" key="gender" var="gender"/>
 <fmt:message bundle="${loc}" key="undefined" var="undefined"/>
+<fmt:message bundle="${loc}" key="bestUserEver" var="bestUserEver"/>
 
 <%@ page import="com.epam.jwd.dao.entity.user_account.Role" %>
 
@@ -26,9 +27,7 @@
 <html>
     <head>
         <title>User Info Page</title>
-        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-csss">
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-cssss">
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <style>
             <%@include file="/WEB-INF/css/user_info.css"%>
         </style>
@@ -42,7 +41,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-img">
-                        <img src="https://images.unsplash.com/photo-1637717256696-a0204d03a8fe?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80" alt=""/>
+                        <img src="https://images.unsplash.com/photo-1601814933824-fd0b574dd592?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=290&q=183" alt=""/>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -53,6 +52,7 @@
                         <h6>
                             ${bsnkSystemUser}
                         </h6>
+                        <p class="proile-rating">${bestUserEver} <span>10/10</span></p>
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="home-tab" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">${about}</a>
@@ -96,7 +96,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <c:choose>
-                                        <c:when test="${sessionScope.currentClient.email != null}">
+                                        <c:when test="${sessionScope.currentClient.email ne null}">
                                             <p>${sessionScope.currentClient.email}</p>
                                         </c:when>
                                         <c:otherwise>
@@ -111,7 +111,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <c:choose>
-                                        <c:when test="${sessionScope.currentUser.phoneNumber != null}">
+                                        <c:when test="${sessionScope.currentUser.phoneNumber ne null}">
                                             <p>+ ${sessionScope.currentUser.phoneNumber}</p>
                                         </c:when>
                                         <c:otherwise>
@@ -126,7 +126,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <c:choose>
-                                        <c:when test="${sessionScope.currentUser.age != null}">
+                                        <c:when test="${sessionScope.currentUser.age ne null}">
                                             <p>${sessionScope.currentUser.age}</p>
                                         </c:when>
                                         <c:otherwise>
@@ -141,7 +141,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <c:choose>
-                                        <c:when test="${sessionScope.currentUser.age != null}">
+                                        <c:when test="${sessionScope.currentUser.age ne null}">
                                             <p>${sessionScope.currentUser.gender}</p>
                                         </c:when>
                                         <c:otherwise>
