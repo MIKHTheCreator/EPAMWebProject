@@ -53,7 +53,6 @@ public class ChangeLanguageCommand implements Command {
             return ERROR_CONTEXT;
         }
 
-        context.addAttributeToJsp(LANGUAGE_ATTRIBUTE, language);
         session.setAttribute(LANGUAGE_ATTRIBUTE, language);
         return CHANGE_LANGUAGE_CONTEXT;
     }
