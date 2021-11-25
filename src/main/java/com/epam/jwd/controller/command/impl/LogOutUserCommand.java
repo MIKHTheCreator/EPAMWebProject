@@ -27,7 +27,7 @@ public class LogOutUserCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return true;
+            return false;
         }
     };
 
@@ -58,8 +58,6 @@ public class LogOutUserCommand implements Command {
             return ERROR_CONTEXT;
         }
 
-        UserDTO user = (UserDTO) session.getAttribute(USER_ATTRIBUTE);
-        log.debug(DEBUG_MESSAGE, user.getFirstName(), user.getSecondName());
         context.invalidateCurrentSession();
         return LOG_OUT_CONTEXT;
     }
