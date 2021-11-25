@@ -20,6 +20,8 @@
 <fmt:message bundle="${loc}" key="mainPageTextBlockFourthSlogan" var="fourthSlogan" />
 <fmt:message bundle="${loc}" key="mainPageTextBlockFourthPart" var="fourthPart" />
 <fmt:message bundle="${loc}" key="mainPageTextBlockFourthMain" var="fourthMain" />
+<fmt:message bundle="${loc}" key="logOut" var="logOut" />
+<fmt:message bundle="${loc}" key="userInfo" var="userInfo" />
 
 <!DOCTYPE html>
 <html>
@@ -188,16 +190,32 @@
                         <p style="padding-top: 47px">${fourthPart}</p>
                     </div>
                 </div>
-                <button-body>
-                    <button class="name noselect">
-                        <a href="${pageContext.request.contextPath}/bank?command=show_registration_page_command" style="text-decoration: none; color: black">${registration}</a>
-                    </button>
-                </button-body>
-                <button-body>
-                    <button class="name noselect">
-                        <a href="${pageContext.request.contextPath}/bank?command=show_login_page_command" style="text-decoration: none; color: black">${logIn}</a>
-                    </button>
-                </button-body>
+                <c:choose>
+                    <c:when test="${not empty sessionScope.currentUser}">
+                        <button-body>
+                            <button class="name noselect">
+                                <a href="${pageContext.request.contextPath}/bank?command=show_user_info_page_command" style="text-decoration: none; color: black">${userInfo}</a>
+                            </button>
+                        </button-body>
+                        <button-body>
+                            <button class="name noselect">
+                                <a href="${pageContext.request.contextPath}/bank?command=logout" style="text-decoration: none; color: black">${logOut}</a>
+                            </button>
+                        </button-body>
+                    </c:when>
+                    <c:otherwise>
+                        <button-body>
+                            <button class="name noselect">
+                                <a href="${pageContext.request.contextPath}/bank?command=show_registration_page_command" style="text-decoration: none; color: black">${registration}</a>
+                            </button>
+                        </button-body>
+                        <button-body>
+                            <button class="name noselect">
+                                <a href="${pageContext.request.contextPath}/bank?command=show_login_page_command" style="text-decoration: none; color: black">${logIn}</a>
+                            </button>
+                        </button-body>
+                    </c:otherwise>
+                </c:choose>
             </div>
             <div class="container" style="height: 100px"></div>
         </div>
