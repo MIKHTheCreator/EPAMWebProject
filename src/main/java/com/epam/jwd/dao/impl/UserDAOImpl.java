@@ -297,10 +297,8 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
             statement.setString(3, user.getPhoneNumber());
             statement.setInt(4, user.getAge());
             statement.setString(5, user.getGender().toString());
-            statement.setInt(6, user.getClientId());
-            statement.setInt(7, user.getPassportId());
-            statement.setInt(8, user.getRole().getRoleId());
-            statement.setInt(9, user.getId());
+            statement.setInt(6, user.getId());
+            statement.executeUpdate();
         }
     }
 }
