@@ -16,6 +16,7 @@ import com.epam.jwd.controller.command.impl.ShowUsersCommand;
 import com.epam.jwd.controller.command.impl.ShowUsersCreditCardsCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowAddCreditCardPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowCreditCardPageCommand;
+import com.epam.jwd.controller.command.impl.show_page.ShowEditPassportPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowEditUserInfoPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowErrorPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowLogInPageCommand;
@@ -53,7 +54,8 @@ public enum Commands {
     SAVE_PAYMENT_COMMAND(SavePaymentCommand.getInstance(), Role.USER),
     SHOW_CREDIT_CARDS_COMMAND(ShowCreditCardsCommand.getInstance(), Role.ADMIN),
     SHOW_USERS_COMMAND(ShowUsersCommand.getInstance(), Role.ADMIN),
-    SHOW_USERS_CREDIT_CARDS_COMMAND(ShowUsersCreditCardsCommand.getInstance(), Role.ADMIN);
+    SHOW_USERS_CREDIT_CARDS_COMMAND(ShowUsersCreditCardsCommand.getInstance(), Role.ADMIN),
+    SHOW_EDIT_PASSPORT_PAGE_COMMAND(ShowEditPassportPageCommand.getInstance(), Role.USER);
 
     private final Command command;
     private final List<Role> allowedRoles;
