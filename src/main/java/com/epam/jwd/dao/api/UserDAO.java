@@ -18,4 +18,6 @@ public interface UserDAO<T extends AbstractEntity<V>, V> {
     void delete(T entity) throws DAOException;
 
     T findUserByClientId(V id) throws DAOException;
+
+    T updateUsersPassportId(T entity) throws DAOException;
 }

@@ -206,6 +206,21 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         return user;
     }
 
+    @Override
+    public User updateUsersPassportId(User user) throws DAOException {
+        PreparedStatement statement;
+        try (Connection connection = connectionPool.takeConnection()) {
+            statement = connection.prepareStatement(SQL_UPDATE_PASSPORT_DATA_QUERY);
+
+            updatePassportData(statement, user);
+        } catch (SQLException exception) {
+            log.error(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
+            throw new DAOException(UPDATE_EXCEPTION + DELIMITER + UPDATE_EXCEPTION_CODE, exception);
+        }
+
+        return user;
+    }
+
     private void saveUser(PreparedStatement statement, User user)
             throws SQLException {
 
@@ -298,6 +313,14 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
             statement.setInt(4, user.getAge());
             statement.setString(5, user.getGender().toString());
             statement.setInt(6, user.getId());
+            statement.executeUpdate();
+        }
+    }
+
+    private void updatePassportData(PreparedStatement statement, User user) throws SQLException {
+        try (statement) {
+            statement.setInt(1, user.getPassportId());
+            statement.setInt(2, user.getId());
             statement.executeUpdate();
         }
     }
