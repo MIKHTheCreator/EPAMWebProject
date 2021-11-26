@@ -24,6 +24,7 @@ public class SavePassportCommand implements Command {
     private final Validator<PassportDTO, Integer> validator = new PassportValidator();
     private static final Command INSTANCE = new SavePassportCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/user_info.jsp";
+    private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/passport_creation.jsp";
     private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String SERIA_AND_NUMBER_ATTRIBUTE = "seriaAndNumber";
@@ -37,7 +38,7 @@ public class SavePassportCommand implements Command {
 
     private static final Logger log = LogManager.getLogger(SavePassportCommand.class);
 
-    private static final ResponseContext SAVE_PASSPORT_CONTEXT = new ResponseContext() {
+    private static final ResponseContext SUCCESS_SAVE_PASSPORT_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {
             return PAGE_PATH;
@@ -45,7 +46,19 @@ public class SavePassportCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return true;
+            return false;
+        }
+    };
+
+    private static final ResponseContext FAIL_PASSPORT_CONTEXT = new ResponseContext() {
+        @Override
+        public String getPage() {
+            return FAIL_PAGE_PATH;
+        }
+
+        @Override
+        public boolean isRedirect() {
+            return false;
         }
     };
 
@@ -88,6 +101,7 @@ public class SavePassportCommand implements Command {
 
             passport = passportService.save(passport);
             user.setPassportId(passport.getId());
+
             userService.update(user);
             session.setAttribute(USER_ATTRIBUTE, user);
             context.addAttributeToJsp(PASSPORT_ATTRIBUTE, passport);
@@ -95,8 +109,9 @@ public class SavePassportCommand implements Command {
         } catch (ServiceException e) {
             log.error(ERROR_MESSAGE, e);
             context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());
+            return FAIL_PASSPORT_CONTEXT;
         }
 
-        return SAVE_PASSPORT_CONTEXT;
+        return SUCCESS_SAVE_PASSPORT_CONTEXT;
     }
 }
