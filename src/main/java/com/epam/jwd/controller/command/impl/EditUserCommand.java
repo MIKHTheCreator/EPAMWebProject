@@ -83,37 +83,8 @@ public class EditUserCommand implements Command {
             return ERROR_CONTEXT;
         }
 
-        UserDTO user = (UserDTO) session.getAttribute(USER_ATTRIBUTE);
-        String firstName = context.getParameterByName(FIRST_NAME_ATTRIBUTE);
-        String secondName = context.getParameterByName(SECOND_NAME_ATTRIBUTE);
-        String phoneNumber = context.getParameterByName(PHONE_NUMBER_ATTRIBUTE);
-        Integer age = Integer.parseInt(context.getParameterByName(AGE_ATTRIBUTE));
-
         try {
-            if(firstName.equals("")) {
-                user.setFirstName(user.getFirstName());
-            } else {
-                user.setFirstName(firstName);
-            }
-
-            if(secondName.equals("")) {
-                user.setSecondName(user.getSecondName());
-            } else {
-                user.setSecondName(secondName);
-            }
-
-            if(phoneNumber.equals("")) {
-                user.setPhoneNumber(user.getPhoneNumber());
-            } else {
-                user.setPhoneNumber(phoneNumber);
-            }
-
-            if(age == 0) {
-                user.setAge(user.getAge());
-            } else {
-                user.setAge(age);
-            }
-
+            UserDTO user = fillUserForm(context, session);
 
             validator.validate(user);
 
@@ -128,5 +99,40 @@ public class EditUserCommand implements Command {
         }
 
         return SUCCESS_EDIT_USER_CONTEXT;
+    }
+
+    private UserDTO fillUserForm(RequestContext context, HttpSession session) {
+
+        UserDTO user = (UserDTO) session.getAttribute(USER_ATTRIBUTE);
+        String firstName = context.getParameterByName(FIRST_NAME_ATTRIBUTE);
+        String secondName = context.getParameterByName(SECOND_NAME_ATTRIBUTE);
+        String phoneNumber = context.getParameterByName(PHONE_NUMBER_ATTRIBUTE);
+        Integer age = Integer.parseInt(context.getParameterByName(AGE_ATTRIBUTE));
+
+        if(firstName.isBlank()) {
+            user.setFirstName(user.getFirstName());
+        } else {
+            user.setFirstName(firstName);
+        }
+
+        if(secondName.isBlank()) {
+            user.setSecondName(user.getSecondName());
+        } else {
+            user.setSecondName(secondName);
+        }
+
+        if(phoneNumber.isBlank()) {
+            user.setPhoneNumber(user.getPhoneNumber());
+        } else {
+            user.setPhoneNumber(phoneNumber);
+        }
+
+        if(age == 0) {
+            user.setAge(user.getAge());
+        } else {
+            user.setAge(age);
+        }
+
+        return user;
     }
 }
