@@ -93,3 +93,14 @@ body{
     font-weight: 600;
     color: #0062cc;
 }
+
+button {
+    border-radius: 16px;
+    padding: 8px 8px 8px 8px;
+    color: #000000;
+    background-color: #00c6ff;
+    font-size: 14px;
+    font-family: "Poppins", sans-serif;
+    border: none;
+
+}

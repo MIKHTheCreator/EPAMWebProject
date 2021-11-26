@@ -60,9 +60,6 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <a href="${pageContext.request.contextPath}/bank?command=show_edit_user_info_page_command"><button>${editProfile}</button></a>
-                </div>
             </div>
             <div class="row">
                 <div class="col-md-4">
@@ -77,6 +74,7 @@
                                 <a href="${pageContext.request.contextPath}/bank?command=show_users_page_command">${users}</a>
                             </c:otherwise>
                         </c:choose>
+                        <a href="${pageContext.request.contextPath}/bank?command=show_edit_user_info_page_command" style="color: #46c1f6; margin-top: 80px; font-size: 20px" >${editProfile}</a><br/>
                     </div>
                 </div>
                 <div class="col-md-8">
