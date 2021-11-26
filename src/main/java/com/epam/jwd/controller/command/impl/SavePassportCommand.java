@@ -23,7 +23,7 @@ public class SavePassportCommand implements Command {
     private final UserService userService = new UserService();
     private final Validator<PassportDTO, Integer> validator = new PassportValidator();
     private static final Command INSTANCE = new SavePassportCommand();
-    private static final String PAGE_PATH = "/WEB-INF/jsp/passport_info.jsp";
+    private static final String PAGE_PATH = "/WEB-INF/jsp/user_info.jsp";
     private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String SERIA_AND_NUMBER_ATTRIBUTE = "seriaAndNumber";
