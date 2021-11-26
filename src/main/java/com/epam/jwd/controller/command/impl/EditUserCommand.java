@@ -18,7 +18,8 @@ public class EditUserCommand implements Command {
     private final UserService userService = new UserService();
     private final Validator<UserDTO, Integer> validator = new UserValidator();
     private static final Command INSTANCE = new EditUserCommand();
-    private static final String PAGE_PATH = "/WEB-INF/jsp/edit_user.jsp";
+    private static final String PAGE_PATH = "/WEB-INF/jsp/user_info.jsp";
+    private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/edit_user_info.jsp";
     private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String FIRST_NAME_ATTRIBUTE = "firstName";
@@ -32,10 +33,22 @@ public class EditUserCommand implements Command {
 
     private static final Logger log = LogManager.getLogger(EditUserCommand.class);
 
-    private static final ResponseContext EDIT_USER_CONTEXT = new ResponseContext() {
+    private static final ResponseContext SUCCESS_EDIT_USER_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {
             return PAGE_PATH;
+        }
+
+        @Override
+        public boolean isRedirect() {
+            return false;
+        }
+    };
+
+    private static final ResponseContext FAIL_EDIT_USER_CONTEXT = new ResponseContext() {
+        @Override
+        public String getPage() {
+            return FAIL_PAGE_PATH;
         }
 
         @Override
@@ -77,10 +90,30 @@ public class EditUserCommand implements Command {
         Integer age = Integer.parseInt(context.getParameterByName(AGE_ATTRIBUTE));
 
         try {
-            user.setFirstName(firstName);
-            user.setSecondName(secondName);
-            user.setPhoneNumber(phoneNumber);
-            user.setAge(age);
+            if(firstName.equals("")) {
+                user.setFirstName(user.getFirstName());
+            } else {
+                user.setFirstName(firstName);
+            }
+
+            if(secondName.equals("")) {
+                user.setSecondName(user.getSecondName());
+            } else {
+                user.setSecondName(secondName);
+            }
+
+            if(phoneNumber.equals("")) {
+                user.setPhoneNumber(user.getPhoneNumber());
+            } else {
+                user.setPhoneNumber(phoneNumber);
+            }
+
+            if(age == 0) {
+                user.setAge(user.getAge());
+            } else {
+                user.setAge(age);
+            }
+
 
             validator.validate(user);
 
@@ -91,8 +124,9 @@ public class EditUserCommand implements Command {
         } catch (ServiceException e) {
             log.error(ERROR_MESSAGE, e);
             context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());
+            return FAIL_EDIT_USER_CONTEXT;
         }
 
-        return EDIT_USER_CONTEXT;
+        return SUCCESS_EDIT_USER_CONTEXT;
     }
 }
