@@ -8,5 +8,6 @@ public interface UserDAOMessage {
     String SQL_FIND_USER_BY_CLIENT_ID_QUERY = "SELECT user_id, first_name, second_name, phone_number, age, gender, client_id, passport_id, role_id FROM `user` WHERE client_id=?";
     String SQL_DELETE_USER_QUERY = "DELETE FROM user WHERE user_id=?";
     String SQL_UPDATE_USER_QUERY = "UPDATE user SET first_name=?, second_name=?, phone_number=?, age =?, gender=? WHERE user_id = ?";
+    String SQL_UPDATE_PASSPORT_DATA_QUERY = "UPDATE user SET passport_id=? WHERE user_id = ?";
     String SQL_FIND_ROLE_BY_ID = "SELECT role_name FROM role WHERE role_id=?";
 }
