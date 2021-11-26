@@ -70,7 +70,9 @@
                             <c:when test="${sessionScope.currentUser.role eq Role.USER}">
                                 <a href="${pageContext.request.contextPath}/bank?command=show_payments_page_command">${payments}</a><br/>
                                 <a href="${pageContext.request.contextPath}/bank?command=show_credit_card_page_command">${creditCard}</a><br/>
-                                <a href="${pageContext.request.contextPath}/bank?command=show_create_passport_page_command" style="color: #46c1f6; margin-top: 80px; font-size: 20px" >${addpassportInfo}</a><br/>
+                                <c:if test="${empty sessionScope.currentUser.passportId}">
+                                    <a href="${pageContext.request.contextPath}/bank?command=show_edit_passport_page_command" style="color: #46c1f6; margin-top: 80px; font-size: 20px" >${addPassportInfo}</a><br/>
+                                </c:if>
                             </c:when>
                             <c:otherwise>
                                 <a href="${pageContext.request.contextPath}/bank?command=show_users_page_command">${users}</a>
