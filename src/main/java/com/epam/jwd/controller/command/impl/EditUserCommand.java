@@ -107,7 +107,7 @@ public class EditUserCommand implements Command {
         String firstName = context.getParameterByName(FIRST_NAME_ATTRIBUTE);
         String secondName = context.getParameterByName(SECOND_NAME_ATTRIBUTE);
         String phoneNumber = context.getParameterByName(PHONE_NUMBER_ATTRIBUTE);
-        Integer age = Integer.parseInt(context.getParameterByName(AGE_ATTRIBUTE));
+        int age = Integer.parseInt(context.getParameterByName(AGE_ATTRIBUTE));
 
         if(firstName.isBlank()) {
             user.setFirstName(user.getFirstName());
