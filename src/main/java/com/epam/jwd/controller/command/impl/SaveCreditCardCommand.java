@@ -106,7 +106,7 @@ public class SaveCreditCardCommand implements Command {
                 .withExpirationDate(expirationDate)
                 .withCVV(cvv)
                 .withFullName(fullName)
-                .withBankAccountId(bankAccount.getId())
+                .withBankAccount(bankAccount)
                 .withUserId(user.getId())
                 .withPin(pin)
                 .build();

@@ -12,7 +12,7 @@ public class CreditCardDTO extends AbstractEntityDTO<Integer> {
     private String fullName;
     private String CVV;
     private String pin;
-    private Integer bankAccountId;
+    private BankAccountDTO bankAccount;
     private Integer userId;
 
     public CreditCardDTO() {
@@ -24,14 +24,14 @@ public class CreditCardDTO extends AbstractEntityDTO<Integer> {
     }
 
     public CreditCardDTO(Integer id, String number, LocalDate expirationDate, String fullName,
-                         String CVV, String pin, Integer bankAccount, Integer userId) {
+                         String CVV, String pin, BankAccountDTO bankAccount, Integer userId) {
         super(id);
         this.number = number;
         this.expirationDate = expirationDate;
         this.fullName = fullName;
         this.CVV = CVV;
         this.pin = pin;
-        this.bankAccountId = bankAccount;
+        this.bankAccount = bankAccount;
         this.userId = userId;
     }
 
@@ -75,12 +75,12 @@ public class CreditCardDTO extends AbstractEntityDTO<Integer> {
         this.pin = pin;
     }
 
-    public Integer getBankAccountId() {
-        return bankAccountId;
+    public BankAccountDTO getBankAccount() {
+        return bankAccount;
     }
 
-    public void setBankAccountId(Integer bankAccountId) {
-        this.bankAccountId = bankAccountId;
+    public void setBankAccount(BankAccountDTO bankAccount) {
+        this.bankAccount = bankAccount;
     }
 
     public Integer getUserId() {
@@ -101,13 +101,13 @@ public class CreditCardDTO extends AbstractEntityDTO<Integer> {
                 && fullName.equals(that.fullName)
                 && CVV.equals(that.CVV)
                 && pin.equals(that.pin)
-                && bankAccountId.equals(that.bankAccountId)
+                && bankAccount.equals(that.bankAccount)
                 && userId.equals(that.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(number, expirationDate, fullName, CVV, pin, bankAccountId, userId);
+        return Objects.hash(number, expirationDate, fullName, CVV, pin, bankAccount, userId);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class CreditCardDTO extends AbstractEntityDTO<Integer> {
                 ", fullName='" + fullName + '\'' +
                 ", CVV='" + CVV + '\'' +
                 ", pin='" + pin + '\'' +
-                ", bankAccountId=" + bankAccountId +
+                ", bankAccountId=" + bankAccount +
                 ", userId=" + userId +
                 '}';
     }
@@ -131,7 +131,7 @@ public class CreditCardDTO extends AbstractEntityDTO<Integer> {
         private String fullName;
         private String CVV;
         private String pin;
-        private Integer bankAccountId;
+        private BankAccountDTO bankAccount;
         private Integer userId;
 
         public Builder withId(Integer id) {
@@ -164,8 +164,8 @@ public class CreditCardDTO extends AbstractEntityDTO<Integer> {
             return this;
         }
 
-        public Builder withBankAccountId(Integer bankAccountId) {
-            this.bankAccountId = bankAccountId;
+        public Builder withBankAccount(BankAccountDTO bankAccount) {
+            this.bankAccount = bankAccount;
             return this;
         }
 
@@ -182,7 +182,7 @@ public class CreditCardDTO extends AbstractEntityDTO<Integer> {
             creditCardDTO.setFullName(this.fullName);
             creditCardDTO.setCVV(this.CVV);
             creditCardDTO.setPin(this.pin);
-            creditCardDTO.setBankAccountId(this.bankAccountId);
+            creditCardDTO.setBankAccount(this.bankAccount);
             creditCardDTO.setUserId(this.userId);
 
             return creditCardDTO;
