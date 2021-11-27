@@ -45,7 +45,7 @@
                 </thead>
                 <c:forEach items="${sessionScope.creditCards}" var="creditCard">
                     <tr>
-                        <td>${creditCard.creditCardId}</td>
+                        <td>${creditCard.id}</td>
                         <td>${creditCard.number}</td>
                         <td>${creditCard.expirationDate}</td>
                         <td>${creditCard.fullName}</td>

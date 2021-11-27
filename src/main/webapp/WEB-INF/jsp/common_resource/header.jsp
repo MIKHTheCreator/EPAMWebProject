@@ -40,7 +40,7 @@
                             <c:if test="${sessionScope.currentUser.role eq Role.USER}">
                                 <a class="active" href="${pageContext.request.contextPath}/bank?command=show_user_info_page_command">${userInfo}</a>
                                 <a class="active" href="${pageContext.request.contextPath}/bank?command=show_payments_page_command">${payments}</a>
-                                <a class="active" href="${pageContext.request.contextPath}/bank?command=show_credit_card_page_command">${creditCard}</a>
+                                <a class="active" href="${pageContext.request.contextPath}/bank?command=show_credit_cards_command">${creditCard}</a>
                             </c:if>
                             <c:if test="${sessionScope.currentUser.role eq Role.ADMIN}">
                                 <a class="active" href="${pageContext.request.contextPath}/bank?command=show_users_page_info_page_command">${userInfo}</a>
