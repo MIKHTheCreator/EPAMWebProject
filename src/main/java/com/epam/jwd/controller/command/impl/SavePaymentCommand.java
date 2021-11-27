@@ -3,9 +3,12 @@ package com.epam.jwd.controller.command.impl;
 import com.epam.jwd.controller.command.Command;
 import com.epam.jwd.controller.command.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContext;
+import com.epam.jwd.service.api.Service;
+import com.epam.jwd.service.dto.payment_system.BankAccountDTO;
 import com.epam.jwd.service.dto.payment_system.PaymentDTO;
 import com.epam.jwd.service.dto.user_account.UserDTO;
 import com.epam.jwd.service.exception.ServiceException;
+import com.epam.jwd.service.impl.payment_system.BankAccountService;
 import com.epam.jwd.service.impl.payment_system.PaymentService;
 import com.epam.jwd.service.validator.Validator;
 import com.epam.jwd.service.validator.payment_system.PaymentValidator;
@@ -20,8 +23,10 @@ public class SavePaymentCommand implements Command {
 
     private final Validator<PaymentDTO, Integer> validator = new PaymentValidator();
     private final PaymentService paymentService = new PaymentService();
+    private final Service<BankAccountDTO, Integer> bankAccountService = new BankAccountService();
     private static final Command INSTANCE = new SavePaymentCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/payments.jsp";
+    private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/create_payment.jsp";
     private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String SUM_ATTRIBUTE = "sum";
@@ -45,7 +50,19 @@ public class SavePaymentCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return true;
+            return false;
+        }
+    };
+
+    private static final ResponseContext SAVE_FAIL_PAYMENT_CONTEXT = new ResponseContext() {
+        @Override
+        public String getPage() {
+            return FAIL_PAGE_PATH;
+        }
+
+        @Override
+        public boolean isRedirect() {
+            return false;
         }
     };
 
@@ -96,6 +113,9 @@ public class SavePaymentCommand implements Command {
         try {
             validator.validate(payment);
             paymentService.save(payment);
+            BankAccountDTO bankAccount = bankAccountService.findById(bankAccountId);
+            bankAccount.setBalance(bankAccount.getBalance().add(sum));
+
             isDone = true;
         } catch (ServiceException e) {
             log.error(ERROR_MESSAGE, e);
@@ -106,6 +126,7 @@ public class SavePaymentCommand implements Command {
             context.addAttributeToJsp(MESSAGE_ATTRIBUTE, MESSAGE);
         } else {
             context.addAttributeToJsp(ERROR_ATTRIBUTE, FAIL_MESSAGE);
+            return SAVE_FAIL_PAYMENT_CONTEXT;
         }
 
         return SAVE_PAYMENT_CONTEXT;
