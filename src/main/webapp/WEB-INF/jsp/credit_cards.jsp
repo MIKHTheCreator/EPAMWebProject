@@ -52,7 +52,7 @@
                         <td>${creditCard.bankAccount.currency}</td>
                         <td>${creditCard.bankAccount.balance}</td>
                         <td>${creditCard.bankAccount.blocked}</td>
-                        <td class="text-center"><a class='btn btn-info btn-xs' href="${pageContext.request.contextPath}/bank?command=show_make_payment_command&bankAccountId=${creditCard.bankAccount.id}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                        <td class="text-center"><a class='btn btn-info btn-xs' href="${pageContext.request.contextPath}/bank?command=show_make_payment_page_command&bankAccountId=${creditCard.bankAccount.id}"><span class="glyphicon glyphicon-edit"></span></a></td>
                     </tr>
                 </c:forEach>
             </table>
