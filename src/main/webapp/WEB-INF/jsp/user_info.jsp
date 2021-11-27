@@ -21,6 +21,7 @@
 <fmt:message bundle="${loc}" key="undefined" var="undefined"/>
 <fmt:message bundle="${loc}" key="bestUserEver" var="bestUserEver"/>
 <fmt:message bundle="${loc}" key="addPassportInfo" var="addPassportInfo"/>
+<fmt:message bundle="${loc}" key="passportCreated" var="passportCreated"/>
 
 <%@ page import="com.epam.jwd.dao.entity.user_account.Role" %>
 
@@ -70,15 +71,20 @@
                             <c:when test="${sessionScope.currentUser.role eq Role.USER}">
                                 <a href="${pageContext.request.contextPath}/bank?command=show_payments_page_command">${payments}</a><br/>
                                 <a href="${pageContext.request.contextPath}/bank?command=show_credit_card_page_command">${creditCard}</a><br/>
-                                <c:if test="${empty sessionScope.currentUser.passportId}">
-                                    <a href="${pageContext.request.contextPath}/bank?command=show_edit_passport_page_command" style="color: #46c1f6; margin-top: 80px; font-size: 20px" >${addPassportInfo}</a><br/>
-                                </c:if>
+                                <c:choose>
+                                    <c:when test="${sessionScope.currentUser.passportId ne null}">
+                                        <p>${passportCreated}</p>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="${pageContext.request.contextPath}/bank?command=show_edit_passport_page_command">${addPassportInfo}</a><br/>
+                                    </c:otherwise>
+                                </c:choose>
                             </c:when>
                             <c:otherwise>
                                 <a href="${pageContext.request.contextPath}/bank?command=show_users_page_command">${users}</a>
                             </c:otherwise>
                         </c:choose>
-                        <a href="${pageContext.request.contextPath}/bank?command=show_edit_user_info_page_command" style="color: #46c1f6; margin-top: 80px; font-size: 20px" >${editProfile}</a><br/>
+                        <a href="${pageContext.request.contextPath}/bank?command=show_edit_user_info_page_command">${editProfile}</a><br/>
                     </div>
                 </div>
                 <div class="col-md-8">
