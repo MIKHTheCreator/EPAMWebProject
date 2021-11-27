@@ -28,12 +28,13 @@ public class SaveCreditCardCommand implements Command {
     private final  Validator<BankAccountDTO, Integer> bankAccountValidator = new BankAccountValidator();
     private static final Command INSTANCE = new SaveCreditCardCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/credit_cards.jsp";
+    private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/create_credit_card.jsp";
     private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String CURRENCY_ATTRIBUTE = "currency";
     private static final String CREDIT_CARD_NUMBER_ATTRIBUTE = "creditCardNumber";
-    private static final String EXPIRATION_DATE_ATTRIBUTE = "expirationDate";
+    private static final String EXPIRATION_MONTH_ATTRIBUTE = "expirationMonth";
     private static final String FULL_NAME_ATTRIBUTE = "fullName";
     private static final String CVV_ATTRIBUTE = "cvv";
     private static final String PIN_ATTRIBUTE = "pin";
@@ -51,7 +52,19 @@ public class SaveCreditCardCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return true;
+            return false;
+        }
+    };
+
+    private static final ResponseContext FAIL_TO_SAVE_CREDIT_CARD_CONTEXT = new ResponseContext() {
+        @Override
+        public String getPage() {
+            return FAIL_PAGE_PATH;
+        }
+
+        @Override
+        public boolean isRedirect() {
+            return false;
         }
     };
 
@@ -83,10 +96,12 @@ public class SaveCreditCardCommand implements Command {
 
         String currency = context.getParameterByName(CURRENCY_ATTRIBUTE);
         String creditCardNumber = context.getParameterByName(CREDIT_CARD_NUMBER_ATTRIBUTE);
-        LocalDate expirationDate = LocalDate.parse(context.getParameterByName(EXPIRATION_DATE_ATTRIBUTE));
+        String expirationMonth = context.getParameterByName(EXPIRATION_MONTH_ATTRIBUTE);
+        String expirationYear = context.getParameterByName(EXPIRATION_MONTH_ATTRIBUTE);
+        LocalDate expirationDate = LocalDate.parse(expirationMonth + "-" + expirationYear);
         String fullName = context.getParameterByName(FULL_NAME_ATTRIBUTE);
-        String cvv = context.getParameterByName(CVV_ATTRIBUTE);
-        String pin = context.getParameterByName(PIN_ATTRIBUTE);
+//        todo String cvv = context.getParameterByName(CVV_ATTRIBUTE);
+//        todo String pin = context.getParameterByName(PIN_ATTRIBUTE);
 
         UserDTO user = (UserDTO) session.getAttribute(USER_ATTRIBUTE);
 
@@ -104,11 +119,11 @@ public class SaveCreditCardCommand implements Command {
         CreditCardDTO creditCard = new CreditCardDTO.Builder()
                 .withNumber(creditCardNumber)
                 .withExpirationDate(expirationDate)
-                .withCVV(cvv)
+                .withCVV("228")
                 .withFullName(fullName)
                 .withBankAccount(bankAccount)
                 .withUserId(user.getId())
-                .withPin(pin)
+                .withPin("4132")
                 .build();
 
         try {
@@ -117,6 +132,7 @@ public class SaveCreditCardCommand implements Command {
         } catch (ServiceException e) {
             log.error(CREDIT_CARD_ERROR, e);
             context.addAttributeToJsp(ERROR_ATTRIBUTE, CREDIT_CARD_ERROR + e.getMessage());
+            return FAIL_TO_SAVE_CREDIT_CARD_CONTEXT;
         }
 
         return SAVE_CREDIT_CARD_CONTEXT;
