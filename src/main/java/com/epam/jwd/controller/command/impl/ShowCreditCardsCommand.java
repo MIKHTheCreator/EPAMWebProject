@@ -76,7 +76,7 @@ public class ShowCreditCardsCommand implements Command {
             context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE);
         }
 
-        context.addAttributeToJsp(CREDIT_CARDS_ATTRIBUTE, creditCards);
+        session.setAttribute(CREDIT_CARDS_ATTRIBUTE, creditCards);
 
         return SHOW_CREDIT_CARDS_CONTEXT;
     }
