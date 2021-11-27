@@ -35,6 +35,7 @@ public class SaveCreditCardCommand implements Command {
     private static final String CURRENCY_ATTRIBUTE = "currency";
     private static final String CREDIT_CARD_NUMBER_ATTRIBUTE = "creditCardNumber";
     private static final String EXPIRATION_MONTH_ATTRIBUTE = "expirationMonth";
+    private static final String EXPIRATION_YEAR_ATTRIBUTE = "expirationYear";
     private static final String FULL_NAME_ATTRIBUTE = "fullName";
     private static final String CVV_ATTRIBUTE = "cvv";
     private static final String PIN_ATTRIBUTE = "pin";
@@ -97,8 +98,8 @@ public class SaveCreditCardCommand implements Command {
         String currency = context.getParameterByName(CURRENCY_ATTRIBUTE);
         String creditCardNumber = context.getParameterByName(CREDIT_CARD_NUMBER_ATTRIBUTE);
         String expirationMonth = context.getParameterByName(EXPIRATION_MONTH_ATTRIBUTE);
-        String expirationYear = context.getParameterByName(EXPIRATION_MONTH_ATTRIBUTE);
-        LocalDate expirationDate = LocalDate.parse(expirationYear + "-" + expirationMonth + "-01");
+        String expirationYear = context.getParameterByName(EXPIRATION_YEAR_ATTRIBUTE);
+        LocalDate expirationDate = LocalDate.parse(expirationYear + "-" + expirationMonth + "-1");
         String fullName = context.getParameterByName(FULL_NAME_ATTRIBUTE);
 //        todo String cvv = context.getParameterByName(CVV_ATTRIBUTE);
 //        todo String pin = context.getParameterByName(PIN_ATTRIBUTE);
