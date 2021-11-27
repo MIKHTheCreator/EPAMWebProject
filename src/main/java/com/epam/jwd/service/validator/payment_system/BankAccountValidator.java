@@ -23,7 +23,7 @@ public class BankAccountValidator implements Validator<BankAccountDTO, Integer> 
     }
 
     private void isValidCurrency(String currency) throws ServiceException {
-        if (!currency.matches(CURRENCY_PATTERN)) {
+        if (!currency.toUpperCase().matches(CURRENCY_PATTERN)) {
             throw new ServiceException(CURRENCY_MISS_MATCH_EXCEPTION + DELIMITER + CURRENCY_MISS_MATCH_EXCEPTION_CODE);
         }
     }

@@ -99,7 +99,7 @@ public class SaveCreditCardCommand implements Command {
         String creditCardNumber = context.getParameterByName(CREDIT_CARD_NUMBER_ATTRIBUTE);
         String expirationMonth = context.getParameterByName(EXPIRATION_MONTH_ATTRIBUTE);
         String expirationYear = context.getParameterByName(EXPIRATION_YEAR_ATTRIBUTE);
-        LocalDate expirationDate = LocalDate.parse(expirationYear + "-" + expirationMonth + "-1");
+        LocalDate expirationDate = LocalDate.parse(expirationYear + "-" + expirationMonth + "-01");
         String fullName = context.getParameterByName(FULL_NAME_ATTRIBUTE);
 //        todo String cvv = context.getParameterByName(CVV_ATTRIBUTE);
 //        todo String pin = context.getParameterByName(PIN_ATTRIBUTE);
@@ -131,6 +131,7 @@ public class SaveCreditCardCommand implements Command {
             creditCardValidator.validate(creditCard);
             creditCardService.save(creditCard);
         } catch (ServiceException e) {
+            e.printStackTrace();
             log.error(CREDIT_CARD_ERROR, e);
             context.addAttributeToJsp(ERROR_ATTRIBUTE, CREDIT_CARD_ERROR + e.getMessage());
             return FAIL_TO_SAVE_CREDIT_CARD_CONTEXT;
