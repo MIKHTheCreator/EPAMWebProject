@@ -53,7 +53,7 @@ public enum Commands {
     SHOW_USERS_PAGE_COMMAND(ShowUsersPageCommand.getInstance(), Role.ADMIN),
     BLOCK_USERS_BANK_ACCOUNT_COMMAND(BlockUsersBankAccountCommand.getInstance(), Role.ADMIN),
     SAVE_PAYMENT_COMMAND(SavePaymentCommand.getInstance(), Role.USER),
-    SHOW_CREDIT_CARDS_COMMAND(ShowCreditCardsCommand.getInstance(), Role.ADMIN),
+    SHOW_CREDIT_CARDS_COMMAND(ShowCreditCardsCommand.getInstance(), Role.USER),
     SHOW_USERS_COMMAND(ShowUsersCommand.getInstance(), Role.ADMIN),
     SHOW_USERS_CREDIT_CARDS_COMMAND(ShowUsersCreditCardsCommand.getInstance(), Role.ADMIN),
     SHOW_EDIT_PASSPORT_PAGE_COMMAND(ShowEditPassportPageCommand.getInstance(), Role.USER),
