@@ -102,11 +102,12 @@ public class SavePassportCommand implements Command {
             passport = passportService.save(passport);
             user.setPassportId(passport.getId());
 
-            userService.update(user);
+            userService.updateUserPassport(user);
             session.setAttribute(USER_ATTRIBUTE, user);
-            context.addAttributeToJsp(PASSPORT_ATTRIBUTE, passport);
             context.addAttributeToJsp(MESSAGE_ATTRIBUTE, SUCCESSFUL_PASSPORT_CREATION);
         } catch (ServiceException e) {
+            System.out.println("Here");
+            e.printStackTrace();
             log.error(ERROR_MESSAGE, e);
             context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());
             return FAIL_PASSPORT_CONTEXT;
