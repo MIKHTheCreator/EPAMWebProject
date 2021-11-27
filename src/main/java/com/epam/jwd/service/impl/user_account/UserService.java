@@ -122,4 +122,18 @@ public class UserService implements com.epam.jwd.service.api.UserService<UserDTO
 
         return userDTO;
     }
+
+    @Override
+    public UserDTO updateUserPassport(UserDTO userDTO) throws ServiceException {
+        User user = mapper.convertToEntity(userDTO);
+
+        try {
+            userDTO = mapper.convertToDTO(userDAO.updateUsersPassportId(user));
+        } catch (DAOException e) {
+            log.error(SERVICE_UPDATE_METHOD_EXCEPTION + DELIMITER + SERVICE_UPDATE_METHOD_EXCEPTION_CODE, e);
+            throw new ServiceException(SERVICE_UPDATE_METHOD_EXCEPTION + DELIMITER + SERVICE_UPDATE_METHOD_EXCEPTION_CODE, e);
+        }
+
+        return userDTO;
+    }
 }

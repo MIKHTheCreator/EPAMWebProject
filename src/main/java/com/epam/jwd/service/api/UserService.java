@@ -18,4 +18,6 @@ public interface UserService<T extends AbstractEntityDTO<V>, V> {
     void delete(T entity) throws ServiceException;
 
     T findUserByClientId(V id) throws ServiceException;
+
+    T updateUserPassport(T entity) throws ServiceException;
 }
