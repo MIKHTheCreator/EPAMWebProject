@@ -89,7 +89,7 @@ public class SavePaymentCommand implements Command {
         LocalDate date = LocalDate.parse(context.getParameterByName(DATE_ATTRIBUTE));
         String organization = context.getParameterByName(ORGANIZATION_ATTRIBUTE);
         String goal = context.getParameterByName(GOAL_ATTRIBUTE);
-        Integer bankAccountId = Integer.valueOf(context.getParameterByName(BANK_ACCOUNT_ID_ATTRIBUTE));
+        Integer bankAccountId = Integer.valueOf((context.getParameterByName(BANK_ACCOUNT_ID_ATTRIBUTE)));
 
         HttpSession session;
         if(context.getCurrentSession().isPresent()) {

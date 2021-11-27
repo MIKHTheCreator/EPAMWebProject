@@ -39,7 +39,7 @@ public class PaymentValidator implements Validator<PaymentDTO, Integer> {
     private void isValidDate(LocalDate dateOfPayment) throws ServiceException {
 
         final LocalDate todayDate = LocalDate.now();
-        if (!(dateOfPayment.isEqual(todayDate) && dateOfPayment.isBefore(todayDate))) {
+        if (!(dateOfPayment.isEqual(todayDate) || dateOfPayment.isBefore(todayDate))) {
             throw new ServiceException(DATE_OF_PAYMENT_EXCEPTION + DELIMITER + DATE_OF_PAYMENT_EXCEPTION_CODE);
         }
     }
