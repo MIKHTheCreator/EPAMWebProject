@@ -115,6 +115,7 @@ public class SavePaymentCommand implements Command {
             paymentService.save(payment);
             BankAccountDTO bankAccount = bankAccountService.findById(bankAccountId);
             bankAccount.setBalance(bankAccount.getBalance().add(sum));
+            bankAccountService.update(bankAccount);
 
             isDone = true;
         } catch (ServiceException e) {
