@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum Role {
-    UNAUTHORIZED(0), ADMIN(1), USER(2),;
+    UNAUTHORIZED(0), ADMIN(1), USER(2);
 
     private final Integer roleId;
 
