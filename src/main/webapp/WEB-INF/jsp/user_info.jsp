@@ -100,7 +100,7 @@
                                 </c:choose>
                             </c:when>
                             <c:otherwise>
-                                <a href="${pageContext.request.contextPath}/bank?command=show_users_page_command">${users}</a><br/>
+                                <a href="${pageContext.request.contextPath}/bank?command=show_users_command">${users}</a><br/>
                             </c:otherwise>
                         </c:choose>
                         <a href="${pageContext.request.contextPath}/bank?command=show_edit_user_info_page_command">${editProfile}</a><br/>
