@@ -31,7 +31,7 @@ public class ShowUsersCreditCardsCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return true;
+            return false;
         }
     };
 
@@ -45,7 +45,7 @@ public class ShowUsersCreditCardsCommand implements Command {
         Integer userId = Integer.valueOf(context.getParameterByName(USER_ID_ATTRIBUTE));
 
         try {
-            final List<CreditCardDTO> creditCards = creditCardService.findCreditCardsByUserId(userId);
+            List<CreditCardDTO> creditCards = creditCardService.findCreditCardsByUserId(userId);
             context.addAttributeToJsp(CREDIT_CARDS_ATTRIBUTE, creditCards);
         } catch (ServiceException e) {
             log.error(ERROR_MESSAGE, e);

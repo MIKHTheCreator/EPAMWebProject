@@ -48,13 +48,11 @@ public class BlockUsersBankAccountCommand implements Command {
     public ResponseContext execute(RequestContext context) {
 
         Integer bankAccountId = Integer.valueOf(context.getParameterByName(BANK_ACCOUNT_ID_ATTRIBUTE));
-        String bankAccountCurrency = context.getParameterByName(BANK_ACCOUNT_CURRENCY_ATTRIBUTE);
-        BigDecimal bankAccountBalance = new BigDecimal(context.getParameterByName(BANK_ACCOUNT_BALANCE_ATTRIBUTE));
-
-        BankAccountDTO bankAccount = new BankAccountDTO(bankAccountId, bankAccountBalance, bankAccountCurrency, true);
 
         boolean isDone = false;
         try {
+            BankAccountDTO bankAccount = bankAccountService.findById(bankAccountId);
+            bankAccount.setBlocked(true);
             bankAccountService.update(bankAccount);
             isDone = true;
         } catch (ServiceException e) {
