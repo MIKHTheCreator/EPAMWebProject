@@ -14,6 +14,7 @@
 <fmt:message bundle="${loc}" key="ccbalance" var="ccbalance"/>
 <fmt:message bundle="${loc}" key="ccIsBlocked" var="ccIsBlocked"/>
 <fmt:message bundle="${loc}" key="makePaymentButton" var="makePaymentButton"/>
+<fmt:message bundle="${loc}" key="blockUsrButton" var="blockUsrButton"/>
 
 <!DOCTYPE html>
 <html>
@@ -31,30 +32,57 @@
         <div class="row col-md-6 col-md-offset-2 custyle">
             <table class="table table-striped custab">
                 <thead>
-                <a href="${pageContext.request.contextPath}/bank?command=show_add_credit_card_page_command" class="btn btn-primary btn-xs pull-right"> ${addCreditCard}</a>
-                <tr>
-                    <th>ID</th>
-                    <th>${ccNumber}</th>
-                    <th>${ccExpirationDate}</th>
-                    <th>${ccfullName}</th>
-                    <th>${ccCurrency}</th>
-                    <th>${ccbalance}</th>
-                    <th>${ccIsBlocked}</th>
-                    <th class="text-center">${makePaymentButton}</th>
-                </tr>
-                </thead>
-                <c:forEach items="${sessionScope.creditCards}" var="creditCard">
-                    <tr>
-                        <td>${creditCard.id}</td>
-                        <td>${creditCard.number}</td>
-                        <td>${creditCard.expirationDate}</td>
-                        <td>${creditCard.fullName}</td>
-                        <td>${creditCard.bankAccount.currency}</td>
-                        <td>${creditCard.bankAccount.balance}</td>
-                        <td>${creditCard.bankAccount.blocked}</td>
-                        <td class="text-center"><a class='btn btn-info btn-xs' href="${pageContext.request.contextPath}/bank?command=show_make_payment_page_command&bankAccountId=${creditCard.bankAccount.id}"><span class="glyphicon glyphicon-edit"></span></a></td>
-                    </tr>
-                </c:forEach>
+                <c:choose>
+                    <c:when test="${sessionScope.currentUser.role eq Role.USER}">
+                        <a href="${pageContext.request.contextPath}/bank?command=show_add_credit_card_page_command" class="btn btn-primary btn-xs pull-right"> ${addCreditCard}</a>
+                        <tr>
+                            <th>ID</th>
+                            <th>${ccNumber}</th>
+                            <th>${ccExpirationDate}</th>
+                            <th>${ccfullName}</th>
+                            <th>${ccCurrency}</th>
+                            <th>${ccbalance}</th>
+                            <th>${ccIsBlocked}</th>
+                            <th class="text-center">${makePaymentButton}</th>
+                        </tr>
+                        </thead>
+                        <c:forEach items="${sessionScope.creditCards}" var="creditCard">
+                            <tr>
+                                <td>${creditCard.id}</td>
+                                <td>${creditCard.number}</td>
+                                <td>${creditCard.expirationDate}</td>
+                                <td>${creditCard.fullName}</td>
+                                <td>${creditCard.bankAccount.currency}</td>
+                                <td>${creditCard.bankAccount.balance}</td>
+                                <td>${creditCard.bankAccount.blocked}</td>
+                                <td class="text-center"><a class='btn btn-info btn-xs' href="${pageContext.request.contextPath}/bank?command=show_make_payment_page_command&bankAccountId=${creditCard.bankAccount.id}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                            </tr>
+                        </c:forEach>
+                    </c:when>
+                    <c:when test="${sessionScope.currentUser.role eq Role.ADMIN}">
+                        <tr>
+                            <th>ID</th>
+                            <th>${ccNumber}</th>
+                            <th>${ccExpirationDate}</th>
+                            <th>${ccfullName}</th>
+                            <th>${ccCurrency}</th>
+                            <th>${ccIsBlocked}</th>
+                            <th class="text-center">${blockUsrButton}</th>
+                        </tr>
+                        </thead>
+                        <c:forEach items="${sessionScope.creditCards}" var="creditCard">
+                            <tr>
+                                <td>${creditCard.id}</td>
+                                <td>${creditCard.number}</td>
+                                <td>${creditCard.expirationDate}</td>
+                                <td>${creditCard.fullName}</td>
+                                <td>${creditCard.bankAccount.currency}</td>
+                                <td>${creditCard.bankAccount.blocked}</td>
+                                <td class="text-center"><a class='btn btn-info btn-xs' href="${pageContext.request.contextPath}/bank?command=block_users_bank_account_command&bankAccountId=${creditCard.bankAccount.id}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                            </tr>
+                        </c:forEach>
+                    </c:when>
+                </c:choose>
             </table>
         </div>
     </div>
