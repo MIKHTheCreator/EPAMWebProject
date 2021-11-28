@@ -58,7 +58,7 @@
                             <tbody>
                             <tr>
                                 <td align="center">
-                                    <a class="btn btn-default" href="${pageContext.request.contextPath}/bank?command=show_users_credit_cards&userId=${user.id}"><em class="fa fa-pencil"></em></a>
+                                    <a class="btn btn-default" href="${pageContext.request.contextPath}/bank?command=show_users_credit_cards_command&userId=${user.id}"><em class="fa fa-pencil"></em></a>
                                 </td>
                                 <td class="hidden-xs">${user.id}</td>
                                 <td>${user.firstName}</td>
