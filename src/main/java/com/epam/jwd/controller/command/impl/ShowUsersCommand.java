@@ -67,6 +67,7 @@ public class ShowUsersCommand implements Command {
             List<UserDTO> users = userService.findAll();
             session.setAttribute(USERS_ATTRIBUTE, users);
         } catch (ServiceException e) {
+            e.printStackTrace();
             log.error(ERROR_MESSAGE, e);
             context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());
         }

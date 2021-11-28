@@ -85,12 +85,12 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
 
         try {
             connection = connectionPool.takeConnection();
-            connection.setAutoCommit(true);
+            connection.setAutoCommit(false);
             statement = connection.prepareStatement(SQL_FIND_ALL_USERS_QUERY);
 
             users = findUsers(statement, connection);
             connection.commit();
-            connection.setAutoCommit(false);
+            connection.setAutoCommit(true);
         } catch (SQLException exception) {
             try {
                 connection.rollback();
