@@ -260,7 +260,7 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         ResultSet resultSet = statement.executeQuery();
 
         if (resultSet.next()) {
-            return Role.valueOf(resultSet.getString(2).toUpperCase());
+            return Role.valueOf(resultSet.getString(1).toUpperCase());
         }
 
         return Role.USER;
@@ -276,7 +276,7 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
                 .withAge(resultSet.getInt(5))
                 .withGender(Gender.valueOf(resultSet.getString(6).toUpperCase()))
                 .withClientId(resultSet.getInt(7))
-                .withRole(findRoleById(connection, resultSet.getInt(8)))
+                .withRole(findRoleById(connection, resultSet.getInt(9)))
                 .build();
     }
 
