@@ -9,9 +9,9 @@ import java.util.Optional;
 
 public class GreetingTag extends TagSupport {
 
-    private static final String USER_WELCOME_MESSAGE = "Hello, %s";
-    private static final String DEFAULT_WELCOME_MESSAGE = "Hello!";
-    private static final String USER_NAME_SESSION_ATTRIB = "userName";
+    private static final String USER_WELCOME_MESSAGE = "Welcome back, %s";
+    private static final String DEFAULT_WELCOME_MESSAGE = "Welcome!";
+    private static final String USER_NAME_SESSION_ATTRIB = "name";
 
     @Override
     public int doStartTag() throws JspException {
@@ -21,7 +21,7 @@ public class GreetingTag extends TagSupport {
     }
 
     @Override
-    public int doEndTag() throws JspException {
+    public int doEndTag() {
         return EVAL_PAGE;
     }
 
