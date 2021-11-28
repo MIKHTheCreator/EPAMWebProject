@@ -19,6 +19,7 @@ public class ShowUsersCreditCardsCommand implements Command {
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String ERROR_MESSAGE = "Can't find any credit cards";
     private static final String CREDIT_CARDS_ATTRIBUTE = "creditCards";
+    private static final String USER_ID_ATTRIBUTE = "userId";
 
     private static final Logger log = LogManager.getLogger(ShowUsersCreditCardsCommand.class);
 
@@ -41,8 +42,10 @@ public class ShowUsersCreditCardsCommand implements Command {
     @Override
     public ResponseContext execute(RequestContext context) {
 
+        Integer userId = Integer.valueOf(context.getParameterByName(USER_ID_ATTRIBUTE));
+
         try {
-            final List<CreditCardDTO> creditCards = creditCardService.findAll();
+            final List<CreditCardDTO> creditCards = creditCardService.findCreditCardsByUserId(userId);
             context.addAttributeToJsp(CREDIT_CARDS_ATTRIBUTE, creditCards);
         } catch (ServiceException e) {
             log.error(ERROR_MESSAGE, e);
