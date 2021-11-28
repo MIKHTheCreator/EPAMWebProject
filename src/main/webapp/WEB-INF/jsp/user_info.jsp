@@ -22,6 +22,8 @@
 <fmt:message bundle="${loc}" key="bestUserEver" var="bestUserEver"/>
 <fmt:message bundle="${loc}" key="addPassportInfo" var="addPassportInfo"/>
 <fmt:message bundle="${loc}" key="passportCreated" var="passportCreated"/>
+<fmt:message bundle="${loc}" key="bsnkSystemAdmin" var="bsnkSystemAdmin"/>
+<fmt:message bundle="${loc}" key="bestAdminEver" var="bestAdminEver"/>
 
 <%@ page import="com.epam.jwd.dao.entity.user_account.Role" %>
 
@@ -51,10 +53,20 @@
                         <h5>
                             ${sessionScope.currentUser.firstName} ${sessionScope.currentUser.secondName}
                         </h5>
-                        <h6>
-                            ${bsnkSystemUser}
-                        </h6>
-                        <p class="proile-rating">${bestUserEver} <span>10/10</span></p>
+                        <c:choose>
+                            <c:when test="${sessionScope.currentUser.role eq Role.ADMIN}">
+                                <h6>
+                                        ${bsnkSystemAdmin}
+                                </h6>
+                                <p class="proile-rating">${bestAdminEver} <span>10/10</span></p>
+                            </c:when>
+                            <c:otherwise>
+                                <h6>
+                                        ${bsnkSystemUser}
+                                </h6>
+                                <p class="proile-rating">${bestUserEver} <span>10/10</span></p>
+                            </c:otherwise>
+                        </c:choose>
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="home-tab" data-toggle="tab" role="tab" aria-controls="home" aria-selected="true">${about}</a>
