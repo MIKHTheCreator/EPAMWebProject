@@ -27,6 +27,7 @@ public class AuthorisationCommand implements Command {
     private static final String ERROR_PATH = "WEB-INF/jsp/error.jsp";
     private static final String USERNAME_ATTRIBUTE = "username";
     private static final String PASSWORD_ATTRIBUTE = "password";
+    private static final String NAME_ATTRIBUTE = "name";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
     private static final String CURRENT_CLIENT_ATTRIBUTE = "currentClient";
@@ -96,6 +97,7 @@ public class AuthorisationCommand implements Command {
                 UserDTO user = userService.findUserByClientId(client.getId());
                 session.setAttribute(CURRENT_USER_ATTRIBUTE, user);
                 session.setAttribute(CURRENT_CLIENT_ATTRIBUTE, client);
+                session.setAttribute(NAME_ATTRIBUTE, user.getFirstName() +"\s" + user.getSecondName());
             } else {
                 context.addAttributeToJsp(MESSAGE_ATTRIBUTE, MESSAGE);
                 return FAIL_AUTHORIZATION_CONTEXT;
