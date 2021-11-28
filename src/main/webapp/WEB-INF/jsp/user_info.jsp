@@ -69,7 +69,7 @@
                         <p>${options}</p>
                         <c:choose>
                             <c:when test="${sessionScope.currentUser.role eq Role.USER}">
-                                <a href="${pageContext.request.contextPath}/bank?command=show_payments_page_command">${payments}</a><br/>
+                                <a href="${pageContext.request.contextPath}/bank?command=show_payments_command">${payments}</a><br/>
                                 <a href="${pageContext.request.contextPath}/bank?command=show_credit_cards_command">${creditCard}</a><br/>
                                 <c:choose>
                                     <c:when test="${sessionScope.currentUser.passportId ne null}">
