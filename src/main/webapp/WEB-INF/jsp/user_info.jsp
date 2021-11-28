@@ -45,7 +45,14 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="profile-img">
-                        <img src="https://images.unsplash.com/photo-1601814933824-fd0b574dd592?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80" alt=""/>
+                        <c:choose>
+                            <c:when test="${sessionScope.currentUser.role eq Role.ADMIN}">
+                                <img src="https://images.unsplash.com/photo-1542980465-17bd5fd71861?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80" alt=""/>
+                            </c:when>
+                            <c:otherwise>
+                                <img src="https://images.unsplash.com/photo-1601814933824-fd0b574dd592?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=80" alt=""/>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </div>
                 <div class="col-md-6">
