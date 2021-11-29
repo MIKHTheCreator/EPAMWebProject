@@ -1,7 +1,7 @@
 package com.epam.jwd.controller.command.impl;
 
 import com.epam.jwd.controller.command.Command;
-import com.epam.jwd.controller.command.ResponseContext;
+import com.epam.jwd.controller.command.response_context.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContext;
 import com.epam.jwd.dao.entity.user_account.Gender;
 import com.epam.jwd.dao.entity.user_account.Role;

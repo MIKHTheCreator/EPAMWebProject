@@ -1,7 +1,7 @@
 package com.epam.jwd.controller.command.impl;
 
 import com.epam.jwd.controller.command.Command;
-import com.epam.jwd.controller.command.ResponseContext;
+import com.epam.jwd.controller.command.response_context.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContext;
 import com.epam.jwd.service.api.Service;
 import com.epam.jwd.service.dto.payment_system.BankAccountDTO;
@@ -9,8 +9,6 @@ import com.epam.jwd.service.exception.ServiceException;
 import com.epam.jwd.service.impl.payment_system.BankAccountService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.math.BigDecimal;
 
 public class BlockUsersBankAccountCommand implements Command {
 

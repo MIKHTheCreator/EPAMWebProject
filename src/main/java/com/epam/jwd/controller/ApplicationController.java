@@ -1,7 +1,7 @@
 package com.epam.jwd.controller;
 
 import com.epam.jwd.controller.command.Command;
-import com.epam.jwd.controller.command.ResponseContext;
+import com.epam.jwd.controller.command.response_context.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContextImpl;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
 import com.epam.jwd.dao.exception.DAOException;

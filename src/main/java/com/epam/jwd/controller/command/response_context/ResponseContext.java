@@ -1,4 +1,4 @@
-package com.epam.jwd.controller.command;
+package com.epam.jwd.controller.command.response_context;
 
 public interface ResponseContext {
 

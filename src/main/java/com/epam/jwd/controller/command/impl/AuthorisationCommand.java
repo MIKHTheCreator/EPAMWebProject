@@ -1,7 +1,7 @@
 package com.epam.jwd.controller.command.impl;
 
 import com.epam.jwd.controller.command.Command;
-import com.epam.jwd.controller.command.ResponseContext;
+import com.epam.jwd.controller.command.response_context.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContext;
 import com.epam.jwd.service.dto.user_account.ClientDTO;
 import com.epam.jwd.service.dto.user_account.UserDTO;
@@ -14,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
 
 public class AuthorisationCommand implements Command {
 

@@ -1,7 +1,7 @@
 package com.epam.jwd.controller.command.impl.show_page;
 
 import com.epam.jwd.controller.command.Command;
-import com.epam.jwd.controller.command.ResponseContext;
+import com.epam.jwd.controller.command.response_context.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContext;
 
 public class ShowAddCreditCardPageCommand implements Command {
