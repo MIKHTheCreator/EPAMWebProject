@@ -1,6 +1,7 @@
 package com.epam.jwd.controller.command.impl;
 
 import com.epam.jwd.controller.command.Command;
+import com.epam.jwd.controller.command.response_context.ErrorResponseContext;
 import com.epam.jwd.controller.command.response_context.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContext;
 import com.epam.jwd.service.dto.user_account.UserDTO;
@@ -20,7 +21,6 @@ public class EditUserCommand implements Command {
     private static final Command INSTANCE = new EditUserCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/user_info.jsp";
     private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/edit_user_info.jsp";
-    private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String FIRST_NAME_ATTRIBUTE = "firstName";
     private static final String SECOND_NAME_ATTRIBUTE = "secondName";
@@ -32,6 +32,9 @@ public class EditUserCommand implements Command {
     private static final String SUCCESSFUL_USER_UPDATE = "Data has been updated";
 
     private static final Logger log = LogManager.getLogger(EditUserCommand.class);
+
+    private EditUserCommand() {
+    }
 
     private static final ResponseContext SUCCESS_EDIT_USER_CONTEXT = new ResponseContext() {
         @Override
@@ -57,17 +60,7 @@ public class EditUserCommand implements Command {
         }
     };
 
-    private static final ResponseContext ERROR_CONTEXT = new ResponseContext() {
-        @Override
-        public String getPage() {
-            return ERROR_PAGE_PATH;
-        }
-
-        @Override
-        public boolean isRedirect() {
-            return false;
-        }
-    };
+    private static final ResponseContext ERROR_CONTEXT = ErrorResponseContext.getInstance();
 
     public static Command getInstance() {
         return INSTANCE;
@@ -109,25 +102,25 @@ public class EditUserCommand implements Command {
         String phoneNumber = context.getParameterByName(PHONE_NUMBER_ATTRIBUTE);
         int age = Integer.parseInt(context.getParameterByName(AGE_ATTRIBUTE));
 
-        if(firstName.isBlank()) {
+        if (firstName.isBlank()) {
             user.setFirstName(user.getFirstName());
         } else {
             user.setFirstName(firstName);
         }
 
-        if(secondName.isBlank()) {
+        if (secondName.isBlank()) {
             user.setSecondName(user.getSecondName());
         } else {
             user.setSecondName(secondName);
         }
 
-        if(phoneNumber.isBlank()) {
+        if (phoneNumber.isBlank()) {
             user.setPhoneNumber(user.getPhoneNumber());
         } else {
             user.setPhoneNumber(phoneNumber);
         }
 
-        if(age == 0) {
+        if (age == 0) {
             user.setAge(user.getAge());
         } else {
             user.setAge(age);
