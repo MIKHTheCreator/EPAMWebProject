@@ -1,6 +1,7 @@
 package com.epam.jwd.controller.command.impl;
 
 import com.epam.jwd.controller.command.Command;
+import com.epam.jwd.controller.command.response_context.ErrorResponseContext;
 import com.epam.jwd.controller.command.response_context.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContext;
 import com.epam.jwd.service.dto.user_account.ClientDTO;
@@ -23,7 +24,6 @@ public class AuthorisationCommand implements Command {
     private static final Command INSTANCE = new AuthorisationCommand();
     private static final String PAGE_PATH = "WEB-INF/jsp/user_info.jsp";
     private static final String FAIL_PAGE_PATH = "WEB-INF/jsp/login.jsp";
-    private static final String ERROR_PATH = "WEB-INF/jsp/error.jsp";
     private static final String USERNAME_ATTRIBUTE = "username";
     private static final String PASSWORD_ATTRIBUTE = "password";
     private static final String NAME_ATTRIBUTE = "name";
@@ -60,17 +60,7 @@ public class AuthorisationCommand implements Command {
         }
     };
 
-    private static final ResponseContext ERROR_CONTEXT = new ResponseContext() {
-        @Override
-        public String getPage() {
-            return ERROR_PATH;
-        }
-
-        @Override
-        public boolean isRedirect() {
-            return true;
-        }
-    };
+    private static final ResponseContext ERROR_CONTEXT = ErrorResponseContext.getInstance();
 
     public static Command getInstance() {
         return INSTANCE;
@@ -96,7 +86,7 @@ public class AuthorisationCommand implements Command {
                 UserDTO user = userService.findUserByClientId(client.getId());
                 session.setAttribute(CURRENT_USER_ATTRIBUTE, user);
                 session.setAttribute(CURRENT_CLIENT_ATTRIBUTE, client);
-                session.setAttribute(NAME_ATTRIBUTE, user.getFirstName() +"\s" + user.getSecondName());
+                session.setAttribute(NAME_ATTRIBUTE, user.getFirstName() + "\s" + user.getSecondName());
             } else {
                 context.addAttributeToJsp(MESSAGE_ATTRIBUTE, MESSAGE);
                 return FAIL_AUTHORIZATION_CONTEXT;
