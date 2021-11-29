@@ -16,8 +16,6 @@ public class BlockUsersBankAccountCommand implements Command {
     private static final Command INSTANCE = new BlockUsersBankAccountCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/credit_cards.jsp";
     private static final String BANK_ACCOUNT_ID_ATTRIBUTE = "bankAccountId";
-    private static final String BANK_ACCOUNT_BALANCE_ATTRIBUTE = "bankAccountBalance";
-    private static final String BANK_ACCOUNT_CURRENCY_ATTRIBUTE = "bankAccountCurrency";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String ERROR_MESSAGE = "Can't update bank account status";
     private static final String MESSAGE_ATTRIBUTE = "message";
@@ -58,7 +56,7 @@ public class BlockUsersBankAccountCommand implements Command {
             context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());
         }
 
-        if(isDone) {
+        if (isDone) {
             context.addAttributeToJsp(MESSAGE_ATTRIBUTE, MESSAGE);
         } else {
             context.addAttributeToJsp(ERROR_ATTRIBUTE, FAIL_MESSAGE);
