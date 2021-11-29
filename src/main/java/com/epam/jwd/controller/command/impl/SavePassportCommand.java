@@ -1,6 +1,7 @@
 package com.epam.jwd.controller.command.impl;
 
 import com.epam.jwd.controller.command.Command;
+import com.epam.jwd.controller.command.response_context.ErrorResponseContext;
 import com.epam.jwd.controller.command.response_context.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContext;
 import com.epam.jwd.service.api.Service;
@@ -21,16 +22,14 @@ public class SavePassportCommand implements Command {
 
     private final Service<PassportDTO, Integer> passportService = new PassportService();
     private final UserService userService = new UserService();
-    private final Validator<PassportDTO, Integer> validator = new PassportValidator();
+    private final Validator<PassportDTO, Integer> validator = PassportValidator.getInstance();
     private static final Command INSTANCE = new SavePassportCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/user_info.jsp";
     private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/passport_creation.jsp";
-    private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String SERIA_AND_NUMBER_ATTRIBUTE = "seriaAndNumber";
     private static final String PERSONAL_NUMBER_ATTRIBUTE = "personalNumber";
     private static final String EXPIRATION_DATE_ATTRIBUTE = "expirationDate";
-    private static final String PASSPORT_ATTRIBUTE = "passport";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String SUCCESSFUL_PASSPORT_CREATION = "Passport data was created";
@@ -62,17 +61,7 @@ public class SavePassportCommand implements Command {
         }
     };
 
-    private static final ResponseContext ERROR_CONTEXT = new ResponseContext() {
-        @Override
-        public String getPage() {
-            return ERROR_PAGE_PATH;
-        }
-
-        @Override
-        public boolean isRedirect() {
-            return false;
-        }
-    };
+    private static final ResponseContext ERROR_CONTEXT = ErrorResponseContext.getInstance();
 
     public static Command getInstance() {
         return INSTANCE;
@@ -106,8 +95,6 @@ public class SavePassportCommand implements Command {
             session.setAttribute(USER_ATTRIBUTE, user);
             context.addAttributeToJsp(MESSAGE_ATTRIBUTE, SUCCESSFUL_PASSPORT_CREATION);
         } catch (ServiceException e) {
-            System.out.println("Here");
-            e.printStackTrace();
             log.error(ERROR_MESSAGE, e);
             context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());
             return FAIL_PASSPORT_CONTEXT;
