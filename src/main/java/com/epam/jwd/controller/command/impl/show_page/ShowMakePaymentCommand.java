@@ -9,6 +9,9 @@ public class ShowMakePaymentCommand implements Command {
     private static final Command INSTANCE = new ShowMakePaymentCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/create_payment.jsp";
 
+    private ShowMakePaymentCommand() {
+    }
+
     private static final ResponseContext SHOW_MAKE_PAYMENT_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {

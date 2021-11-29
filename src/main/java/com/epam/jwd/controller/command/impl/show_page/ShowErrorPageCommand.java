@@ -9,6 +9,9 @@ public class ShowErrorPageCommand implements Command {
     private static final Command INSTANCE = new ShowErrorPageCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/error.jsp";
 
+    private ShowErrorPageCommand() {
+    }
+
     private static final ResponseContext SHOW_ERROR_PAGE_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {

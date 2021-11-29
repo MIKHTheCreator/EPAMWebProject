@@ -22,6 +22,9 @@ public class BlockUsersBankAccountCommand implements Command {
     private static final String MESSAGE = "User is successfully blocked";
     private static final String FAIL_MESSAGE = "Account can't be blocked";
 
+    private BlockUsersBankAccountCommand() {
+    }
+
     private static final Logger log = LogManager.getLogger(BlockUsersBankAccountCommand.class);
 
     private static final ResponseContext BLOCK_USERS_CREDIT_CARD_CONTEXT = new ResponseContext() {

@@ -9,6 +9,9 @@ public class ShowMainPageCommand implements Command {
     private static final Command INSTANCE = new ShowMainPageCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/main.jsp";
 
+    private ShowMainPageCommand() {
+    }
+
     private static final ResponseContext SHOW_MAIN_PAGE_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {

@@ -9,6 +9,9 @@ public class ShowAddCreditCardPageCommand implements Command {
     private static final Command INSTANCE = new ShowAddCreditCardPageCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/create_credit_card.jsp";
 
+    private ShowAddCreditCardPageCommand() {
+    }
+
     private static final ResponseContext SHOW_ADD_CREDIT_CARD_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {

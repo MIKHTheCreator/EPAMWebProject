@@ -8,6 +8,10 @@ public class ShowEditPassportPageCommand implements Command {
 
     private static final Command INSTANCE = new ShowEditPassportPageCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/passport_creation.jsp";
+
+    private ShowEditPassportPageCommand() {
+    }
+
     private static final ResponseContext SHOW_EDIT_PASSPORT_PAGE_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {

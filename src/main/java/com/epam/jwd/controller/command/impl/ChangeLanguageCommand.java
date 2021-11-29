@@ -13,6 +13,9 @@ public class ChangeLanguageCommand implements Command {
     private static final String LANGUAGE_ATTRIBUTE = "language";
     private static final String PAGE_PATH = "/WEB-INF/jsp/main.jsp";
 
+    private ChangeLanguageCommand() {
+    }
+
     private static final ResponseContext CHANGE_LANGUAGE_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {

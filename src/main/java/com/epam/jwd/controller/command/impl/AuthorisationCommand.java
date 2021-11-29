@@ -36,6 +36,9 @@ public class AuthorisationCommand implements Command {
 
     private static final Logger log = LogManager.getLogger(AuthorisationCommand.class);
 
+    private AuthorisationCommand() {
+    }
+
     private static final ResponseContext SUCCESSFUL_AUTHORISATION_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {

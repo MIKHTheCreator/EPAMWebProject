@@ -8,6 +8,10 @@ public class ShowRegistrationPageCommand implements Command {
 
     private static final Command INSTANCE = new ShowRegistrationPageCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/registration.jsp";
+
+    private ShowRegistrationPageCommand() {
+    }
+
     private static final ResponseContext SHOW_REGISTRATION_PAGE_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {

@@ -9,6 +9,9 @@ public class ShowEditUserInfoPageCommand implements Command {
     private static final Command INSTANCE = new ShowEditUserInfoPageCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/edit_user_info.jsp";
 
+    private ShowEditUserInfoPageCommand() {
+    }
+
     private static final ResponseContext SHOW_EDIT_USER_INFO_PAGE_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {

@@ -8,6 +8,10 @@ public class ShowLogInPageCommand implements Command {
 
     private static final Command INSTANCE = new ShowLogInPageCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/login.jsp";
+
+    private ShowLogInPageCommand() {
+    }
+
     private static final ResponseContext SHOW_LOGIN_PAGE_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {

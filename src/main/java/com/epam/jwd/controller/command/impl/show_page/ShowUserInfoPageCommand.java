@@ -9,6 +9,9 @@ public class ShowUserInfoPageCommand implements Command {
     private static final Command INSTANCE = new ShowUserInfoPageCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/user_info.jsp";
 
+    private ShowUserInfoPageCommand() {
+    }
+
     private static final ResponseContext SHOW_USER_INFO_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {
