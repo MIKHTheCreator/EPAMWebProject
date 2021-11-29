@@ -1,6 +1,7 @@
 package com.epam.jwd.controller.command.impl;
 
 import com.epam.jwd.controller.command.Command;
+import com.epam.jwd.controller.command.response_context.ErrorResponseContext;
 import com.epam.jwd.controller.command.response_context.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContext;
 import com.epam.jwd.dao.entity.user_account.Gender;
@@ -19,10 +20,9 @@ import javax.servlet.http.HttpSession;
 public class SaveUserCommand implements Command {
 
     private final UserService userService = new UserService();
-    private final Validator<UserDTO, Integer> validator = new UserValidator();
+    private final Validator<UserDTO, Integer> validator = UserValidator.getInstance();
     private static final Command INSTANCE = new SaveUserCommand();
     private static final String FILL_USERDATA_PAGE = "/WEB-INF/jsp/user_info.jsp";
-    private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/create_account.jsp";
 
     private static final String FIRST_NAME_ATTRIBUTE = "firstName";
@@ -63,17 +63,7 @@ public class SaveUserCommand implements Command {
         }
     };
 
-    private static final ResponseContext ERROR_CONTEXT = new ResponseContext() {
-        @Override
-        public String getPage() {
-            return ERROR_PAGE_PATH;
-        }
-
-        @Override
-        public boolean isRedirect() {
-            return false;
-        }
-    };
+    private static final ResponseContext ERROR_CONTEXT = ErrorResponseContext.getInstance();
 
     public static Command getInstance() {
         return INSTANCE;
@@ -96,15 +86,7 @@ public class SaveUserCommand implements Command {
         String gender = context.getParameterByName(GENDER_ATTRIBUTE);
 
         try {
-            UserDTO user = new UserDTO.Builder()
-                    .withFirstName(firstName)
-                    .withSecondName(secondName)
-                    .withPhoneNumber(phoneNumber)
-                    .withAge(age)
-                    .withGender(Gender.valueOf(gender.toUpperCase()))
-                    .withClientId(clientDTO.getId())
-                    .withRole(Role.USER)
-                    .build();
+            UserDTO user = createUser(firstName, secondName, phoneNumber, age, gender, clientDTO);
 
             validator.validate(user);
 
@@ -119,5 +101,18 @@ public class SaveUserCommand implements Command {
 
 
         return SUCCESSFUL_SAVE_USER_RESPONSE_CONTEXT;
+    }
+
+    private UserDTO createUser(String firstName, String secondName, String phoneNumber,
+                               Integer age, String gender, ClientDTO clientDTO) {
+        return new UserDTO.Builder()
+                .withFirstName(firstName)
+                .withSecondName(secondName)
+                .withPhoneNumber(phoneNumber)
+                .withAge(age)
+                .withGender(Gender.valueOf(gender.toUpperCase()))
+                .withClientId(clientDTO.getId())
+                .withRole(Role.USER)
+                .build();
     }
 }
