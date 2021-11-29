@@ -1,6 +1,7 @@
 package com.epam.jwd.controller.command.impl;
 
 import com.epam.jwd.controller.command.Command;
+import com.epam.jwd.controller.command.response_context.ErrorResponseContext;
 import com.epam.jwd.controller.command.response_context.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContext;
 import com.epam.jwd.service.api.Service;
@@ -21,13 +22,12 @@ import java.time.LocalDate;
 
 public class SavePaymentCommand implements Command {
 
-    private final Validator<PaymentDTO, Integer> validator = new PaymentValidator();
+    private final Validator<PaymentDTO, Integer> validator = PaymentValidator.getInstance();
     private final PaymentService paymentService = new PaymentService();
     private final Service<BankAccountDTO, Integer> bankAccountService = new BankAccountService();
     private static final Command INSTANCE = new SavePaymentCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/payments.jsp";
     private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/create_payment.jsp";
-    private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String SUM_ATTRIBUTE = "sum";
     private static final String DATE_ATTRIBUTE = "date";
@@ -66,17 +66,7 @@ public class SavePaymentCommand implements Command {
         }
     };
 
-    private static final ResponseContext ERROR_PAGE_CONTEXT = new ResponseContext() {
-        @Override
-        public String getPage() {
-            return ERROR_PAGE_PATH;
-        }
-
-        @Override
-        public boolean isRedirect() {
-            return false;
-        }
-    };
+    private static final ResponseContext ERROR_PAGE_CONTEXT = ErrorResponseContext.getInstance();
 
     public static Command getInstance() {
         return INSTANCE;
@@ -100,14 +90,7 @@ public class SavePaymentCommand implements Command {
 
         UserDTO user = (UserDTO) session.getAttribute(USER_ATTRIBUTE);
 
-        PaymentDTO payment = new PaymentDTO.Builder()
-                .withSumOfPayment(sum)
-                .withDateOfPayment(date)
-                .withPaymentOrganization(organization)
-                .withPaymentGoal(goal)
-                .withBankAccountId(bankAccountId)
-                .withUserId(user.getId())
-                .build();
+        PaymentDTO payment = createPayment(sum, date, organization, goal, bankAccountId, user);
 
         boolean isDone = false;
         try {
@@ -131,5 +114,17 @@ public class SavePaymentCommand implements Command {
         }
 
         return SAVE_PAYMENT_CONTEXT;
+    }
+
+    private PaymentDTO createPayment(BigDecimal sum, LocalDate date, String organization,
+                                     String goal, Integer bankAccountId, UserDTO user) {
+        return new PaymentDTO.Builder()
+                .withSumOfPayment(sum)
+                .withDateOfPayment(date)
+                .withPaymentOrganization(organization)
+                .withPaymentGoal(goal)
+                .withBankAccountId(bankAccountId)
+                .withUserId(user.getId())
+                .build();
     }
 }
