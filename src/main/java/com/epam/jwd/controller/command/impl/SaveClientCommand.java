@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 public class SaveClientCommand implements Command {
 
     private final ClientService clientService = new ClientService();
-    private final Validator<ClientDTO, Integer> validator = new ClientValidator();
+    private final Validator<ClientDTO, Integer> validator = ClientValidator.getInstance();
     private static final Command INSTANCE = new SaveClientCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/create_account.jsp";
     private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/registration.jsp";

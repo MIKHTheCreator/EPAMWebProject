@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 public class EditUserCommand implements Command {
 
     private final UserService userService = new UserService();
-    private final Validator<UserDTO, Integer> validator = new UserValidator();
+    private final Validator<UserDTO, Integer> validator = UserValidator.getInstance();
     private static final Command INSTANCE = new EditUserCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/user_info.jsp";
     private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/edit_user_info.jsp";
