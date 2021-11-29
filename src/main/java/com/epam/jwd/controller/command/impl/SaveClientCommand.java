@@ -1,6 +1,7 @@
 package com.epam.jwd.controller.command.impl;
 
 import com.epam.jwd.controller.command.Command;
+import com.epam.jwd.controller.command.response_context.ErrorResponseContext;
 import com.epam.jwd.controller.command.response_context.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContext;
 import com.epam.jwd.service.dto.user_account.ClientDTO;
@@ -20,7 +21,6 @@ public class SaveClientCommand implements Command {
     private static final Command INSTANCE = new SaveClientCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/create_account.jsp";
     private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/registration.jsp";
-    private static final String ERROR_PAGE_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String PASSWORD_PARAM = "password";
     private static final String EMAIL_PARAM = "email";
     private static final String USERNAME_PARAM = "username";
@@ -57,17 +57,7 @@ public class SaveClientCommand implements Command {
         }
     };
 
-    private final ResponseContext ERROR_CONTEXT = new ResponseContext() {
-        @Override
-        public String getPage() {
-            return ERROR_PAGE_PATH;
-        }
-
-        @Override
-        public boolean isRedirect() {
-            return false;
-        }
-    };
+    private final ResponseContext ERROR_CONTEXT = ErrorResponseContext.getInstance();
 
     private SaveClientCommand() {
     }
@@ -105,11 +95,7 @@ public class SaveClientCommand implements Command {
         }
 
         if (isRegistrationSuccessful) {
-            ClientDTO client = new ClientDTO();
-            client.setUsername(username);
-            client.setEmail(email);
-            client.setPassword(password);
-            client.setId(clientId);
+            ClientDTO client = createClient(username, email, password, clientId);
             session.setAttribute(CURRENT_CLIENT_ATTRIBUTE_NAME, client);
             context.addAttributeToJsp(MESSAGE_ATTRIBUTE, REGISTRATION_COMPLETED_MESSAGE);
         } else {
@@ -118,5 +104,14 @@ public class SaveClientCommand implements Command {
         }
 
         return SUCCESSFUL_SAVE_CLIENT_CONTEXT;
+    }
+
+    private ClientDTO createClient(String username, String email, String password, Integer id) {
+        ClientDTO client = new ClientDTO();
+        client.setUsername(username);
+        client.setEmail(email);
+        client.setPassword(password);
+        client.setId(id);
+        return client;
     }
 }
