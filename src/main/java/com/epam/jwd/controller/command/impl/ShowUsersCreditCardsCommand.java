@@ -9,6 +9,7 @@ import com.epam.jwd.service.impl.payment_system.CreditCardService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class ShowUsersCreditCardsCommand implements Command {
@@ -16,6 +17,7 @@ public class ShowUsersCreditCardsCommand implements Command {
     private final CreditCardService creditCardService = new CreditCardService();
     private static final Command INSTANCE = new ShowUsersCreditCardsCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/credit_cards.jsp";
+    private static final String ERROR_PATH = "/WEB-INF/jsp/error.jsp";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String ERROR_MESSAGE = "Can't find any credit cards";
     private static final String CREDIT_CARDS_ATTRIBUTE = "creditCards";
@@ -35,6 +37,18 @@ public class ShowUsersCreditCardsCommand implements Command {
         }
     };
 
+    private static final ResponseContext ERROR_CONTEXT = new ResponseContext() {
+        @Override
+        public String getPage() {
+            return ERROR_PATH;
+        }
+
+        @Override
+        public boolean isRedirect() {
+            return false;
+        }
+    };
+
     public static Command getInstance() {
         return INSTANCE;
     }
@@ -42,11 +56,19 @@ public class ShowUsersCreditCardsCommand implements Command {
     @Override
     public ResponseContext execute(RequestContext context) {
 
+        HttpSession session;
+
+        if(context.getCurrentSession().isPresent()) {
+            session = context.getCurrentSession().get();
+        } else {
+            return ERROR_CONTEXT;
+        }
+
         Integer userId = Integer.valueOf(context.getParameterByName(USER_ID_ATTRIBUTE));
 
         try {
             List<CreditCardDTO> creditCards = creditCardService.findCreditCardsByUserId(userId);
-            context.addAttributeToJsp(CREDIT_CARDS_ATTRIBUTE, creditCards);
+            session.setAttribute(CREDIT_CARDS_ATTRIBUTE, creditCards);
         } catch (ServiceException e) {
             log.error(ERROR_MESSAGE, e);
             context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());
