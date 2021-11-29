@@ -17,6 +17,15 @@ import static com.epam.jwd.service.message.ExceptionMessage.USERNAME_CORRESPOND_
 
 public class ClientValidator implements Validator<ClientDTO, Integer> {
 
+    private static final Validator<ClientDTO, Integer> INSTANCE = new ClientValidator();
+
+    private ClientValidator() {
+    }
+
+    public static Validator<ClientDTO, Integer> getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public void validate(ClientDTO clientDTO) throws ServiceException {
         isValidUsername(clientDTO.getUsername());

@@ -16,6 +16,15 @@ import static com.epam.jwd.service.message.ExceptionMessage.INVALID_BALANCE_EXCE
 
 public class BankAccountValidator implements Validator<BankAccountDTO, Integer> {
 
+    private static final Validator<BankAccountDTO, Integer> INSTANCE = new BankAccountValidator();
+
+    private BankAccountValidator() {
+    }
+
+    public static Validator<BankAccountDTO, Integer> getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public void validate(BankAccountDTO bankAccountDTO) throws ServiceException {
         isValidBalance(bankAccountDTO.getBalance());

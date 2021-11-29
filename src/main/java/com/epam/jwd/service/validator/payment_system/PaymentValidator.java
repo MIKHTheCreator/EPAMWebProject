@@ -22,6 +22,15 @@ import static com.epam.jwd.service.message.ExceptionMessage.POSITIVE_PAYMENT_EXC
 
 public class PaymentValidator implements Validator<PaymentDTO, Integer> {
 
+    private static final Validator<PaymentDTO, Integer> INSTANCE = new PaymentValidator();
+
+    private PaymentValidator() {
+    }
+
+    public static Validator<PaymentDTO, Integer> getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public void validate(PaymentDTO paymentDTO) throws ServiceException {
         isValidSum(paymentDTO.getSumOfPayment());

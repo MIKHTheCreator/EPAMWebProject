@@ -18,6 +18,15 @@ import static com.epam.jwd.service.message.ExceptionMessage.SERIA_AND_NUMBER_MIS
 
 public class PassportValidator implements Validator<PassportDTO, Integer> {
 
+    private static final Validator<PassportDTO, Integer> INSTANCE = new PassportValidator();
+
+    private PassportValidator() {
+    }
+
+    public static Validator<PassportDTO, Integer> getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public void validate(PassportDTO passportDTO) throws ServiceException {
         isValidSeriaAndNumber(passportDTO.getSeriaAndNumber());

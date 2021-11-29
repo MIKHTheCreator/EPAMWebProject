@@ -24,6 +24,15 @@ import static com.epam.jwd.service.message.ExceptionMessage.PIN_FORMAT_EXCEPTION
 
 public class CreditCardValidator implements Validator<CreditCardDTO, Integer> {
 
+    private static final Validator<CreditCardDTO, Integer> INSTANCE = new CreditCardValidator();
+
+    private CreditCardValidator() {
+    }
+
+    public static Validator<CreditCardDTO, Integer> getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public void validate(CreditCardDTO creditCardDTO) throws ServiceException {
         isValidCreditCardNumber(creditCardDTO.getNumber());

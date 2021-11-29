@@ -23,6 +23,15 @@ import static com.epam.jwd.service.message.ExceptionMessage.SECOND_NAME_LENGTH_E
 
 public class UserValidator implements Validator<UserDTO, Integer> {
 
+    private static final Validator<UserDTO, Integer> INSTANCE = new UserValidator();
+
+    private UserValidator() {
+    }
+
+    public static Validator<UserDTO, Integer> getInstance() {
+        return INSTANCE;
+    }
+
     @Override
     public void validate(UserDTO userDTO) throws ServiceException {
         isValidFirstName(userDTO.getFirstName());
