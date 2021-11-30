@@ -19,6 +19,7 @@ public interface ValidatorConfig {
 
     String PHONE_NUMBER_PATTERN = "^375(25|44|29|33)\\d{7}$";
 
+    String AGE_PATTERN = "^\\d{1,3}$";
     Integer MIN_AGE = 14;
     Integer MAX_AGE = 100;
 

@@ -11,6 +11,7 @@ import com.epam.jwd.service.dto.user_account.UserDTO;
 import com.epam.jwd.service.exception.ServiceException;
 import com.epam.jwd.service.impl.user_account.UserService;
 import com.epam.jwd.service.validator.Validator;
+import com.epam.jwd.service.validator.input_validator.InputValidator;
 import com.epam.jwd.service.validator.user_account.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,12 +20,12 @@ import javax.servlet.http.HttpSession;
 
 public class SaveUserCommand implements Command {
 
+    private final InputValidator inputValidator = InputValidator.getInstance();
     private final UserService userService = new UserService();
     private final Validator<UserDTO, Integer> validator = UserValidator.getInstance();
     private static final Command INSTANCE = new SaveUserCommand();
     private static final String FILL_USERDATA_PAGE = "/WEB-INF/jsp/user_info.jsp";
     private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/create_account.jsp";
-
     private static final String FIRST_NAME_ATTRIBUTE = "firstName";
     private static final String SECOND_NAME_ATTRIBUTE = "secondName";
     private static final String PHONE_NUMBER_ATTRIBUTE = "phoneNumber";
@@ -82,7 +83,13 @@ public class SaveUserCommand implements Command {
         String firstName = context.getParameterByName(FIRST_NAME_ATTRIBUTE);
         String secondName = context.getParameterByName(SECOND_NAME_ATTRIBUTE);
         String phoneNumber = context.getParameterByName(PHONE_NUMBER_ATTRIBUTE);
-        Integer age = Integer.parseInt(context.getParameterByName(AGE_ATTRIBUTE));
+        String ageString = context.getParameterByName(AGE_ATTRIBUTE);
+        int age;
+        if(inputValidator.isValidAgeFormat(ageString)) {
+            age = Integer.parseInt(ageString);
+        } else {
+            return provideWithFailContext(context);
+        }
         String gender = context.getParameterByName(GENDER_ATTRIBUTE);
 
         try {
@@ -95,8 +102,7 @@ public class SaveUserCommand implements Command {
             session.setAttribute(CURRENT_USER_ATTRIBUTE, user);
         } catch (ServiceException e) {
             log.error(ERROR_MESSAGE, e);
-            context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());
-            return SAVE_USER_RESPONSE_FAIL_CONTEXT;
+            return provideWithFailContext(context);
         }
 
 
@@ -114,5 +120,10 @@ public class SaveUserCommand implements Command {
                 .withClientId(clientDTO.getId())
                 .withRole(Role.USER)
                 .build();
+    }
+
+    private ResponseContext provideWithFailContext(RequestContext context) {
+        context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE);
+        return SAVE_USER_RESPONSE_FAIL_CONTEXT;
     }
 }
