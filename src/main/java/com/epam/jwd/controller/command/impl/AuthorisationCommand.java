@@ -91,8 +91,7 @@ public class AuthorisationCommand implements Command {
                 session.setAttribute(CURRENT_CLIENT_ATTRIBUTE, client);
                 session.setAttribute(NAME_ATTRIBUTE, user.getFirstName() + "\s" + user.getSecondName());
             } else {
-                context.addAttributeToJsp(MESSAGE_ATTRIBUTE, MESSAGE);
-                return FAIL_AUTHORIZATION_CONTEXT;
+                return provideWithFailResponse(context);
             }
 
         } catch (ServiceException e) {
@@ -101,5 +100,10 @@ public class AuthorisationCommand implements Command {
         }
 
         return SUCCESSFUL_AUTHORISATION_CONTEXT;
+    }
+
+    private ResponseContext provideWithFailResponse(RequestContext context) {
+        context.addAttributeToJsp(MESSAGE_ATTRIBUTE, MESSAGE);
+        return FAIL_AUTHORIZATION_CONTEXT;
     }
 }

@@ -16,8 +16,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static com.epam.jwd.dao.message.ClientDAOMessage.*;
 import static com.epam.jwd.dao.message.ExceptionMessage.DELETE_EXCEPTION;
@@ -105,7 +105,7 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
             statement = connection.prepareStatement(SQL_FIND_BY_ID_CLIENT_QUERY);
             statement.setInt(1, id);
 
-            client = findClient(statement);
+            client = findClient(statement).orElse(new Client());
         } catch (SQLException exception) {
             log.error(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
             throw new DAOException(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
@@ -156,7 +156,7 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
             statement = connection.prepareStatement(SQL_FIND_BY_USERNAME_CLIENT_QUERY);
             statement.setString(1, username);
 
-            client = findClient(statement);
+            client = findClient(statement).orElse(new Client());
         } catch (SQLException exception) {
             log.error(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
             throw new DAOException(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
@@ -190,15 +190,15 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
         }
     }
 
-    private Client findClient(PreparedStatement statement) throws SQLException {
+    private Optional<Client> findClient(PreparedStatement statement) throws SQLException {
 
         try (statement; ResultSet resultSet = statement.executeQuery()) {
 
             if (resultSet.next()) {
-                return createClient(resultSet);
+                return Optional.of(createClient(resultSet));
             }
 
-            return null;
+            return Optional.empty();
         }
     }
 
