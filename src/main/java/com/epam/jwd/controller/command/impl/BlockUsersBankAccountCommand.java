@@ -20,6 +20,7 @@ public class BlockUsersBankAccountCommand implements Command {
     private static final String ERROR_MESSAGE = "Can't update bank account status";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String MESSAGE = "User is successfully blocked";
+    private static final String ALREADY_BLOCKED_MESSAGE = "User is already blocked";
     private static final String FAIL_MESSAGE = "Account can't be blocked";
 
     private BlockUsersBankAccountCommand() {
@@ -51,6 +52,12 @@ public class BlockUsersBankAccountCommand implements Command {
         boolean isDone = false;
         try {
             BankAccountDTO bankAccount = bankAccountService.findById(bankAccountId);
+            if (bankAccount.isBlocked()) {
+                isDone = true;
+                context.addAttributeToJsp(MESSAGE_ATTRIBUTE, ALREADY_BLOCKED_MESSAGE);
+                return BLOCK_USERS_CREDIT_CARD_CONTEXT;
+            }
+
             bankAccount.setBlocked(true);
             bankAccountService.update(bankAccount);
             isDone = true;
