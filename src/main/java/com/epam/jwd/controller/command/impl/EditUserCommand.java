@@ -8,6 +8,7 @@ import com.epam.jwd.service.dto.user_account.UserDTO;
 import com.epam.jwd.service.exception.ServiceException;
 import com.epam.jwd.service.impl.user_account.UserService;
 import com.epam.jwd.service.validator.Validator;
+import com.epam.jwd.service.validator.input_validator.InputValidator;
 import com.epam.jwd.service.validator.user_account.UserValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 
 public class EditUserCommand implements Command {
 
+    private final InputValidator inputValidator = InputValidator.getInstance();
     private final UserService userService = new UserService();
     private final Validator<UserDTO, Integer> validator = UserValidator.getInstance();
     private static final Command INSTANCE = new EditUserCommand();
@@ -76,8 +78,21 @@ public class EditUserCommand implements Command {
             return ERROR_CONTEXT;
         }
 
+        UserDTO user = (UserDTO) session.getAttribute(USER_ATTRIBUTE);
+        String firstName = context.getParameterByName(FIRST_NAME_ATTRIBUTE);
+        String secondName = context.getParameterByName(SECOND_NAME_ATTRIBUTE);
+        String phoneNumber = context.getParameterByName(PHONE_NUMBER_ATTRIBUTE);
+        String stringAge = context.getParameterByName(AGE_ATTRIBUTE);
+        int age;
+        if (inputValidator.isValidAgeFormat(stringAge)) {
+            age = Integer.parseInt(stringAge);
+        } else {
+            return provideWithFailContext(context);
+        }
+
         try {
-            UserDTO user = fillUserForm(context, session);
+
+            fillUserForm(firstName, user, secondName, phoneNumber, age);
 
             validator.validate(user);
 
@@ -94,13 +109,8 @@ public class EditUserCommand implements Command {
         return SUCCESS_EDIT_USER_CONTEXT;
     }
 
-    private UserDTO fillUserForm(RequestContext context, HttpSession session) {
-
-        UserDTO user = (UserDTO) session.getAttribute(USER_ATTRIBUTE);
-        String firstName = context.getParameterByName(FIRST_NAME_ATTRIBUTE);
-        String secondName = context.getParameterByName(SECOND_NAME_ATTRIBUTE);
-        String phoneNumber = context.getParameterByName(PHONE_NUMBER_ATTRIBUTE);
-        int age = Integer.parseInt(context.getParameterByName(AGE_ATTRIBUTE));
+    private void fillUserForm(String firstName, UserDTO user, String secondName,
+                              String phoneNumber, int age) {
 
         if (firstName.isBlank()) {
             user.setFirstName(user.getFirstName());
@@ -126,6 +136,10 @@ public class EditUserCommand implements Command {
             user.setAge(age);
         }
 
-        return user;
+    }
+
+    private ResponseContext provideWithFailContext(RequestContext context) {
+        context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE );
+        return FAIL_EDIT_USER_CONTEXT;
     }
 }
