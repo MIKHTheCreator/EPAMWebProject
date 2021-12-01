@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="ctg" uri="customtag" %>
@@ -80,17 +80,16 @@
                     </div>
                 </div>
 
-                <div class="control-group">
-                    <label class="control-label"  for="cvv">${cvv}</label>
-                    <div class="controls">
-                        <input type="password" id="cvv" name="cvv" placeholder="" class="span2">
-                    </div>
-                </div>
 
                 <div class="control-group">
                     <label class="control-label"  for="currency">${currency}</label>
                     <div class="controls">
-                        <input type="text" id="currency" name="currency" placeholder="" class="span2">
+                        <select class="span3" name="currency" id="currency">
+                            <option value="US">Select Currency...</option>
+                            <option value="EU">EU</option>
+                            <option value="BYN">BYN</option>
+                            <option value="US">US</option>
+                        </select>
                     </div>
                 </div>
 
