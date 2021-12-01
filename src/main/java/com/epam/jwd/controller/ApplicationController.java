@@ -34,11 +34,13 @@ public class ApplicationController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         process(request, response);
     }
 
-    private void process(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void process(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
         String commandName = request.getParameter(COMMAND_PARAMETER);
         Command command = Command.of(commandName);
         ResponseContext commandResult = command.execute(new RequestContextImpl(request));
