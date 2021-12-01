@@ -15,6 +15,7 @@
 <fmt:message bundle="${loc}" key="ccIsBlocked" var="ccIsBlocked"/>
 <fmt:message bundle="${loc}" key="makePaymentButton" var="makePaymentButton"/>
 <fmt:message bundle="${loc}" key="blockUsrButton" var="blockUsrButton"/>
+<fmt:message bundle="${loc}" key="unableToPay" var="unableToPay"/>
 
 <!DOCTYPE html>
 <html>
@@ -55,7 +56,14 @@
                                 <td>${creditCard.bankAccount.currency}</td>
                                 <td>${creditCard.bankAccount.balance}</td>
                                 <td>${creditCard.bankAccount.blocked}</td>
-                                <td class="text-center"><a class='btn btn-info btn-xs' href="${pageContext.request.contextPath}/bank?command=show_make_payment_page_command&bankAccountId=${creditCard.bankAccount.id}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                                <c:choose>
+                                    <c:when test="${creditCard.bankAccount.blocked eq false}">
+                                        <td class="text-center"><a class='btn btn-info btn-xs' href="${pageContext.request.contextPath}/bank?command=show_make_payment_page_command&bankAccountId=${creditCard.bankAccount.id}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td>${unableToPay}</td>
+                                    </c:otherwise>
+                                </c:choose>
                             </tr>
                         </c:forEach>
                     </c:when>
