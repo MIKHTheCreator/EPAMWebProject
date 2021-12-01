@@ -28,7 +28,7 @@
 
 <body>
 <%@include file="common_resource/header.jsp"%>
-    <div class="container">
+    <div class="container" style="padding-top: 40px; padding-bottom: 40px">
         <div class="row col-md-6 col-md-offset-2 custyle">
             <table class="table table-striped custab">
                 <thead>

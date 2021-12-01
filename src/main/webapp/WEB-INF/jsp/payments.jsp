@@ -26,7 +26,7 @@
 
 <body>
 <%@include file="common_resource/header.jsp"%>
-<div class="container">
+<div class="container" style="padding-top: 40px; padding-bottom: 40px">
     <div class="row">
         <p></p>
 

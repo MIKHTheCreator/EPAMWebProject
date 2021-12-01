@@ -1,8 +1,12 @@
 
 footer{
     background-color: #282d32;
-    padding:50px 0;
+    padding:20px 0;
     font-family: Roboto, serif;
+}
+
+.footer {
+    margin-top: auto;
 }
 
 footer ul li{
@@ -39,4 +43,11 @@ footer ul li{
     color:#9c9c9c;
     margin-right: 15px;
     font-size:14px;
+}
+
+.page {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 60vh;
 }

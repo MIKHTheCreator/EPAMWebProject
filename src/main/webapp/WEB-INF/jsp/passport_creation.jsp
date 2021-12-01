@@ -17,12 +17,12 @@
 <head>
     <title>Create Passport Page</title>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-csss">
 </head>
 
 <body>
 <%@include file="common_resource/header.jsp"%>
-<form class="form-horizontal" action="${pageContext.request.contextPath}/bank?command=save_passport_command" method="post" style="padding-bottom: 70px; padding-top: 92px; padding-left: 30px">
+<form class="form-horizontal" action="${pageContext.request.contextPath}/bank?command=save_passport_command" method="post" style="padding-top: 92px; padding-left: 30px">
     <fieldset>
         <div id="legend">
             <legend class="">${fillPassportInfo}</legend>

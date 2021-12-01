@@ -25,7 +25,7 @@
 
 <body>
 <%@include file="common_resource/header.jsp"%>
-<form class="form-horizontal" action="${pageContext.request.contextPath}/bank?command=save_user_command" method="post" style="padding-bottom: 20px; padding-top: 42px; padding-left: 30px">
+<form class="form-horizontal" action="${pageContext.request.contextPath}/bank?command=save_user_command" method="post" style="padding-top: 42px; padding-left: 30px">
     <fieldset>
         <div id="legend">
             <legend class="">${fillAccountInfo}</legend>
