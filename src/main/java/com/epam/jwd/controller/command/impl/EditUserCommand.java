@@ -30,6 +30,7 @@ public class EditUserCommand implements Command {
     private static final String AGE_ATTRIBUTE = "age";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String ERROR_ATTRIBUTE = "error";
+    private static final String USERNAME_ATTRIBUTE = "name";
     private static final String ERROR_MESSAGE = "Updating failed";
     private static final String SUCCESSFUL_USER_UPDATE = "Data has been updated";
 
@@ -100,6 +101,7 @@ public class EditUserCommand implements Command {
             context.addAttributeToJsp(USER_ATTRIBUTE, user);
             context.addAttributeToJsp(MESSAGE_ATTRIBUTE, SUCCESSFUL_USER_UPDATE);
             session.setAttribute(USER_ATTRIBUTE, user);
+            session.setAttribute(USERNAME_ATTRIBUTE, user.getFirstName() + "\s" + user.getSecondName());
         } catch (ServiceException e) {
             log.error(ERROR_MESSAGE, e);
             context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());
@@ -112,30 +114,29 @@ public class EditUserCommand implements Command {
     private void fillUserForm(String firstName, UserDTO user, String secondName,
                               String phoneNumber, int age) {
 
-        if (firstName.isBlank()) {
+        if (inputValidator.isEmptyString(firstName)) {
             user.setFirstName(user.getFirstName());
         } else {
             user.setFirstName(firstName);
         }
 
-        if (secondName.isBlank()) {
+        if (inputValidator.isEmptyString(secondName)) {
             user.setSecondName(user.getSecondName());
         } else {
             user.setSecondName(secondName);
         }
 
-        if (phoneNumber.isBlank()) {
+        if (inputValidator.isEmptyString(phoneNumber)) {
             user.setPhoneNumber(user.getPhoneNumber());
         } else {
             user.setPhoneNumber(phoneNumber);
         }
 
-        if (age == 0) {
+        if (inputValidator.isZeroField(age)) {
             user.setAge(user.getAge());
         } else {
             user.setAge(age);
         }
-
     }
 
     private ResponseContext provideWithFailContext(RequestContext context) {
