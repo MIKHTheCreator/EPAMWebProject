@@ -49,5 +49,5 @@ footer ul li{
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    min-height: 60vh;
+    min-height: 54vh;
 }

@@ -13,6 +13,8 @@
 <fmt:message bundle="${loc}" key="selectCurrency" var="selectCurrency"/>
 <fmt:message bundle="${loc}" key="ccCurrency" var="currency"/>
 <fmt:message bundle="${loc}" key="createButton" var="createButton"/>
+<fmt:message bundle="${loc}" key="fullNameError" var="fullNameError"/>
+<fmt:message bundle="${loc}" key="creditCardNumberError" var="creditCardNumberError"/>
 
 <!DOCTYPE html>
 <html>
@@ -35,14 +37,14 @@
                 <div class="control-group">
                     <label class="control-label"  for="fullName">${fullName}</label>
                     <div class="controls">
-                        <input type="text" id="fullName" name="fullName" placeholder="" class="input-xlarge" required pattern="^[\w\d\s\-]{1,70}$">
+                        <input type="text" id="fullName" name="fullName" placeholder="" class="input-xlarge" required pattern="^[\w\d\s\-]{1,70}$" title="${fullNameError}">
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label" for="creditCardNumber">${creditCardNumber}</label>
                     <div class="controls">
-                        <input type="text" id="creditCardNumber" name="creditCardNumber" placeholder="" class="input-xlarge" required pattern="^\d{16}$">
+                        <input type="text" id="creditCardNumber" name="creditCardNumber" placeholder="" class="input-xlarge" required pattern="^\d{16}$" title="${creditCardNumberError}">
                     </div>
                 </div>
 
