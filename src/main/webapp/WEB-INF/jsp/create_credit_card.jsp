@@ -10,7 +10,7 @@
 <fmt:message bundle="${loc}" key="ccfullName" var="fullName"/>
 <fmt:message bundle="${loc}" key="ccNumber" var="creditCardNumber"/>
 <fmt:message bundle="${loc}" key="expirationDate" var="expirationDate"/>
-<fmt:message bundle="${loc}" key="cvv" var="cvv"/>
+<fmt:message bundle="${loc}" key="selectCurrency" var="selectCurrency"/>
 <fmt:message bundle="${loc}" key="ccCurrency" var="currency"/>
 <fmt:message bundle="${loc}" key="createButton" var="createButton"/>
 
@@ -22,9 +22,9 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-csss">
 </head>
 
-<body>
+<body style="background: -webkit-linear-gradient(left, #3931af, #00c6ff);">
 <%@include file="common_resource/header.jsp"%>
-<div class="container">
+<div class="container" style="padding-top: 70px">
     <div class="row-fluid">
         <form class="form-horizontal" action="${pageContext.request.contextPath}/bank?command=save_credit_card_command" method="post">
             <fieldset>
@@ -35,21 +35,21 @@
                 <div class="control-group">
                     <label class="control-label"  for="fullName">${fullName}</label>
                     <div class="controls">
-                        <input type="text" id="fullName" name="fullName" placeholder="" class="input-xlarge">
+                        <input type="text" id="fullName" name="fullName" placeholder="" class="input-xlarge" required pattern="^[\w\d\s\-]{1,70}$">
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label" for="creditCardNumber">${creditCardNumber}</label>
                     <div class="controls">
-                        <input type="text" id="creditCardNumber" name="creditCardNumber" placeholder="" class="input-xlarge">
+                        <input type="text" id="creditCardNumber" name="creditCardNumber" placeholder="" class="input-xlarge" required pattern="^\d{16}$">
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label">${expirationDate}</label>
                     <div class="controls">
-                        <select class="span3" name="expirationMonth" id="expirationMonth">
+                        <select class="span3" name="expirationMonth" id="expirationMonth" required>
                             <option></option>
                             <option value="01">Jan (01)</option>
                             <option value="02">Feb (02)</option>
@@ -60,11 +60,11 @@
                             <option value="07">July (07)</option>
                             <option value="08">Aug (08)</option>
                             <option value="09">Sep (09)</option>
-                            <option value="10">Oct (10)</option>1
+                            <option value="10">Oct (10)</option>
                             <option value="11">Nov (11)</option>
                             <option value="12">Dec (12)</option>
                         </select>
-                        <select class="span2" name="expirationYear" id="expirationYear">
+                        <select class="span2" name="expirationYear" id="expirationYear" required>
                             <option value="2021">2021</option>
                             <option value="2022">2022</option>
                             <option value="2023">2023</option>
@@ -84,8 +84,8 @@
                 <div class="control-group">
                     <label class="control-label"  for="currency">${currency}</label>
                     <div class="controls">
-                        <select class="span3" name="currency" id="currency">
-                            <option value="US">Select Currency...</option>
+                        <select class="span3" name="currency" id="currency" required>
+                            <option value="US">${selectCurrency}</option>
                             <option value="EU">EU</option>
                             <option value="BYN">BYN</option>
                             <option value="US">US</option>
