@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="ctg" uri="customtag" %>
@@ -91,7 +91,7 @@
                                 <a href="${pageContext.request.contextPath}/bank?command=show_payments_command">${payments}</a><br/>
                                 <a href="${pageContext.request.contextPath}/bank?command=show_credit_cards_command">${creditCard}</a><br/>
                                 <c:choose>
-                                    <c:when test="${sessionScope.currentUser.passportId ne null}">
+                                    <c:when test="${not empty sessionScope.currentUser.passportId}">
                                         <p>${passportCreated}</p>
                                     </c:when>
                                     <c:otherwise>

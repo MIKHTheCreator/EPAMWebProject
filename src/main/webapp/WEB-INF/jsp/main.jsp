@@ -68,11 +68,8 @@
                 z-index: 9;
                 transition: all 1.6s cubic-bezier(0.86, 0, 0.07, 1);
             }
-            .hero.scrolled{
-                transform: translate3d(0, -100%, 0) scale(.75);
-                opacity: 0;
-            }
-            .hero-inner{
+
+          .hero-inner{
                 background-image: url('https://images.unsplash.com/photo-1607269911070-653c0ac22c5e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80');
                 background-size: cover;
                 background-position: center;
@@ -115,11 +112,8 @@
                 transform: translate3d(0, 20px, 0) scale(.75);
                 opacity: 0;
             }
-            .content.scrolled{
-                transform: translate3d(0, 0, 0) scale(1);
-                opacity: 1;
-            }
-            .sd{
+
+          .sd{
                 color: #fff;
                 position: absolute;
                 bottom: 20px;
@@ -136,7 +130,7 @@
 
     </head>
 
-    <body>
+    <body style="background: -webkit-linear-gradient(left, #3931af, #00c6ff);">
           <div class="hero">
             <div class="hero-inner">
                     <div class="hero-title">
