@@ -7,3 +7,7 @@
     padding-top: 90px;
 }
 
+body {
+    background: -webkit-linear-gradient(left, #3931af, #00c6ff);
+}
+
