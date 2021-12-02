@@ -184,6 +184,8 @@
                         <p style="padding-top: 47px">${fourthPart}</p>
                     </div>
                 </div>
+            </div>
+            <div class="container" style="padding-top: 60px">
                 <c:choose>
                     <c:when test="${not empty sessionScope.currentUser}">
                         <button-body>
