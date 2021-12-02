@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="ctg" uri="customtag" %>
@@ -34,14 +34,17 @@
                             <form accept-charset="UTF-8" role="form" action="${pageContext.request.contextPath}/bank?command=login" method="post">
                                 <fieldset>
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="username" name="username" type="text">
+                                        <input class="form-control" placeholder="username" name="username" type="text" required>
                                     </div>
                                     <div class="form-group">
-                                        <input class="form-control" placeholder="password" name="password" type="password">
+                                        <input class="form-control" placeholder="password" name="password" type="password" required>
                                     </div>
                                     <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
                                 </fieldset>
                             </form>
+                            <hr/>
+                            <center><h4>${orr}</h4></center>
+                            <a class="btn btn-lg btn-success btn-block" href="${pageContext.request.contextPath}/bank?command=show_registration_page_command" style="background-color: #3b5999"> Create Account</a>
                         </div>
                     </div>
                 </div>
