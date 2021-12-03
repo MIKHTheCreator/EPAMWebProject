@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="ctg" uri="customtag" %>
@@ -20,7 +20,7 @@
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-csss">
 </head>
 
-<body>
+<body style="background: -webkit-linear-gradient(left, #3931af, #00c6ff);">
 <%@include file="common_resource/header.jsp"%>
 <form class="form-horizontal" action="${pageContext.request.contextPath}/bank?command=save_passport_command" method="post" style="padding-top: 92px; padding-left: 30px">
     <fieldset>

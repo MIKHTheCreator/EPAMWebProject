@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib prefix="ctg" uri="customtag" %>
@@ -27,7 +27,7 @@
     </style>
 </head>
 
-<body>
+<body style="background: -webkit-linear-gradient(left, #3931af, #00c6ff);">
 <%@include file="common_resource/header.jsp"%>
     <div class="container" style="padding-top: 40px; padding-bottom: 40px">
         <div class="row col-md-6 col-md-offset-2 custyle">
