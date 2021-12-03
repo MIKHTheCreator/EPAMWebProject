@@ -13,6 +13,19 @@
 <fmt:message bundle="${loc}" key="ageMessage" var="ageMessage"/>
 <fmt:message bundle="${loc}" key="submitButton" var="submitButton"/>
 <fmt:message bundle="${loc}" key="genderMessage" var="genderMessage"/>
+<fmt:message bundle="${loc}" key="gender" var="gender"/>
+<fmt:message bundle="${loc}" key="selectGender" var="selectGender"/>
+<fmt:message bundle="${loc}" key="male" var="male"/>
+<fmt:message bundle="${loc}" key="female" var="female"/>
+<fmt:message bundle="${loc}" key="ns" var="ns"/>
+<fmt:message bundle="${loc}" key="firstName" var="firstName"/>
+<fmt:message bundle="${loc}" key="wrongFirstNameFormat" var="wrongFirstNameFormat"/>
+<fmt:message bundle="${loc}" key="secondName" var="scondName"/>
+<fmt:message bundle="${loc}" key="wrongSecondNameFormat" var="wrongSecondNameFormat"/>
+<fmt:message bundle="${loc}" key="phoneNumber" var="phoneNumber"/>
+<fmt:message bundle="${loc}" key="wrongPhoneNumberFormat" var="wrongPhoneNumberFormat"/>
+<fmt:message bundle="${loc}" key="age" var="age"/>
+<fmt:message bundle="${loc}" key="wrongAgeFormat" var="wrongAgeFormat"/>
 
 <!DOCTYPE html>
 <html>
@@ -31,42 +44,42 @@
             <legend class="">${fillAccountInfo}</legend>
         </div>
         <div class="control-group">
-            <label class="control-label"  for="firstName">First Name</label>
+            <label class="control-label"  for="firstName">${firstName}</label>
             <div class="controls">
-                <input type="text" id="firstName" name="firstName" placeholder="" class="input-xlarge">
-                <p class="help-block">${firstNameMessage}</p>
+                <input type="text" id="firstName" name="firstName" placeholder="" class="input-xlarge" required pattern="^[a-zA-Z ,.'-]{1,40}$" title="${wrongFirstNameFormat}">
             </div>
         </div>
 
         <div class="control-group">
-            <label class="control-label" for="secondName">Second Name</label>
+            <label class="control-label" for="secondName">${scondName}</label>
             <div class="controls">
-                <input type="text" id="secondName" name="secondName" placeholder="" class="input-xlarge">
-                <p class="help-block">${secondNameMessage}</p>
+                <input type="text" id="secondName" name="secondName" placeholder="" class="input-xlarge" required pattern="^[a-zA-Z ,.'-]{1,60}$" title="${wrongSecondNameFormat}">
             </div>
         </div>
 
         <div class="control-group">
-            <label class="control-label" for="phoneNumber">Phone Number</label>
+            <label class="control-label" for="phoneNumber">${phoneNumber}</label>
             <div class="controls">
-                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="" class="input-xlarge">
-                <p class="help-block">${phoneNumberMessage}</p>
+                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="" class="input-xlarge" required pattern="^375(25|44|29|33)\d{7}$" title="${wrongPhoneNumberFormat}">
             </div>
         </div>
 
         <div class="control-group">
-            <label class="control-label" for="age">Age</label>
+            <label class="control-label" for="age">${age}</label>
             <div class="controls">
-                <input type="text" id="age" name="age" placeholder="" class="input-xlarge">
-                <p class="help-block">${ageMessage}</p>
+                <input type="text" id="age" name="age" placeholder="" class="input-xlarge" required pattern="^\\d{1,3}$" title="${wrongAgeFormat}">
             </div>
         </div>
 
         <div class="control-group">
-            <label class="control-label" for="gender">Gender</label>
+            <label class="control-label"  for="gender">${gender}</label>
             <div class="controls">
-                <input type="text" id="gender" name="gender" placeholder="" class="input-xlarge">
-                <p class="help-block">${genderMessage}</p>
+                <select class="span3" name="gender" id="gender" required>
+                    <option value="NS">${selectGender}</option>
+                    <option value="MALE">${male}</option>
+                    <option value="FEMALE">${female}</option>
+                    <option value="NS">${ns}</option>
+                </select>
             </div>
         </div>
 
