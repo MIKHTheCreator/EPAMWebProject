@@ -30,7 +30,7 @@ body {
 }
 
 .header a:hover {
-  color: white;
+  color: #00c6ff;
   text-decoration: none;
 }
 
@@ -46,8 +46,9 @@ body {
 
 .header a.passive {
   background-color: #282d32;
-  color: #ffff00;
+  color: #00c6ff;
   text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 @media screen and (max-width: 500px) {
