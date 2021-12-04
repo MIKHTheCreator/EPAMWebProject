@@ -63,11 +63,17 @@
                             <ul class="social">
                                 <span>${social}</span>
                                 <li>
-                                    <a href="https://facebook.com"><i class="fa fa-facebook fa-4x"></i></a>
+                                    <a href="https://facebook.com"><i class="fa fa-facebook fa-2x" style="font-size: 24px"></i></a>
                                 </li>
 
                                 <li>
-                                    <a href="https://github.com/MIKHTheCreator"><i class="fa fa-github fa-4x"></i></a>
+                                    <a href="https://github.com/MIKHTheCreator"><i class="fa fa-github fa-2x" style="font-size: 24px"></i></a>
+                                </li>
+                                <li>
+                                    <a href="https://instagram.com"><i class="fa fa-instagram fa-2x" style="font-size: 24px"></i></a>
+                                </li>
+                                <li>
+                                    <a href="https://twitter.com"><i class="fa fa-twitter fa-2x" style="font-size: 24px"></i></a>
                                 </li>
                             </ul>
                         </div>
