@@ -11,6 +11,8 @@
 <fmt:message bundle="${loc}" key="personalNumberMessage" var="personalNumberMessage"/>
 <fmt:message bundle="${loc}" key="expirationDate" var="expirationDate"/>
 <fmt:message bundle="${loc}" key="submitButton" var="submitButton"/>
+<fmt:message bundle="${loc}" key="wrongPassportSeriaAndNumber" var="wrongPassportSeriaAndNumber"/>
+<fmt:message bundle="${loc}" key="wrongPassportNumber" var="wrongPassportNumber"/>
 
 <!DOCTYPE html>
 <html>
@@ -30,7 +32,7 @@
         <div class="control-group">
             <label class="control-label"  for="seriaAndNumber">Seria And Number</label>
             <div class="controls">
-                <input type="text" id="seriaAndNumber" name="seriaAndNumber" placeholder="" class="input-xlarge">
+                <input type="text" id="seriaAndNumber" name="seriaAndNumber" placeholder="" class="input-xlarge" required pattern="^([A-Z]{2})(\d{7})$" title="${wrongPassportSeriaAndNumber}">
                 <p class="help-block">${seriaAndNumberMessage}</p>
             </div>
         </div>
@@ -38,14 +40,14 @@
         <div class="control-group">
             <label class="control-label" for="personalNumber">Personal Number</label>
             <div class="controls">
-                <input type="text" id="personalNumber" name="personalNumber" placeholder="" class="input-xlarge">
+                <input type="text" id="personalNumber" name="personalNumber" placeholder="" class="input-xlarge" required pattern="^[3-6]{1}(0[1-9]|[12]\d|3[01])(0[1-9]|1[1-9])\d\d[A-Z]{1}(\d{3})(PP|PB)([0-9])$" title="${wrongPassportNumber}">
                 <p class="help-block">${personalNumberMessage}</p>
             </div>
         </div>
         <div class="control-group">
             <label class="control-label" for="expirationDate">Expiration Date</label>
             <div class="controls">
-                <input type="date" id="expirationDate" name="expirationDate" placeholder="" class="input-xlarge">
+                <input type="date" id="expirationDate" name="expirationDate" placeholder="" class="input-xlarge" required>
                 <p class="help-block">${expirationDate}</p>
             </div>
         </div>
