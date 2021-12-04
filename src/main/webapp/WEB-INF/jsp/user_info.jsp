@@ -92,7 +92,7 @@
                                 <a href="${pageContext.request.contextPath}/bank?command=show_payments_command">${payments}</a><br/>
                                 <a href="${pageContext.request.contextPath}/bank?command=show_credit_cards_command">${creditCard}</a><br/>
                                 <c:choose>
-                                    <c:when test="${not empty sessionScope.currentUser.passportId}">
+                                    <c:when test="${sessionScope.currentUser.passportId.intValue() > 0}">
                                         <p>${passportCreated}</p>
                                     </c:when>
                                     <c:otherwise>

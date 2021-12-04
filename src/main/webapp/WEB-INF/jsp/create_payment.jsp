@@ -30,7 +30,7 @@
 <body style="background: url(https://images.unsplash.com/photo-1592495981488-073153776d9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1212&q=80) no-repeat center center fixed; background-size: cover">
 <%@include file="common_resource/header.jsp"%>
 <div class="container" style="padding-top: 90px">
-    <h2 class="text-center">Globo Bank System</h2>
+    <h2 class="text-center" style="color: #46c1f6; font-size: 36px;">Globo Bank System</h2>
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6 pb-5">
             <form action="${pageContext.request.contextPath}/bank?command=save_payment_command&date=${LocalDate.now()}&bankAccountId=${pageContext.request.getParameter("bankAccountId")}" method="post">

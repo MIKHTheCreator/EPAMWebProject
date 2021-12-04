@@ -20,7 +20,7 @@
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-csss">
 </head>
 
-<body style="background: -webkit-linear-gradient(left, #3931af, #00c6ff);">
+<body style="background: url(https://images.unsplash.com/photo-1614599467445-afb0d1a01fc3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80) no-repeat center center fixed; background-size: cover">
 <%@include file="common_resource/header.jsp"%>
 <form class="form-horizontal" action="${pageContext.request.contextPath}/bank?command=save_passport_command" method="post" style="padding-top: 92px; padding-left: 30px">
     <fieldset>
