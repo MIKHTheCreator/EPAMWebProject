@@ -11,6 +11,9 @@
 <fmt:message bundle="${loc}" key="paymentOrganization" var="paymentOrganization"/>
 <fmt:message bundle="${loc}" key="paymentGoal" var="paymentGoal"/>
 <fmt:message bundle="${loc}" key="pay" var="pay"/>
+<fmt:message bundle="${loc}" key="wrongSumFormat" var="wrongSumFormat"/>
+<fmt:message bundle="${loc}" key="wrongOrganisationFormat" var="wrongOrganisationFormat"/>
+<fmt:message bundle="${loc}" key="wrongGoalFormat" var="wrongGoalFormat"/>
 
 <%@ page import="java.time.LocalDate" %>
 
@@ -44,7 +47,7 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
                                 </div>
-                                <input type="text" class="form-control" id="sum" name="sum" placeholder="${sum}" required>
+                                <input type="text" class="form-control" id="sum" name="sum" placeholder="${sum}" required pattern="^[\\d\\.\\,]+$" title="${wrongSumFormat}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -52,7 +55,7 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
                                 </div>
-                                <input type="text" class="form-control" id="organization" name="organization" placeholder="${paymentOrganization}" required>
+                                <input type="text" class="form-control" id="organization" name="organization" placeholder="${paymentOrganization}" required pattern="^[\w\d\-\.\:\(\)\;\s]{1,45}$" title="${wrongOrganisationFormat}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -60,7 +63,7 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
                                 </div>
-                                <input type="text" class="form-control" id="goal" name="goal" placeholder="${paymentGoal}" required>
+                                <input type="text" class="form-control" id="goal" name="goal" placeholder="${paymentGoal}" required pattern="^[\w\-\:\.\,\(\)\;\s]{5,30}$" title="${wrongGoalFormat}">
                             </div>
                         </div>
                         <div class="text-center">
