@@ -24,7 +24,7 @@
     </style>
 </head>
 
-<body style="background: -webkit-linear-gradient(left, #3931af, #00c6ff);">
+<body style="background: url(https://images.unsplash.com/flagged/photo-1554386690-8627e1041100?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1233&q=80) no-repeat center center fixed; background-size: cover">
 <%@include file="common_resource/header.jsp"%>
 <div class="container" style="padding-top: 40px; padding-bottom: 40px">
     <div class="row">

@@ -27,7 +27,7 @@
     </style>
 </head>
 
-<body style="background: -webkit-linear-gradient(left, #3931af, #00c6ff);">
+<body style="background-color: #FFFFFF">
 <%@include file="common_resource/header.jsp"%>
     <div class="container" style="padding-top: 40px; padding-bottom: 40px">
         <div class="row col-md-6 col-md-offset-2 custyle">

@@ -24,7 +24,7 @@
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-csss">
 </head>
 
-<body style="background: -webkit-linear-gradient(left, #3931af, #00c6ff);">
+<body style="background: url(https://images.unsplash.com/photo-1571715268998-d6e79bed5fc9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80) no-repeat center center fixed; background-size: cover">
 <%@include file="common_resource/header.jsp"%>
 <div class="container" style="padding-top: 70px">
     <div class="row-fluid">

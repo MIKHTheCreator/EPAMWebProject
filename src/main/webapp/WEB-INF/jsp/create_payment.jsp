@@ -27,9 +27,9 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 </head>
 
-<body style="background: -webkit-linear-gradient(left, #3931af, #00c6ff);">
+<body style="background: url(https://images.unsplash.com/photo-1592495981488-073153776d9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1212&q=80) no-repeat center center fixed; background-size: cover">
 <%@include file="common_resource/header.jsp"%>
-<div class="container">
+<div class="container" style="padding-top: 90px">
     <h2 class="text-center">Globo Bank System</h2>
     <div class="row justify-content-center">
         <div class="col-12 col-md-8 col-lg-6 pb-5">
@@ -47,7 +47,7 @@
                                 <div class="input-group-prepend">
                                     <div class="input-group-text"><i class="fa fa-user text-info"></i></div>
                                 </div>
-                                <input type="text" class="form-control" id="sum" name="sum" placeholder="${sum}" required pattern="^[\\d\\.\\,]+$" title="${wrongSumFormat}">
+                                <input type="text" class="form-control" id="sum" name="sum" placeholder="${sum}" required pattern="^[\d\\.\\,]+$" title="${wrongSumFormat}">
                             </div>
                         </div>
                         <div class="form-group">

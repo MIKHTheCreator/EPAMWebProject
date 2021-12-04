@@ -20,7 +20,7 @@
         </style>
     </head>
 
-    <body>
+    <body style="background: url(https://images.unsplash.com/photo-1634824116737-8bef78f09222?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1133&q=80) no-repeat center center fixed; background-size: cover">
     <%@include file="common_resource/header.jsp"%>
     <div class="center">
         <div class="container">

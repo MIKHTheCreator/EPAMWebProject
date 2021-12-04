@@ -26,7 +26,7 @@
 </head>
 
 <%@include file="common_resource/header.jsp"%>
-<body style="background: -webkit-linear-gradient(left, #3931af, #00c6ff);">
+<body style="background-color: #00c6ff">
 <div class="container">
     <div class="row">
         <p></p>
