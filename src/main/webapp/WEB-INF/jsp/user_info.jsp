@@ -24,6 +24,7 @@
 <fmt:message bundle="${loc}" key="passportCreated" var="passportCreated"/>
 <fmt:message bundle="${loc}" key="bsnkSystemAdmin" var="bsnkSystemAdmin"/>
 <fmt:message bundle="${loc}" key="bestAdminEver" var="bestAdminEver"/>
+<fmt:message bundle="${loc}" key="username" var="username"/>
 
 <%@ page import="com.epam.jwd.dao.entity.user_account.Role" %>
 
@@ -109,6 +110,14 @@
                 <div class="col-md-8">
                     <div class="tab-content profile-tab" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>${username}</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>${sessionScope.currentClient.username}</p>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>${name}</label>
