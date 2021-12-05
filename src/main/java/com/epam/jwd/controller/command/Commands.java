@@ -3,6 +3,7 @@ package com.epam.jwd.controller.command;
 import com.epam.jwd.controller.command.impl.AuthorisationCommand;
 import com.epam.jwd.controller.command.impl.BlockUsersBankAccountCommand;
 import com.epam.jwd.controller.command.impl.ChangeLanguageCommand;
+import com.epam.jwd.controller.command.impl.DeblockUsersBankAccountCommand;
 import com.epam.jwd.controller.command.impl.DefaultCommand;
 import com.epam.jwd.controller.command.impl.EditUserCommand;
 import com.epam.jwd.controller.command.impl.LogOutUserCommand;
@@ -59,7 +60,8 @@ public enum Commands {
     SHOW_USERS_CREDIT_CARDS_COMMAND(ShowUsersCreditCardsCommand.getInstance(), Role.ADMIN),
     SHOW_EDIT_PASSPORT_PAGE_COMMAND(ShowEditPassportPageCommand.getInstance(), Role.USER),
     SHOW_MAKE_PAYMENT_PAGE_COMMAND(ShowMakePaymentCommand.getInstance(), Role.USER),
-    SHOW_PAYMENTS_COMMAND(ShowPaymentsCommand.getInstance(), Role.USER);
+    SHOW_PAYMENTS_COMMAND(ShowPaymentsCommand.getInstance(), Role.USER),
+    DEBLOCK_USERS_BANK_ACCOUNT_COMMAND(DeblockUsersBankAccountCommand.getInstance(), Role.ADMIN);
 
     private final Command command;
     private final List<Role> allowedRoles;
