@@ -8,6 +8,8 @@ public class RequestContextImpl implements RequestContext {
 
     private final HttpServletRequest request;
 
+    private static final String REFERER = "referer";
+
     public RequestContextImpl(HttpServletRequest request) {
         this.request = request;
     }
@@ -38,5 +40,15 @@ public class RequestContextImpl implements RequestContext {
     @Override
     public HttpSession createSession() {
         return request.getSession(true);
+    }
+
+    @Override
+    public String getHeader() {
+        return request.getHeader(REFERER);
+    }
+
+    @Override
+    public String getContextPath() {
+        return request.getContextPath();
     }
 }

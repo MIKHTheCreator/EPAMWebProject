@@ -14,4 +14,8 @@ public interface RequestContext {
     void invalidateCurrentSession();
 
     HttpSession createSession();
+
+    String getHeader();
+
+    String getContextPath();
 }

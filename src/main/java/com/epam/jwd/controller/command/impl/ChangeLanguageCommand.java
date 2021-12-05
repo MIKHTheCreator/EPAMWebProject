@@ -11,7 +11,7 @@ public class ChangeLanguageCommand implements Command {
 
     private static final Command INSTANCE = new ChangeLanguageCommand();
     private static final String LANGUAGE_ATTRIBUTE = "language";
-    private static final String PAGE_PATH = "/WEB-INF/jsp/main.jsp";
+    private static String pagePath;
 
     private ChangeLanguageCommand() {
     }
@@ -19,12 +19,12 @@ public class ChangeLanguageCommand implements Command {
     private static final ResponseContext CHANGE_LANGUAGE_CONTEXT = new ResponseContext() {
         @Override
         public String getPage() {
-            return PAGE_PATH;
+            return pagePath;
         }
 
         @Override
         public boolean isRedirect() {
-            return false;
+            return true;
         }
     };
 
@@ -47,6 +47,7 @@ public class ChangeLanguageCommand implements Command {
         }
 
         session.setAttribute(LANGUAGE_ATTRIBUTE, language);
+        pagePath = context.getContextPath() + context.getHeader();
         return CHANGE_LANGUAGE_CONTEXT;
     }
 }
