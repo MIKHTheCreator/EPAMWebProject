@@ -89,6 +89,18 @@
                             </div>
                         </div>
                         <div class="text-center">
+                            <c:choose>
+                                <c:when test="${not empty error}">
+                                    <div class="error box" style="color: red; font-family: Verdana, serif; text-align: center; padding: 5px">
+                                            ${error}
+                                    </div>
+                                </c:when>
+                                <c:when test="${not empty message}">
+                                    <div class="error box" style="color: red; font-family: Verdana, serif; text-align: center; padding: 5px">
+                                            ${message}
+                                    </div>
+                                </c:when>
+                            </c:choose>
                             <input type="submit" value="${pay}" class="btn btn-info btn-block rounded-0 py-2">
                         </div>
                     </div>
