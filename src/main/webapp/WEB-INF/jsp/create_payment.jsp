@@ -14,6 +14,13 @@
 <fmt:message bundle="${loc}" key="wrongSumFormat" var="wrongSumFormat"/>
 <fmt:message bundle="${loc}" key="wrongOrganisationFormat" var="wrongOrganisationFormat"/>
 <fmt:message bundle="${loc}" key="wrongGoalFormat" var="wrongGoalFormat"/>
+<fmt:message bundle="${loc}" key="ccCurrency" var="currency"/>
+<fmt:message bundle="${loc}" key="selectCurrency" var="selectCurrency"/>
+<fmt:message bundle="${loc}" key="selectGoal" var="selectGoal"/>
+<fmt:message bundle="${loc}" key="bankReplenishment" var="bankReplenishment"/>
+<fmt:message bundle="${loc}" key="charity" var="charity"/>
+<fmt:message bundle="${loc}" key="taxpayment" var="taxpayment"/>
+<fmt:message bundle="${loc}" key="bankDeposit" var="bankDeposit"/>
 
 <%@ page import="java.time.LocalDate" %>
 
@@ -58,12 +65,27 @@
                                 <input type="text" class="form-control" id="organization" name="organization" placeholder="${paymentOrganization}" required pattern="^[\w\d\-\.\:\(\)\;\s]{1,45}$" title="${wrongOrganisationFormat}">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text"><i class="fa fa-envelope text-info"></i></div>
-                                </div>
-                                <input type="text" class="form-control" id="goal" name="goal" placeholder="${paymentGoal}" required pattern="^[\w\-\:\.\,\(\)\;\s]{5,30}$" title="${wrongGoalFormat}">
+                        <div class="control-group" style="padding-bottom: 10px">
+                            <label class="control-label"  for="goal">${paymentGoal}</label>
+                            <div class="controls">
+                                <select class="span3" name="goal" id="goal" required>
+                                    <option value="Bank Account Replenishment">${selectGoal}</option>
+                                    <option value="Bank Account Replenishment">${bankReplenishment}</option>
+                                    <option value="Charity">${charity}</option>
+                                    <option value="Tax payment">${taxpayment}</option>
+                                    <option value="Bank Deposit">${bankDeposit}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="control-group" style="padding-bottom: 10px">
+                            <label class="control-label"  for="currency">${currency}</label>
+                            <div class="controls">
+                                <select class="span3" name="currency" id="currency" required>
+                                    <option value="US">${selectCurrency}</option>
+                                    <option value="EU">EU</option>
+                                    <option value="BYN">BYN</option>
+                                    <option value="US">US</option>
+                                </select>
                             </div>
                         </div>
                         <div class="text-center">
