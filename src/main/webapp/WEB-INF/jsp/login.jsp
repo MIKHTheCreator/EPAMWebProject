@@ -33,7 +33,7 @@
                         <div class="panel-body">
                             <c:choose>
                                 <c:when test="${not empty error}">
-                                    <div class="error box">
+                                    <div class="error box" style="color: red; font-family: Verdana, serif; text-align: center; padding: 5px">
                                         ${error}
                                     </div>
                                 </c:when>
