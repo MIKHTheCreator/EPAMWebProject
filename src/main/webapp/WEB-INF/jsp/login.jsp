@@ -31,6 +31,18 @@
                             <h3 class="panel-title">${enterData}</h3>
                         </div>
                         <div class="panel-body">
+                            <c:choose>
+                                <c:when test="${not empty error}">
+                                    <div class="error box">
+                                        ${error}
+                                    </div>
+                                </c:when>
+                                <c:when test="${not empty message}">
+                                    <div class="error box" style="color: red; font-family: Verdana, serif; text-align: center; padding: 5px">
+                                            ${message}
+                                    </div>
+                                </c:when>
+                            </c:choose>
                             <form accept-charset="UTF-8" role="form" action="${pageContext.request.contextPath}/bank?command=login" method="post">
                                 <fieldset>
                                     <div class="form-group">
