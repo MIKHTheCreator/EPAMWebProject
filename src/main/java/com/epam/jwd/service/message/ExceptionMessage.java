@@ -82,4 +82,7 @@ public interface ExceptionMessage {
 
     String CREDIT_CARD_NUMBER_EXCEPTION = "Credit card number should contain only 16 numbers";
     Integer CREDIT_CARD_NUMBER_EXCEPTION_CODE = 34;
+
+    String NOT_ENOUGH_MONEY_TO_PAY_EXCEPTION = "You haven't got enough money to do this operation";
+    Integer NOT_ENOUGH_MONEY_TO_PAY_EXCEPTION_CODE = 35;
 }
