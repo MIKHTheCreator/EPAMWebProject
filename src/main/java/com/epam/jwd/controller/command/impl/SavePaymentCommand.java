@@ -11,6 +11,7 @@ import com.epam.jwd.service.dto.user_account.UserDTO;
 import com.epam.jwd.service.exception.ServiceException;
 import com.epam.jwd.service.impl.payment_system.BankAccountService;
 import com.epam.jwd.service.impl.payment_system.PaymentService;
+import com.epam.jwd.service.payment_manager.PaymentManager;
 import com.epam.jwd.service.validator.Validator;
 import com.epam.jwd.service.validator.payment_system.PaymentValidator;
 import org.apache.logging.log4j.LogManager;
@@ -22,6 +23,7 @@ import java.time.LocalDate;
 
 public class SavePaymentCommand implements Command {
 
+    private final PaymentManager manager = PaymentManager.getInstance();
     private final Validator<PaymentDTO, Integer> validator = PaymentValidator.getInstance();
     private final PaymentService paymentService = new PaymentService();
     private final Service<BankAccountDTO, Integer> bankAccountService = new BankAccountService();
@@ -33,12 +35,14 @@ public class SavePaymentCommand implements Command {
     private static final String DATE_ATTRIBUTE = "date";
     private static final String ORGANIZATION_ATTRIBUTE = "organization";
     private static final String GOAL_ATTRIBUTE = "goal";
+    private static final String CURRENCY_ATTRIBUTE = "currency";
     private static final String BANK_ACCOUNT_ID_ATTRIBUTE = "bankAccountId";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String MESSAGE = "Payment was successfully created";
     private static final String FAIL_MESSAGE = "Payment wasn't created";
     private static final String ERROR_MESSAGE = "Enable to create a payment";
+    private static final Integer SUBTRACT_OPERATION_NUMBER = 1;
 
     private static final Logger log = LogManager.getLogger(SavePaymentCommand.class);
 
@@ -79,6 +83,7 @@ public class SavePaymentCommand implements Command {
         LocalDate date = LocalDate.parse(context.getParameterByName(DATE_ATTRIBUTE));
         String organization = context.getParameterByName(ORGANIZATION_ATTRIBUTE);
         String goal = context.getParameterByName(GOAL_ATTRIBUTE);
+        String currency = context.getParameterByName(CURRENCY_ATTRIBUTE);
         Integer bankAccountId = Integer.valueOf((context.getParameterByName(BANK_ACCOUNT_ID_ATTRIBUTE)));
 
         HttpSession session;
@@ -94,10 +99,15 @@ public class SavePaymentCommand implements Command {
 
         boolean isDone = false;
         try {
-            validator.validate(payment);
-            paymentService.save(payment);
             BankAccountDTO bankAccount = bankAccountService.findById(bankAccountId);
-            bankAccount.setBalance(bankAccount.getBalance().add(sum));
+            validator.validate(payment);
+            BigDecimal bankAccountBalance = bankAccount.getBalance();
+            if (manager.chooseOperation(goal, sum, bankAccountBalance).equals(SUBTRACT_OPERATION_NUMBER)) {
+                bankAccount.setBalance(bankAccount.getBalance().subtract(sum));
+            } else {
+                bankAccount.setBalance(bankAccount.getBalance().add(sum));
+            }
+            paymentService.save(payment);
             bankAccountService.update(bankAccount);
 
             isDone = true;
