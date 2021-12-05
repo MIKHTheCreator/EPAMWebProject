@@ -101,7 +101,7 @@ public final class ConnectionPoolImpl implements ConnectionPool {
         try {
 
             for (int i = 0; i < INITIAL_SIZE; i++) {
-                Class.forName("com.mysql.jdbc.Driver");
+                Class.forName(SQL_DB_DRIVER);
                 final Connection connection = DriverManager.getConnection(SQL_DB_URL, SQL_DB_USERNAME, SQL_DB_PASSWORD);
                 final ProxyConnection proxyConnection = new ProxyConnection(connection, this);
                 availableConnections.put(proxyConnection);
