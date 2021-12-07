@@ -9,6 +9,7 @@
 <fmt:message bundle="${loc}" key="logHere" var="logHere"/>
 <fmt:message bundle="${loc}" key="enterDataMessage" var="enterData"/>
 <fmt:message bundle="${loc}" key="or" var="orr"/>
+<fmt:message bundle="${loc}" key="createAccount" var="createAccount"/>
 
 <!DOCTYPE html>
 <html>
@@ -51,12 +52,12 @@
                                     <div class="form-group">
                                         <input class="form-control" placeholder="password" name="password" type="password" required>
                                     </div>
-                                    <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
+                                    <input class="btn btn-lg btn-success btn-block" type="submit" value="${logIn}">
                                 </fieldset>
                             </form>
                             <hr/>
                             <center><h4>${orr}</h4></center>
-                            <a class="btn btn-lg btn-success btn-block" href="${pageContext.request.contextPath}/bank?command=show_registration_page_command" style="background-color: #3b5999"> Create Account</a>
+                            <a class="btn btn-lg btn-success btn-block" href="${pageContext.request.contextPath}/bank?command=show_registration_page_command" style="background-color: #3b5999">${createAccount}</a>
                         </div>
                     </div>
                 </div>
