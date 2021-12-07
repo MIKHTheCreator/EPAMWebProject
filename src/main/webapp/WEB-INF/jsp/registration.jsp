@@ -24,7 +24,7 @@
 
     </head>
 
-    <body style="background: url(https://images.unsplash.com/photo-1562577308-c8b2614b9b9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80) no-repeat center center fixed; background-size: cover">
+    <body style="background: url(https://images.unsplash.com/photo-1595126730769-f680ac3f9486?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80) no-repeat center center fixed; background-size: cover">
     <%@include file="common_resource/header.jsp"%>
     <form class="form-horizontal" action="${pageContext.request.contextPath}/bank?command=registration" method="post" style="padding-top: 72px; padding-left: 30px">
         <fieldset>
@@ -58,12 +58,12 @@
             <div class="control-group">
                 <c:choose>
                     <c:when test="${not empty error}">
-                        <div class="error box" style="color: red; font-family: Verdana, serif; text-align: left; padding: 5px">
+                        <div class="error box" style="color: red; font-family: Verdana, serif; text-align: left; padding-top: 5px; padding-bottom: 10px; padding-left: 95px">
                                 ${error}
                         </div>
                     </c:when>
                     <c:when test="${not empty message}">
-                        <div class="error box" style="color: red; font-family: Verdana, serif; text-align: left; padding: 5px">
+                        <div class="error box" style="color: red; font-family: Verdana, serif; text-align: left; padding-top: 5px; padding-bottom: 10px; padding-left: 95px">
                                 ${message}
                         </div>
                     </c:when>
