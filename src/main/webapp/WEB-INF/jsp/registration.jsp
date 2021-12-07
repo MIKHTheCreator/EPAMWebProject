@@ -27,31 +27,31 @@
     <body style="background: url(https://images.unsplash.com/photo-1595126730769-f680ac3f9486?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80) no-repeat center center fixed; background-size: cover">
     <%@include file="common_resource/header.jsp"%>
     <form class="form-horizontal" action="${pageContext.request.contextPath}/bank?command=registration" method="post" style="padding-top: 72px; padding-left: 30px">
-        <fieldset>
+        <fieldset style="width:800px">
             <div id="legend">
-                <legend class="">${registration}</legend>
+                <legend class="" style="font-weight:bold; font-size:22px">${registration}</legend>
             </div>
             <div class="control-group">
                 <label class="control-label"  for="username">Username</label>
                 <div class="controls">
-                    <input type="text" id="username" name="username" placeholder="" class="input-xlarge" required pattern="^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$" title="${wrongUsernameFormat}">
-                    <p class="help-block">${usernameMessage}</p>
+                    <input type="text" id="username" name="username" placeholder="" class="input-xlarge" required pattern="^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$" title="${wrongUsernameFormat}" style="height:30px;">
+                    <p class="help-block" style="color: green">${usernameMessage}</p>
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label" for="email">E-mail</label>
                 <div class="controls">
-                    <input type="text" id="email" name="email" placeholder="" class="input-xlarge" required pattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])" title="${wrongEmailFormat}">
-                    <p class="help-block">${provideEmail}</p>
+                    <input type="text" id="email" name="email" placeholder="" class="input-xlarge" required pattern="(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*)@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])" title="${wrongEmailFormat}" style="height: 30px">
+                    <p class="help-block" style="color: green">${provideEmail}</p>
                 </div>
             </div>
 
             <div class="control-group">
                 <label class="control-label" for="password">Password</label>
                 <div class="controls">
-                    <input type="password" id="password" name="password" placeholder="" class="input-xlarge" required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" title="${wrongPasswordFormat}">
-                    <p class="help-block">${passwordMessage}</p>
+                    <input type="password" id="password" name="password" placeholder="" class="input-xlarge" required pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" title="${wrongPasswordFormat}" style="height: 30px">
+                    <p class="help-block" style="color: green">${passwordMessage}</p>
                 </div>
             </div>
 
