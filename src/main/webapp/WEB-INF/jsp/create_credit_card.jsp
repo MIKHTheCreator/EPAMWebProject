@@ -29,22 +29,22 @@
 <div class="container" style="padding-top: 70px">
     <div class="row-fluid">
         <form class="form-horizontal" action="${pageContext.request.contextPath}/bank?command=save_credit_card_command" method="post">
-            <fieldset>
+            <fieldset style="padding-left:180px; width:950px">
                 <div id="legend">
-                    <legend class="">${createCreditCard}</legend>
+                    <legend class="" style="font-weight:bold; font-size:22px; color:#ffff00">${createCreditCard}</legend>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label"  for="fullName">${fullName}</label>
                     <div class="controls">
-                        <input type="text" id="fullName" name="fullName" placeholder="" class="input-xlarge" required pattern="^[\w\d\s\-]{1,70}$" title="${fullNameError}">
+                        <input type="text" id="fullName" name="fullName" placeholder="" class="input-xlarge" required pattern="^[\w\d\s\-]{1,70}$" title="${fullNameError}" style="height:30px">
                     </div>
                 </div>
 
                 <div class="control-group">
                     <label class="control-label" for="creditCardNumber">${creditCardNumber}</label>
                     <div class="controls">
-                        <input type="text" id="creditCardNumber" name="creditCardNumber" placeholder="" class="input-xlarge" required pattern="^\d{16}$" title="${creditCardNumberError}">
+                        <input type="text" id="creditCardNumber" name="creditCardNumber" placeholder="" class="input-xlarge" required pattern="^\d{16}$" title="${creditCardNumberError}" style="height:30px">
                     </div>
                 </div>
 
