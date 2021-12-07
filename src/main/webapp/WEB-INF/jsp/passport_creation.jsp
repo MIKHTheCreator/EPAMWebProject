@@ -25,42 +25,42 @@
 <body style="background: url(https://images.unsplash.com/photo-1614599467445-afb0d1a01fc3?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80) no-repeat center center fixed; background-size: cover">
 <%@include file="common_resource/header.jsp"%>
 <form class="form-horizontal" action="${pageContext.request.contextPath}/bank?command=save_passport_command" method="post" style="padding-top: 92px; padding-left: 30px">
-    <fieldset>
+    <fieldset style="width: 800px">
         <div id="legend">
-            <legend class="">${fillPassportInfo}</legend>
+            <legend class="" style="font-size: 22px; font-weight: bold">${fillPassportInfo}</legend>
         </div>
         <div class="control-group">
-            <label class="control-label"  for="seriaAndNumber">Seria And Number</label>
+            <label class="control-label"  for="seriaAndNumber">${seriaAndNumber}</label>
             <div class="controls">
-                <input type="text" id="seriaAndNumber" name="seriaAndNumber" placeholder="" class="input-xlarge" required pattern="^([A-Z]{2})(\d{7})$" title="${wrongPassportSeriaAndNumber}">
-                <p class="help-block">${seriaAndNumberMessage}</p>
+                <input type="text" id="seriaAndNumber" name="seriaAndNumber" placeholder="" class="input-xlarge" required pattern="^([A-Z]{2})(\d{7})$" title="${wrongPassportSeriaAndNumber}" style="height: 30px">
+                <p class="help-block" style="color: green">${seriaAndNumberMessage}</p>
             </div>
         </div>
 
         <div class="control-group">
-            <label class="control-label" for="personalNumber">Personal Number</label>
+            <label class="control-label" for="personalNumber">${personalNumber}</label>
             <div class="controls">
-                <input type="text" id="personalNumber" name="personalNumber" placeholder="" class="input-xlarge" required pattern="^[3-6]{1}(0[1-9]|[12]\d|3[01])(0[1-9]|1[1-9])\d\d[A-Z]{1}(\d{3})(PP|PB)([0-9])$" title="${wrongPassportNumber}">
-                <p class="help-block">${personalNumberMessage}</p>
+                <input type="text" id="personalNumber" name="personalNumber" placeholder="" class="input-xlarge" required pattern="^[3-6]{1}(0[1-9]|[12]\d|3[01])(0[1-9]|1[1-9])\d\d[A-Z]{1}(\d{3})(PP|PB)([0-9])$" title="${wrongPassportNumber}" style="height: 30px">
+                <p class="help-block" style="color: green">${personalNumberMessage}</p>
             </div>
         </div>
         <div class="control-group">
-            <label class="control-label" for="expirationDate">Expiration Date</label>
+            <label class="control-label" for="expirationDate">${expirationDateHeader}</label>
             <div class="controls">
-                <input type="date" id="expirationDate" name="expirationDate" placeholder="" class="input-xlarge" required>
-                <p class="help-block">${expirationDate}</p>
+                <input type="date" id="expirationDate" name="expirationDate" placeholder="" class="input-xlarge" required style="height: 30px;">
+                <p class="help-block" style="color: green">${expirationDate}</p>
             </div>
         </div>
 
         <div class="control-group">
             <c:choose>
                 <c:when test="${not empty error}">
-                    <div class="error box" style="color: red; font-family: Verdana, serif; text-align: left; padding: 5px">
+                    <div class="error box" style="color: red; font-family: Verdana, serif; text-align: left; padding-top: 10px; padding-bottom: 10px; padding-left: 95px">
                             ${error}
                     </div>
                 </c:when>
                 <c:when test="${not empty message}">
-                    <div class="error box" style="color: red; font-family: Verdana, serif; text-align: left; padding: 5px">
+                    <div class="error box" style="color: red; font-family: Verdana, serif; text-align: left; padding-top: 10px; padding-bottom: 10px; padding-left: 95px">
                             ${message}
                     </div>
                 </c:when>
