@@ -24,7 +24,7 @@ public class SavePassportCommand implements Command {
     private final UserService userService = new UserService();
     private final Validator<PassportDTO, Integer> validator = PassportValidator.getInstance();
     private static final Command INSTANCE = new SavePassportCommand();
-    private static final String PAGE_PATH = "/WEB-INF/jsp/user_info.jsp";
+    private static final String PAGE_PATH = "/bank?command=show_user_info_page_command";
     private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/passport_creation.jsp";
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String SERIA_AND_NUMBER_ATTRIBUTE = "seriaAndNumber";
@@ -45,7 +45,7 @@ public class SavePassportCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return false;
+            return true;
         }
     };
 

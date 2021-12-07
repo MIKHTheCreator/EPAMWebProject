@@ -28,7 +28,7 @@ public class SavePaymentCommand implements Command {
     private final PaymentService paymentService = new PaymentService();
     private final Service<BankAccountDTO, Integer> bankAccountService = new BankAccountService();
     private static final Command INSTANCE = new SavePaymentCommand();
-    private static final String PAGE_PATH = "/WEB-INF/jsp/payments.jsp";
+    private static final String PAGE_PATH = "/bank?command=show_payments_command";
     private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/create_payment.jsp";
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String SUM_ATTRIBUTE = "sum";
@@ -54,7 +54,7 @@ public class SavePaymentCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return false;
+            return true;
         }
     };
 

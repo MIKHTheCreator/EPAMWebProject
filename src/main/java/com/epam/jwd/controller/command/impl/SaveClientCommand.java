@@ -19,7 +19,7 @@ public class SaveClientCommand implements Command {
     private final ClientService clientService = new ClientService();
     private final Validator<ClientDTO, Integer> validator = ClientValidator.getInstance();
     private static final Command INSTANCE = new SaveClientCommand();
-    private static final String PAGE_PATH = "/WEB-INF/jsp/create_account.jsp";
+    private static final String PAGE_PATH = "/bank?command=show_registration_page_command";
     private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/registration.jsp";
     private static final String PASSWORD_PARAM = "password";
     private static final String EMAIL_PARAM = "email";

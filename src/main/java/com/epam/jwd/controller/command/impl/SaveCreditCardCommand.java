@@ -31,7 +31,7 @@ public class SaveCreditCardCommand implements Command {
     private final Validator<BankAccountDTO, Integer> bankAccountValidator = BankAccountValidator.getInstance();
     private final CreditCardConfig creditCardConfig = CreditCardConfigImpl.getInstance();
     private static final Command INSTANCE = new SaveCreditCardCommand();
-    private static final String PAGE_PATH = "/WEB-INF/jsp/credit_cards.jsp";
+    private static final String PAGE_PATH = "/bank?command=show_credit_cards_command";
     private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/create_credit_card.jsp";
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String ERROR_ATTRIBUTE = "error";
@@ -57,7 +57,7 @@ public class SaveCreditCardCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return false;
+            return true;
         }
     };
 

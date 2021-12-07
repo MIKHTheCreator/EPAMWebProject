@@ -22,7 +22,7 @@ public class AuthorisationCommand implements Command {
     private final UserService userService = new UserService();
     private final ClientService clientService = new ClientService();
     private static final Command INSTANCE = new AuthorisationCommand();
-    private static final String PAGE_PATH = "WEB-INF/jsp/user_info.jsp";
+    private static final String PAGE_PATH = "/bank?command=show_user_info_page_command";
     private static final String FAIL_PAGE_PATH = "WEB-INF/jsp/login.jsp";
     private static final String USERNAME_ATTRIBUTE = "username";
     private static final String PASSWORD_ATTRIBUTE = "password";
@@ -47,7 +47,7 @@ public class AuthorisationCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return false;
+            return true;
         }
     };
 

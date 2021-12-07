@@ -24,7 +24,7 @@ public class SaveUserCommand implements Command {
     private final UserService userService = new UserService();
     private final Validator<UserDTO, Integer> validator = UserValidator.getInstance();
     private static final Command INSTANCE = new SaveUserCommand();
-    private static final String FILL_USERDATA_PAGE = "/WEB-INF/jsp/user_info.jsp";
+    private static final String FILL_USERDATA_PAGE = "/bank?command=show_user_info_page_command";
     private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/create_account.jsp";
     private static final String FIRST_NAME_ATTRIBUTE = "firstName";
     private static final String SECOND_NAME_ATTRIBUTE = "secondName";
@@ -48,7 +48,7 @@ public class SaveUserCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return false;
+            return true;
         }
     };
 

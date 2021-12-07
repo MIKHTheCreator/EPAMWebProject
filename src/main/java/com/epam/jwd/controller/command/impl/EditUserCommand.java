@@ -21,7 +21,7 @@ public class EditUserCommand implements Command {
     private final UserService userService = new UserService();
     private final Validator<UserDTO, Integer> validator = UserValidator.getInstance();
     private static final Command INSTANCE = new EditUserCommand();
-    private static final String PAGE_PATH = "/WEB-INF/jsp/user_info.jsp";
+    private static final String PAGE_PATH = "/bank?command=show_user_info_page_command";
     private static final String FAIL_PAGE_PATH = "/WEB-INF/jsp/edit_user_info.jsp";
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String FIRST_NAME_ATTRIBUTE = "firstName";
@@ -47,7 +47,7 @@ public class EditUserCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return false;
+            return true;
         }
     };
 

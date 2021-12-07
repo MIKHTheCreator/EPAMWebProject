@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 public class LogOutUserCommand implements Command {
 
     private static final Command INSTANCE = new LogOutUserCommand();
-    private static final String PAGE_PATH = "/WEB-INF/jsp/main.jsp";
+    private static final String PAGE_PATH = "/bank?command=show_main_page_command";
 
     private LogOutUserCommand() {
     }
@@ -23,7 +23,7 @@ public class LogOutUserCommand implements Command {
 
         @Override
         public boolean isRedirect() {
-            return false;
+            return true;
         }
     };
 
