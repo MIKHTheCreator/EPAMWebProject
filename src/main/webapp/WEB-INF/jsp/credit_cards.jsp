@@ -37,7 +37,6 @@
                     <c:when test="${sessionScope.currentUser.role eq Role.USER}">
                         <a href="${pageContext.request.contextPath}/bank?command=show_add_credit_card_page_command" class="btn btn-primary btn-xs pull-right"> ${addCreditCard}</a>
                         <tr>
-                            <th>ID</th>
                             <th>${ccNumber}</th>
                             <th>${ccExpirationDate}</th>
                             <th>${ccfullName}</th>
@@ -49,7 +48,6 @@
                         </thead>
                         <c:forEach items="${sessionScope.creditCards}" var="creditCard">
                             <tr>
-                                <td>${creditCard.id}</td>
                                 <td>${creditCard.number}</td>
                                 <td>${creditCard.expirationDate}</td>
                                 <td>${creditCard.fullName}</td>
@@ -88,10 +86,24 @@
                                 <td>${creditCard.bankAccount.blocked}</td>
                                 <c:choose>
                                     <c:when test="${creditCard.bankAccount.blocked eq false}">
-                                        <td class="text-center"><a class='btn btn-info btn-xs' style="background-color: red" href="${pageContext.request.contextPath}/bank?command=block_users_bank_account_command&bankAccountId=${creditCard.bankAccount.id}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                                        <td class="text-center">
+                                            <form action="${pageContext.request.contextPath}/bank?command=block_users_bank_account_command" method="post">
+                                                <button class="btn btn-info btn-xs" style="background-color: red" type="submit">
+                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                </button>
+                                                <input type="hidden" name="bankAccountId" value="${creditCard.bankAccount.id}">
+                                            </form>
+                                        </td>
                                     </c:when>
                                     <c:otherwise>
-                                        <td class="text-center"><a class='btn btn-info btn-xs' style="background-color: #46c1f6" href="${pageContext.request.contextPath}/bank?command=deblock_users_bank_account_command&bankAccountId=${creditCard.bankAccount.id}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                                        <td class="text-center">
+                                            <form action="${pageContext.request.contextPath}/bank?command=deblock_users_bank_account_command" method="post">
+                                                <button class="btn btn-info btn-xs" style="background-color: #46c1f6" type="submit">
+                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                </button>
+                                                <input type="hidden" name="bankAccountId" value="${creditCard.bankAccount.id}">
+                                            </form>
+                                        </td>
                                     </c:otherwise>
                                 </c:choose>
                             </tr>
