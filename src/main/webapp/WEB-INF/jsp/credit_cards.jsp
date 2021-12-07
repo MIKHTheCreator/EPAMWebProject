@@ -56,7 +56,14 @@
                                 <td>${creditCard.bankAccount.blocked}</td>
                                 <c:choose>
                                     <c:when test="${creditCard.bankAccount.blocked eq false}">
-                                        <td class="text-center"><a class='btn btn-info btn-xs' href="${pageContext.request.contextPath}/bank?command=show_make_payment_page_command&bankAccountId=${creditCard.bankAccount.id}"><span class="glyphicon glyphicon-edit"></span></a></td>
+                                        <td class="text-center">
+                                            <form action="${pageContext.request.contextPath}/bank?command=show_make_payment_page_command" method="post">
+                                                <button class="btn btn-info btn-xs" type="submit">
+                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                </button>
+                                                <input type="hidden" name="bankAccountId" value="${creditCard.bankAccount.id}">
+                                            </form>
+                                        </td>
                                     </c:when>
                                     <c:otherwise>
                                         <td>${unableToPay}</td>
