@@ -45,7 +45,7 @@
                     <table class="table table-striped table-bordered table-list">
                         <thead>
                         <tr>
-                            <th><em class="fa fa-cog"></em></th>
+                            <th style="text-align: center"><em class="fa fa-cog"></em></th>
                             <th class="hidden-xs">ID</th>
                             <th>${firstName}</th>
                             <th>${secondName}</th>
@@ -57,8 +57,11 @@
                         <c:forEach items="${sessionScope.users}" var="user">
                             <tbody>
                             <tr>
-                                <td align="center">
-                                    <a class="btn btn-default" href="${pageContext.request.contextPath}/bank?command=show_users_credit_cards_command&userId=${user.id}"><em class="fa fa-pencil"></em></a>
+                                <td align="center" style="text-align: center">
+                                    <form method="post" action="${pageContext.request.contextPath}/bank?command=show_users_credit_cards_command">
+                                        <button class="btn btn-default" type="submit"><em class="fa fa-credit-card"></em></button>
+                                        <input type="hidden" name="userId" value="${user.id}">
+                                    </form>
                                 </td>
                                 <td class="hidden-xs">${user.id}</td>
                                 <td>${user.firstName}</td>
