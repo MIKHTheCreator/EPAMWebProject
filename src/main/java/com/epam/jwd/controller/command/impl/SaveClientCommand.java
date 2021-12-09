@@ -27,9 +27,9 @@ public class SaveClientCommand implements Command {
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String CURRENT_CLIENT_ATTRIBUTE_NAME = "currentClient";
-    private static final String REGISTRATION_FAILED = "Registration failed";
-    private static final String REGISTRATION_COMPLETED_MESSAGE = "Registration is successfully completed";
-    private static final String ERROR_MESSAGE = "User with such username is already exists";
+    private static final String REGISTRATION_FAILED = "Registration failed ";
+    private static final String REGISTRATION_COMPLETED_MESSAGE = "Registration is successfully completed ";
+    private static final String ERROR_MESSAGE = "User with such username is already exists ";
 
     private static final Logger log = LogManager.getLogger(SaveClientCommand.class);
 

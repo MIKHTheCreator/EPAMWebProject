@@ -20,7 +20,7 @@ public class ShowUsersCommand implements Command {
     private static final String PAGE_PATH = "/WEB-INF/jsp/users.jsp";
     private static final String USERS_ATTRIBUTE = "users";
     private static final String ERROR_ATTRIBUTE = "error";
-    private static final String ERROR_MESSAGE = "Can't find users";
+    private static final String ERROR_MESSAGE = "Can't find users ";
 
     private static final Logger log = LogManager.getLogger(ShowUsersCommand.class);
 

@@ -18,11 +18,11 @@ public class BlockUsersBankAccountCommand implements Command {
     private static final String BANK_ACCOUNT_ID_ATTRIBUTE = "bankAccountId";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String USER_ID_ATTRIBUTE = "userId";
-    private static final String ERROR_MESSAGE = "Can't update bank account status";
+    private static final String ERROR_MESSAGE = "Can't update bank account status ";
     private static final String MESSAGE_ATTRIBUTE = "message";
-    private static final String MESSAGE = "User is successfully blocked";
-    private static final String ALREADY_BLOCKED_MESSAGE = "User is already blocked";
-    private static final String FAIL_MESSAGE = "Account can't be blocked";
+    private static final String MESSAGE = "User is successfully blocked ";
+    private static final String ALREADY_BLOCKED_MESSAGE = "User is already blocked ";
+    private static final String FAIL_MESSAGE = "Account can't be blocked ";
 
     private BlockUsersBankAccountCommand() {
     }

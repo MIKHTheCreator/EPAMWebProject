@@ -31,8 +31,8 @@ public class EditUserCommand implements Command {
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String USERNAME_ATTRIBUTE = "name";
-    private static final String ERROR_MESSAGE = "Updating failed";
-    private static final String SUCCESSFUL_USER_UPDATE = "Data has been updated";
+    private static final String ERROR_MESSAGE = "Updating failed ";
+    private static final String SUCCESSFUL_USER_UPDATE = "Data has been updated ";
 
     private static final Logger log = LogManager.getLogger(EditUserCommand.class);
 

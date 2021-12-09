@@ -35,8 +35,8 @@ public class SaveUserCommand implements Command {
     private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String ERROR_ATTRIBUTE = "error";
-    private static final String ERROR_MESSAGE = "Saving data was interrupted";
-    private static final String SUCCESSFUL_USER_CREATION_MESSAGE = "User was created";
+    private static final String ERROR_MESSAGE = "Saving data was interrupted ";
+    private static final String SUCCESSFUL_USER_CREATION_MESSAGE = "User was created ";
 
     private static final Logger log = LogManager.getLogger(SaveUserCommand.class);
 

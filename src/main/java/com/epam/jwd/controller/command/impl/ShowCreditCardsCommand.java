@@ -23,7 +23,7 @@ public class ShowCreditCardsCommand implements Command {
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String CREDIT_CARDS_ATTRIBUTE = "creditCards";
     private static final String ERROR_ATTRIBUTE = "error";
-    private static final String ERROR_MESSAGE = "Can't find user credit cards";
+    private static final String ERROR_MESSAGE = "Can't find user credit cards ";
 
     private static final Logger log = LogManager.getLogger(ShowCreditCardsCommand.class);
 

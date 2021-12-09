@@ -40,8 +40,8 @@ public class SaveCreditCardCommand implements Command {
     private static final String EXPIRATION_MONTH_ATTRIBUTE = "expirationMonth";
     private static final String EXPIRATION_YEAR_ATTRIBUTE = "expirationYear";
     private static final String FULL_NAME_ATTRIBUTE = "fullName";
-    private static final String BANK_ACCOUNT_ERROR = "Can't create bank account with such parameters";
-    private static final String CREDIT_CARD_ERROR = "Can't create credit card with such parameters";
+    private static final String BANK_ACCOUNT_ERROR = "Can't create bank account with such parameters ";
+    private static final String CREDIT_CARD_ERROR = "Can't create credit card with such parameters ";
     private static final BigDecimal STARTER_BALANCE = new BigDecimal(0);
 
     private static final Logger log = LogManager.getLogger(SaveCreditCardCommand.class);

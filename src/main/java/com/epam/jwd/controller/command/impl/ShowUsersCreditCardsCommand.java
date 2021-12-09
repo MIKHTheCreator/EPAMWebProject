@@ -19,7 +19,7 @@ public class ShowUsersCreditCardsCommand implements Command {
     private static final Command INSTANCE = new ShowUsersCreditCardsCommand();
     private static final String PAGE_PATH = "/WEB-INF/jsp/credit_cards.jsp";
     private static final String ERROR_ATTRIBUTE = "error";
-    private static final String ERROR_MESSAGE = "Can't find any credit cards";
+    private static final String ERROR_MESSAGE = "Can't find any credit cards ";
     private static final String CREDIT_CARDS_ATTRIBUTE = "creditCards";
     private static final String USER_ID_ATTRIBUTE = "userId";
 

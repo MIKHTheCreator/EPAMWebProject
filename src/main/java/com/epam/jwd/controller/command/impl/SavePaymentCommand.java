@@ -39,9 +39,9 @@ public class SavePaymentCommand implements Command {
     private static final String BANK_ACCOUNT_ID_ATTRIBUTE = "bankAccountId";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String MESSAGE_ATTRIBUTE = "message";
-    private static final String MESSAGE = "Payment was successfully created";
-    private static final String FAIL_MESSAGE = "Payment wasn't created";
-    private static final String ERROR_MESSAGE = "Enable to create a payment";
+    private static final String MESSAGE = "Payment was successfully created ";
+    private static final String FAIL_MESSAGE = "Payment wasn't created ";
+    private static final String ERROR_MESSAGE = "Enable to create a payment ";
     private static final Integer SUBTRACT_OPERATION_NUMBER = 1;
 
     private static final Logger log = LogManager.getLogger(SavePaymentCommand.class);

@@ -31,8 +31,8 @@ public class AuthorisationCommand implements Command {
     private static final String CURRENT_USER_ATTRIBUTE = "currentUser";
     private static final String CURRENT_CLIENT_ATTRIBUTE = "currentClient";
     private static final String MESSAGE_ATTRIBUTE = "message";
-    private static final String MESSAGE = "There is no user with such username or password is incorrect";
-    private static final String ERROR_MESSAGE = "Authorization failed";
+    private static final String MESSAGE = "There is no user with such username or password is incorrect ";
+    private static final String ERROR_MESSAGE = "Authorization failed ";
 
     private static final Logger log = LogManager.getLogger(AuthorisationCommand.class);
 

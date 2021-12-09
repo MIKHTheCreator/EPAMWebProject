@@ -32,8 +32,8 @@ public class SavePassportCommand implements Command {
     private static final String EXPIRATION_DATE_ATTRIBUTE = "expirationDate";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String ERROR_ATTRIBUTE = "error";
-    private static final String SUCCESSFUL_PASSPORT_CREATION = "Passport data was created";
-    private static final String ERROR_MESSAGE = "Invalid passport data";
+    private static final String SUCCESSFUL_PASSPORT_CREATION = "Passport data was created ";
+    private static final String ERROR_MESSAGE = "Invalid passport data ";
 
     private static final Logger log = LogManager.getLogger(SavePassportCommand.class);
 

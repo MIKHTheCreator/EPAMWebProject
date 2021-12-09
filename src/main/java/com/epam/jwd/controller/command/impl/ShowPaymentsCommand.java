@@ -22,7 +22,7 @@ public class ShowPaymentsCommand implements Command {
     private static final String USER_ATTRIBUTE = "currentUser";
     private static final String PAYMENTS_ATTRIBUTE = "payments";
     private static final String ERROR_ATTRIBUTE = "payments";
-    private static final String ERROR_MESSAGE = "Can't find payments";
+    private static final String ERROR_MESSAGE = "Can't find payments ";
 
     private static final Logger log = LogManager.getLogger(ShowPaymentsCommand.class);
 
