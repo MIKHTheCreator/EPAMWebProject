@@ -85,4 +85,7 @@ public interface ExceptionMessage {
 
     String NOT_ENOUGH_MONEY_TO_PAY_EXCEPTION = "You haven't got enough money to do this operation";
     Integer NOT_ENOUGH_MONEY_TO_PAY_EXCEPTION_CODE = 35;
+
+    String CAN_NOT_INITIALIZE_CONNECTION_POOL_EXCEPTION = "Can't initialize connection pool";
+    Integer CAN_NOT_INITIALIZED_CONNECTION_POOL_EXCEPTION_CODE = 36;
 }
