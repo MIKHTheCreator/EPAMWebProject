@@ -59,6 +59,8 @@ public class ShowUsersCreditCardsCommand implements Command {
         try {
             List<CreditCardDTO> creditCards = creditCardService.findCreditCardsByUserId(userId);
             session.setAttribute(CREDIT_CARDS_ATTRIBUTE, creditCards);
+            System.out.println(userId);
+            context.addAttributeToJsp(USER_ID_ATTRIBUTE, userId);
         } catch (ServiceException e) {
             log.error(ERROR_MESSAGE, e);
             context.addAttributeToJsp(ERROR_ATTRIBUTE, ERROR_MESSAGE + e.getMessage());

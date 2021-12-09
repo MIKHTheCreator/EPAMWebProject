@@ -14,9 +14,10 @@ public class BlockUsersBankAccountCommand implements Command {
 
     private final Service<BankAccountDTO, Integer> bankAccountService = new BankAccountService();
     private static final Command INSTANCE = new BlockUsersBankAccountCommand();
-    private static final String PAGE_PATH = "/WEB-INF/jsp/credit_cards.jsp";
+    private static final String PAGE_PATH = "/bank?command=show_users_credit_cards_command";
     private static final String BANK_ACCOUNT_ID_ATTRIBUTE = "bankAccountId";
     private static final String ERROR_ATTRIBUTE = "error";
+    private static final String USER_ID_ATTRIBUTE = "userId";
     private static final String ERROR_MESSAGE = "Can't update bank account status";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String MESSAGE = "User is successfully blocked";
@@ -48,6 +49,7 @@ public class BlockUsersBankAccountCommand implements Command {
     public ResponseContext execute(RequestContext context) {
 
         Integer bankAccountId = Integer.valueOf(context.getParameterByName(BANK_ACCOUNT_ID_ATTRIBUTE));
+        Integer userId = Integer.valueOf(context.getParameterByName(USER_ID_ATTRIBUTE));
 
         boolean isDone = false;
         try {
@@ -55,6 +57,7 @@ public class BlockUsersBankAccountCommand implements Command {
             if (bankAccount.isBlocked()) {
                 isDone = true;
                 context.addAttributeToJsp(MESSAGE_ATTRIBUTE, ALREADY_BLOCKED_MESSAGE);
+                context.addAttributeToJsp(USER_ID_ATTRIBUTE, userId);
                 return BLOCK_USERS_CREDIT_CARD_CONTEXT;
             }
 

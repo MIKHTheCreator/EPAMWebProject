@@ -14,9 +14,10 @@ public class DeblockUsersBankAccountCommand implements Command {
 
     private final Service<BankAccountDTO, Integer> bankAccountService = new BankAccountService();
     private static final Command INSTANCE = new DeblockUsersBankAccountCommand();
-    private static final String PAGE_PATH = "/WEB-INF/jsp/credit_cards.jsp";
+    private static final String PAGE_PATH = "/bank?command=show_users_credit_cards_command";
     private static final String BANK_ACCOUNT_ID_ATTRIBUTE = "bankAccountId";
     private static final String ERROR_ATTRIBUTE = "error";
+    private static final String USER_ID_ATTRIBUTE = "userId";
     private static final String ERROR_MESSAGE = "Can't update bank account status";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String MESSAGE = "User is successfully Deblocked";
@@ -49,6 +50,7 @@ public class DeblockUsersBankAccountCommand implements Command {
     public ResponseContext execute(RequestContext context) {
 
         Integer bankAccountId = Integer.valueOf(context.getParameterByName(BANK_ACCOUNT_ID_ATTRIBUTE));
+        Integer userId = Integer.valueOf(context.getParameterByName(USER_ID_ATTRIBUTE));
 
         boolean isDone = false;
         try {
@@ -56,9 +58,11 @@ public class DeblockUsersBankAccountCommand implements Command {
             if (!bankAccount.isBlocked()) {
                 isDone = true;
                 context.addAttributeToJsp(MESSAGE_ATTRIBUTE, ALREADY_DEBLOCKED_MESSAGE);
+                context.addAttributeToJsp(USER_ID_ATTRIBUTE, userId);
                 return DEBLOCK_USERS_BANK_ACCOUNT_CONTEXT;
             }
 
+            context.addAttributeToJsp(USER_ID_ATTRIBUTE, userId);
             bankAccount.setBlocked(false);
             bankAccountService.update(bankAccount);
             isDone = true;
