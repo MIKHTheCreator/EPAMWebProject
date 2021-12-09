@@ -26,6 +26,7 @@ import com.epam.jwd.controller.command.impl.show_page.ShowMainPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowMakePaymentCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowPaymentsPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowRegistrationPageCommand;
+import com.epam.jwd.controller.command.impl.show_page.ShowSaveUserPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowUserInfoPageCommand;
 import com.epam.jwd.controller.command.impl.show_page.ShowUsersPageCommand;
 import com.epam.jwd.dao.entity.user_account.Role;
@@ -61,7 +62,8 @@ public enum Commands {
     SHOW_EDIT_PASSPORT_PAGE_COMMAND(ShowEditPassportPageCommand.getInstance(), Role.USER),
     SHOW_MAKE_PAYMENT_PAGE_COMMAND(ShowMakePaymentCommand.getInstance(), Role.USER),
     SHOW_PAYMENTS_COMMAND(ShowPaymentsCommand.getInstance(), Role.USER),
-    DEBLOCK_USERS_BANK_ACCOUNT_COMMAND(DeblockUsersBankAccountCommand.getInstance(), Role.ADMIN);
+    DEBLOCK_USERS_BANK_ACCOUNT_COMMAND(DeblockUsersBankAccountCommand.getInstance(), Role.ADMIN),
+    SHOW_SAVE_USER_PAGE_COMMAND(ShowSaveUserPageCommand.getInstance(), Role.UNAUTHORIZED);
 
     private final Command command;
     private final List<Role> allowedRoles;
