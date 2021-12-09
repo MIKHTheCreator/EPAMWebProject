@@ -6,6 +6,8 @@ import com.epam.jwd.controller.request_context.RequestContextImpl;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
 import com.epam.jwd.dao.exception.DAOException;
+import com.epam.jwd.service.connection_pool_inicializer.ConnectionPoolInitializer;
+import com.epam.jwd.service.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +22,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/bank")
 public class ApplicationController extends HttpServlet {
 
-    private final ConnectionPool connectionPool = ConnectionPoolImpl.getInstance();
+    private final ConnectionPoolInitializer connectionPool = ConnectionPoolInitializer.getInstance();
     private static final String COMMAND_PARAMETER = "command";
     private static final String INIT_ERROR_MESSAGE = "Can't initialize the connectionPool";
     private static final String DESTROY_ERROR_MESSAGE = "Can't shutdown the connectionPool";
@@ -56,8 +58,8 @@ public class ApplicationController extends HttpServlet {
     @Override
     public void init() {
         try {
-            connectionPool.init();
-        } catch (DAOException e) {
+            connectionPool.initPool();
+        } catch (ServiceException e) {
             log.error(INIT_ERROR_MESSAGE, e);
         }
     }
@@ -67,7 +69,7 @@ public class ApplicationController extends HttpServlet {
         super.destroy();
         try {
             connectionPool.shutDown();
-        } catch (DAOException e) {
+        } catch (ServiceException e) {
             log.error(DESTROY_ERROR_MESSAGE, e);
         }
     }
