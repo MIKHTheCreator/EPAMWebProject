@@ -13,6 +13,9 @@
 <fmt:message bundle="${loc}" key="submitButton" var="submitButton"/>
 <fmt:message bundle="${loc}" key="wrongPassportSeriaAndNumber" var="wrongPassportSeriaAndNumber"/>
 <fmt:message bundle="${loc}" key="wrongPassportNumber" var="wrongPassportNumber"/>
+<fmt:message bundle="${loc}" key="seriaAndNumber" var="seriaAndNumber"/>
+<fmt:message bundle="${loc}" key="personalNumber" var="personalNumber"/>
+<fmt:message bundle="${loc}" key="expirationDateHeader" var="expirationDateHeader"/>
 
 <!DOCTYPE html>
 <html>

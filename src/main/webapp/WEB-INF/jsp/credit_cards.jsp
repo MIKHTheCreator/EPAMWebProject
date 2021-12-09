@@ -35,7 +35,7 @@
                 <thead>
                 <c:choose>
                     <c:when test="${sessionScope.currentUser.role eq Role.USER}">
-                        <a href="${pageContext.request.contextPath}/bank?command=show_add_credit_card_page_command" class="btn btn-primary btn-xs pull-right"> ${addCreditCard}</a>
+                        <a href="${pageContext.request.contextPath}/bank?command=show_add_credit_card_page_command" class="btn btn-primary btn-xs pull-right" style="height:30px; text-align:center; font-size:14px; font-weight:bold; padding-bottom:5px"> ${addCreditCard}</a>
                         <tr>
                             <th>${ccNumber}</th>
                             <th>${ccExpirationDate}</th>

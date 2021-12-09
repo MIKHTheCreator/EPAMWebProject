@@ -48,33 +48,33 @@
 <form class="form-horizontal" action="${pageContext.request.contextPath}/bank?command=edit_user_command" method="post" style="padding-top: 42px; padding-left: 30px">
     <fieldset>
         <div id="legend">
-            <legend class="">${editAccountData}</legend>
+            <legend class="" style="font-weight: bold; font-size: 22px">${editAccountData}</legend>
         </div>
         <div class="control-group">
             <label class="control-label"  for="firstName">${firstName}</label>
             <div class="controls">
-                <input type="text" id="firstName" name="firstName" placeholder="" class="input-xlarge" pattern="^[a-zA-Z ,.'-]{0,40}$" title="${wrongFirstNameFormat}">
+                <input type="text" id="firstName" name="firstName" placeholder="" class="input-xlarge" pattern="^[a-zA-Z ,.'-]{0,40}$" title="${wrongFirstNameFormat}" style="height: 30px">
             </div>
         </div>
 
         <div class="control-group">
             <label class="control-label" for="secondName">${scondName}</label>
             <div class="controls">
-                <input type="text" id="secondName" name="secondName" placeholder="" class="input-xlarge" pattern="^[a-zA-Z ,.'-]{0,60}$" title="${wrongSecondNameFormat}">
+                <input type="text" id="secondName" name="secondName" placeholder="" class="input-xlarge" pattern="^[a-zA-Z ,.'-]{0,60}$" title="${wrongSecondNameFormat}" style="height: 30px">
             </div>
         </div>
 
         <div class="control-group">
             <label class="control-label" for="phoneNumber">${phoneNumber}</label>
             <div class="controls">
-                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="" class="input-xlarge" pattern="^375(25|44|29|33)\d{0,7}$" title="${wrongPhoneNumberFormat}">
+                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="" class="input-xlarge" pattern="^375(25|44|29|33)\d{0,7}$" title="${wrongPhoneNumberFormat}" style="height: 30px">
             </div>
         </div>
 
         <div class="control-group">
             <label class="control-label" for="age">${age}</label>
             <div class="controls">
-                <input type="text" id="age" name="age" placeholder="" class="input-xlarge" title="${wrongAgeFormat}">
+                <input type="text" id="age" name="age" placeholder="" class="input-xlarge" title="${wrongAgeFormat}" style="height: 30px">
             </div>
         </div>
 
@@ -93,12 +93,12 @@
         <div class="control-group">
             <c:choose>
                 <c:when test="${not empty error}">
-                    <div class="error box" style="color: red; font-family: Verdana, serif; text-align: left; padding: 5px">
+                    <div class="error box" style="color: red; font-family: Verdana, serif; text-align: left; padding-bottom: 10px; padding-top: 5px; padding-left: 95px">
                             ${error}
                     </div>
                 </c:when>
                 <c:when test="${not empty message}">
-                    <div class="error box" style="color: red; font-family: Verdana, serif; text-align: left; padding: 5px">
+                    <div class="error box" style="color: red; font-family: Verdana, serif; text-align: left; padding-bottom: 10px; padding-top: 5px; padding-left: 95px">
                             ${message}
                     </div>
                 </c:when>
