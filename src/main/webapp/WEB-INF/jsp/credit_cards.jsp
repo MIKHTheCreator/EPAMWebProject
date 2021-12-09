@@ -99,6 +99,7 @@
                                                     <span class="glyphicon glyphicon-edit"></span>
                                                 </button>
                                                 <input type="hidden" name="bankAccountId" value="${creditCard.bankAccount.id}">
+                                                <input type="hidden" name="userId" value="${requestScope.userId}">
                                             </form>
                                         </td>
                                     </c:when>
@@ -109,6 +110,7 @@
                                                     <span class="glyphicon glyphicon-edit"></span>
                                                 </button>
                                                 <input type="hidden" name="bankAccountId" value="${creditCard.bankAccount.id}">
+                                                <input type="hidden" name="userId" value="${requestScope.userId}">
                                             </form>
                                         </td>
                                     </c:otherwise>
