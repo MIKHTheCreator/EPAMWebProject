@@ -18,6 +18,7 @@
 <fmt:message bundle="${loc}" key="unableToPay" var="unableToPay"/>
 <fmt:message bundle="${loc}" key="alreadyBlocked" var="alreadyBlocked"/>
 <fmt:message bundle="${loc}" key="blockButton" var="blockButton"/>
+<fmt:message bundle="${loc}" key="deleteCreditCard" var="deleteCreditCard"/>
 
 <!DOCTYPE html>
 <html>
@@ -100,6 +101,7 @@
                             <th>${ccCurrency}</th>
                             <th>${ccIsBlocked}</th>
                             <th class="text-center">${blockUsrButton}</th>
+                            <th class="text-center">${deleteCreditCard}</th>
                         </tr>
                         </thead>
                         <c:forEach items="${sessionScope.creditCards}" var="creditCard">
@@ -134,6 +136,15 @@
                                         </td>
                                     </c:otherwise>
                                 </c:choose>
+                                <td class="text-center">
+                                    <form action="${pageContext.request.contextPath}/bank?command=delete_credit_card_command" method="post">
+                                        <button class="btn btn-info btn-xs" style="background-color: red" type="submit">
+                                            <span class="glyphicon glyphicon-floppy-remove"></span>
+                                        </button>
+                                        <input type="hidden" name="bankAccountId" value="${creditCard.bankAccount.id}">
+                                        <input type="hidden" name="userId" value="${requestScope.userId}">
+                                    </form>
+                                </td>
                             </tr>
                         </c:forEach>
                     </c:when>
