@@ -177,7 +177,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <c:choose>
-                                        <c:when test="${sessionScope.currentUser.age ne null}">
+                                        <c:when test="${sessionScope.currentUser.gender ne null}">
                                             <p>${sessionScope.currentUser.gender}</p>
                                         </c:when>
                                         <c:otherwise>
