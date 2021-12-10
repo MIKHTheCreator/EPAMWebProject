@@ -16,6 +16,8 @@
 <fmt:message bundle="${loc}" key="makePaymentButton" var="makePaymentButton"/>
 <fmt:message bundle="${loc}" key="blockUsrButton" var="blockUsrButton"/>
 <fmt:message bundle="${loc}" key="unableToPay" var="unableToPay"/>
+<fmt:message bundle="${loc}" key="alreadyBlocked" var="alreadyBlocked"/>
+<fmt:message bundle="${loc}" key="blockButton" var="blockButton"/>
 
 <!DOCTYPE html>
 <html>
@@ -44,6 +46,7 @@
                             <th>${ccbalance}</th>
                             <th>${ccIsBlocked}</th>
                             <th class="text-center">${makePaymentButton}</th>
+                            <th class="text-center">${blockButton}</th>
                         </tr>
                         </thead>
                         <c:forEach items="${sessionScope.creditCards}" var="creditCard">
@@ -67,6 +70,22 @@
                                     </c:when>
                                     <c:otherwise>
                                         <td>${unableToPay}</td>
+                                    </c:otherwise>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${creditCard.bankAccount.blocked eq false}">
+                                        <td class="text-center">
+                                            <form action="${pageContext.request.contextPath}/bank?command=block_users_bank_account_command" method="post">
+                                                <button class="btn btn-info btn-xs" style="background-color: red" type="submit">
+                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                </button>
+                                                <input type="hidden" name="bankAccountId" value="${creditCard.bankAccount.id}">
+                                                <input type="hidden" name="userId" value="${sessionScope.currentUser.id}">
+                                            </form>
+                                        </td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td>${alreadyBlocked}</td>
                                     </c:otherwise>
                                 </c:choose>
                             </tr>
