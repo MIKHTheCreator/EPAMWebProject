@@ -67,7 +67,7 @@
         <div class="control-group">
             <label class="control-label" for="age">${age}</label>
             <div class="controls">
-                <input type="text" id="age" name="age" placeholder="" class="input-xlarge" required title="${wrongAgeFormat}" style="height: 30px">
+                <input type="text" id="age" name="age" placeholder="" class="input-xlarge" required title="${wrongAgeFormat}" pattern="^\d+$" style="height: 30px">
             </div>
         </div>
 
