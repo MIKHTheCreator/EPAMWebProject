@@ -4,6 +4,8 @@ import com.epam.jwd.controller.command.Command;
 import com.epam.jwd.controller.command.response_context.ErrorResponseContext;
 import com.epam.jwd.controller.command.response_context.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContext;
+import com.epam.jwd.dao.entity.user_account.Gender;
+import com.epam.jwd.dao.entity.user_account.Role;
 import com.epam.jwd.service.dto.user_account.UserDTO;
 import com.epam.jwd.service.exception.ServiceException;
 import com.epam.jwd.service.impl.user_account.UserService;
@@ -28,6 +30,7 @@ public class EditUserCommand implements Command {
     private static final String SECOND_NAME_ATTRIBUTE = "secondName";
     private static final String PHONE_NUMBER_ATTRIBUTE = "phoneNumber";
     private static final String AGE_ATTRIBUTE = "age";
+    private static final String GENDER_ATTRIBUTE = "gender";
     private static final String MESSAGE_ATTRIBUTE = "message";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String USERNAME_ATTRIBUTE = "name";
@@ -84,6 +87,7 @@ public class EditUserCommand implements Command {
         String secondName = context.getParameterByName(SECOND_NAME_ATTRIBUTE);
         String phoneNumber = context.getParameterByName(PHONE_NUMBER_ATTRIBUTE);
         String stringAge = context.getParameterByName(AGE_ATTRIBUTE);
+        String gender = context.getParameterByName(GENDER_ATTRIBUTE);
         int age;
         if (inputValidator.isValidAgeFormat(stringAge)) {
             age = Integer.parseInt(stringAge);
@@ -93,7 +97,7 @@ public class EditUserCommand implements Command {
 
         try {
 
-            fillUserForm(firstName, user, secondName, phoneNumber, age);
+            fillUserForm(firstName, user, secondName, phoneNumber, gender, age);
 
             validator.validate(user);
 
@@ -112,7 +116,7 @@ public class EditUserCommand implements Command {
     }
 
     private void fillUserForm(String firstName, UserDTO user, String secondName,
-                              String phoneNumber, int age) {
+                              String phoneNumber, String gender, int age) {
 
         if (inputValidator.isEmptyString(firstName)) {
             user.setFirstName(user.getFirstName());
@@ -136,6 +140,12 @@ public class EditUserCommand implements Command {
             user.setAge(user.getAge());
         } else {
             user.setAge(age);
+        }
+
+        if (inputValidator.isEmptyString(gender)) {
+            user.setRole(user.getRole());
+        } else {
+            user.setGender(Gender.valueOf(gender));
         }
     }
 
