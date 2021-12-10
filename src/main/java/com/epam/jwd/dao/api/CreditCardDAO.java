@@ -19,4 +19,5 @@ public interface CreditCardDAO<T extends AbstractEntity<K>, K> {
 
     List<T> findCreditCardsByUserId(K id) throws DAOException;
 
+    T findCreditCardByBankAccountId(K id) throws DAOException;
 }

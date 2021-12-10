@@ -125,4 +125,18 @@ public class CreditCardService implements com.epam.jwd.service.api.CreditCardSer
 
         return creditCards;
     }
+
+    @Override
+    public CreditCardDTO findCreditCardByBankAccountId(Integer id) throws ServiceException {
+        CreditCardDTO creditCardDTO;
+
+        try {
+            creditCardDTO = mapper.convertToDTO(creditCardDAO.findCreditCardByBankAccountId(id));
+        } catch (DAOException e) {
+            log.error(SERVICE_FIND_BY_ID_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_BY_ID_METHOD_EXCEPTION_CODE, e);
+            throw new ServiceException(SERVICE_FIND_BY_ID_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_BY_ID_METHOD_EXCEPTION_CODE, e);
+        }
+
+        return creditCardDTO;
+    }
 }

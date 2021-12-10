@@ -18,4 +18,6 @@ public interface CreditCardService<T extends AbstractEntityDTO<V>, V> {
     void delete(T entity) throws ServiceException;
 
     List<T> findCreditCardsByUserId(V id) throws ServiceException;
+
+    T findCreditCardByBankAccountId(V id) throws ServiceException;
 }

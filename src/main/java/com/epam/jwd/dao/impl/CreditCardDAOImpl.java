@@ -21,6 +21,7 @@ import java.util.List;
 import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_DELETE_CREDIT_CARD_QUERY;
 import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_FIND_ALL_CREDIT_CARDS_BY_USER_ID_QUERY;
 import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_FIND_ALL_CREDIT_CARDS_QUERY;
+import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_FIND_CREDIT_CARD_BY_BANK_ACCOUNT_ID_QUERY;
 import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_FIND_CREDIT_CARD_BY_ID_QUERY;
 import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_SAVE_CREDIT_CARD_QUERY;
 import static com.epam.jwd.dao.message.CreditCardDAOMessage.SQL_UPDATE_CREDIT_CARD_QUERY;
@@ -171,6 +172,25 @@ public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
         }
 
         return creditCards;
+    }
+
+    @Override
+    public CreditCard findCreditCardByBankAccountId(Integer id)
+            throws DAOException {
+        PreparedStatement statement;
+        CreditCard creditCard;
+
+        try (Connection connection = connectionPool.takeConnection()) {
+            statement = connection.prepareStatement(SQL_FIND_CREDIT_CARD_BY_BANK_ACCOUNT_ID_QUERY);
+            statement.setInt(1, id);
+
+            creditCard = findCreditCard(statement);
+        } catch (SQLException exception) {
+            log.error(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
+            throw new DAOException(FIND_BY_ID_EXCEPTION + DELIMITER + FIND_BY_ID_EXCEPTION_CODE, exception);
+        }
+
+        return creditCard;
     }
 
     private CreditCard createCreditCard(ResultSet resultSet)
