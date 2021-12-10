@@ -11,6 +11,7 @@ public class CurrencyParser implements Parser {
     private static final String CURRENCY_PATTERN = "<p class=\"result__BigRate-sc-1bsijpp-1 iGrAod\">(.+?)<span class=\"faded-digits\">";
     private static final String EMPTY_STRING = "";
     private static final String POINTER = ",";
+    private static final Integer GROUP_ID = 1;
 
     private CurrencyParser() {
     }
@@ -27,7 +28,7 @@ public class CurrencyParser implements Parser {
         Matcher matcher = pattern.matcher(stringToParse);
 
         if (matcher.find()) {
-            result = matcher.group(1).replace(POINTER, EMPTY_STRING);
+            result = matcher.group(GROUP_ID).replace(POINTER, EMPTY_STRING);
         }
 
         return result;
