@@ -54,7 +54,7 @@
                             <a class="passive">
                                 <ctg:helloTag/>
                             </a>
-                            <a class="active" href="${pageContext.request.contextPath}/bank?command=show_registration_page_command">${registration}</a>
+                            <a class="active" href="${pageContext.request.contextPath}/bank?command=show_login_page_command">${logIn}</a>
                         </div>
                     </c:otherwise>
                 </c:choose>

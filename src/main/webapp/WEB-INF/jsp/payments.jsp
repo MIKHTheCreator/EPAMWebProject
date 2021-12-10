@@ -44,7 +44,6 @@
                     <table class="table table-striped table-bordered table-list">
                         <thead>
                         <tr>
-                            <th class="hidden-xs">ID</th>
                             <th>${paymentSum}</th>
                             <th>${paymentDate}</th>
                             <th>${paymentOrganization}</th>
@@ -54,7 +53,6 @@
                         <c:forEach items="${sessionScope.payments}" var="payment">
                             <tbody>
                             <tr>
-                                <td class="hidden-xs">${payment.id}</td>
                                 <td>${payment.sumOfPayment}</td>
                                 <td>${payment.dateOfPayment}</td>
                                 <td>${payment.paymentOrganization}</td>
