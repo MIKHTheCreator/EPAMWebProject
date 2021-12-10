@@ -5,6 +5,7 @@ import com.epam.jwd.controller.command.response_context.ErrorResponseContext;
 import com.epam.jwd.controller.command.response_context.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContext;
 import com.epam.jwd.service.api.Service;
+import com.epam.jwd.service.currency_converter.CurrencyConverter;
 import com.epam.jwd.service.dto.payment_system.BankAccountDTO;
 import com.epam.jwd.service.dto.payment_system.PaymentDTO;
 import com.epam.jwd.service.dto.user_account.UserDTO;
@@ -23,6 +24,7 @@ import java.time.LocalDate;
 
 public class SavePaymentCommand implements Command {
 
+    private final CurrencyConverter converter = CurrencyConverter.getInstance();
     private final PaymentManager manager = PaymentManager.getInstance();
     private final Validator<PaymentDTO, Integer> validator = PaymentValidator.getInstance();
     private final PaymentService paymentService = new PaymentService();
@@ -95,11 +97,12 @@ public class SavePaymentCommand implements Command {
 
         UserDTO user = (UserDTO) session.getAttribute(USER_ATTRIBUTE);
 
-        PaymentDTO payment = createPayment(sum, date, organization, goal, bankAccountId, user);
-
         boolean isDone = false;
         try {
             BankAccountDTO bankAccount = bankAccountService.findById(bankAccountId);
+            sum = converter.convert(String.valueOf(sum), currency, bankAccount.getCurrency());
+
+            PaymentDTO payment = createPayment(sum, date, organization, goal, bankAccountId, user);
             validator.validate(payment);
             BigDecimal bankAccountBalance = bankAccount.getBalance();
             if (manager.chooseOperation(goal, sum, bankAccountBalance).equals(SUBTRACT_OPERATION_NUMBER)) {
