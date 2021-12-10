@@ -87,10 +87,10 @@
                     <label class="control-label"  for="currency">${currency}</label>
                     <div class="controls">
                         <select class="span3" name="currency" id="currency" required>
-                            <option value="US">${selectCurrency}</option>
-                            <option value="EU">EU</option>
+                            <option value="USD">${selectCurrency}</option>
+                            <option value="EUR">EUR</option>
                             <option value="BYN">BYN</option>
-                            <option value="US">US</option>
+                            <option value="USD">USD</option>
                         </select>
                     </div>
                 </div>
