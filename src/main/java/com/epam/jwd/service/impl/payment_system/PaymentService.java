@@ -125,4 +125,21 @@ public class PaymentService implements com.epam.jwd.service.api.PaymentService<P
 
         return payments;
     }
+
+    @Override
+    public List<PaymentDTO> findPaymentsByUserIdAndPage(Integer id, int page, int numOfPayments)
+            throws ServiceException {
+        List<PaymentDTO> payments = new ArrayList<>();
+
+        try {
+            for (Payment payment : paymentDAO.findPaymentsByUserIdAndPageLimit(id, page, numOfPayments)) {
+                payments.add(mapper.convertToDTO(payment));
+            }
+        } catch (DAOException e) {
+            log.error(SERVICE_FIND_ALL_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_ALL_METHOD_EXCEPTION_CODE, e);
+            throw new ServiceException(SERVICE_FIND_ALL_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_ALL_METHOD_EXCEPTION_CODE, e);
+        }
+
+        return payments;
+    }
 }

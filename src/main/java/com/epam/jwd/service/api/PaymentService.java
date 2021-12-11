@@ -18,4 +18,6 @@ public interface PaymentService<T extends AbstractEntityDTO<V>, V> {
     void delete(T entity) throws ServiceException;
 
     List<T> findPaymentsByUserId(V id) throws ServiceException;
+
+    List<T> findPaymentsByUserIdAndPage(V id, int page, int numOfPayments) throws ServiceException;
 }

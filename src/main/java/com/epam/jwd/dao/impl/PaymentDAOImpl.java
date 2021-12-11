@@ -29,6 +29,7 @@ import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION_CODE;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION_CODE;
 import static com.epam.jwd.dao.message.PaymentDAOMessage.SQL_DELETE_QUERY;
+import static com.epam.jwd.dao.message.PaymentDAOMessage.SQL_FIND_ALL_PAYMENTS_BY_USER_ID_AND_PAGE_ID_QUERY;
 import static com.epam.jwd.dao.message.PaymentDAOMessage.SQL_FIND_ALL_PAYMENTS_BY_USER_ID_QUERY;
 import static com.epam.jwd.dao.message.PaymentDAOMessage.SQL_FIND_ALL_PAYMENTS_QUERY;
 import static com.epam.jwd.dao.message.PaymentDAOMessage.SQL_FIND_PAYMENT_BY_ID_QUERY;
@@ -156,6 +157,27 @@ public class PaymentDAOImpl implements PaymentDAO<Payment, Integer> {
         try (Connection connection = connectionPool.takeConnection()) {
             statement = connection.prepareStatement(SQL_FIND_ALL_PAYMENTS_BY_USER_ID_QUERY);
             statement.setInt(1, id);
+
+            payments = findAllPayments(statement);
+
+        } catch (SQLException exception) {
+            log.error(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
+            throw new DAOException(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
+        }
+
+        return payments;
+    }
+
+    @Override
+    public List<Payment> findPaymentsByUserIdAndPageLimit(Integer id, int page, int numOfPayments) throws DAOException {
+        List<Payment> payments;
+
+        PreparedStatement statement;
+        try (Connection connection = connectionPool.takeConnection()) {
+            statement = connection.prepareStatement(SQL_FIND_ALL_PAYMENTS_BY_USER_ID_AND_PAGE_ID_QUERY);
+            statement.setInt(1, id);
+            statement.setInt(2, page);
+            statement.setInt(3, numOfPayments);
 
             payments = findAllPayments(statement);
 

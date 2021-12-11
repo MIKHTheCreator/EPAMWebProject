@@ -19,4 +19,6 @@ public interface PaymentDAO<T extends AbstractEntity<K>, K> {
 
     List<T> findAllPaymentsByUserId(K id) throws DAOException;
 
+    List<T> findPaymentsByUserIdAndPageLimit(K id, int page, int numOfPayments) throws DAOException;
+
 }
