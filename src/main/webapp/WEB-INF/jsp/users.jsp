@@ -12,6 +12,8 @@
 <fmt:message bundle="${loc}" key="phoneNumber" var="phoneNumber"/>
 <fmt:message bundle="${loc}" key="age" var="age"/>
 <fmt:message bundle="${loc}" key="gender" var="gender"/>
+<fmt:message bundle="${loc}" key="page" var="page1"/>
+<fmt:message bundle="${loc}" key="of" var="of"/>
 
 <!DOCTYPE html>
 <html>
@@ -27,7 +29,7 @@
 
 <%@include file="common_resource/header.jsp"%>
 <body style="background-color: #00c6ff">
-<div class="container">
+<div class="container" style="padding-top: 90px">
     <div class="row">
         <p></p>
 
@@ -77,17 +79,15 @@
                 </div>
                 <div class="panel-footer">
                     <div class="row">
-                        <div class="col col-xs-4">Page 1 of 5
+                        <div class="col col-xs-4">${page1} ${page} ${of} 5
                         </div>
                         <div class="col col-xs-8">
                             <ul class="pagination hidden-xs pull-right">
-                                <li><a href="">«</a></li>
                                 <li><a href="${pageContext.request.contextPath}/bank?command=show_users_command&page=1">1</a></li>
                                 <li><a href="${pageContext.request.contextPath}/bank?command=show_users_command&page=2">2</a></li>
                                 <li><a href="${pageContext.request.contextPath}/bank?command=show_users_command&page=3">3</a></li>
                                 <li><a href="${pageContext.request.contextPath}/bank?command=show_users_command&page=4">4</a></li>
                                 <li><a href="${pageContext.request.contextPath}/bank?command=show_users_command&page=5">5</a></li>
-                                <li><a href="#">»</a></li>
                             </ul>
                         </div>
                     </div>

@@ -11,6 +11,8 @@
 <fmt:message bundle="${loc}" key="paymentDate" var="paymentDate"/>
 <fmt:message bundle="${loc}" key="paymentOrganization" var="paymentOrganization"/>
 <fmt:message bundle="${loc}" key="paymentGoal" var="paymentGoal"/>
+<fmt:message bundle="${loc}" key="page" var="page1"/>
+<fmt:message bundle="${loc}" key="of" var="of"/>
 
 <!DOCTYPE html>
 <html>
@@ -26,7 +28,7 @@
 
 <body style="background: url(https://images.unsplash.com/flagged/photo-1554386690-8627e1041100?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1233&q=80) no-repeat center center fixed; background-size: cover">
 <%@include file="common_resource/header.jsp"%>
-<div class="container" style="padding-top: 40px; padding-bottom: 40px">
+<div class="container" style="padding-top: 90px; padding-bottom: 40px">
     <div class="row">
         <p></p>
 
@@ -65,17 +67,15 @@
                 </div>
                 <div class="panel-footer">
                     <div class="row">
-                        <div class="col col-xs-4">Page 1 of 5
+                        <div class="col col-xs-4">${page1} ${page} ${of} 5
                         </div>
                         <div class="col col-xs-8">
                             <ul class="pagination hidden-xs pull-right">
-                                <li><a href="#">«</a></li>
                                 <li><a href="${pageContext.request.contextPath}/bank?command=show_payments_command&page=1">1</a></li>
                                 <li><a href="${pageContext.request.contextPath}/bank?command=show_payments_command&page=2">2</a></li>
                                 <li><a href="${pageContext.request.contextPath}/bank?command=show_payments_command&page=3">3</a></li>
                                 <li><a href="${pageContext.request.contextPath}/bank?command=show_payments_command&page=4">4</a></li>
                                 <li><a href="${pageContext.request.contextPath}/bank?command=show_payments_command&page=5">5</a></li>
-                                <li><a href="#">»</a></li>
                             </ul>
                         </div>
                     </div>
