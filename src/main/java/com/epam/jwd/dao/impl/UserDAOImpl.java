@@ -116,7 +116,7 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
 
         try {
             connection = connectionPool.takeConnection();
-            connection.setAutoCommit(true);
+            connection.setAutoCommit(false);
             statement = connection.prepareStatement(SQL_FIND_USER_BY_ID_QUERY);
             statement.setInt(1, id);
 
