@@ -22,15 +22,6 @@ class UserDAOImplTest {
 
     private UserDAO<User, Integer> userDAO;
     private ConnectionPoolInitializer initializer;
-    private static final User USER = new User.Builder()
-            .withFirstName("Mikhail")
-            .withSecondName("Kharevich")
-            .withPhoneNumber("375257536713")
-            .withAge(25)
-            .withGender(Gender.MALE)
-            .withClientId(58)
-            .withRole(Role.USER)
-            .build();
     private static final User USER_TEST = new User.Builder()
             .withId(9999)
             .withFirstName("TEST")
