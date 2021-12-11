@@ -7,7 +7,8 @@ public class BankAccountCashValidator {
 
     private static final BankAccountCashValidator INSTANCE = new BankAccountCashValidator();
 
-    private BankAccountCashValidator() {}
+    private BankAccountCashValidator() {
+    }
 
     public static BankAccountCashValidator getInstance() {
 
