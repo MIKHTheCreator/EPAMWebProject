@@ -136,4 +136,20 @@ public class UserService implements com.epam.jwd.service.api.UserService<UserDTO
 
         return userDTO;
     }
+
+    @Override
+    public List<UserDTO> findUsersToPage(int page, int numOfUsers) throws ServiceException {
+        List<UserDTO> users = new ArrayList<>();
+
+        try {
+            for (User user : userDAO.findUsersToPage(page, numOfUsers)) {
+                users.add(mapper.convertToDTO(user));
+            }
+        } catch (DAOException e) {
+            log.error(SERVICE_FIND_ALL_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_ALL_METHOD_EXCEPTION_CODE, e);
+            throw new ServiceException(SERVICE_FIND_ALL_METHOD_EXCEPTION + DELIMITER + SERVICE_FIND_ALL_METHOD_EXCEPTION_CODE, e);
+        }
+
+        return users;
+    }
 }

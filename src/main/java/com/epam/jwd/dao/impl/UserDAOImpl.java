@@ -221,6 +221,39 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         return user;
     }
 
+    @Override
+    public List<User> findUsersToPage(int page, int numOfPositions) throws DAOException {
+        List<User> users;
+        Connection connection = null;
+        PreparedStatement statement;
+
+        try {
+            connection = connectionPool.takeConnection();
+            connection.setAutoCommit(false);
+            statement = connection.prepareStatement(SQL_FIND_ALL_USERS_TO_PAGE_QUERY);
+            statement.setInt(1, page - 1);
+            statement.setInt(2, numOfPositions);
+
+            users = findUsers(statement, connection);
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException exception) {
+            try {
+                connection.rollback();
+            } catch (SQLException e) {
+                log.error(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
+                throw new DAOException(ROLLBACK_EXCEPTION + DELIMITER + ROLLBACK_EXCEPTION_CODE, e);
+            }
+
+            log.error(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
+            throw new DAOException(FIND_ALL_EXCEPTION + DELIMITER + FIND_ALL_EXCEPTION_CODE, exception);
+        } finally {
+            connectionPool.returnConnection(connection);
+        }
+
+        return users;
+    }
+
     private void saveUser(PreparedStatement statement, User user)
             throws SQLException {
 

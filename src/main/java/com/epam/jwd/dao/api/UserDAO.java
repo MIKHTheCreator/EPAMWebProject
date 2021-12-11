@@ -20,4 +20,6 @@ public interface UserDAO<T extends AbstractEntity<V>, V> {
     T findUserByClientId(V id) throws DAOException;
 
     T updateUsersPassportId(T entity) throws DAOException;
+
+    List<T> findUsersToPage(int page, int numOfPositions) throws DAOException;
 }

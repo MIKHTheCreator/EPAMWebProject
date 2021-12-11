@@ -10,4 +10,5 @@ public interface UserDAOMessage {
     String SQL_UPDATE_USER_QUERY = "UPDATE user SET first_name=?, second_name=?, phone_number=?, age =?, gender=? WHERE user_id = ?";
     String SQL_UPDATE_PASSPORT_DATA_QUERY = "UPDATE user SET passport_id=? WHERE user_id = ?";
     String SQL_FIND_ROLE_BY_ID = "SELECT role_name FROM role WHERE role_id=?";
+    String SQL_FIND_ALL_USERS_TO_PAGE_QUERY = "SELECT user_id, first_name, second_name, phone_number, age, gender, client_id, passport_id, role_id FROM user LIMIT ?, ?";
 }
