@@ -19,6 +19,7 @@
         <xerces.version>2.12.1</xerces.version>
         <javaee.version>8.0.1</javaee.version>
         <jsp.api.version>2.0</jsp.api.version>
+        <jsst.api.version>1.2</jsst.api.version>
     </properties>
 
     <dependencies>
@@ -74,18 +75,18 @@
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <version>${jsst.api.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet.jsp.jstl</groupId>
             <artifactId>jstl-api</artifactId>
-            <version>1.2</version>
+            <version>${jsst.api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>jstl-impl</artifactId>
-            <version>1.2</version>
+            <version>${jsst.api.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
