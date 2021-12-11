@@ -57,11 +57,14 @@ public class ShowUsersCommand implements Command {
         }
 
         int page;
-        if(context.getParameterByName(PAGE_ATTRIBUTE) == null) {
+        if(context.getParameterByName(PAGE_ATTRIBUTE) == null
+                || Integer.parseInt(context.getParameterByName(PAGE_ATTRIBUTE)) <= 1) {
             page = STARTER_PAGE;
         } else {
             page = Integer.parseInt(context.getParameterByName(PAGE_ATTRIBUTE));
         }
+
+        context.addAttributeToJsp(PAGE_ATTRIBUTE, page);
 
         if(page != 1) {
             page = page - 1;

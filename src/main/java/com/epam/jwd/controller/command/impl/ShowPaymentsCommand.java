@@ -65,6 +65,8 @@ public class ShowPaymentsCommand implements Command {
             page = Integer.parseInt(context.getParameterByName(PAGE_ATTRIBUTE));
         }
 
+        context.addAttributeToJsp(PAGE_ATTRIBUTE, page);
+
         if(page != 1) {
             page = page - 1;
             page = page * TOTAL_PAYMENTS_ON_PAGE + 1;
