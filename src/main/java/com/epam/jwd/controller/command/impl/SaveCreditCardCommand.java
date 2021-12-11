@@ -100,23 +100,23 @@ public class SaveCreditCardCommand implements Command {
 
         BankAccountDTO bankAccount = new BankAccountDTO(STARTER_BALANCE, currency, false);
 
+
         try {
             bankAccountValidator.validate(bankAccount);
             bankAccount = bankAccountService.save(bankAccount);
-        } catch (ServiceException e) {
-            log.error(BANK_ACCOUNT_ERROR, e);
-            context.addAttributeToJsp(ERROR_ATTRIBUTE, BANK_ACCOUNT_ERROR + e.getMessage());
-        }
-
-        CreditCardDTO creditCard = createCreditCard(creditCardNumber, expirationDate, fullName, bankAccount, user);
-
-        try {
+            CreditCardDTO creditCard = createCreditCard(creditCardNumber, expirationDate, fullName, bankAccount, user);
             creditCardValidator.validate(creditCard);
             creditCardService.save(creditCard);
         } catch (ServiceException e) {
-            e.printStackTrace();
             log.error(CREDIT_CARD_ERROR, e);
             context.addAttributeToJsp(ERROR_ATTRIBUTE, CREDIT_CARD_ERROR + e.getMessage());
+            try {
+                bankAccountService.delete(bankAccount);
+            } catch (ServiceException ex) {
+                log.error(BANK_ACCOUNT_ERROR + ex.getMessage());
+                context.addAttributeToJsp(ERROR_ATTRIBUTE, BANK_ACCOUNT_ERROR);
+                return FAIL_TO_SAVE_CREDIT_CARD_CONTEXT;
+            }
             return FAIL_TO_SAVE_CREDIT_CARD_CONTEXT;
         }
 
