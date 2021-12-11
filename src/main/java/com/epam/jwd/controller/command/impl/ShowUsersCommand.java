@@ -21,6 +21,9 @@ public class ShowUsersCommand implements Command {
     private static final String USERS_ATTRIBUTE = "users";
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String ERROR_MESSAGE = "Can't find users ";
+    private static final String PAGE_ATTRIBUTE = "page";
+    private static final Integer TOTAL_USERS_ON_PAGE = 5;
+    private static final Integer STARTER_PAGE = 1;
 
     private static final Logger log = LogManager.getLogger(ShowUsersCommand.class);
 
@@ -53,8 +56,20 @@ public class ShowUsersCommand implements Command {
             return ERROR_CONTEXT;
         }
 
+        int page;
+        if(context.getParameterByName(PAGE_ATTRIBUTE) == null) {
+            page = STARTER_PAGE;
+        } else {
+            page = Integer.parseInt(context.getParameterByName(PAGE_ATTRIBUTE));
+        }
+
+        if(page != 1) {
+            page = page - 1;
+            page = page * TOTAL_USERS_ON_PAGE + 1;
+        }
+
         try {
-            List<UserDTO> users = userService.findAll();
+            List<UserDTO> users = userService.findUsersToPage(page, TOTAL_USERS_ON_PAGE);
             session.setAttribute(USERS_ATTRIBUTE, users);
         } catch (ServiceException e) {
             log.error(ERROR_MESSAGE, e);

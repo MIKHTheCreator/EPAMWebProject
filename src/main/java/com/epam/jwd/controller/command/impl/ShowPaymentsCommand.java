@@ -23,6 +23,9 @@ public class ShowPaymentsCommand implements Command {
     private static final String PAYMENTS_ATTRIBUTE = "payments";
     private static final String ERROR_ATTRIBUTE = "payments";
     private static final String ERROR_MESSAGE = "Can't find payments ";
+    private static final String PAGE_ATTRIBUTE = "page";
+    private static final Integer TOTAL_PAYMENTS_ON_PAGE = 7;
+    private static final Integer STARTER_PAGE = 1;
 
     private static final Logger log = LogManager.getLogger(ShowPaymentsCommand.class);
 
@@ -55,10 +58,22 @@ public class ShowPaymentsCommand implements Command {
             return ERROR_CONTEXT;
         }
 
+        int page;
+        if(context.getParameterByName(PAGE_ATTRIBUTE) == null) {
+            page = STARTER_PAGE;
+        } else {
+            page = Integer.parseInt(context.getParameterByName(PAGE_ATTRIBUTE));
+        }
+
+        if(page != 1) {
+            page = page - 1;
+            page = page * TOTAL_PAYMENTS_ON_PAGE + 1;
+        }
+
         UserDTO user = (UserDTO) session.getAttribute(USER_ATTRIBUTE);
 
         try {
-            List<PaymentDTO> payments = paymentService.findPaymentsByUserId(user.getId());
+            List<PaymentDTO> payments = paymentService.findPaymentsByUserIdAndPage(user.getId(), page, TOTAL_PAYMENTS_ON_PAGE);
             session.setAttribute(PAYMENTS_ATTRIBUTE, payments);
         } catch (ServiceException e) {
             log.error(ERROR_MESSAGE, e);
