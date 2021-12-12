@@ -49,27 +49,23 @@ public final class ConnectionPoolImpl implements ConnectionPool {
     }
 
     @Override
-    public boolean init()
+    public void init()
             throws DAOException {
 
         if (!initialized) {
             createConnections();
             initialized = true;
-            return true;
         }
 
-        return false;
     }
 
     @Override
-    public boolean shutDown() throws DAOException {
+    public void shutDown() throws DAOException {
         if (initialized) {
             closeConnections();
             initialized = false;
-            return true;
         }
 
-        return false;
     }
 
     @Override
