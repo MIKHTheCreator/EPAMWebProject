@@ -6,9 +6,9 @@ import java.sql.Connection;
 
 public interface ConnectionPool {
 
-    boolean init() throws DAOException;
+    void init() throws DAOException;
 
-    boolean shutDown() throws DAOException;
+    void shutDown() throws DAOException;
 
     Connection takeConnection();
 
