@@ -5,24 +5,71 @@ import com.epam.jwd.dao.entity.AbstractEntity;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * @author mikh
+ * CreditCard entity class which provides user with Credit Card entity and optional fields
+ * This class extends AbstractEntity and uses Integer id field
+ */
 public class CreditCard extends AbstractEntity<Integer> {
 
+    /**
+     * String which associated with credit card number
+     */
     private String number;
+    /**
+     * LocalDate field with credit card expiration date
+     * @see LocalDate
+     */
     private LocalDate expirationDate;
+    /**
+     * String filed with full name
+     */
     private String fullName;
+    /**
+     * String field with cvv code
+     */
     private String CVV;
+    /**
+     * String field with pin code
+     */
     private String pin;
+    /**
+     * Integer field with bankAccountId
+     */
     private Integer bankAccountId;
+    /**
+     * Integer field with userId
+     */
     private Integer userId;
 
+    /**
+     * Constructor without arguments for creating empty CreditCard object
+     * @see CreditCard#CreditCard(Integer)
+     * @see CreditCard#CreditCard(Integer, String, LocalDate, String, String, String, Integer, Integer)
+     */
     public CreditCard() {
     }
 
-
+    /**
+     * Constructor with id argument
+     * @see AbstractEntity#AbstractEntity(Object)
+     * @param id provided credit card id
+     */
     public CreditCard(Integer id) {
         super(id);
     }
 
+    /**
+     * Constructor with all possible arguments
+     * @param id provided credit card id
+     * @param number credit card number
+     * @param expirationDate credit card expiration date
+     * @param fullName users full name
+     * @param CVV credit card cvv code
+     * @param pin credit card pin code
+     * @param bankAccount bank account associated with current credit card
+     * @param userId user associated with current credit card
+     */
     public CreditCard(Integer id, String number, LocalDate expirationDate, String fullName,
                       String CVV, String pin, Integer bankAccount, Integer userId) {
         super(id);
