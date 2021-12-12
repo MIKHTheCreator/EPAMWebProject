@@ -1,5 +1,8 @@
 package com.epam.jwd.dao.message;
 
+/**
+ * Interface which contains SQL Bank Account queries
+ */
 public interface BankAccountDAOMessage {
 
     String SQL_SAVE_BANK_ACCOUNT_QUERY = "INSERT INTO bank_account (balance, currency, is_blocked) VALUES (?, ?, ?)";
