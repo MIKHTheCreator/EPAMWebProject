@@ -170,6 +170,9 @@ public class CreditCard extends AbstractEntity<Integer> {
         return Objects.hash(number, expirationDate, fullName, CVV, pin, bankAccountId, userId);
     }
 
+    /**
+     * Credit Card builder class which realize Builder pattern to partly create credit card
+     */
     public static class Builder {
 
         private Integer id;
