@@ -4,19 +4,51 @@ import com.epam.jwd.dao.entity.AbstractEntity;
 
 import java.util.Objects;
 
+/**
+ * Client entity class which extends AbstractEntity class with Integer id field
+ * This class describes Client of the bank system
+ */
 public class Client extends AbstractEntity<Integer> {
 
+    /**
+     * String field with client's username
+     */
     private String username;
+    /**
+     * String filed with client's email
+     */
     private String email;
+    /**
+     * String filed with client's password
+     */
     private String password;
 
+    /**
+     * Constructor without arguments for creating empty Client Object
+     *
+     * @see Client#Client(Integer)
+     * @see Client#Client(Integer, String, String, String)
+     */
     public Client() {
     }
 
+    /**
+     * Constructor for creating Client object with id
+     *
+     * @param id client's id
+     */
     public Client(Integer id) {
         super(id);
     }
 
+    /**
+     * Constructor with all amount of arguments for creating Client object with all properties
+     *
+     * @param id       client's id
+     * @param username client's username
+     * @param email    client's email
+     * @param password client's password
+     */
     public Client(Integer id, String username, String email, String password) {
         super(id);
         this.username = username;
