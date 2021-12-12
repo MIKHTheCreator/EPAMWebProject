@@ -14,6 +14,7 @@ import com.epam.jwd.service.exception.ServiceException;
 import com.epam.jwd.service.impl.payment_system.BankAccountService;
 import com.epam.jwd.service.impl.payment_system.CreditCardService;
 import com.epam.jwd.service.validator.Validator;
+import com.epam.jwd.service.validator.input_validator.InputValidator;
 import com.epam.jwd.service.validator.payment_system.BankAccountValidator;
 import com.epam.jwd.service.validator.payment_system.CreditCardValidator;
 import org.apache.logging.log4j.LogManager;
@@ -29,6 +30,7 @@ public class SaveCreditCardCommand implements Command {
     private final Service<BankAccountDTO, Integer> bankAccountService = new BankAccountService();
     private final Validator<CreditCardDTO, Integer> creditCardValidator = CreditCardValidator.getInstance();
     private final Validator<BankAccountDTO, Integer> bankAccountValidator = BankAccountValidator.getInstance();
+    private final InputValidator inputValidator = InputValidator.getInstance();
     private final CreditCardConfig creditCardConfig = CreditCardConfigImpl.getInstance();
     private static final Command INSTANCE = new SaveCreditCardCommand();
     private static final String PAGE_PATH = "/bank?command=show_credit_cards_command";
@@ -42,6 +44,8 @@ public class SaveCreditCardCommand implements Command {
     private static final String FULL_NAME_ATTRIBUTE = "fullName";
     private static final String BANK_ACCOUNT_ERROR = "Can't create bank account with such parameters ";
     private static final String CREDIT_CARD_ERROR = "Can't create credit card with such parameters ";
+    private static final String DEFAULT_MONTH = "12";
+    private static final String DEFAULT_YEAR = "2021";
     private static final BigDecimal STARTER_BALANCE = new BigDecimal(0);
 
     private static final Logger log = LogManager.getLogger(SaveCreditCardCommand.class);
@@ -91,15 +95,24 @@ public class SaveCreditCardCommand implements Command {
 
         String currency = context.getParameterByName(CURRENCY_ATTRIBUTE);
         String creditCardNumber = context.getParameterByName(CREDIT_CARD_NUMBER_ATTRIBUTE);
-        String expirationMonth = context.getParameterByName(EXPIRATION_MONTH_ATTRIBUTE);
-        String expirationYear = context.getParameterByName(EXPIRATION_YEAR_ATTRIBUTE);
+        String expirationMonth;
+        if (inputValidator.isEmptyString(context.getParameterByName(EXPIRATION_MONTH_ATTRIBUTE))) {
+            expirationMonth = DEFAULT_MONTH;
+        } else {
+            expirationMonth = context.getParameterByName(EXPIRATION_MONTH_ATTRIBUTE);
+        }
+        String expirationYear;
+        if (inputValidator.isEmptyString(context.getParameterByName(EXPIRATION_YEAR_ATTRIBUTE))) {
+            expirationYear = DEFAULT_YEAR;
+        } else {
+            expirationYear = context.getParameterByName(EXPIRATION_YEAR_ATTRIBUTE);
+        }
         LocalDate expirationDate = LocalDate.parse(expirationYear + "-" + expirationMonth + "-01");
         String fullName = context.getParameterByName(FULL_NAME_ATTRIBUTE);
 
         UserDTO user = (UserDTO) session.getAttribute(USER_ATTRIBUTE);
 
         BankAccountDTO bankAccount = new BankAccountDTO(STARTER_BALANCE, currency, false);
-
 
         try {
             bankAccountValidator.validate(bankAccount);

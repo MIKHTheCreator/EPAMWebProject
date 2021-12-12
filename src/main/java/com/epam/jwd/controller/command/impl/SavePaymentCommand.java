@@ -14,6 +14,7 @@ import com.epam.jwd.service.impl.payment_system.BankAccountService;
 import com.epam.jwd.service.impl.payment_system.PaymentService;
 import com.epam.jwd.service.payment_manager.PaymentManager;
 import com.epam.jwd.service.validator.Validator;
+import com.epam.jwd.service.validator.input_validator.InputValidator;
 import com.epam.jwd.service.validator.payment_system.PaymentValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,6 +28,7 @@ public class SavePaymentCommand implements Command {
     private final CurrencyConverter converter = CurrencyConverter.getInstance();
     private final PaymentManager manager = PaymentManager.getInstance();
     private final Validator<PaymentDTO, Integer> validator = PaymentValidator.getInstance();
+    private final InputValidator inputValidator = InputValidator.getInstance();
     private final PaymentService paymentService = new PaymentService();
     private final Service<BankAccountDTO, Integer> bankAccountService = new BankAccountService();
     private static final Command INSTANCE = new SavePaymentCommand();
@@ -45,6 +47,7 @@ public class SavePaymentCommand implements Command {
     private static final String FAIL_MESSAGE = "Payment wasn't created ";
     private static final String ERROR_MESSAGE = "Enable to create a payment ";
     private static final Integer SUBTRACT_OPERATION_NUMBER = 1;
+    private static final String ZERO = "0";
 
     private static final Logger log = LogManager.getLogger(SavePaymentCommand.class);
 
@@ -81,7 +84,12 @@ public class SavePaymentCommand implements Command {
     @Override
     public ResponseContext execute(RequestContext context) {
 
-        BigDecimal sum = new BigDecimal(context.getParameterByName(SUM_ATTRIBUTE));
+        BigDecimal sum;
+        if (inputValidator.isEmptyString(context.getParameterByName(SUM_ATTRIBUTE))) {
+            sum = new BigDecimal(ZERO);
+        } else {
+            sum = new BigDecimal(context.getParameterByName(SUM_ATTRIBUTE));
+        }
         LocalDate date = LocalDate.parse(context.getParameterByName(DATE_ATTRIBUTE));
         String organization = context.getParameterByName(ORGANIZATION_ATTRIBUTE);
         String goal = context.getParameterByName(GOAL_ATTRIBUTE);
