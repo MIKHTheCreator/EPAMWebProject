@@ -8,6 +8,6 @@
     </head>
 
     <body>
-        <c:redirect url ="/WEB-INF/jsp/main.jsp"/>
+        <c:redirect url ="/bank?command=show_main_page_command"/>
     </body>
 </html>
