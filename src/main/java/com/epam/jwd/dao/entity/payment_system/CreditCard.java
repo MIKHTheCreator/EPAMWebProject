@@ -171,7 +171,7 @@ public class CreditCard extends AbstractEntity<Integer> {
     }
 
     /**
-     * Credit Card builder class which realize Builder pattern to partly create credit card
+     * Credit Card builder static inner class which realize Builder pattern to partly create credit card
      */
     public static class Builder {
 
