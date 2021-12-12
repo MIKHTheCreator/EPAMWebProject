@@ -18,6 +18,7 @@ public class CreditCard extends AbstractEntity<Integer> {
     private String number;
     /**
      * LocalDate field with credit card expiration date
+     *
      * @see LocalDate
      */
     private LocalDate expirationDate;
@@ -44,6 +45,7 @@ public class CreditCard extends AbstractEntity<Integer> {
 
     /**
      * Constructor without arguments for creating empty CreditCard object
+     *
      * @see CreditCard#CreditCard(Integer)
      * @see CreditCard#CreditCard(Integer, String, LocalDate, String, String, String, Integer, Integer)
      */
@@ -52,8 +54,9 @@ public class CreditCard extends AbstractEntity<Integer> {
 
     /**
      * Constructor with id argument
-     * @see AbstractEntity#AbstractEntity(Object)
+     *
      * @param id provided credit card id
+     * @see AbstractEntity#AbstractEntity(Object)
      */
     public CreditCard(Integer id) {
         super(id);
@@ -61,14 +64,15 @@ public class CreditCard extends AbstractEntity<Integer> {
 
     /**
      * Constructor with all possible arguments
-     * @param id provided credit card id
-     * @param number credit card number
+     *
+     * @param id             provided credit card id
+     * @param number         credit card number
      * @param expirationDate credit card expiration date
-     * @param fullName users full name
-     * @param CVV credit card cvv code
-     * @param pin credit card pin code
-     * @param bankAccount bank account associated with current credit card
-     * @param userId user associated with current credit card
+     * @param fullName       users full name
+     * @param CVV            credit card cvv code
+     * @param pin            credit card pin code
+     * @param bankAccount    bank account associated with current credit card
+     * @param userId         user associated with current credit card
      */
     public CreditCard(Integer id, String number, LocalDate expirationDate, String fullName,
                       String CVV, String pin, Integer bankAccount, Integer userId) {
