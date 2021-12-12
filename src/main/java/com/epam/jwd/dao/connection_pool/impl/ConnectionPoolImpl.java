@@ -53,6 +53,7 @@ public final class ConnectionPoolImpl implements ConnectionPool {
 
     /**
      * Constructor which initialize available and given away connections
+     *
      * @see ConnectionPoolImpl#availableConnections
      * @see ConnectionPoolImpl#givenAwayConnections
      */
@@ -63,6 +64,7 @@ public final class ConnectionPoolImpl implements ConnectionPool {
 
     /**
      * Singleton realization of given instance back to user
+     *
      * @return Connection pool instance in one copy
      */
     public static ConnectionPool getInstance() {
@@ -106,6 +108,7 @@ public final class ConnectionPoolImpl implements ConnectionPool {
      * Method takes connection from collection {@link ConnectionPoolImpl#availableConnections} and put
      * it in {@link ConnectionPoolImpl#givenAwayConnections}
      * and returns it to user
+     *
      * @see ConnectionPool#takeConnection()
      */
     @Override
@@ -125,8 +128,9 @@ public final class ConnectionPoolImpl implements ConnectionPool {
     /**
      * Method which takes connection from {@link ConnectionPoolImpl#givenAwayConnections}
      * and puts it to {@link ConnectionPoolImpl#availableConnections}
-     * @see ConnectionPool#returnConnection(Connection)
+     *
      * @param connection connection to return to pool
+     * @see ConnectionPool#returnConnection(Connection)
      */
     @Override
     public void returnConnection(Connection connection) {
@@ -141,6 +145,7 @@ public final class ConnectionPoolImpl implements ConnectionPool {
     /**
      * Method which creates connection pool of INITIAL_SIZE {@link com.epam.jwd.dao.message.SQLConfig#INITIAL_SIZE}
      * It creates ProxyConnections {@link ProxyConnection} and puts it to {@link ConnectionPoolImpl#availableConnections}
+     *
      * @throws DAOException if SQL driver is unavailable
      */
     private void createConnections() throws DAOException {
@@ -164,6 +169,7 @@ public final class ConnectionPoolImpl implements ConnectionPool {
 
     /**
      * Method which close connections
+     *
      * @see ConnectionPoolImpl#closeConnections(Collection)
      */
     private void closeConnections() throws DAOException {
@@ -173,8 +179,9 @@ public final class ConnectionPoolImpl implements ConnectionPool {
 
     /**
      * Method which takes collection with ProxyConnection and close connections
-     * @see ConnectionPoolImpl#closeConnection(ProxyConnection)
+     *
      * @param connections collection with ProxyConnections
+     * @see ConnectionPoolImpl#closeConnection(ProxyConnection)
      */
     private void closeConnections(Collection<ProxyConnection> connections) throws DAOException {
         for (ProxyConnection connection : connections) {
@@ -185,9 +192,10 @@ public final class ConnectionPoolImpl implements ConnectionPool {
     /**
      * Method which close one connection
      * It calls close method on ProxyConnection
-     * @see ProxyConnection#close()
+     *
      * @param connection connection to close
      * @throws DAOException if can't close current connection {@link Connection#close()}
+     * @see ProxyConnection#close()
      */
     private void closeConnection(ProxyConnection connection) throws DAOException {
         try {
