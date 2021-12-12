@@ -6,22 +6,70 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * Payment entity class extends from AbstractEntity with Integer id field
+ * Class describes Payment
+ */
 public class Payment extends AbstractEntity<Integer> {
 
+    /**
+     * BigDecimal field which describes payment sum
+     *
+     * @see BigDecimal
+     */
     private BigDecimal sumOfPayment;
+    /**
+     * LocalDate field which describes date of payment
+     *
+     * @see LocalDate
+     */
     private LocalDate dateOfPayment;
+    /**
+     * String field which describes payment organization
+     */
     private String paymentOrganization;
+    /**
+     * String field which describes payment goal
+     */
     private String paymentGoal;
+    /**
+     * Integer field which describes bankAccount id of bank account attached to current payment
+     */
     private Integer bankAccountId;
+    /**
+     * Integer field which describes userId attached to current payment
+     */
     private Integer userid;
 
+    /**
+     * Constructor without arguments for creating empty Payment object
+     *
+     * @see Payment#Payment(Integer)
+     * @see Payment#Payment(Integer, BigDecimal, LocalDate, String, String, Integer, Integer)
+     */
     public Payment() {
     }
 
+    /**
+     * Constructor with id field which create object with Integer id
+     *
+     * @param id Integer payment id
+     */
     public Payment(Integer id) {
         super(id);
     }
 
+    /**
+     * Constructor with all amount of arguments which creates payment with all properties
+     *
+     * @param id                  payment id
+     * @param sumOfPayment        sum of payment
+     * @param dateOfPayment       date of payment
+     * @param paymentOrganization payment organization
+     * @param paymentGoal         payment goal
+     * @param bankAccountId       bank account id
+     * @param userid              user id
+     */
     public Payment(Integer id, BigDecimal sumOfPayment, LocalDate dateOfPayment,
                    String paymentOrganization, String paymentGoal, Integer bankAccountId, Integer userid) {
         super(id);
@@ -111,6 +159,9 @@ public class Payment extends AbstractEntity<Integer> {
                 '}';
     }
 
+    /**
+     * Builder for Payment object created by Builder pattern for creating object by parts
+     */
     public static class Builder {
 
         private Integer id;
