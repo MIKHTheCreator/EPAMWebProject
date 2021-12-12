@@ -5,24 +5,80 @@ import com.epam.jwd.dao.entity.AbstractEntity;
 
 import java.util.Objects;
 
+/**
+ * User entity class which extends AbstractEntity with Integer id field
+ * Class describes user of bank system
+ */
 public class User extends AbstractEntity<Integer> {
 
+    /**
+     * String field with user's first name
+     */
     private String firstName;
+    /**
+     * String field with user's second name
+     */
     private String secondName;
+    /**
+     * String field with user's phone number
+     */
     private String phoneNumber;
+    /**
+     * Integer field with user's age
+     */
     private Integer age;
+    /**
+     * Gender field which describes user's gender
+     *
+     * @see Gender
+     */
     private Gender gender;
+    /**
+     * Role field with user's role
+     *
+     * @see Role
+     */
     private Role role;
+    /**
+     * Integer field with client id which associated with current user
+     */
     private Integer clientId;
+    /**
+     * Integer id field with passport id which associated with current user
+     */
     private Integer passportId;
 
+    /**
+     * Constructor without arguments for creating empty User object
+     *
+     * @see User#User(Integer)
+     * @see User#User(Integer, String, String, String, Integer, Gender, Role, Integer, Integer)
+     */
     public User() {
     }
 
+    /**
+     * Constructor with Integer id argument for creating User with associated id property
+     *
+     * @param id user's id
+     */
     public User(Integer id) {
         super(id);
     }
 
+    /**
+     * Constructor with all amount of user's properties for creating real user
+     *
+     * @param id          user's id
+     * @param firstName   user's first name
+     * @param secondName  user's second name
+     * @param phoneNumber user's phone number
+     * @param age         user's age
+     * @param gender      user's gender
+     * @param role        user's role
+     * @param clientId    client id which associated with current user
+     * @param passportId  passport id which associated with current user
+     */
     public User(Integer id, String firstName, String secondName, String phoneNumber,
                 Integer age, Gender gender, Role role, Integer clientId, Integer passportId) {
         super(id);
@@ -134,6 +190,10 @@ public class User extends AbstractEntity<Integer> {
                 '}';
     }
 
+    /**
+     * Inner class for creating user entity partly
+     * Created by Builder pattern
+     */
     public static class Builder {
 
         private Integer id;
