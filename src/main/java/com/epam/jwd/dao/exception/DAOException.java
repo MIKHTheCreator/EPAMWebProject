@@ -1,5 +1,8 @@
 package com.epam.jwd.dao.exception;
 
+/**
+ * Exception class for emerging exceptions in DAO layer
+ */
 public class DAOException extends Exception {
 
 
