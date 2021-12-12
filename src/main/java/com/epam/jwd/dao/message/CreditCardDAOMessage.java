@@ -1,5 +1,8 @@
 package com.epam.jwd.dao.message;
 
+/**
+ * Interface which contains SQL Credit Card queries
+ */
 public interface CreditCardDAOMessage {
 
     String SQL_SAVE_CREDIT_CARD_QUERY = "INSERT INTO credit_card (number, expiration_date, full_name, cvv, pin, user_id, bank_account_id) VALUES (?, ?, ?, ?, ?, ?, ?)";

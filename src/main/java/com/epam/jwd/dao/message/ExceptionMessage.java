@@ -1,5 +1,8 @@
 package com.epam.jwd.dao.message;
 
+/**
+ * Interface which contains exception messages and codes
+ */
 public interface ExceptionMessage {
 
     String DELIMITER = ":";

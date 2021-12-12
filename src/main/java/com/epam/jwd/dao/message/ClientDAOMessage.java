@@ -1,5 +1,8 @@
 package com.epam.jwd.dao.message;
 
+/**
+ * Interface which contains SQL Client queries
+ */
 public interface ClientDAOMessage {
 
     String SQL_SAVE_CLIENT_QUERY = "INSERT INTO `client` (username, email, password) VALUES (?, ?, ?)";

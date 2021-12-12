@@ -1,5 +1,8 @@
 package com.epam.jwd.dao.message;
 
+/**
+ * Interface which contains SQL Passport queries
+ */
 public interface PassportDAOMessage {
 
     String SQL_SAVE_PASSPORT_DATA_QUERY = "INSERT INTO passport_data (seria_and_number, personal_number, expiration_date) VALUES (?, ?, ?)";

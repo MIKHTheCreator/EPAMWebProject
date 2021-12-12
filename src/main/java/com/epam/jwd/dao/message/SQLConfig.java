@@ -1,5 +1,8 @@
 package com.epam.jwd.dao.message;
 
+/**
+ * Interface which contains SQL config parameters
+ */
 public interface SQLConfig {
 
     Integer INITIAL_SIZE = 4;

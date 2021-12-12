@@ -1,5 +1,8 @@
 package com.epam.jwd.dao.message;
 
+/**
+ * Interface which contains SQL User queries
+ */
 public interface UserDAOMessage {
 
     String SQL_SAVE_USER_QUERY = "INSERT INTO `user` (first_name, second_name, phone_number, age, gender, client_id, role_id) VALUES (?, ?, ?, ?, ?, ?, ?)";

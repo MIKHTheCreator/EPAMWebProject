@@ -1,5 +1,8 @@
 package com.epam.jwd.dao.message;
 
+/**
+ * Interface which contains SQL Payment queries
+ */
 public interface PaymentDAOMessage {
 
     String SQL_SAVE_PAYMENT_QUERY = "INSERT INTO payment (sum, date, organization, goal, bank_account_id, user_id) VALUES (?, ?, ?, ?, ?, ?)";
