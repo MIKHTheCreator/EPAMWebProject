@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.epam.jwd.dao.message.ExceptionMessage.DELIMITER;
@@ -124,7 +123,7 @@ public class UserService implements com.epam.jwd.service.api.UserService<UserDTO
     }
 
     @Override
-    public UserDTO updateUserPassport(UserDTO userDTO) throws ServiceException {
+    public void updateUserPassport(UserDTO userDTO) throws ServiceException {
         User user = mapper.convertToEntity(userDTO);
 
         try {
@@ -134,7 +133,6 @@ public class UserService implements com.epam.jwd.service.api.UserService<UserDTO
             throw new ServiceException(SERVICE_UPDATE_METHOD_EXCEPTION + DELIMITER + SERVICE_UPDATE_METHOD_EXCEPTION_CODE, e);
         }
 
-        return userDTO;
     }
 
     @Override

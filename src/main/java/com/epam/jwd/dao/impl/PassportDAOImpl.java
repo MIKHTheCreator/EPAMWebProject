@@ -3,6 +3,7 @@ package com.epam.jwd.dao.impl;
 import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
+import com.epam.jwd.dao.entity.AbstractEntity;
 import com.epam.jwd.dao.entity.user_account.Passport;
 import com.epam.jwd.dao.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
@@ -34,6 +35,11 @@ import static com.epam.jwd.dao.message.PassportDAOMessage.SQL_FIND_PASSPORT_BY_I
 import static com.epam.jwd.dao.message.PassportDAOMessage.SQL_SAVE_PASSPORT_DATA_QUERY;
 import static com.epam.jwd.dao.message.PassportDAOMessage.SQL_UPDATE_PASSPORT_QUERY;
 
+/**
+ * Passport DAO implementation of DAO interface for Passport entity with Integer id
+ *
+ * @see DAO
+ */
 public class PassportDAOImpl implements DAO<Passport, Integer> {
 
     private static DAO<Passport, Integer> instance;
@@ -61,6 +67,9 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
         return instance;
     }
 
+    /**
+     * @see DAO#save(AbstractEntity)
+     */
     @Override
     public Passport save(Passport passport)
             throws DAOException {
@@ -78,6 +87,9 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
         return passport;
     }
 
+    /**
+     * @see DAO#findAll()
+     */
     @Override
     public List<Passport> findAll()
             throws DAOException {
@@ -96,7 +108,9 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
         return passports;
     }
 
-
+    /**
+     * @see DAO#findById(Object)
+     */
     @Override
     public Passport findById(Integer id)
             throws DAOException {
@@ -116,6 +130,9 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
         return passport;
     }
 
+    /**
+     * @see DAO#update(AbstractEntity)
+     */
     @Override
     public Passport update(Passport passport)
             throws DAOException {
@@ -133,6 +150,9 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
         return passport;
     }
 
+    /**
+     * @see DAO#delete(AbstractEntity)
+     */
     @Override
     public void delete(Passport passport)
             throws DAOException {
@@ -150,6 +170,13 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
         }
     }
 
+    /**
+     * Method for saving Passport Data in DB
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @param passport  Passport Data entity for saving
+     * @throws SQLException if it's unable to update DB
+     */
     private void savePassport(PreparedStatement statement, Passport passport)
             throws SQLException {
 
@@ -175,6 +202,13 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
         }
     }
 
+    /**
+     * Method for creating Passport entity
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @return created Passport
+     * @throws SQLException if it's unable to take data from DB
+     */
     private List<Passport> findPassports(PreparedStatement statement)
             throws SQLException {
 
@@ -190,6 +224,14 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
         }
     }
 
+    /**
+     * Method for creating Passport entity with extracted fields
+     *
+     * @param resultSet query with different columns
+     * @return Created Passport with generated id
+     * @throws SQLException if it's unable to take data from query
+     * @see ResultSet
+     */
     private Passport createPassport(ResultSet resultSet)
             throws SQLException {
         Passport passport = new Passport();
@@ -201,6 +243,13 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
         return passport;
     }
 
+    /**
+     * Method for creating Passport
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @return created Passport
+     * @throws SQLException if it's unable to take data from DB
+     */
     private Passport findPassport(PreparedStatement statement)
             throws SQLException {
 
@@ -216,6 +265,13 @@ public class PassportDAOImpl implements DAO<Passport, Integer> {
         }
     }
 
+    /**
+     * Method for updating Passport
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @param passport  Passport entity to update
+     * @throws SQLException if it's unable to update DB
+     */
     private void updatePassport(PreparedStatement statement, Passport passport) throws SQLException {
 
         try (statement) {

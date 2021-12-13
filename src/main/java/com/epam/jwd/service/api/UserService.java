@@ -19,7 +19,7 @@ public interface UserService<T extends AbstractEntityDTO<V>, V> {
 
     T findUserByClientId(V id) throws ServiceException;
 
-    T updateUserPassport(T entity) throws ServiceException;
+    void updateUserPassport(T entity) throws ServiceException;
 
     List<T> findUsersToPage(int page, int numOfUsers) throws ServiceException;
 }

@@ -3,6 +3,7 @@ package com.epam.jwd.dao.impl;
 import com.epam.jwd.dao.api.PaymentDAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
+import com.epam.jwd.dao.entity.AbstractEntity;
 import com.epam.jwd.dao.entity.payment_system.Payment;
 import com.epam.jwd.dao.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
@@ -36,6 +37,11 @@ import static com.epam.jwd.dao.message.PaymentDAOMessage.SQL_FIND_PAYMENT_BY_ID_
 import static com.epam.jwd.dao.message.PaymentDAOMessage.SQL_SAVE_PAYMENT_QUERY;
 import static com.epam.jwd.dao.message.PaymentDAOMessage.SQL_UPDATE_PAYMENT_QUERY;
 
+/**
+ * Payment DAO implementation of Payment DAO for Payment entity with Integer id
+ *
+ * @see PaymentDAO
+ */
 public class PaymentDAOImpl implements PaymentDAO<Payment, Integer> {
 
     private static PaymentDAO<Payment, Integer> instance;
@@ -62,6 +68,9 @@ public class PaymentDAOImpl implements PaymentDAO<Payment, Integer> {
         return instance;
     }
 
+    /**
+     * @see PaymentDAO#save(AbstractEntity)
+     */
     @Override
     public Payment save(Payment payment)
             throws DAOException {
@@ -79,6 +88,9 @@ public class PaymentDAOImpl implements PaymentDAO<Payment, Integer> {
         return payment;
     }
 
+    /**
+     * @see PaymentDAO#findAll()
+     */
     @Override
     public List<Payment> findAll()
             throws DAOException {
@@ -98,6 +110,9 @@ public class PaymentDAOImpl implements PaymentDAO<Payment, Integer> {
         return payments;
     }
 
+    /**
+     * @see PaymentDAO#findById(Object)
+     */
     @Override
     public Payment findById(Integer id) throws DAOException {
         PreparedStatement statement;
@@ -116,6 +131,9 @@ public class PaymentDAOImpl implements PaymentDAO<Payment, Integer> {
         return payment;
     }
 
+    /**
+     * @see PaymentDAO#update(AbstractEntity)
+     */
     @Override
     public Payment update(Payment payment) throws DAOException {
 
@@ -133,6 +151,9 @@ public class PaymentDAOImpl implements PaymentDAO<Payment, Integer> {
         return payment;
     }
 
+    /**
+     * @see PaymentDAO#delete(AbstractEntity)
+     */
     @Override
     public void delete(Payment payment) throws DAOException {
 
@@ -149,6 +170,9 @@ public class PaymentDAOImpl implements PaymentDAO<Payment, Integer> {
         }
     }
 
+    /**
+     * @see PaymentDAO#findAllPaymentsByUserId(Object)
+     */
     @Override
     public List<Payment> findAllPaymentsByUserId(Integer id) throws DAOException {
         List<Payment> payments;
@@ -168,6 +192,9 @@ public class PaymentDAOImpl implements PaymentDAO<Payment, Integer> {
         return payments;
     }
 
+    /**
+     * @see PaymentDAO#findPaymentsByUserIdAndPageLimit(Object, int, int)
+     */
     @Override
     public List<Payment> findPaymentsByUserIdAndPageLimit(Integer id, int page, int numOfPayments) throws DAOException {
         List<Payment> payments;
@@ -189,6 +216,14 @@ public class PaymentDAOImpl implements PaymentDAO<Payment, Integer> {
         return payments;
     }
 
+    /**
+     * Method for creating Payment entity with extracted fields
+     *
+     * @param resultSet query with different columns
+     * @return Created Payment with generated id
+     * @throws SQLException if it's unable to take data from query
+     * @see ResultSet
+     */
     private Payment createPayment(ResultSet resultSet) throws SQLException {
 
         return new Payment.Builder()
@@ -202,6 +237,13 @@ public class PaymentDAOImpl implements PaymentDAO<Payment, Integer> {
                 .build();
     }
 
+    /**
+     * Method for saving Payment in DB
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @param payment   Payment Data entity for saving
+     * @throws SQLException if it's unable to update DB
+     */
     private void savePayment(PreparedStatement statement, Payment payment) throws SQLException {
 
         ResultSet resultSet = null;
@@ -230,6 +272,13 @@ public class PaymentDAOImpl implements PaymentDAO<Payment, Integer> {
 
     }
 
+    /**
+     * Method for find all Payments in DB by provided id
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @return List of Payments with provided id field
+     * @throws SQLException if it's unable to take query from DB
+     */
     private List<Payment> findAllPayments(PreparedStatement statement) throws SQLException {
         try (statement; ResultSet resultSet = statement.executeQuery()) {
             List<Payment> payments = new ArrayList<>();
@@ -243,6 +292,13 @@ public class PaymentDAOImpl implements PaymentDAO<Payment, Integer> {
         }
     }
 
+    /**
+     * Method for creating Payment
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @return created Payment
+     * @throws SQLException if it's unable to take data from DB
+     */
     private Payment findPayment(PreparedStatement statement) throws SQLException {
         try (statement; ResultSet resultSet = statement.executeQuery()) {
 
@@ -254,6 +310,13 @@ public class PaymentDAOImpl implements PaymentDAO<Payment, Integer> {
         return null;
     }
 
+    /**
+     * Method for updating Payment
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @param payment   Payment entity to update
+     * @throws SQLException if it's unable to update DB
+     */
     private void updatePayment(PreparedStatement statement, Payment payment) throws SQLException {
         try (statement) {
             statement.setBigDecimal(1, payment.getSumOfPayment());

@@ -3,6 +3,7 @@ package com.epam.jwd.dao.impl;
 import com.epam.jwd.dao.api.UserDAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
+import com.epam.jwd.dao.entity.AbstractEntity;
 import com.epam.jwd.dao.entity.user_account.Gender;
 import com.epam.jwd.dao.entity.user_account.User;
 import com.epam.jwd.dao.entity.user_account.Role;
@@ -33,6 +34,11 @@ import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION_CODE;
 import static com.epam.jwd.dao.message.UserDAOMessage.*;
 
+/**
+ * User DAO implementation of UserDAO for User entity with Integer id
+ *
+ * @see UserDAO
+ */
 public class UserDAOImpl implements UserDAO<User, Integer> {
 
     private static UserDAO<User, Integer> instance;
@@ -59,6 +65,9 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         return instance;
     }
 
+    /**
+     * @see UserDAO#save(AbstractEntity)
+     */
     @Override
     public User save(User user)
             throws DAOException {
@@ -76,7 +85,9 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         return user;
     }
 
-
+    /**
+     * @see UserDAO#findAll()
+     */
     @Override
     public List<User> findAll() throws DAOException {
         List<User> users;
@@ -108,6 +119,9 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         return users;
     }
 
+    /**
+     * @see UserDAO#findById(Object)
+     */
     @Override
     public User findById(Integer id) throws DAOException {
         Connection connection = null;
@@ -141,6 +155,9 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         return user;
     }
 
+    /**
+     * @see UserDAO#update(AbstractEntity)
+     */
     @Override
     public User update(User user) throws DAOException {
 
@@ -157,6 +174,9 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         return user;
     }
 
+    /**
+     * @see UserDAO#delete(AbstractEntity)
+     */
     @Override
     public void delete(User user) throws DAOException {
 
@@ -173,6 +193,9 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         }
     }
 
+    /**
+     * @see UserDAO#findUserByClientId(Object)
+     */
     @Override
     public User findUserByClientId(Integer id) throws DAOException {
         Connection connection = null;
@@ -206,6 +229,9 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         return user;
     }
 
+    /**
+     * @see UserDAO#updateUsersPassportId(AbstractEntity)
+     */
     @Override
     public User updateUsersPassportId(User user) throws DAOException {
         PreparedStatement statement;
@@ -221,6 +247,9 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         return user;
     }
 
+    /**
+     * @see UserDAO#findUsersToPage(int, int)
+     */
     @Override
     public List<User> findUsersToPage(int page, int numOfPositions) throws DAOException {
         List<User> users;
@@ -254,6 +283,13 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         return users;
     }
 
+    /**
+     * Method for saving User in DB
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @param user      User Data entity for saving
+     * @throws SQLException if it's unable to update DB
+     */
     private void saveUser(PreparedStatement statement, User user)
             throws SQLException {
 
@@ -282,6 +318,14 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         }
     }
 
+    /**
+     * Method for extracting Role data from DB with provided id
+     *
+     * @param connection connection to DB
+     * @param id         role id
+     * @return founded role
+     * @throws SQLException if can't execute query
+     */
     private Role findRoleById(Connection connection, Integer id)
             throws SQLException {
         PreparedStatement statement;
@@ -299,6 +343,14 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         return Role.USER;
     }
 
+    /**
+     * Method for creating User entity with extracted fields
+     *
+     * @param resultSet query with different columns
+     * @return Created User with generated id
+     * @throws SQLException if it's unable to take data from query
+     * @see ResultSet
+     */
     private User createUser(ResultSet resultSet, Connection connection)
             throws SQLException {
         return new User.Builder()
@@ -313,6 +365,13 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
                 .build();
     }
 
+    /**
+     * Method for find all Users in DB by provided id
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @return List of Users with provided id field
+     * @throws SQLException if it's unable to take query from DB
+     */
     private List<User> findUsers(PreparedStatement statement, Connection connection) throws SQLException {
         try (statement; ResultSet resultSet = statement.executeQuery()) {
 
@@ -327,6 +386,13 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         }
     }
 
+    /**
+     * Method for creating User
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @return created User
+     * @throws SQLException if it's unable to take data from DB
+     */
     private User findUser(PreparedStatement statement, Connection connection) throws SQLException {
         try (statement; ResultSet resultSet = statement.executeQuery()) {
 
@@ -338,6 +404,13 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         return null;
     }
 
+    /**
+     * Method for updating User
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @param user      User entity to update
+     * @throws SQLException if it's unable to update DB
+     */
     private void updateUser(PreparedStatement statement, User user) throws SQLException {
         try (statement) {
             statement.setString(1, user.getFirstName());
@@ -350,6 +423,13 @@ public class UserDAOImpl implements UserDAO<User, Integer> {
         }
     }
 
+    /**
+     * Method for updating User's passport field
+     *
+     * @param statement prepared statement {@link PreparedStatement}
+     * @param user      User with different passport id
+     * @throws SQLException if it's unavailable to execute update
+     */
     private void updatePassportData(PreparedStatement statement, User user) throws SQLException {
         try (statement) {
             statement.setInt(1, user.getPassportId());
