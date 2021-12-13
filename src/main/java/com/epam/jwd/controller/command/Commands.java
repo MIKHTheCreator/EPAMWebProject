@@ -35,6 +35,10 @@ import com.epam.jwd.dao.entity.user_account.Role;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Enum which contains commands
+ * Enum created by Command pattern
+ */
 public enum Commands {
     DEFAULT(DefaultCommand.getInstance()),
     REGISTRATION(SaveClientCommand.getInstance(), Role.UNAUTHORIZED),
@@ -83,6 +87,12 @@ public enum Commands {
         return allowedRoles;
     }
 
+    /**
+     * Method which takes command by command name
+     *
+     * @param commandName command name
+     * @return Command
+     */
     public static Command of(String commandName) {
         return Arrays.stream(Commands.values())
                 .filter(command -> command.name().equalsIgnoreCase(commandName))
@@ -91,6 +101,12 @@ public enum Commands {
                 .orElse(DefaultCommand.getInstance());
     }
 
+    /**
+     * Method for getting Commands field by name
+     *
+     * @param commandName command name
+     * @return Commands filed
+     */
     public static Commands getCommands(String commandName) {
         for (Commands command : values()) {
             if (command.name().equalsIgnoreCase(commandName)) {
