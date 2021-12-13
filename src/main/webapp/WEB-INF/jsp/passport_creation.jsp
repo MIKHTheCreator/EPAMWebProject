@@ -50,7 +50,7 @@
         <div class="control-group">
             <label class="control-label" for="expirationDate">${expirationDateHeader}</label>
             <div class="controls">
-                <input type="date" id="expirationDate" name="expirationDate" placeholder="" class="input-xlarge" required style="height: 30px;">
+                <input type="date" id="expirationDate" name="expirationDate" placeholder="" class="input-xlarge" required style="height: 30px;" value="2022-01-01">
                 <p class="help-block" style="color: green">${expirationDate}</p>
             </div>
         </div>

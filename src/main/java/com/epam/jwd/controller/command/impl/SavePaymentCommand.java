@@ -85,7 +85,7 @@ public class SavePaymentCommand implements Command {
     public ResponseContext execute(RequestContext context) {
 
         BigDecimal sum;
-        if (inputValidator.isEmptyString(context.getParameterByName(SUM_ATTRIBUTE))) {
+        if (!inputValidator.isValidNumberFormat(context.getParameterByName(SUM_ATTRIBUTE))) {
             sum = new BigDecimal(ZERO);
         } else {
             sum = new BigDecimal(context.getParameterByName(SUM_ATTRIBUTE));

@@ -1,6 +1,8 @@
 package com.epam.jwd.service.validator.input_validator;
 
 import static com.epam.jwd.service.config.ValidatorConfig.AGE_PATTERN;
+import static com.epam.jwd.service.config.ValidatorConfig.DATE_FORMAT_PATTERN;
+import static com.epam.jwd.service.config.ValidatorConfig.NUMBER_PATTERN;
 
 public class InputValidator {
 
@@ -24,5 +26,13 @@ public class InputValidator {
 
     public boolean isZeroField(int inputAge) {
         return inputAge == ZERO;
+    }
+
+    public boolean isValidNumberFormat(String inputNumber) {
+        return inputNumber.matches(NUMBER_PATTERN);
+    }
+
+    public boolean isValidDateFormat(String inputDate) {
+        return inputDate.matches(DATE_FORMAT_PATTERN);
     }
 }

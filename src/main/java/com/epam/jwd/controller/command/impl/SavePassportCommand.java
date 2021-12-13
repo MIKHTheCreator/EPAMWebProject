@@ -11,6 +11,7 @@ import com.epam.jwd.service.exception.ServiceException;
 import com.epam.jwd.service.impl.user_account.PassportService;
 import com.epam.jwd.service.impl.user_account.UserService;
 import com.epam.jwd.service.validator.Validator;
+import com.epam.jwd.service.validator.input_validator.InputValidator;
 import com.epam.jwd.service.validator.user_account.PassportValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +23,7 @@ public class SavePassportCommand implements Command {
 
     private final Service<PassportDTO, Integer> passportService = new PassportService();
     private final UserService userService = new UserService();
+    private final InputValidator inputValidator = InputValidator.getInstance();
     private final Validator<PassportDTO, Integer> validator = PassportValidator.getInstance();
     private static final Command INSTANCE = new SavePassportCommand();
     private static final String PAGE_PATH = "/bank?command=show_user_info_page_command";
@@ -34,6 +36,7 @@ public class SavePassportCommand implements Command {
     private static final String ERROR_ATTRIBUTE = "error";
     private static final String SUCCESSFUL_PASSPORT_CREATION = "Passport data was created ";
     private static final String ERROR_MESSAGE = "Invalid passport data ";
+    private static final LocalDate DEFAULT_DATE = LocalDate.parse("2022-04-04");
 
     private static final Logger log = LogManager.getLogger(SavePassportCommand.class);
 
@@ -81,7 +84,13 @@ public class SavePassportCommand implements Command {
 
         String seriaAndNumber = context.getParameterByName(SERIA_AND_NUMBER_ATTRIBUTE);
         String personalNumber = context.getParameterByName(PERSONAL_NUMBER_ATTRIBUTE);
-        LocalDate expirationDate = LocalDate.parse(context.getParameterByName(EXPIRATION_DATE_ATTRIBUTE));
+        LocalDate expirationDate;
+        if (!inputValidator.isValidDateFormat(context.getParameterByName(EXPIRATION_DATE_ATTRIBUTE))) {
+            expirationDate = DEFAULT_DATE;
+        } else {
+            expirationDate = LocalDate.parse(context.getParameterByName(EXPIRATION_DATE_ATTRIBUTE));
+        }
+
 
         try {
             PassportDTO passport = new PassportDTO(seriaAndNumber, personalNumber, expirationDate);
