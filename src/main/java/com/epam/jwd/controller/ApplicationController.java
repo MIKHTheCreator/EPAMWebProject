@@ -3,9 +3,6 @@ package com.epam.jwd.controller;
 import com.epam.jwd.controller.command.Command;
 import com.epam.jwd.controller.command.response_context.ResponseContext;
 import com.epam.jwd.controller.request_context.RequestContextImpl;
-import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
-import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
-import com.epam.jwd.dao.exception.DAOException;
 import com.epam.jwd.service.connection_pool_inicializer.ConnectionPoolInitializer;
 import com.epam.jwd.service.exception.ServiceException;
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Controller class which provides main http method logic
+ *
+ * @author mikh
+ */
 @WebServlet(urlPatterns = "/bank")
 public class ApplicationController extends HttpServlet {
 
@@ -29,18 +31,32 @@ public class ApplicationController extends HttpServlet {
 
     private static final Logger log = LogManager.getLogger(ApplicationController.class);
 
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest, HttpServletResponse)
+     * @see ApplicationController#process(HttpServletRequest, HttpServletResponse)
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         process(request, response);
     }
 
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest, HttpServletResponse)
+     * @see ApplicationController#process(HttpServletRequest, HttpServletResponse)
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         process(request, response);
     }
 
+    /**
+     * Method which describes main logic of taken command from request and gives it to precise command class
+     *
+     * @param request  {@link HttpServletRequest}
+     * @param response {@link HttpServletResponse}
+     */
     private void process(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         String commandName = request.getParameter(COMMAND_PARAMETER);
@@ -55,6 +71,9 @@ public class ApplicationController extends HttpServlet {
         }
     }
 
+    /**
+     * Method for initialization of connection pool within start of the application
+     */
     @Override
     public void init() {
         try {
@@ -64,6 +83,9 @@ public class ApplicationController extends HttpServlet {
         }
     }
 
+    /**
+     * Method that shutDowns connection pool in the end of application work
+     */
     @Override
     public void destroy() {
         super.destroy();
