@@ -5,6 +5,11 @@ import com.epam.jwd.service.parser.Parser;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Class for parsing Currency from xe-web-site
+ * @see Parser
+ * Class created as Singleton
+ */
 public class CurrencyParser implements Parser {
 
     private static final CurrencyParser INSTANCE = new CurrencyParser();
@@ -20,6 +25,9 @@ public class CurrencyParser implements Parser {
         return INSTANCE;
     }
 
+    /**
+     * @see Parser#parse(String)
+     */
     @Override
     public String parse(String stringToParse) {
 
