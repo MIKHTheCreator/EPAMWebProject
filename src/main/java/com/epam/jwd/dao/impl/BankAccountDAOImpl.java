@@ -3,6 +3,7 @@ package com.epam.jwd.dao.impl;
 import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
+import com.epam.jwd.dao.entity.AbstractEntity;
 import com.epam.jwd.dao.entity.payment_system.BankAccount;
 import com.epam.jwd.dao.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
@@ -33,11 +34,21 @@ import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION_CODE;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION_CODE;
 
-
+/**
+ * Bank Account DAO implementation class for BankAccount entity with Integer id
+ *
+ * @see DAO
+ */
 public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
 
+    /**
+     * Instance of DAO(BankAccountDAOImpl)
+     */
     private static DAO<BankAccount, Integer> instance;
 
+    /**
+     * Connection pool instance
+     */
     private final ConnectionPool connectionPool;
 
     private static final Logger log = LogManager.getLogger(BankAccountDAOImpl.class);
@@ -46,10 +57,18 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         instance = new BankAccountDAOImpl();
     }
 
+    /**
+     * Private constructor which initialize Connection Pool
+     */
     private BankAccountDAOImpl() {
         this.connectionPool = ConnectionPoolImpl.getInstance();
     }
 
+    /**
+     * Static factory method which provides DAO instance
+     *
+     * @return DAO instance
+     */
     public static DAO<BankAccount, Integer> getInstance() {
         synchronized (BankAccountDAOImpl.class) {
             if (instance == null) {
@@ -61,6 +80,9 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         return instance;
     }
 
+    /**
+     * @see DAO#save(AbstractEntity)
+     */
     @Override
     public BankAccount save(BankAccount bankAccount) throws DAOException {
 
@@ -77,6 +99,9 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         return bankAccount;
     }
 
+    /**
+     * @see DAO#findAll()
+     */
     @Override
     public List<BankAccount> findAll() throws DAOException {
         List<BankAccount> bankAccounts;
@@ -95,6 +120,9 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         return bankAccounts;
     }
 
+    /**
+     * @see DAO#findById(Object)
+     */
     @Override
     public BankAccount findById(Integer id) throws DAOException {
         PreparedStatement statement;
@@ -113,6 +141,9 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         return bankAccount;
     }
 
+    /**
+     * @see DAO#update(AbstractEntity)
+     */
     @Override
     public BankAccount update(BankAccount bankAccount) throws DAOException {
 
@@ -129,6 +160,9 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         return bankAccount;
     }
 
+    /**
+     * @see DAO#delete(AbstractEntity)
+     */
     @Override
     public void delete(BankAccount bankAccount) throws DAOException {
 
@@ -145,6 +179,14 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         }
     }
 
+    /**
+     * Method which fills Bank Account instance with properties
+     *
+     * @param resultSet set with DB columns
+     * @return BankAccount instance
+     * @throws SQLException if it's unable to take query from DB
+     * @see ResultSet
+     */
     private BankAccount createBankAccount(ResultSet resultSet)
             throws SQLException {
 
@@ -157,6 +199,13 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         return bankAccount;
     }
 
+    /**
+     * Method for saving Bank Account in DB
+     *
+     * @param statement   prepared statement {@link  PreparedStatement}
+     * @param bankAccount Bank Account entity for saving
+     * @throws SQLException if it's unable to update DB
+     */
     private void saveBankAccount(PreparedStatement statement, BankAccount bankAccount) throws SQLException {
         ResultSet resultSet = null;
 
@@ -180,6 +229,13 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         }
     }
 
+    /**
+     * Method for find all Bank Accounts in DB by provided id
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @return List of Bank Accounts with provided id field
+     * @throws SQLException if it's unable to take query from DB
+     */
     private List<BankAccount> findBankAccounts(PreparedStatement statement) throws SQLException {
 
         try (statement; ResultSet resultSet = statement.executeQuery()) {
@@ -197,6 +253,13 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         }
     }
 
+    /**
+     * Method for creating bank account
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @return created BankAccount
+     * @throws SQLException if it's unable to take data from DB
+     */
     private BankAccount findBankAccount(PreparedStatement statement) throws SQLException {
 
         try (statement; ResultSet resultSet = statement.executeQuery()) {
@@ -209,6 +272,13 @@ public class BankAccountDAOImpl implements DAO<BankAccount, Integer> {
         return null;
     }
 
+    /**
+     * Method for updating BankAccount
+     *
+     * @param statement   prepared statement {@link  PreparedStatement}
+     * @param bankAccount BankAccount entity to update
+     * @throws SQLException if it's unable to update DB
+     */
     private void updateBankAccount(PreparedStatement statement, BankAccount bankAccount) throws SQLException {
         statement.setBigDecimal(1, bankAccount.getBalance());
         statement.setString(2, bankAccount.getCurrency());

@@ -4,6 +4,7 @@ import com.epam.jwd.dao.api.CreditCardDAO;
 import com.epam.jwd.dao.api.DAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
+import com.epam.jwd.dao.entity.AbstractEntity;
 import com.epam.jwd.dao.entity.payment_system.CreditCard;
 import com.epam.jwd.dao.exception.DAOException;
 import org.apache.logging.log4j.LogManager;
@@ -37,7 +38,11 @@ import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION_CODE;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION_CODE;
 
-
+/**
+ * CreditCard Dao implementation of CreditCardDAO for CreditCard entity with Integer id
+ *
+ * @see CreditCardDAO
+ */
 public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
 
     private static CreditCardDAO<CreditCard, Integer> instance;
@@ -65,6 +70,9 @@ public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
         return instance;
     }
 
+    /**
+     * @see CreditCardDAO#save(AbstractEntity)
+     */
     @Override
     public CreditCard save(CreditCard creditCard)
             throws DAOException {
@@ -83,6 +91,9 @@ public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
         return creditCard;
     }
 
+    /**
+     * @see CreditCardDAO#findAll()
+     */
     @Override
     public List<CreditCard> findAll()
             throws DAOException {
@@ -102,6 +113,9 @@ public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
         return creditCards;
     }
 
+    /**
+     * @see CreditCardDAO#findById(Object)
+     */
     @Override
     public CreditCard findById(Integer id)
             throws DAOException {
@@ -121,6 +135,9 @@ public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
         return creditCard;
     }
 
+    /**
+     * @see CreditCardDAO#update(AbstractEntity)
+     */
     @Override
     public CreditCard update(CreditCard creditCard)
             throws DAOException {
@@ -138,6 +155,9 @@ public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
         return creditCard;
     }
 
+    /**
+     * @see CreditCardDAO#delete(AbstractEntity)
+     */
     @Override
     public void delete(CreditCard creditCard)
             throws DAOException {
@@ -155,6 +175,9 @@ public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
         }
     }
 
+    /**
+     * @see CreditCardDAO#findCreditCardsByUserId(Object)
+     */
     @Override
     public List<CreditCard> findCreditCardsByUserId(Integer id) throws DAOException {
         List<CreditCard> creditCards;
@@ -174,6 +197,9 @@ public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
         return creditCards;
     }
 
+    /**
+     * @see CreditCardDAO#findCreditCardByBankAccountId(Object)
+     */
     @Override
     public CreditCard findCreditCardByBankAccountId(Integer id)
             throws DAOException {
@@ -193,6 +219,14 @@ public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
         return creditCard;
     }
 
+    /**
+     * Method for creating CreditCard entity with extracted fields
+     *
+     * @param resultSet query with different columns
+     * @return Created Credit Card with generated id
+     * @throws SQLException if it's unable to take data from query
+     * @see ResultSet
+     */
     private CreditCard createCreditCard(ResultSet resultSet)
             throws SQLException {
 
@@ -207,6 +241,13 @@ public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
                 .build();
     }
 
+    /**
+     * Method for saving Credit Card in DB
+     *
+     * @param statement  prepared statement {@link  PreparedStatement}
+     * @param creditCard Credit Card entity for saving
+     * @throws SQLException if it's unable to update DB
+     */
     private void saveCreditCard(PreparedStatement statement, CreditCard creditCard) throws SQLException {
 
         ResultSet resultSet = null;
@@ -234,6 +275,13 @@ public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
         }
     }
 
+    /**
+     * Method for creating Credit Card
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @return created Credit Card
+     * @throws SQLException if it's unable to take data from DB
+     */
     private CreditCard findCreditCard(PreparedStatement statement) throws SQLException {
         try (statement; ResultSet resultSet = statement.executeQuery()) {
 
@@ -245,6 +293,13 @@ public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
         return null;
     }
 
+    /**
+     * Method for updating Credit Card
+     *
+     * @param statement  prepared statement {@link  PreparedStatement}
+     * @param creditCard Credit Card entity to update
+     * @throws SQLException if it's unable to update DB
+     */
     private void updateCreditCard(PreparedStatement statement, CreditCard creditCard) throws SQLException {
         try (statement) {
             statement.setString(1, creditCard.getNumber());
@@ -259,6 +314,13 @@ public class CreditCardDAOImpl implements CreditCardDAO<CreditCard, Integer> {
         }
     }
 
+    /**
+     * Method for find all Credit Cards in DB by provided id
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @return List of Credit Cards with provided id field
+     * @throws SQLException if it's unable to take query from DB
+     */
     private List<CreditCard> findCreditCards(PreparedStatement statement) throws SQLException {
         try (statement; ResultSet resultSet = statement.executeQuery()) {
 

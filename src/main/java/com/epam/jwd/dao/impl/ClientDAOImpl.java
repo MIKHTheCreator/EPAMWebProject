@@ -3,6 +3,7 @@ package com.epam.jwd.dao.impl;
 import com.epam.jwd.dao.api.ClientDAO;
 import com.epam.jwd.dao.connection_pool.api.ConnectionPool;
 import com.epam.jwd.dao.connection_pool.impl.ConnectionPoolImpl;
+import com.epam.jwd.dao.entity.AbstractEntity;
 import com.epam.jwd.dao.entity.user_account.Client;
 import com.epam.jwd.dao.exception.DAOException;
 import com.epam.jwd.service.password_manager.api.PasswordManager;
@@ -32,6 +33,11 @@ import static com.epam.jwd.dao.message.ExceptionMessage.SAVE_EXCEPTION_CODE;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION;
 import static com.epam.jwd.dao.message.ExceptionMessage.UPDATE_EXCEPTION_CODE;
 
+/**
+ * ClientDAO implementation class of ClintDAO for Client with Integer id
+ *
+ * @see ClientDAO
+ */
 public class ClientDAOImpl implements ClientDAO<Client, Integer> {
 
     private static ClientDAO<Client, Integer> instance;
@@ -45,6 +51,9 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
         instance = new ClientDAOImpl();
     }
 
+    /**
+     * Private constructor for initializing fields
+     */
     private ClientDAOImpl() {
         this.connectionPool = ConnectionPoolImpl.getInstance();
         this.passwordManager = new PasswordManagerImpl();
@@ -61,6 +70,9 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
         return instance;
     }
 
+    /**
+     * @see ClientDAO#save(AbstractEntity)
+     */
     @Override
     public Client save(Client client) throws DAOException {
 
@@ -77,6 +89,9 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
         return client;
     }
 
+    /**
+     * @see ClientDAO#findAll()
+     */
     @Override
     public List<Client> findAll() throws DAOException {
         PreparedStatement statement;
@@ -95,6 +110,9 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
         return clients;
     }
 
+    /**
+     * @see ClientDAO#findById(Object)
+     */
     @Override
     public Client findById(Integer id)
             throws DAOException {
@@ -114,6 +132,9 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
         return client;
     }
 
+    /**
+     * @see ClientDAO#update(AbstractEntity)
+     */
     @Override
     public Client update(Client client)
             throws DAOException {
@@ -131,6 +152,9 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
         return client;
     }
 
+    /**
+     * @see ClientDAO#delete(AbstractEntity)
+     */
     @Override
     public void delete(Client client)
             throws DAOException {
@@ -147,6 +171,9 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
         }
     }
 
+    /**
+     * @see ClientDAO#findByUsername(String)
+     */
     @Override
     public Client findByUsername(String username) throws DAOException {
         PreparedStatement statement;
@@ -166,6 +193,14 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
 
     }
 
+    /**
+     * Method for creating Client entity with extracted fields
+     *
+     * @param resultSet query with different columns
+     * @return Created Client with generated id
+     * @throws SQLException if it's unable to take data from query
+     * @see ResultSet
+     */
     private Client createClient(ResultSet resultSet)
             throws SQLException {
         Client client = new Client();
@@ -177,6 +212,13 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
         return client;
     }
 
+    /**
+     * Method for find all Clients in DB by provided id
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @return List of Clients with provided id field
+     * @throws SQLException if it's unable to take query from DB
+     */
     private List<Client> findClients(PreparedStatement statement) throws SQLException {
 
         try (statement; ResultSet resultSet = statement.executeQuery()) {
@@ -190,6 +232,13 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
         }
     }
 
+    /**
+     * Method for creating Client
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @return created Client
+     * @throws SQLException if it's unable to take data from DB
+     */
     private Optional<Client> findClient(PreparedStatement statement) throws SQLException {
 
         try (statement; ResultSet resultSet = statement.executeQuery()) {
@@ -202,6 +251,13 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
         }
     }
 
+    /**
+     * Method for updating Client
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @param client    Client entity to update
+     * @throws SQLException if it's unable to update DB
+     */
     private void updateClient(PreparedStatement statement, Client client) throws SQLException {
         try (statement) {
             statement.setString(1, client.getUsername());
@@ -212,6 +268,13 @@ public class ClientDAOImpl implements ClientDAO<Client, Integer> {
         }
     }
 
+    /**
+     * Method for saving Client in DB
+     *
+     * @param statement prepared statement {@link  PreparedStatement}
+     * @param client    Client entity for saving
+     * @throws SQLException if it's unable to update DB
+     */
     private void saveClient(PreparedStatement statement, Client client) throws SQLException {
 
         ResultSet resultSet = null;
