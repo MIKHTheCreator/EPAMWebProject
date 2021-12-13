@@ -7,12 +7,13 @@ import java.util.regex.Pattern;
 
 /**
  * Class for parsing Currency from xe-web-site
+ *
  * @see Parser
  * Class created as Singleton
  */
 public class CurrencyParser implements Parser {
 
-    private static final CurrencyParser INSTANCE = new CurrencyParser();
+    private static CurrencyParser instance = new CurrencyParser();
     private static final String CURRENCY_PATTERN = "<p class=\"result__BigRate-sc-1bsijpp-1 iGrAod\">(.+?)<span class=\"faded-digits\">";
     private static final String EMPTY_STRING = "";
     private static final String POINTER = ",";
@@ -22,7 +23,10 @@ public class CurrencyParser implements Parser {
     }
 
     public static Parser getInstance() {
-        return INSTANCE;
+        if (instance == null) {
+            instance = new CurrencyParser();
+        }
+        return instance;
     }
 
     /**

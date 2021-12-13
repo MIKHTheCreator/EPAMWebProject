@@ -24,13 +24,16 @@ import static com.epam.jwd.service.message.ExceptionMessage.PIN_FORMAT_EXCEPTION
 
 public class CreditCardValidator implements Validator<CreditCardDTO, Integer> {
 
-    private static final Validator<CreditCardDTO, Integer> INSTANCE = new CreditCardValidator();
+    private static Validator<CreditCardDTO, Integer> instance = new CreditCardValidator();
 
     private CreditCardValidator() {
     }
 
     public static Validator<CreditCardDTO, Integer> getInstance() {
-        return INSTANCE;
+        if (instance == null) {
+            instance = new CreditCardValidator();
+        }
+        return instance;
     }
 
     @Override

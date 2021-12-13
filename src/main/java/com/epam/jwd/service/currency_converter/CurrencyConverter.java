@@ -21,13 +21,16 @@ public class CurrencyConverter {
      * @see RequestSender
      */
     private final RequestSender sender = RequestSender.getInstance();
-    private static final CurrencyConverter INSTANCE = new CurrencyConverter();
+    private static CurrencyConverter instance = new CurrencyConverter();
 
     private CurrencyConverter() {
     }
 
     public static CurrencyConverter getInstance() {
-        return INSTANCE;
+        if (instance == null) {
+            instance = new CurrencyConverter();
+        }
+        return instance;
     }
 
     /**

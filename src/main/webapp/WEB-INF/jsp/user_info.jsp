@@ -92,11 +92,11 @@
                                 <a href="${pageContext.request.contextPath}/bank?command=show_payments_command">${payments}</a><br/>
                                 <a href="${pageContext.request.contextPath}/bank?command=show_credit_cards_command">${creditCard}</a><br/>
                                 <c:choose>
-                                    <c:when test="${sessionScope.currentUser.passportId ne null}">
-                                        <p>${passportCreated}</p>
+                                    <c:when test="${sessionScope.currentUser.passportId eq null}">
+                                        <a href="${pageContext.request.contextPath}/bank?command=show_edit_passport_page_command">${addPassportInfo}</a><br/>
                                     </c:when>
                                     <c:otherwise>
-                                        <a href="${pageContext.request.contextPath}/bank?command=show_edit_passport_page_command">${addPassportInfo}</a><br/>
+                                        <p>${passportCreated}</p>
                                     </c:otherwise>
                                 </c:choose>
                             </c:when>

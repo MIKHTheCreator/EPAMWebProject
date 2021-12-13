@@ -5,14 +5,16 @@ import java.math.BigDecimal;
 
 public class BankAccountCashValidator {
 
-    private static final BankAccountCashValidator INSTANCE = new BankAccountCashValidator();
+    private static BankAccountCashValidator instance = new BankAccountCashValidator();
 
     private BankAccountCashValidator() {
     }
 
     public static BankAccountCashValidator getInstance() {
-
-        return INSTANCE;
+        if (instance == null) {
+            instance = new BankAccountCashValidator();
+        }
+        return instance;
     }
 
     public boolean isEnoughCashForPayment(BigDecimal sumOfPayment, BigDecimal currentCash) {

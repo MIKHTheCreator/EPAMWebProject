@@ -12,14 +12,17 @@ import static com.epam.jwd.service.config.ValidatorConfig.NUMBER_PATTERN;
  */
 public class InputValidator {
 
-    private static final InputValidator INSTANCE = new InputValidator();
+    private static InputValidator instance = new InputValidator();
     private static final int ZERO = 0;
 
     private InputValidator() {
     }
 
     public static InputValidator getInstance() {
-        return INSTANCE;
+        if (instance == null) {
+            instance = new InputValidator();
+        }
+        return instance;
     }
 
     /**

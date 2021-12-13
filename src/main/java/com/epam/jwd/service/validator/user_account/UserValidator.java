@@ -23,13 +23,16 @@ import static com.epam.jwd.service.message.ExceptionMessage.SECOND_NAME_LENGTH_E
 
 public class UserValidator implements Validator<UserDTO, Integer> {
 
-    private static final Validator<UserDTO, Integer> INSTANCE = new UserValidator();
+    private static Validator<UserDTO, Integer> instance = new UserValidator();
 
     private UserValidator() {
     }
 
     public static Validator<UserDTO, Integer> getInstance() {
-        return INSTANCE;
+        if (instance == null) {
+            instance = new UserValidator();
+        }
+        return instance;
     }
 
     @Override

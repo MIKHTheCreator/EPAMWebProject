@@ -23,7 +23,7 @@ public class RequestSender {
      * @see CloseableHttpClient
      */
     private final CloseableHttpClient httpClient = HttpClients.createDefault();
-    private static final RequestSender INSTANCE = new RequestSender();
+    private static RequestSender instance = new RequestSender();
     /**
      * String Url for sending a request
      */
@@ -36,7 +36,10 @@ public class RequestSender {
     }
 
     public static RequestSender getInstance() {
-        return INSTANCE;
+        if (instance == null) {
+            instance = new RequestSender();
+        }
+        return instance;
     }
 
     /**

@@ -19,7 +19,7 @@ import static com.epam.jwd.service.message.ExceptionMessage.CAN_NOT_INITIALIZE_C
 public class ConnectionPoolInitializer {
 
     private final ConnectionPool pool = ConnectionPoolImpl.getInstance();
-    private static final ConnectionPoolInitializer INSTANCE = new ConnectionPoolInitializer();
+    private static ConnectionPoolInitializer instance = new ConnectionPoolInitializer();
 
     private static final Logger log = LogManager.getLogger(ConnectionPoolInitializer.class);
 
@@ -27,7 +27,10 @@ public class ConnectionPoolInitializer {
     }
 
     public static ConnectionPoolInitializer getInstance() {
-        return INSTANCE;
+        if (instance == null) {
+            instance = new ConnectionPoolInitializer();
+        }
+        return instance;
     }
 
     /**

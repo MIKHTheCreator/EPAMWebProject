@@ -24,13 +24,16 @@ public class CreditCardConfigImpl implements CreditCardConfig {
      * Upper bound for Pin code
      */
     private static final Integer PIN_UPPER_BOUND = 9000;
-    private static final CreditCardConfig INSTANCE = new CreditCardConfigImpl();
+    private static CreditCardConfig instance = new CreditCardConfigImpl();
 
     private CreditCardConfigImpl() {
     }
 
     public static CreditCardConfig getInstance() {
-        return INSTANCE;
+        if (instance == null) {
+            instance = new CreditCardConfigImpl();
+        }
+        return instance;
     }
 
     /**

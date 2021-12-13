@@ -19,7 +19,7 @@ import static com.epam.jwd.service.message.ExceptionMessage.NOT_ENOUGH_MONEY_TO_
 public class PaymentManager {
 
     private final BankAccountCashValidator validator = BankAccountCashValidator.getInstance();
-    private static final PaymentManager INSTANCE = new PaymentManager();
+    private static PaymentManager instance = new PaymentManager();
     private static final String SPACE_CHAR = "\s";
     private static final String UNDERSCORE = "_";
     private static final Integer SUBTRACT_OPERATION_NUMBER = 1;
@@ -29,7 +29,11 @@ public class PaymentManager {
     }
 
     public static PaymentManager getInstance() {
-        return INSTANCE;
+        if(instance == null) {
+            instance = new PaymentManager();
+        }
+
+        return instance;
     }
 
     /**

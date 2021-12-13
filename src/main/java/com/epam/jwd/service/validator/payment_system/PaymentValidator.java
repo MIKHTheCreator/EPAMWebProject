@@ -22,13 +22,16 @@ import static com.epam.jwd.service.message.ExceptionMessage.POSITIVE_PAYMENT_EXC
 
 public class PaymentValidator implements Validator<PaymentDTO, Integer> {
 
-    private static final Validator<PaymentDTO, Integer> INSTANCE = new PaymentValidator();
+    private static Validator<PaymentDTO, Integer> instance = new PaymentValidator();
 
     private PaymentValidator() {
     }
 
     public static Validator<PaymentDTO, Integer> getInstance() {
-        return INSTANCE;
+        if (instance == null) {
+            instance = new PaymentValidator();
+        }
+        return instance;
     }
 
     @Override

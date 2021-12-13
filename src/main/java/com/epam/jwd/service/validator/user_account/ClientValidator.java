@@ -17,13 +17,16 @@ import static com.epam.jwd.service.message.ExceptionMessage.USERNAME_CORRESPOND_
 
 public class ClientValidator implements Validator<ClientDTO, Integer> {
 
-    private static final Validator<ClientDTO, Integer> INSTANCE = new ClientValidator();
+    private static Validator<ClientDTO, Integer> instance = new ClientValidator();
 
     private ClientValidator() {
     }
 
     public static Validator<ClientDTO, Integer> getInstance() {
-        return INSTANCE;
+        if (instance == null) {
+            instance = new ClientValidator();
+        }
+        return instance;
     }
 
     @Override
