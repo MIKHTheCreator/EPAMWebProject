@@ -5,6 +5,11 @@ import com.epam.jwd.service.dto.AbstractEntityDTO;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * @author mikh
+ * PassportDTO class for Passport entity
+ * @see com.epam.jwd.dao.entity.user_account.Passport
+ */
 public class PassportDTO extends AbstractEntityDTO<Integer> {
 
     private String seriaAndNumber;

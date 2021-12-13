@@ -6,6 +6,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * @author mikh
+ * PaymentsDTO class for Payment entity
+ * @see com.epam.jwd.dao.entity.payment_system.Payment
+ */
 public class PaymentDTO extends AbstractEntityDTO<Integer> {
 
     private BigDecimal sumOfPayment;

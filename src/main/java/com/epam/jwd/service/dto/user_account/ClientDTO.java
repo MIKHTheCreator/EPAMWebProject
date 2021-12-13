@@ -4,6 +4,11 @@ import com.epam.jwd.service.dto.AbstractEntityDTO;
 
 import java.util.Objects;
 
+/**
+ * @author mikh
+ * CleintDTO class for Client entity
+ * @see com.epam.jwd.dao.entity.user_account.Client
+ */
 public class ClientDTO extends AbstractEntityDTO<Integer> {
 
     private String username;

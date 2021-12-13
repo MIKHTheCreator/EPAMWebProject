@@ -5,6 +5,11 @@ import com.epam.jwd.service.dto.AbstractEntityDTO;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+/**
+ * @author mikh
+ * BankAccountDTO class for BankAccount entity
+ * @see com.epam.jwd.dao.entity.payment_system.BankAccount
+ */
 public class BankAccountDTO extends AbstractEntityDTO<Integer> {
 
     private BigDecimal balance;
@@ -60,9 +65,7 @@ public class BankAccountDTO extends AbstractEntityDTO<Integer> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BankAccountDTO that = (BankAccountDTO) o;
-        return blocked == that.blocked
-                && balance.equals(that.balance)
-                && currency.equals(that.currency);
+        return blocked == that.blocked && balance.equals(that.balance) && currency.equals(that.currency);
     }
 
     @Override
@@ -72,10 +75,6 @@ public class BankAccountDTO extends AbstractEntityDTO<Integer> {
 
     @Override
     public String toString() {
-        return "BankAccountDTO{" +
-                "balance=" + balance +
-                ", currency='" + currency + '\'' +
-                ", blocked=" + blocked +
-                '}';
+        return "BankAccountDTO{" + "balance=" + balance + ", currency='" + currency + '\'' + ", blocked=" + blocked + '}';
     }
 }

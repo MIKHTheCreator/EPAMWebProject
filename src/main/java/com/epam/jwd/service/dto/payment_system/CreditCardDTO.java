@@ -5,6 +5,11 @@ import com.epam.jwd.service.dto.AbstractEntityDTO;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * @author mikh
+ * CreditCardDTO class for CreditCard entity
+ * @see com.epam.jwd.dao.entity.payment_system.CreditCard
+ */
 public class CreditCardDTO extends AbstractEntityDTO<Integer> {
 
     private String number;
