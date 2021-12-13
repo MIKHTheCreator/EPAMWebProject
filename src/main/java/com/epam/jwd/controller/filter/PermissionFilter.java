@@ -17,6 +17,9 @@ import java.util.Set;
 
 import static com.epam.jwd.dao.entity.user_account.Role.UNAUTHORIZED;
 
+/**
+ * Filter class which filter every servlet request for role identity
+ */
 @WebFilter(urlPatterns = "/*")
 public class PermissionFilter implements Filter {
 
@@ -30,6 +33,13 @@ public class PermissionFilter implements Filter {
         this.commandsByRole = new EnumMap<>(Role.class);
     }
 
+    /**
+     * Main filter method which filter request or redirect to error page
+     *
+     * @param request     servlet request
+     * @param response    servlet response
+     * @param filterChain filter chain
+     */
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
@@ -46,6 +56,11 @@ public class PermissionFilter implements Filter {
         }
     }
 
+    /**
+     * Method for adding allowed command to set
+     *
+     * @param filterConfig {@link FilterConfig}
+     */
     @Override
     public void init(FilterConfig filterConfig) {
 
@@ -62,6 +77,12 @@ public class PermissionFilter implements Filter {
         Filter.super.destroy();
     }
 
+    /**
+     * Method for extracting Role from session
+     *
+     * @param session current session
+     * @return role of current user
+     */
     private Role extractRoleFromSession(HttpSession session) {
         return session != null && session.getAttribute(USER_ATTRIBUTE) != null
                 ? ((UserDTO) session.getAttribute(USER_ATTRIBUTE)).getRole()
