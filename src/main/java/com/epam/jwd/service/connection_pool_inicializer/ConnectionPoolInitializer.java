@@ -11,6 +11,11 @@ import static com.epam.jwd.dao.message.ExceptionMessage.DELIMITER;
 import static com.epam.jwd.service.message.ExceptionMessage.CAN_NOT_INITIALIZED_CONNECTION_POOL_EXCEPTION_CODE;
 import static com.epam.jwd.service.message.ExceptionMessage.CAN_NOT_INITIALIZE_CONNECTION_POOL_EXCEPTION;
 
+/**
+ * @author mikh
+ * Class which initialize connection pool {@link ConnectionPool}
+ * Class created by Singleton pattern
+ */
 public class ConnectionPoolInitializer {
 
     private final ConnectionPool pool = ConnectionPoolImpl.getInstance();
@@ -25,6 +30,12 @@ public class ConnectionPoolInitializer {
         return INSTANCE;
     }
 
+    /**
+     * Method for initializing connectionPool
+     *
+     * @throws ServiceException if it's unable for create connection
+     * @see ConnectionPool#init()
+     */
     public void initPool() throws ServiceException {
         try {
             pool.init();
@@ -34,6 +45,12 @@ public class ConnectionPoolInitializer {
         }
     }
 
+    /**
+     * Method which shutDowns connection poll
+     *
+     * @throws ServiceException if it's unable for close connection
+     * @see ConnectionPool#shutDown()
+     */
     public void shutDown() throws ServiceException {
         try {
             pool.shutDown();

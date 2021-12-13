@@ -1,6 +1,8 @@
 package com.epam.jwd.service.config;
 
-
+/**
+ * Interface with Validation patterns and parameters for entity validation
+ */
 public interface ValidatorConfig {
 
     String USERNAME_PATTERN = "^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$";
