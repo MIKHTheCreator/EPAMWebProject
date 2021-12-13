@@ -5,7 +5,6 @@ import com.epam.jwd.service.exception.ServiceException;
 import com.epam.jwd.service.validator.Validator;
 
 import static com.epam.jwd.dao.message.ExceptionMessage.DELIMITER;
-import static com.epam.jwd.service.config.ValidatorConfig.AGE_PATTERN;
 import static com.epam.jwd.service.config.ValidatorConfig.MAX_AGE;
 import static com.epam.jwd.service.config.ValidatorConfig.MAX_FIRST_NAME_LENGTH;
 import static com.epam.jwd.service.config.ValidatorConfig.MAX_SECOND_NAME_LENGTH;
