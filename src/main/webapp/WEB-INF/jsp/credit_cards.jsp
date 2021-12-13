@@ -19,12 +19,20 @@
 <fmt:message bundle="${loc}" key="alreadyBlocked" var="alreadyBlocked"/>
 <fmt:message bundle="${loc}" key="blockButton" var="blockButton"/>
 <fmt:message bundle="${loc}" key="deleteCreditCard" var="deleteCreditCard"/>
+<fmt:message bundle="${loc}" key="language" var="language"/>
+<fmt:message bundle="${loc}" key="social" var="social"/>
+<fmt:message bundle="${loc}" key="adress" var="adress"/>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Credit Cards Page</title>
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <style>
+        <%@include file="/WEB-INF/css/common_footer.css"%>
+    </style>
     <style>
         <%@include file="/WEB-INF/css/credit_card_table.css"%>
     </style>
@@ -152,7 +160,53 @@
             </table>
         </div>
     </div>
-<jsp:include page="common_resource/footer.jsp"/>
+<div class="page">
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-4 col-xs-12">
+                    <ul class="adress">
+                        <span>${adress}</span>
+                        <li>
+                            <p>Minsk, Republic of Belarus</p>
+                        </li>
+
+                        <li>
+                            <p>+375 25 733 67 13</p>
+                        </li>
+
+                        <li>
+                            <p>kharevich.ifconfig@gmail.com</p>
+                        </li>
+                        <li>
+                            <p>MIP © 2021</p>
+                        </li>
+                    </ul>
+                </div>
+
+
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
+                    <ul class="social">
+                        <span>${social}</span>
+                        <li>
+                            <a href="https://facebook.com"><i class="fa fa-facebook fa-2x" style="font-size: 24px"></i></a>
+                        </li>
+
+                        <li>
+                            <a href="https://github.com/MIKHTheCreator"><i class="fa fa-github fa-2x" style="font-size: 24px"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://instagram.com"><i class="fa fa-instagram fa-2x" style="font-size: 24px"></i></a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com"><i class="fa fa-twitter fa-2x" style="font-size: 24px"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
